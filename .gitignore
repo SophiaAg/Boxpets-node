@@ -1,0 +1,5 @@
+/node_modules 
+
+
+Para quando for comitt, por node ter muito arquivo pode demorar 
+mais do que o esperado, então com esse comando e evitando erros

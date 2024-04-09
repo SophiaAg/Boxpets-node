@@ -1,0 +1,5 @@
+para adicionar as depencencias use:
+
+npm config set strict-ssl false ( se necessário)
+
+npm install
