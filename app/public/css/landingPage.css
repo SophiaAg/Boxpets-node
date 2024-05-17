@@ -128,7 +128,7 @@ header{
   transition: height 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 .dropdown_menu.open{
-  height: 250px;
+  height: 300px;
 }
  
 .dropdown_menu a {
@@ -805,6 +805,7 @@ margin-top: 8%;
 .box-card:hover .overlay{
   height: 100%;
 }
+
 /*About empresa*/
 .about_empresa{
   display: flex;
@@ -999,4 +1000,46 @@ margin-top: 8%;
   cursor: pointer;
   color: var(--textos);
   margin-left: 10px;
+}
+
+/*About*/
+.about-section {
+  padding-block: 4rem;
+  margin: 5%;
+  text-align: center;
+  background: var(--cor-primaria);
+  border-radius: 1.5rem;
+  border: 2px solid var(--branco);
+  color: var(--branco);
+}
+
+.about-section .header-section{
+  font-weight: 700;
+  font-size: 40px;
+  color: var(--branco);
+}
+
+.about-section .header-section span{
+  color: var(--cor-segundaria);
+}
+
+.description-section {
+  max-width: 600px;
+  margin-inline: auto;
+  margin-bottom: 1rem;
+  font-size: 1rem;
+  color: var(--branco);
+}
+
+.btn-about {
+  display: inline-block;
+  margin-top: 1rem;
+  padding: .8rem 3rem;
+  border-radius: 5rem;
+  background:var(--cor-segundaria);
+  font-size: 1.3rem;
+  color: var(--branco);
+  cursor: pointer;
+  box-shadow: 0 .5rem 1rem rgba(0,0,0,.1);
+  transition: all .3s linear;
 }
