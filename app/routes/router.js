@@ -8,13 +8,8 @@ router.get("/", function (req, res) {
 router.get("/login", function (req, res) {
     res.render("pages/login");
 });
-
-router.get("/pages", function (req, res) {
-    res.render("pages/login", {pagina:"sss"});
-});
-
-router.get("/", function (req, res) {
-    res.render("pages/LandingPage", {pagina:"LandingPage"});
+router.get("/empresasLP", function (req, res) {
+    res.render("pages/empresasLP");
 });
 
 router.get("/", function (req, res) {
