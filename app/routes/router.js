@@ -2,7 +2,7 @@ var express = require("express");
 var router = express.Router();
 
 router.get("/", function (req, res) {
-    res.render("pages/LandingPage", {pagina:"LandingPage"});
+    res.render("pages/template-lp", {pagina:"LandingPage", page:"../partial/landing-page/lp-inicial"});
 });
 
 router.get("/login", function (req, res) {
