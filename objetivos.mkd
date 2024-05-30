@@ -1,0 +1,37 @@
+# PENDENTES
+
+## Front-end
+- Página inicial (Obs: Tanto para empresas qnt para clientes);
+
+### Cliente 
+- Página de visualizar empresa;
+    #### Página que mostra as informações da empresa, imagens, serviços, avaliações, dias e horarios de funcionamento, metodos de pagamentos aceitos pela empresa.
+- Página de perfil;
+    #### Página para mostra dados de cadastro e segurança ( obs: tbm poderá incluir páginas de favoritados e historico de agendamentos)
+- Modal de agendamento;
+    # Modal para agendar um serviço em determinada empresa, que contem informaçoes de horário, data e localização ( obs: Esse modal se encontra na página de visualização de empresas, o pagamento é feito direto para a empresa.)
+
+### Empresas
+- Cadastro de Empresas;
+#### pagina para cadastrar empresa com info de CNPJ, Nome da empresa, localização, etc
+- Página de perfil de empresa;
+#### Mesma coisa da página de visualização de empresa, soq com a permissão de edição
+- Estatisticas de empresa
+#### Estatisticas de clientes e agendamentos feitos com a empresa na plataforma. ( Agendamentos feitos, clientes que acessaram o perfil da empresa.)
+
+## Back-end
+- Cadastro de usuário e de empresas;
+#### Cadastrar usuários e empresas no banco de dados
+- ""Agendamento de serviços""
+#### Lançar os agendamentos feitos no banco de dados
+- Criptografia de senhas;
+#### Criar Hash das senhas feitas e lançar no banco de dados
+- Autenticação, gravação e verificação de autorização de sessão (Login);
+#### Verificar hash de senha, gravar sessao e verifciar autorização 
+
+## Banco de dados
+
+## Integrações, documentações e definições
+
+- Pesquisa de como funciona a integração do whatsapp com o comprovante de agendamento; (Como integrar o whatsapp com um site)
+
