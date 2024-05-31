@@ -1,0 +1,125 @@
+/*categorias*/
+img{
+ width: 100%;
+}
+ 
+.heading{
+    display: flex;
+    justify-content: space-between;
+  align-items: center;
+  margin-top: 8%;
+  }
+   
+  .heading h1{
+    font-size: 1.6rem;
+    font-weight: 600;
+    color: var(--preto);
+  }
+  .heading span {
+    color: var(--cor-segundaria) ;
+  }
+   
+  .categories .button_cate{
+    display: inline-block;
+    margin-top: 1rem;
+    padding: .8rem 3rem;
+    border-radius: 3rem;
+    background:var(--cor-primaria);
+    font-size: 1.5rem;
+    color: var(--branco);
+    cursor: pointer;
+    letter-spacing: 3px;
+    }
+   
+  .categories{
+    margin: 5%;
+  }
+   
+  .categories-container{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px,auto));
+    gap: 1rem;
+    margin-top: 2rem;
+  }
+   
+  .categories-container .box{
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    border-radius: 0.5rem;
+  }
+   
+  .categories-container .box img{
+    width: 100%;
+    height: 100px;
+    object-fit: contain;
+    object-position: center;
+  }
+   
+  .categories-container .box h2{
+    font-size: 0.8rem;
+    font-weight: 600;
+  }
+   
+  .categories-container .box span{
+    font-size: 0.8rem;
+    font-weight: 400;
+    margin-bottom: 1rem;
+  }
+   
+  .categories-container .box h1{
+    padding: 5px;
+    font-size: 1.5rem;
+    background: var(--cor-segundaria);
+    color: var(--branco);
+    border-radius: 5rem;
+    margin-top: 4rem;
+    position: absolute;
+    bottom: -8%;
+    display: none;
+  }
+   
+  .categories-container .box h1:hover{
+   background: #e0eb7b;
+   transition: 0.2 all linear;
+  }
+   
+  .categories-container .box:hover h1{
+    display: block;
+    transition: 0.2 all linear;
+  }
+   
+  .box1{
+    background: #ffdada;
+  }
+   
+  .box2{
+    background: #fff6da;
+  }
+  .box3{
+    background: #e6ffda;
+  }
+  .box4{
+    background:#dafffa;
+  }
+  .box5{
+    background: #f3daff;
+  }
+   
+  @media(max-width:650px){
+    .categories{
+      margin-top: 10%;
+    }
+  }
+   
+  @media(max-width:450px){
+    .categories{
+      margin-top: 20%;
+    }
+   
+    .categories .button_cate{
+      font-size: 1rem;
+    }
+  }

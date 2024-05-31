@@ -1,0 +1,29 @@
+/*About*/
+.about-section {
+    padding-block: 4rem;
+    margin: 5%;
+    text-align: center;
+    background: var(--cor-primaria);
+    border-radius: 1.5rem;
+    border: 2px solid var(--branco);
+    color: var(--branco);
+  }
+  
+  .about-section .header-section{
+    font-weight: 700;
+    font-size: 40px;
+    color: var(--branco);
+  }
+  
+  .about-section .header-section span{
+    color: var(--cor-segundaria);
+  }
+  
+  .description-section {
+    max-width: 600px;
+    margin-inline: auto;
+    margin-bottom: 1rem;
+    font-size: 1rem;
+    color: var(--branco);
+  }
+  
