@@ -12,8 +12,8 @@ router.get("/souempresa", function (req, res) {
 router.get("/login", function (req, res) {
     res.render("pages/login");
 });
-router.get("/empresasLP", function (req, res) {
-    res.render("pages/empresasLP");
+router.get("/template-hm", function (req, res) {
+    res.render("pages/template-hm", {pagina:"LandingPage", page:"../pages/template-hm"});
 });
 
 router.get("/", function (req, res) {
