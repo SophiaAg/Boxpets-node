@@ -6,6 +6,7 @@ header .header-top{
     justify-content: space-between;
     margin-right: 3%;
     width: 100%;
+    
 }
 
 header .header-top .logo{
@@ -14,6 +15,7 @@ header .header-top .logo{
     color: var(--cor-primaria);
     align-items: center;
     display: flex;
+    margin-left: 3%;
 }
 
 header .header-top .logo span{

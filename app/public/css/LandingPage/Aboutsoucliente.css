@@ -9,8 +9,8 @@
   }
    
   .about_site .image_site img{
-    width: 25vw;
-    animation: float 3s linear infinite;
+    width: 300px;
+    
   }
    
   @keyframes float{

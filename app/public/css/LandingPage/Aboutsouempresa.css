@@ -8,7 +8,7 @@
   }
    
   .about_empresa .image_empresa img{
-    width: 25vw;
+    width: 300px;
     animation: float 3s linear infinite;
    
   }
