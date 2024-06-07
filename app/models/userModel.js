@@ -6,9 +6,17 @@ userModel = {
             return resultados
         } catch (error) {
             throw error
-        }  
+        }
     },
+    findUserByCelular: async (celular) => {
+        try {
+            const [resultados] = await pool.query("SELECT count(*) FROM USUARIOS WHERE CELULAR_USUARIOS = ?", [celular])
+            return resultados
+        } catch (error) {
+            throw error
+        }
+    }
 }
-    
+
 
 module.exports = userModel

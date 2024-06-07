@@ -9,38 +9,38 @@ const usuariosController = {
   regrasValidacaoCriarConta: [
     body("nome")
       .isLength({ min: 3, max: 45 }).withMessage("Nome deve ter de 3 a 45 letras!"),
-    // body("celular")
-    //   .isMobilePhone('pt-BR').withMessage("Número de telefone inválido")
-    //   .bail()
-    //   .custom(async (celular) => {
-    //     const celularExistente = await usuariosModel.findUserByCelular(celular)
-    //     if (celularExistente.length > 0) {
-    //       throw new Error("Celular já em uso! Tente outro.");
-    //     }
-    //     return true;
-    //   }),
-    // body('email')
-    //   .isEmail().withMessage('Deve ser um email válido')
-    //   .bail()
-    //   .custom(async (email) => {
-    //     const emailExistente = await usuariosModel.findUserByEmail(email)
-    //     if (emailExistente.length > 0) {
-    //       throw new Error("E-mail já em uso! Tente outro");
-    //     }
-    //     return true;
-    //   }),
-    // body('password')
-    //   .isLength({ min: 8, max: 30 })
-    //   .withMessage('A senha deve ter pelo menos 8 e no máximo 30 caracteres!')
-    //   .bail()
-    //   .matches(/[A-Z]/).withMessage('A senha deve conter pelo menos uma letra maiúscula.')
-    //   .bail()
-    //   .matches(/[a-z]/).withMessage('A senha deve conter pelo menos uma letra minúscula.')
-    //   .bail()
-    //   .matches(/[0-9]/).withMessage('A senha deve conter pelo menos um número inteiro.')
-    //   .bail()
-    //   .matches(/[!@#$%^&*(),.?":{}|<>]/).withMessage('A senha deve conter pelo menos um caractere especial.')
-    //   .bail()
+    body("celular")
+      .isMobilePhone('pt-BR').withMessage("Número de telefone inválido")
+      .bail()
+      .custom(async (celular) => {
+        const celularExistente = await usuariosModel.findUserByCelular(celular)
+        if (celularExistente > 0) {
+          throw new Error("Celular já em uso! Tente outro.");
+        }
+        return true;
+      }),
+    body('email')
+      .isEmail().withMessage('Deve ser um email válido')
+      .bail()
+      .custom(async (email) => {
+        const emailExistente = await usuariosModel.findUserByEmail(email)
+        if (emailExistente.length > 0) {
+          throw new Error("E-mail já em uso! Tente outro");
+        }
+        return true;
+      }),
+    body('password')
+      .isLength({ min: 8, max: 30 })
+      .withMessage('A senha deve ter pelo menos 8 e no máximo 30 caracteres!')
+      .bail()
+      .matches(/[A-Z]/).withMessage('A senha deve conter pelo menos uma letra maiúscula.')
+      .bail()
+      .matches(/[a-z]/).withMessage('A senha deve conter pelo menos uma letra minúscula.')
+      .bail()
+      .matches(/[0-9]/).withMessage('A senha deve conter pelo menos um número inteiro.')
+      .bail()
+      .matches(/[!@#$%^&*(),.?":{}|<>]/).withMessage('A senha deve conter pelo menos um caractere especial.')
+      .bail()
   ],
   cadastrar: async (req, res) => {
     let errors = validationResult(req)
@@ -63,7 +63,7 @@ const usuariosController = {
       }
       try {
         const usuarioCriado = await usuariosModel.createUser(dadosUser);
-        res.render("template-hm", {page:"../../partial/landing-home/home-page"})
+        res.render("pages/template-hm", {page:"../partial/landing-home/home-page"})
         
       } catch (erros) {
         console.log(erros)
