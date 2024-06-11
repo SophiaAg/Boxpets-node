@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script src="https://kit.fontawesome.com/64d58efce2.js" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="./css/Login/login-style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/simple-notify@0.5.5/dist/simple-notify.min.css">
+  <title>Login/Cadastro</title>
+</head>
+
+<body>
+
+  <section class="container <%= isCadastrar ? 'sign-up-mode' : '' %>">
+    <section class="forms-container ">
+      <section class="signin-signup">
+
+        <%- include(form) %>
+
+      </section>
+    </section>
+    <section class="panels-container">
+      <section class="panel left-panel">
+        <section class="content">
+          <h3>Novo por aqui?</h3>
+          <p>
+            Clique aqui para se cadastrar!
+          </p>
+          <a href="/cadastrar" class="btn transparent" id="sign-up-btn">
+            Cadastrar
+          </a>
+        </section>
+        <img src="/src/log.svg" class="image" alt="" />
+      </section>
+      <section class="panel right-panel">
+        <section class="content">
+          <h3>Já é um de nós ?</h3>
+          <p>
+            CLique aqui para logar em sua conta!
+          </p>
+          <a href="/entrar" class="btn transparent" id="sign-in-btn">
+            Entrar
+          </a>
+        </section>
+        <img src="/src/register.svg" class="image" alt="" />
+      </section>
+    </section>
+  </section>
+
+  <script src="https://cdn.jsdelivr.net/npm/simple-notify@0.5.5/dist/simple-notify.min.js"></script>
+  <script src="./js/notificacao.js"></script>
+
+</body>
+
+</html>

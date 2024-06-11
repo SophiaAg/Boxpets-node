@@ -226,13 +226,17 @@ form.sign-in-form {
 }
 
 .btn.transparent {
-  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   background: none;
   border: 2px solid #fff;
   width: 130px;
   height: 41px;
   font-weight: 600;
   font-size: 0.8rem;
+  text-decoration: none;
+  margin: auto;
 }
 
 .right-panel .image,
@@ -340,6 +344,7 @@ form.sign-in-form {
   }
 
   .btn.transparent {
+    
     width: 110px;
     height: 35px;
     font-size: 0.7rem;
