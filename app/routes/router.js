@@ -11,10 +11,22 @@ router.get("/souempresa", function (req, res) {
 });
 
 router.get("/entrar", function (req, res) {
-    res.render("pages/template-login", { form: "../partial/login/entrar", isCadastrar: false });
+    const jsonResult = { 
+        form: "../partial/login/entrar", 
+        errors: null, 
+        valores: null, 
+        isCadastrar: false 
+    }
+    res.render("pages/template-login", jsonResult);
 });
 router.get("/cadastrar", function (req, res) {
-    res.render("pages/template-login", { form: "../partial/login/cadastrar", isCadastrar: true });
+    const jsonResult = { 
+        form: "../partial/login/cadastrar", 
+        errors: null, 
+        valores: null, 
+        isCadastrar: false 
+    }
+    res.render("pages/template-login", jsonResult);
 });
 
 router.get("/template-hm", function (req, res) {
@@ -23,7 +35,7 @@ router.get("/template-hm", function (req, res) {
 
 
 // Cadastro de usuários
-router.post("/cadastrarUsuario", function (req, res) {
+router.post("/cadastrarUsuario", usuariosController.regrasValidacaoCriarConta, function (req, res) {
     usuariosController.cadastrar(req, res)
 })
 

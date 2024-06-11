@@ -1,4 +1,4 @@
-function notify(titulo, texto, tipo, posicao, duracao = 3000) {
+function newNotify(titulo, texto, tipo, posicao, duracao = 3000) {
     new Notify({
         status: tipo,
         title: titulo,

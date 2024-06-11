@@ -1,4 +1,4 @@
-const usuariosModel = require("../models/userModel")
+const userModel = require("../models/userModel")
 const { body, validationResult } = require("express-validator")
 var bcrypt = require("bcryptjs")
 var salt = bcrypt.genSaltSync(8)
@@ -9,12 +9,20 @@ const usuariosController = {
   regrasValidacaoCriarConta: [
     body("nome")
       .isLength({ min: 3, max: 45 }).withMessage("Nome deve ter de 3 a 45 letras!"),
+    body("cidade")
+      .isLength({ min: 3, max: 45 }).withMessage("Cidade deve ter de 3 a 45 letras!"),
+    body("bairro")
+      .isLength({ min: 3, max: 45 }).withMessage("Bairro deve ter de 3 a 45 letras!"),
+    body("logradouro")
+      .isLength({ min: 3, max: 45 }).withMessage("Logradouro deve ter de 3 a 45 letras!"),
+    body("cep")
+      .matches(/^\d{5}-?\d{3}$/).withMessage('O CEP deve estar no formato 12345678 ou 12345-678'),
     body("celular")
       .isMobilePhone('pt-BR').withMessage("Número de telefone inválido")
       .bail()
       .custom(async (celular) => {
-        const celularExistente = await usuariosModel.findUserByCelular(celular)
-        if (celularExistente > 0) {
+        const celularExistente = await userModel.findUserByCelular(celular)
+        if (celularExistente.length > 0) {
           throw new Error("Celular já em uso! Tente outro.");
         }
         return true;
@@ -23,7 +31,7 @@ const usuariosController = {
       .isEmail().withMessage('Deve ser um email válido')
       .bail()
       .custom(async (email) => {
-        const emailExistente = await usuariosModel.findUserByEmail(email)
+        const emailExistente = await userModel.findUserByEmail(email)
         if (emailExistente.length > 0) {
           throw new Error("E-mail já em uso! Tente outro");
         }
@@ -47,7 +55,13 @@ const usuariosController = {
 
     if (!errors.isEmpty()) {
       console.log(errors)
-      res.render("pagina de cadastro novamente com erros")
+      const jsonResult = {
+        form: "../partial/login/cadastrar",
+        errors: errors,
+        valores: req.body,
+        isCadastrar: true
+      }
+      res.render("pages/template-login", jsonResult);
     } else {
       const { nome, celular, email, password, cep, uf, cidade, bairro, logradouro } = req.body
       dadosUser = {
@@ -62,9 +76,13 @@ const usuariosController = {
         BAIRRO_USUARIOS: bairro,
       }
       try {
-        const usuarioCriado = await usuariosModel.createUser(dadosUser);
-        res.render("pages/template-hm", {page:"../partial/landing-home/home-page"})
-        
+        const usuarioCriado = await userModel.createUser(dadosUser);
+        console.log(usuarioCriado)
+        const jsonResult = {
+          page: "../partial/landing-home/home-page"
+        }
+        res.render("pages/template-hm", jsonResult)
+
       } catch (erros) {
         console.log(erros)
         res.json(errors)
@@ -83,7 +101,7 @@ const usuariosController = {
 
       const { usuario, senha } = req.body
       try {
-        const userBd = await usuariosModel.findUserByNickname(usuario)
+        const userBd = await userModel.findUserByNickname(usuario)
         if (userBd[0] && bcrypt.compareSync(senha, userBd[0].SENHA_USUARIO) && req.session.autenticado.autenticado) {
           res.render("pages/template-home", { page: "../partial/template-home/inicial-home", classePagina: "inicialHome", tokenAlert: { msg: `Bom te ver de novo`, usuario: `${usuario}!` } })
           console.log("Logado!")

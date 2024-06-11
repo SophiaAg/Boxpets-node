@@ -86,7 +86,9 @@ form.sign-in-form {
   padding: 0 0.4rem;
   position: relative;
 }
-
+.invalido{
+  border: 1.5px solid #ff8686;
+}
 .input-field i {
   text-align: center;
   line-height: 55px;

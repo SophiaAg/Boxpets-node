@@ -1,42 +1,124 @@
 <!-- REGISTER PAGE -->
+<% 
+let avisoErro={ 
+  "nome" :"", 
+  "celular" :"", 
+  "email" :"", 
+  "password" :"", 
+  "cep" :"", 
+  "uf" :"", 
+  "cidade" :"", 
+  "bairro"
+  :"", 
+  "logradouro" :"" 
+} 
 
-<form action="/cadastrarUsuario" class="sign-up-form" method="post">
+  let msgErro = ""
+
+  if(errors){
+
+    errors.errors.forEach(function(erro){
+
+      if(erro.path == "nome"){
+        avisoErro.nome = "invalido"
+        msgErro += `- ${erro.msg} <br>`
+      }
+
+      if(erro.path == "celular"){
+        avisoErro.celular = "invalido"
+        msgErro += `- ${erro.msg} <br>`
+      }
+
+      if(erro.path == "email"){
+        avisoErro.email = "invalido"
+        msgErro += `- ${erro.msg} <br>`
+      }
+
+      if(erro.path == "password"){
+        avisoErro.password = "invalido"
+        msgErro += `- ${erro.msg} <br>`
+      }
+
+      if(erro.path == "cep"){
+        avisoErro.cep = "invalido"
+        msgErro += `- ${erro.msg} <br>`
+      }
+
+      if(erro.path == "uf"){
+        avisoErro.uf = "invalido"
+        msgErro += `- ${erro.msg} <br>`
+      }
+
+      if(erro.path == "cidade"){
+        avisoErro.cidade = "invalido"
+        msgErro += `- ${erro.msg} <br>`
+      }
+
+      if(erro.path == "bairro"){
+        avisoErro.bairro = "invalido"
+        msgErro += `- ${erro.msg} <br>`
+      }
+      if(erro.path == "logradouro"){
+        avisoErro.logradouro = "invalido"
+        msgErro += `- ${erro.msg} <br>`
+      }
+
+    })
+  if(msgErro != ""){
+  %>
+  <script>
+    let msgErro = "<%= msgErro %>";
+    newNotify(
+      "Valores inválidos!", 
+    "Verifique o(s) campo(s) <br>" + msgErro.replace(/&lt;/g,"<").replace(/&gt;/g,">"),
+    "error", 
+    "center",
+    5000
+  )
+  </script>
+    <% }
+  } %>
+
+  
+
+  <form action="/cadastrarUsuario" class="sign-up-form" method="post">
     <h2 class="title">Cadastrar</h2>
-    <section class="">
+    <section class="<%= avisoErro.nome %>">
 
       <i class="fas fa-user"></i>
-      <input id="nome" name="nome" type="text" placeholder="Digite seu nome completo" />
+      <input id="nome" name="nome" value="<%= valores.nome %>" required type="text" placeholder="Digite seu nome completo"/>
 
     </section>
-    <section class="">
+    <section class="<%= avisoErro.celular %>">
 
       <i class="fas fa-user"></i>
-      <input id="celular" name="celular" type="text" placeholder="Celular:" />
+      <input id="celular" name="celular" value="<%= valores.celular %>" required type="text" placeholder="Celular:" />
 
     </section>
-    <section class="">
+    <section class="<%= avisoErro.email %>">
 
       <i class="fas fa-envelope"></i>
-      <input name="email" id="email" type="email" placeholder="Email" required />
+      <input name="email" id="email" value="<%= valores.email %>" required type="email" placeholder="Email" />
 
     </section>
-    <section class="">
+    <section class="<%= avisoErro.password %>">
 
       <i class="fas fa-lock"></i>
-      <input id="password" name="password" type="password" placeholder="Senha"
+      <input id="password" name="password" value="<%= valores.password %>" required type="password" placeholder="Senha"
         title="Deve conter pelo menos um número, uma letra maiúscula, uma letra minúscula e um dos símbolos (!, @, #, $, %, *) e ter pelo menos 8 ou mais caracteres" />
 
     </section>
-    <section class="">
+    <section class="<%= avisoErro.cep %>">
 
       <i class="fas fa-user"></i>
-      <input id="cep" name="cep" type="text" placeholder="CEP:" />
+      <input id="cep" name="cep" value="<%= valores.cep %>" required type="text" placeholder="CEP:" />
 
     </section>
-    <section class="">
+    <section class="<%= avisoErro.uf %>">
 
       <i class="fas fa-user"></i>
-      <select id="uf" name="uf" placeholder="UF:">
+      <select id="uf" name="uf" placeholder="UF:" required>
+        <option selected disabled>Escolha:</option>
         <option value="AC">Acre (AC)</option>
         <option value="AL">Alagoas (AL)</option>
         <option value="AP">Amapá (AP)</option>
@@ -67,22 +149,22 @@
       </select>
 
     </section>
-    <section class="">
+    <section class="<%= avisoErro.cidade %>">
 
       <i class="fas fa-user"></i>
-      <input id="cidade" name="cidade" type="text" placeholder="Cidade:" />
+      <input id="cidade" name="cidade" value="<%= valores.cidade %>" required type="text" placeholder="Cidade:" />
 
     </section>
-    <section class="">
+    <section class="<%= avisoErro.bairro %>">
 
       <i class="fas fa-user"></i>
-      <input id="bairro" name="bairro" type="text" placeholder="Bairro:" />
+      <input id="bairro" name="bairro" value="<%= valores.bairro %>" required type="text" placeholder="Bairro:" />
 
     </section>
-    <section class="">
+    <section class="<%= avisoErro.logradouro %>">
 
       <i class="fas fa-user"></i>
-      <input id="logradouro" name="logradouro" type="text" placeholder="logradouro:" />
+      <input id="logradouro" name="logradouro" value="<%= valores.logradouro %>" required type="text" placeholder="logradouro:" />
 
     </section>
     <section id="messagesection"></section>
@@ -104,4 +186,4 @@
         <i class="fab fa-linkedin-in"></i>
       </a>
     </section>
-</form>
+  </form>
