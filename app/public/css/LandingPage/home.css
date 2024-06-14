@@ -34,18 +34,25 @@
   .carousel .list .item .content .author{
     font-weight: bold;
     letter-spacing: 10px;
+    font-size: 20px;
   }
    
   .carousel .list .item .content .title{
     font-weight: bold;
-    font-size: 5em;
+    font-size: 50px;
     list-style: 1.3em;
+  }
+
+  .carousel .list .item .content .des{
+    font-weight: 500;
+    font-size: 20px;
+
   }
    
   .carousel .list .item .content .buttons{
     display: grid;
-    grid-template-columns: repeat(2, 130px);
-    grid-template-rows: 40px;
+    grid-template-columns: repeat(2, 190px);
+    grid-template-rows: 60px;
     gap: 5px;
     margin-top: 20px;
     color: var(--preto);
@@ -55,20 +62,15 @@
     margin-top: 0.4rem;
     border-radius: 5rem;
     background:var(--cor-segundaria);
-    font-size: 1rem;
+    font-size: 20px;
     color: var(--branco);
     cursor: pointer;
-    box-shadow: 0 .5rem 1rem rgba(0,0,0,.1);
+    
     transition: all .3s linear;
      
   }
    
-  .carousel .list .item .content button:nth-child(2){
-    background-color: var(--cor-segundaria);
-    color: var(--preto);
-    border: 1px solid var(--qs-branco);
-  }
-   
+  
    
    
   /*thumbnail da home */
@@ -144,7 +146,7 @@
     position: absolute;
     top: 80%;
     right: 52%;
-    width: 300px;
+   /* width: 300px;*/
     max-width: 30%;
     display: flex;
     gap: 10px;
@@ -321,18 +323,14 @@
     .carousel .list .item .content{
       padding-right: 0;
     }
-    .carousel .list .item .content .title{
-      font-size: 30px;
-    }  
+    
   }
    
-  @media screen and (min-width: 270px){
+  @media screen and (max-width: 270px){
     .carousel .list .item .content{
      margin-right: -100%;
      margin-left: 4%;
     }
-    .carousel .list .item .content .title{
-      font-size: 30px;
-    }  
+    
    
   }

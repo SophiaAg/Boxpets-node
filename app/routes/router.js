@@ -10,6 +10,13 @@ router.get("/souempresa", function (req, res) {
     res.render("pages/template-lp", { pagina: "LandingPage", page: "../partial/landing-page/souempresa" });
 });
 
+router.get("/soucliente", function (req, res) {
+    res.render("pages/template-lp", { pagina: "LandingPage", page: "../partial/landing-page/soucliente" });
+});
+
+
+
+
 router.get("/entrar", function (req, res) {
     const jsonResult = { 
         form: "../partial/login/entrar", 

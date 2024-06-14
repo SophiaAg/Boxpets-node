@@ -49,6 +49,7 @@ img{
     align-items: center;
     padding: 20px;
     border-radius: .8rem;
+    box-shadow: 0px 5px 20px 0px rgba(0, 81, 250, 0.1);
   }
    
   .categories-container .box img{
@@ -91,21 +92,21 @@ img{
     transition: 0.2 all linear;
   }
    
-  .box1{
-    background: #ffdada;
+  .box1  {
+    background: var(--branco);
   }
    
   .box2{
-    background: #fff6da;
+    background: var(--branco);
   }
   .box3{
-    background: #e6ffda;
+    background:  var(--branco);
   }
   .box4{
-    background:#dafffa;
+    background:  var(--branco);
   }
   .box5{
-    background: #f3daff;
+    background:  var(--branco);
   }
    
   @media(max-width:650px){
