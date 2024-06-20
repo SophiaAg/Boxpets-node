@@ -1,28 +1,13 @@
 <!-- REGISTER PAGE -->
 <% 
 
-let valores = {
-  "nome" :"", 
-  "celular" :"", 
-  "email" :"", 
-  "password" :"", 
-  "cep" :"", 
-  "uf" :"", 
-  "cidade" :"", 
-  "bairro": ""
-}
-
 let avisoErro={ 
   "nome" :"", 
+  "nasc" :"", 
+  "cpf" :"", 
   "celular" :"", 
   "email" :"", 
   "password" :"", 
-  "cep" :"", 
-  "uf" :"", 
-  "cidade" :"", 
-  "bairro"
-  :"", 
-  "logradouro" :"" 
 } 
 
   let msgErro = ""
@@ -33,47 +18,32 @@ let avisoErro={
 
       if(erro.path == "nome"){
         avisoErro.nome = "invalido"
-        msgErro += `- ${erro.msg} <br>`
+         msgErro += `- ${erro.path}: <br> <strong>${erro.msg}</strong> <br>`
       }
 
       if(erro.path == "celular"){
         avisoErro.celular = "invalido"
-        msgErro += `- ${erro.msg} <br>`
+          msgErro += `- ${erro.path}: <br> <strong>${erro.msg}</strong> <br>`
       }
 
       if(erro.path == "email"){
         avisoErro.email = "invalido"
-        msgErro += `- ${erro.msg} <br>`
+          msgErro += `- ${erro.path}: <br> <strong>${erro.msg}</strong> <br>`
       }
 
       if(erro.path == "password"){
         avisoErro.password = "invalido"
-        msgErro += `- ${erro.msg} <br>`
+         msgErro += `- ${erro.path}: <br> <strong>${erro.msg}</strong> <br>`
+      }
+      if(erro.path == "cpf"){
+        avisoErro.cpf = "invalido"
+          msgErro += `- ${erro.path}: <br> <strong>${erro.msg}</strong> <br>`
+      }
+      if(erro.path == "nasc"){
+        avisoErro.nasc = "invalido"
+          msgErro += `- ${erro.path}: <br> <strong>${erro.msg}</strong> <br>`
       }
 
-      if(erro.path == "cep"){
-        avisoErro.cep = "invalido"
-        msgErro += `- ${erro.msg} <br>`
-      }
-
-      if(erro.path == "uf"){
-        avisoErro.uf = "invalido"
-        msgErro += `- ${erro.msg} <br>`
-      }
-
-      if(erro.path == "cidade"){
-        avisoErro.cidade = "invalido"
-        msgErro += `- ${erro.msg} <br>`
-      }
-
-      if(erro.path == "bairro"){
-        avisoErro.bairro = "invalido"
-        msgErro += `- ${erro.msg} <br>`
-      }
-      if(erro.path == "logradouro"){
-        avisoErro.logradouro = "invalido"
-        msgErro += `- ${erro.msg} <br>`
-      }
 
     })
   if(msgErro != ""){
@@ -98,87 +68,40 @@ let avisoErro={
     <section class="<%= avisoErro.nome %>">
 
       <i class="fas fa-user"></i>
-      <input id="nome" name="nome" value="<%= valores.nome %>" required type="text" placeholder="Digite seu nome completo"/>
+      <input id="nome" name="nome" value="<%= valores ? valores.nome : '' %>" required type="text" placeholder="Nome completo"/>
+
+    </section>
+    <section class="<%= avisoErro.nasc %>">
+
+      <i class="fas fa-user"></i>
+      <input id="nasc" name="nasc" value="<%= valores ? valores.nasc : '' %>" required type="date" placeholder="Data de nascimento"/>
+
+    </section>
+    <section class="<%= avisoErro.cpf %>">
+
+      <i class="fas fa-user"></i>
+      <input id="cpf" name="cpf" value="<%= valores ? valores.cpf : '' %>" required type="text" placeholder="CPF"/>
 
     </section>
     <section class="<%= avisoErro.celular %>">
 
       <i class="fas fa-user"></i>
-      <input id="celular" name="celular" value="<%= valores.celular %>" required type="text" placeholder="Celular:" />
+      <input id="celular" name="celular" value="<%= valores ? valores.celular : '' %>" required type="text" placeholder="Celular:" />
 
     </section>
     <section class="<%= avisoErro.email %>">
 
       <i class="fas fa-envelope"></i>
-      <input name="email" id="email" value="<%= valores.email %>" required type="email" placeholder="Email" />
+      <input name="email" id="email" value="<%= valores ? valores.email : '' %>" required type="email" placeholder="Email" />
 
     </section>
     <section class="<%= avisoErro.password %>">
 
       <i class="fas fa-lock"></i>
-      <input id="password" name="password" value="<%= valores.password %>" required type="password" placeholder="Senha"
-        title="Deve conter pelo menos um número, uma letra maiúscula, uma letra minúscula e um dos símbolos (!, @, #, $, %, *) e ter pelo menos 8 ou mais caracteres" />
+      <input id="password" name="password" value="<%= valores ? valores.password : '' %>" required type="password" placeholder="Senha" title="Deve conter pelo menos um número, uma letra maiúscula, uma letra minúscula e um dos símbolos (!, @, #, $, %, *) e ter pelo menos 8 ou mais caracteres" />
 
     </section>
-    <section class="<%= avisoErro.cep %>">
-
-      <i class="fas fa-user"></i>
-      <input id="cep" name="cep" value="<%= valores.cep %>" required type="text" placeholder="CEP:" />
-
-    </section>
-    <section class="<%= avisoErro.uf %>">
-
-      <i class="fas fa-user"></i>
-      <select id="uf" name="uf" placeholder="UF:" required>
-        <option selected disabled>Escolha:</option>
-        <option value="AC">Acre (AC)</option>
-        <option value="AL">Alagoas (AL)</option>
-        <option value="AP">Amapá (AP)</option>
-        <option value="AM">Amazonas (AM)</option>
-        <option value="BA">Bahia (BA)</option>
-        <option value="CE">Ceará (CE)</option>
-        <option value="DF">Distrito Federal (DF)</option>
-        <option value="ES">Espírito Santo (ES)</option>
-        <option value="GO">Goiás (GO)</option>
-        <option value="MA">Maranhão (MA)</option>
-        <option value="MT">Mato Grosso (MT)</option>
-        <option value="MS">Mato Grosso do Sul (MS)</option>
-        <option value="MG">Minas Gerais (MG)</option>
-        <option value="PA">Pará (PA)</option>
-        <option value="PB">Paraíba (PB)</option>
-        <option value="PR">Paraná (PR)</option>
-        <option value="PE">Pernambuco (PE)</option>
-        <option value="PI">Piauí (PI)</option>
-        <option value="RJ">Rio de Janeiro (RJ)</option>
-        <option value="RN">Rio Grande do Norte (RN)</option>
-        <option value="RS">Rio Grande do Sul (RS)</option>
-        <option value="RO">Rondônia (RO)</option>
-        <option value="RR">Roraima (RR)</option>
-        <option value="SC">Santa Catarina (SC)</option>
-        <option value="SP">São Paulo (SP)</option>
-        <option value="SE">Sergipe (SE)</option>
-        <option value="TO">Tocantins (TO)</option>
-      </select>
-
-    </section>
-    <section class="<%= avisoErro.cidade %>">
-
-      <i class="fas fa-user"></i>
-      <input id="cidade" name="cidade" value="<%= valores.cidade %>" required type="text" placeholder="Cidade:" />
-
-    </section>
-    <section class="<%= avisoErro.bairro %>">
-
-      <i class="fas fa-user"></i>
-      <input id="bairro" name="bairro" value="<%= valores.bairro %>" required type="text" placeholder="Bairro:" />
-
-    </section>
-    <section class="<%= avisoErro.logradouro %>">
-
-      <i class="fas fa-user"></i>
-      <input id="logradouro" name="logradouro" value="<%= valores.logradouro %>" required type="text" placeholder="logradouro:" />
-
-    </section>
+    
     <section id="messagesection"></section>
     <input type="submit" class="btn" value="Cadastrar" />
 

@@ -1,22 +1,15 @@
-const userModel = require("../models/userModel")
+const userModel = require("../models/clienteModel")
 const { body, validationResult } = require("express-validator")
 var bcrypt = require("bcryptjs")
 var salt = bcrypt.genSaltSync(8)
-
-const usuariosController = {
+const moment = require("moment")
+const clienteController = {
 
   // Validação do form de cadastro
   regrasValidacaoCriarConta: [
     body("nome")
-      .isLength({ min: 3, max: 45 }).withMessage("Nome deve ter de 3 a 45 letras!"),
-    body("cidade")
-      .isLength({ min: 3, max: 45 }).withMessage("Cidade deve ter de 3 a 45 letras!"),
-    body("bairro")
-      .isLength({ min: 3, max: 45 }).withMessage("Bairro deve ter de 3 a 45 letras!"),
-    body("logradouro")
-      .isLength({ min: 3, max: 45 }).withMessage("Logradouro deve ter de 3 a 45 letras!"),
-    body("cep")
-      .matches(/^\d{5}-?\d{3}$/).withMessage('O CEP deve estar no formato 12345678 ou 12345-678'),
+      .isLength({ min: 3, max: 45 }).withMessage("Nome deve ter de 3 a 45 letras!")
+      .isAlpha().withMessage("Deve conter apenas letras!"),
     body("celular")
       .isMobilePhone('pt-BR').withMessage("Número de telefone inválido")
       .bail()
@@ -49,6 +42,54 @@ const usuariosController = {
       .bail()
       .matches(/[!@#$%^&*(),.?":{}|<>]/).withMessage('A senha deve conter pelo menos um caractere especial.')
       .bail()
+    ,
+    body("cpf").custom(cpf => {
+
+      cpf = cpf.replace(/[^\d]+/g, '');
+      if (cpf.length !== 11 || /^(\d)\1+$/.test(cpf)) {
+        throw new Error('CPF inválido');
+      }
+      let soma = 0;
+      let resto;
+      for (let i = 1; i <= 9; i++) {
+        soma += parseInt(cpf.substring(i - 1, i)) * (11 - i);
+      }
+      resto = (soma * 10) % 11;
+
+      if (resto === 10 || resto === 11) {
+        resto = 0;
+      }
+      if (resto !== parseInt(cpf.substring(9, 10))) {
+        throw new Error('CPF inválido');
+      }
+
+      soma = 0;
+
+      // Validação do segundo dígito verificador
+      for (let i = 1; i <= 10; i++) {
+        soma += parseInt(cpf.substring(i - 1, i)) * (12 - i);
+      }
+      resto = (soma * 10) % 11;
+
+      if (resto === 10 || resto === 11) {
+        resto = 0;
+      }
+      if (resto !== parseInt(cpf.substring(10, 11))) {
+        throw new Error('CPF inválido');
+      }
+
+      return true;
+    })
+    ,
+    body("nasc")
+      .custom(nasc => {
+        const dataNasc = moment(nasc, "YYYY-MM-DD");
+        const dataMin = moment().subtract(16, 'years');
+        if (dataNasc.isAfter(dataMin)) {
+          throw new Error("Necessário ser maior de 16 anos!");
+        }
+        return true;
+      }),
   ],
   cadastrar: async (req, res) => {
     let errors = validationResult(req)
@@ -61,22 +102,19 @@ const usuariosController = {
         valores: req.body,
         isCadastrar: true
       }
-      res.render("pages/template-login", {isCadastrar: false});
+      res.render("pages/template-login", jsonResult);
     } else {
-      const { nome, celular, email, password, cep, uf, cidade, bairro, logradouro } = req.body
-      dadosUser = {
+      const { nome, celular, email, password, cpf, nasc } = req.body
+      dadosCliente = {
         NOME_CLIENTE: nome,
         CELULAR_CLIENTE: celular,
         EMAIL_CLIENTE: email,
         SENHA_CLIENTE: bcrypt.hashSync(password, salt),
-        CIDADE_CLIENTE: cidade,
-        UF_CLIENTE: uf,
-        CEP_CLIENTE: cep,
-        LOGRADOURO_CLIENTE: logradouro,
-        BAIRRO_CLIENTE: bairro,
+        CPF_CLIENTE: cpf,
+        DATA_NASC_CLIENTE: nasc,
       }
       try {
-        const usuarioCriado = await userModel.createUser(dadosUser);
+        const usuarioCriado = await userModel.createUser(dadosCliente);
         console.log(usuarioCriado)
         const jsonResult = {
           page: "../partial/landing-home/home-page"
@@ -118,4 +156,4 @@ const usuariosController = {
   },
 }
 
-module.exports = usuariosController
+module.exports = clienteController
