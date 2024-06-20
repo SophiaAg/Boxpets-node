@@ -1,4 +1,4 @@
-const userModel = require("../models/clienteModel")
+const clienteModel = require("../models/clienteModel")
 const { body, validationResult } = require("express-validator")
 var bcrypt = require("bcryptjs")
 var salt = bcrypt.genSaltSync(8)
@@ -6,6 +6,25 @@ const moment = require("moment")
 const clienteController = {
 
   // Validação do form de cadastro
+  regrasValidacaoLogarConta: [
+    body('email')
+      .isEmail().withMessage('Deve ser um email válido')
+      .bail()
+    ,
+    body('password')
+      .isLength({ min: 8, max: 30 })
+      .withMessage('A senha deve ter pelo menos 8 e no máximo 30 caracteres!')
+      .bail()
+      .matches(/[A-Z]/).withMessage('A senha deve conter pelo menos uma letra maiúscula.')
+      .bail()
+      .matches(/[a-z]/).withMessage('A senha deve conter pelo menos uma letra minúscula.')
+      .bail()
+      .matches(/[0-9]/).withMessage('A senha deve conter pelo menos um número inteiro.')
+      .bail()
+      .matches(/[!@#$%^&*(),.?":{}|<>]/).withMessage('A senha deve conter pelo menos um caractere especial.')
+      .bail()
+    ,
+  ],
   regrasValidacaoCriarConta: [
     body("nome")
       .isLength({ min: 3, max: 45 }).withMessage("Nome deve ter de 3 a 45 letras!")
@@ -14,7 +33,7 @@ const clienteController = {
       .isMobilePhone('pt-BR').withMessage("Número de telefone inválido")
       .bail()
       .custom(async (celular) => {
-        const celularExistente = await userModel.findUserByCelular(celular)
+        const celularExistente = await clienteModel.findClienteByCelular(celular)
         if (celularExistente.length > 0) {
           throw new Error("Celular já em uso! Tente outro.");
         }
@@ -24,7 +43,7 @@ const clienteController = {
       .isEmail().withMessage('Deve ser um email válido')
       .bail()
       .custom(async (email) => {
-        const emailExistente = await userModel.findUserByEmail(email)
+        const emailExistente = await clienteModel.findClienteByEmail(email)
         if (emailExistente.length > 0) {
           throw new Error("E-mail já em uso! Tente outro");
         }
@@ -114,7 +133,7 @@ const clienteController = {
         DATA_NASC_CLIENTE: nasc,
       }
       try {
-        const usuarioCriado = await userModel.createUser(dadosCliente);
+        const usuarioCriado = await ClienteModel.createCliente(dadosCliente);
         console.log(usuarioCriado)
         const jsonResult = {
           page: "../partial/landing-home/home-page"
@@ -134,17 +153,37 @@ const clienteController = {
 
     if (!errors.isEmpty()) {
       console.log(errors)
-      res.render("pages/template-login", { page: "../partial/template-login/login", modal: "fechado", erros: errors, incorreto: null, isCadastrar: true });
+      const jsonResult = {
+        form: "../partial/login/entrar",
+        errors: errors,
+        valores: req.body,
+        incorreto: false
+      }
+      res.render("pages/template-login", jsonResult);
     } else {
 
-      const { usuario, senha } = req.body
+      const { email, password } = req.body
       try {
-        const userBd = await userModel.findUserByNickname(usuario)
-        if (userBd[0] && bcrypt.compareSync(senha, userBd[0].SENHA_USUARIO) && req.session.autenticado.autenticado) {
-          res.render("pages/template-home", { page: "../partial/template-home/inicial-home", classePagina: "inicialHome", tokenAlert: { msg: `Bom te ver de novo`, usuario: `${usuario}!` } })
-          console.log("Logado!")
+        const clienteBd = await clienteModel.findClienteByEmail(email)
+        console.log(clienteBd)
+
+        if (clienteBd[0] && bcrypt.compareSync(password, clienteBd[0].SENHA_CLIENTE)
+          // && req.session.autenticado.autenticado
+        ) {
+
+          const jsonResult = {
+            page: "../partial/landing-home/home-page"
+          }
+          res.render("pages/template-hm", jsonResult)
+
         } else {
-          res.render("pages/template-login", { page: "../partial/template-login/login", modal: "fechado", erros: null, incorreto: "ativado", isCadastrar: true });
+          const jsonResult = {
+            form: "../partial/login/entrar",
+            errors: null,
+            valores: req.body,
+            incorreto: true
+          }
+          res.render("pages/template-login", jsonResult);
         }
 
       } catch (erros) {

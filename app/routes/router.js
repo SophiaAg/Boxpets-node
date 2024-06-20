@@ -20,7 +20,6 @@ router.get("/cadastrar", function (req, res) {
         form: "../partial/login/cadastrar",
         errors: null,
         valores: null,
-        isCadastrar: true
     }
     res.render("pages/template-login",jsonResult);
 });
@@ -31,7 +30,7 @@ router.get("/entrar", function (req, res) {
         form: "../partial/login/entrar",
         errors: null,
         valores: null,
-        isCadastrar: false
+        incorreto:false
     }
     res.render("pages/template-login", jsonResult);
 });
@@ -41,9 +40,13 @@ router.get("/template-hm", function (req, res) {
 });
 
 
-// Cadastro de usuários
-router.post("/cadastrarUsuario", clienteController.regrasValidacaoCriarConta, function (req, res) {
+// Cadastro de CLIENTES
+router.post("/cadastrarCliente", clienteController.regrasValidacaoCriarConta, function (req, res) {
     clienteController.cadastrar(req, res)
+})
+// login de CLIENTES
+router.post("/logarCliente", clienteController.regrasValidacaoLogarConta, function (req, res) {
+    clienteController.entrar(req, res)
 })
 
 

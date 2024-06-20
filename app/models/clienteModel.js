@@ -1,33 +1,33 @@
 var pool = require("../../config/pool-conexao");
 
-const userModel = {
-    createUser: async (dadosUser) => {
+const clienteModel = {
+    createCliente: async (dadosCliente) => {
         try {
-            const [resultados] = await pool.query("insert into CLIENTE set ?", [dadosUser])
+            const [resultados] = await pool.query("insert into CLIENTE set ?", [dadosCliente])
             return resultados
         } catch (error) {
             throw error
         }
     },
-    findUserByCelular: async (celular) => {
+    findClienteByCelular: async (celular) => {
         try {
-            const [resultados] = await pool.query('SELECT * FROM CLIENTE WHERE CELULAR_USUARIOS = ?', [celular])
+            const [resultados] = await pool.query('SELECT * FROM CLIENTE WHERE CELULAR_CLIENTE = ?', [celular])
             console.log(resultados)
             return resultados
         } catch (error) {
             return error
         }
     },
-    findUserByEmail: async (email) => {
+    findClienteByEmail: async (email) => {
         try {
-            const [resultados] = await pool.query('SELECT * FROM CLIENTE WHERE EMAIL_USUARIOS = ?', [email])
+            const [resultados] = await pool.query('SELECT * FROM CLIENTE WHERE EMAIL_CLIENTE = ?', [email])
             console.log(resultados)
             return resultados
         } catch (error) {
             return error
         }
     },
-    // findUserBy: async (clausulaWhere, valor) => {
+    // findClienteBy: async (clausulaWhere, valor) => {
     //     try {
     //         const [resultados] = await pool.query('SELECT * FROM USUARIOS WHERE ? ?', [clausulaWhere, valor])
     //         console.log(resultados)
@@ -39,4 +39,4 @@ const userModel = {
 }
 
 
-module.exports = userModel
+module.exports = clienteModel
