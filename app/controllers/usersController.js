@@ -65,15 +65,15 @@ const usuariosController = {
     } else {
       const { nome, celular, email, password, cep, uf, cidade, bairro, logradouro } = req.body
       dadosUser = {
-        NOME_USUARIOs: nome,
-        CELULAR_USUARIOS: celular,
-        EMAIL_USUARIOS: email,
-        SENHA_USUARIOS: bcrypt.hashSync(password, salt),
-        CIDADE_USUARIOS: cidade,
-        UF_USUARIOS: uf,
-        CEP_USUARIOS: cep,
-        LOGRADOURO_USUARIOS: logradouro,
-        BAIRRO_USUARIOS: bairro,
+        NOME_CLIENTE: nome,
+        CELULAR_CLIENTE: celular,
+        EMAIL_CLIENTE: email,
+        SENHA_CLIENTE: bcrypt.hashSync(password, salt),
+        CIDADE_CLIENTE: cidade,
+        UF_CLIENTE: uf,
+        CEP_CLIENTE: cep,
+        LOGRADOURO_CLIENTE: logradouro,
+        BAIRRO_CLIENTE: bairro,
       }
       try {
         const usuarioCriado = await userModel.createUser(dadosUser);

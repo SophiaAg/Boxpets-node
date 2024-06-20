@@ -14,6 +14,10 @@ router.get("/soucliente", function (req, res) {
     res.render("pages/template-lp", { pagina: "LandingPage", page: "../partial/landing-page/soucliente" });
 });
 
+router.get("/cadastrar", function (req, res) {
+    res.render("pages/template-login", { pagina: "cadastro", page: "../partial/login/cadastrar" });
+});
+
 
 
 
