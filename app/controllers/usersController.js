@@ -61,7 +61,7 @@ const usuariosController = {
         valores: req.body,
         isCadastrar: true
       }
-      res.render("pages/template-login", jsonResult);
+      res.render("pages/template-login", {isCadastrar: false});
     } else {
       const { nome, celular, email, password, cep, uf, cidade, bairro, logradouro } = req.body
       dadosUser = {
@@ -96,7 +96,7 @@ const usuariosController = {
 
     if (!errors.isEmpty()) {
       console.log(errors)
-      res.render("pages/template-login", { page: "../partial/template-login/login", modal: "fechado", erros: errors, incorreto: null });
+      res.render("pages/template-login", { page: "../partial/template-login/login", modal: "fechado", erros: errors, incorreto: null, isCadastrar: true });
     } else {
 
       const { usuario, senha } = req.body
@@ -106,7 +106,7 @@ const usuariosController = {
           res.render("pages/template-home", { page: "../partial/template-home/inicial-home", classePagina: "inicialHome", tokenAlert: { msg: `Bom te ver de novo`, usuario: `${usuario}!` } })
           console.log("Logado!")
         } else {
-          res.render("pages/template-login", { page: "../partial/template-login/login", modal: "fechado", erros: null, incorreto: "ativado" });
+          res.render("pages/template-login", { page: "../partial/template-login/login", modal: "fechado", erros: null, incorreto: "ativado", isCadastrar: true });
         }
 
       } catch (erros) {
