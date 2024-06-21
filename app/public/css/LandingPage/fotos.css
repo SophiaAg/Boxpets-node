@@ -40,7 +40,7 @@
 }
 .box .front-face .icon i,
 .box .front-face span{
-  background: linear-gradient(-135deg, #9250c8, #41d0a5);
+  background: linear-gradient(-135deg, var(--cor-segundaria), var(--cor-primaria) );
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   margin-left: 10%;
@@ -52,7 +52,7 @@
   z-index: 1;
   height: 220px;
   width: 100%;
-  padding: 30px;
+  padding: 25px;
   color: #fff;
   opacity: 0;
 

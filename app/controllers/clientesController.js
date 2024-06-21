@@ -29,6 +29,7 @@ const clienteController = {
     body("nome")
       .isLength({ min: 3, max: 45 }).withMessage("Nome deve ter de 3 a 45 letras!")
       .isAlpha().withMessage("Deve conter apenas letras!"),
+      
     body("celular")
       .isMobilePhone('pt-BR').withMessage("Número de telefone inválido")
       .bail()
@@ -133,7 +134,7 @@ const clienteController = {
         DATA_NASC_CLIENTE: nasc,
       }
       try {
-        const usuarioCriado = await ClienteModel.createCliente(dadosCliente);
+        const usuarioCriado = await clienteModel.createCliente(dadosCliente);
         console.log(usuarioCriado)
         const jsonResult = {
           page: "../partial/landing-home/home-page"
@@ -148,7 +149,11 @@ const clienteController = {
     }
   },
   entrar: async (req, res) => {
-    // Aqui verifico se tem erros de validação no formulário, se tiver carrego a pagina de login novamente com erros, senão busco a partir do um usuário a partir do digitado, e então eu por fim, verifico se o usuario do banco existe e se o hash da senha digitada no form bate com o hash da senha que estava no banco e se a sessão não é null. Se tudo estiver correto ele renderiza a page home, senão ele manda pra page de login como usuário ou senha incorretos
+    // Aqui verifico se tem erros de validação no formulário, se tiver carrego a pagina de login novamente com erros, 
+    //senão busco a partir do um usuário a partir do digitado, e então eu por fim, verifico se o usuario do banco existe
+    //e se o hash da senha digitada no form bate com o hash da senha que estava no banco e se a sessão não é null. 
+    //Se tudo estiver correto ele renderiza a page home, senão ele manda pra page de login como usuário ou senha incorretos
+    
     let errors = validationResult(req)
 
     if (!errors.isEmpty()) {

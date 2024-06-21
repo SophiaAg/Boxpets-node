@@ -1,6 +1,6 @@
 footer{
+    position: relative;
     width: 100%;
-    position: absolute;
     bottom: 0;
     background: linear-gradient(to right, var(--cor-segundaria), var(--cor-primaria));
     color: var(--branco);

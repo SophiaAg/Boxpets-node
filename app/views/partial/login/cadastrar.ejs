@@ -65,37 +65,41 @@ let avisoErro={
 
   <form action="/cadastrarCliente" class="sign-up-form" method="post">
     <h2 class="title">Cadastrar</h2>
-    <section class="<%= avisoErro.nome %>">
+
+    
+    <section class=" input-field <%= avisoErro.nome %>">
 
       <i class="fas fa-user"></i>
       <input id="nome" name="nome" value="<%= valores ? valores.nome : '' %>" required type="text" placeholder="Nome completo"/>
 
     </section>
-    <section class="<%= avisoErro.nasc %>">
+
+
+    <section class= "input-field <%= avisoErro.nasc %>">
 
       <i class="fas fa-user"></i>
       <input id="nasc" name="nasc" value="<%= valores ? valores.nasc : '' %>" required type="date" placeholder="Data de nascimento"/>
 
     </section>
-    <section class="<%= avisoErro.cpf %>">
+    <section class="input-field <%= avisoErro.cpf %>">
 
       <i class="fas fa-user"></i>
       <input id="cpf" name="cpf" value="<%= valores ? valores.cpf : '' %>" required type="text" placeholder="CPF"/>
 
     </section>
-    <section class="<%= avisoErro.celular %>">
+    <section class="input-field <%= avisoErro.celular %>">
 
       <i class="fas fa-user"></i>
       <input id="celular" name="celular" value="<%= valores ? valores.celular : '' %>" required type="text" placeholder="Celular:" />
 
     </section>
-    <section class="<%= avisoErro.email %>">
+    <section class="input-field <%= avisoErro.email %>">
 
       <i class="fas fa-envelope"></i>
       <input name="email" id="email" value="<%= valores ? valores.email : '' %>" required type="email" placeholder="Email" />
 
     </section>
-    <section class="<%= avisoErro.password %>">
+    <section class="input-field <%= avisoErro.password %>">
 
       <i class="fas fa-lock"></i>
       <input id="password" name="password" value="<%= valores ? valores.password : '' %>" required type="password" placeholder="Senha" title="Deve conter pelo menos um número, uma letra maiúscula, uma letra minúscula e um dos símbolos (!, @, #, $, %, *) e ter pelo menos 8 ou mais caracteres" />

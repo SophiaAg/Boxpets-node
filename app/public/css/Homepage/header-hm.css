@@ -35,7 +35,7 @@ header .header-top .icons{
 
 header .header-top .icons div,
 header .header-top .icons a{
-    font-size: 25px;
+    font-size: 30px;
     margin-left: .5rem;
     color: var(--preto);
     cursor: pointer;
@@ -57,6 +57,7 @@ height: 80px;
 background: var(--cor-primaria);
 display: flex;
 justify-content: center;
+align-items: center;
 
 }
 
