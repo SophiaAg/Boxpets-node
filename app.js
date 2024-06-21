@@ -1,8 +1,19 @@
 const express = require("express");
 const app = express();
 const port = 3000;
+//guardar a sessão do usuario, para que só esse usuario tenha essa sessão
+const session = require("express-session");
+const FileStore = require("session-file-store")(session); //só pra guardar
 
 app.use(express.static("app/public"));
+
+app.use(session({
+  store: new FileStore(),
+  secret: 'Froez777',
+  resave: false,
+  saveUninitialized: true,
+  cookie: {secure: false }
+}))
 
 app.set("view engine", "ejs");
 app.set("views", "./app/views");
