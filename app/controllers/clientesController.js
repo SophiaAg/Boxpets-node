@@ -3,6 +3,7 @@ const { body, validationResult } = require("express-validator")
 var bcrypt = require("bcryptjs")
 var salt = bcrypt.genSaltSync(8)
 const moment = require("moment")
+const { invalid } = require("moment/moment")
 const clienteController = {
 
   // Validação do form de cadastro
@@ -111,6 +112,8 @@ const clienteController = {
         return true;
       }),
   ],
+
+
   cadastrar: async (req, res) => {
     let errors = validationResult(req)
 
@@ -135,11 +138,15 @@ const clienteController = {
       }
       try {
         const usuarioCriado = await clienteModel.createCliente(dadosCliente);
-        console.log(usuarioCriado)
+        req.session.Clienteid = usuarioCriado[0].insertId
+        console.log(usuarioCriado[0])
         const jsonResult = {
           page: "../partial/landing-home/home-page"
         }
-        res.render("pages/template-hm", jsonResult)
+
+        req.session.save(() => {
+          res.render("pages/template-hm", jsonResult)
+        })
 
       } catch (erros) {
         console.log(erros)

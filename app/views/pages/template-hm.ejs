@@ -16,6 +16,12 @@
     <!--header-->
     <header>
         <section class="header-top">
+            <% if (locals.Clienteid) { %>
+             <H1>LOGADO</H1>
+             
+            <% } else{ %>
+               <h1>deslogado</h1>
+            <% } %>  
             <a href="/" class="logo"><img src="/src/img-homepage/logo.png" alt="logo">BOX <span>PETS</span></a>
 
             <section class="icons">

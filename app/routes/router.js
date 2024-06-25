@@ -49,5 +49,6 @@ router.post("/logarCliente", clienteController.regrasValidacaoLogarConta, functi
     clienteController.entrar(req, res)
 })
 
+// demostrar q 
 
 module.exports = router;
