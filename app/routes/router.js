@@ -21,7 +21,7 @@ router.get("/cadastrar", function (req, res) {
         errors: null,
         valores: null,
     }
-    res.render("pages/template-login",jsonResult);
+    res.render("pages/template-login",jsonResult, );
 });
 
 
@@ -35,7 +35,7 @@ router.get("/entrar", function (req, res) {
     res.render("pages/template-login", jsonResult);
 });
 
-router.get("/template-hm", function (req, res) {
+router.get("/ ", function (req, res) {
     res.render("pages/template-hm", { pagina: "LandingPage", page: "../pages/template-hm" });
 });
 
@@ -45,7 +45,11 @@ router.get("/servicos-gerais", function (req, res) {
 });
 
 router.get("/veterinarios", function (req, res) {
-    res.render("pages/template-hm", { pagina: "LandingPage", page: "../partial/servicos-gerais/veterinarios" });
+    res.render("pages/template-hm", { pagina: "LandingPage", page: "../partial/servicosgerais/veterinarios" });
+});
+
+router.get("/bsEmpresa", function (req, res) {
+    res.render("pages/template-hm", { pagina: "LandingPage", page: "../partial/cliente-empresa/bsEmpresa" });
 });
 
 // Cadastro de CLIENTES
@@ -56,7 +60,5 @@ router.post("/cadastrarCliente", clienteController.regrasValidacaoCriarConta, fu
 router.post("/logarCliente", clienteController.regrasValidacaoLogarConta, function (req, res) {
     clienteController.entrar(req, res)
 })
-
-// demostrar q 
 
 module.exports = router;

@@ -1,0 +1,48 @@
+/*detalhes*/
+.service-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 30px;
+    padding: 30px 15px;
+    border: 1px solid var(--cultured);
+    border-radius: var(--border-radius-md);
+  }
+  
+  .service .title{
+    display: flex;
+    justify-content: center;
+  }
+
+  .service-item {
+    min-width: 190px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+  }
+  
+  .service-icon {
+    font-size: 35px;
+    color: var(--branco);
+    transition: 7s;
+ 
+  }
+  
+  .service-icon ion-icon { --ionicon-stroke-width: 25px; }
+  
+  .service-item:hover .service-icon { color: var(--eerie-black); }
+  
+  .service-title {
+    color: var(--sonic-silver);
+    font-size: var(--fs-7);
+    font-weight: var(--weight-600);
+    text-transform: capitalize;
+    margin-bottom: 5px;
+  }
+  
+  .service-desc {
+    color: var(--sonic-silver);
+    font-size: var(--fs-9);
+  }
+  

@@ -1,0 +1,224 @@
+/*sugestao*/
+
+.sugestao {
+    margin-bottom: 30px;
+}
+
+.sugestao-container{
+    display: flex;
+    align-items: flex-start;
+    gap: 15px;
+    overflow-x: auto;
+    overscroll-behavior-inline: contain;
+    scroll-snap-type: inline mandatory;
+    margin: 5%;
+}
+
+.sugestao-card{
+    min-width: 100%;
+    scroll-snap-align: start;
+}
+
+.sugestao-banner{
+    width: 100%;
+    border-radius: 20px;
+    margin-bottom: 20px;
+}
+
+.sugestao-category{
+    width: max-content;
+    color: var(--cor-primaria);
+    font-size: 16px;
+}
+
+.sugestao-des{
+    color: var(--preto);
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 1.4;
+    margin-bottom: 5px;
+    transition: .7s;  
+}
+
+.sugestao-des:hover {
+    color: var(--cor-primaria);
+}
+
+
+@media (min-width: 470px) {
+    .sugestao-container{
+        gap: 30px;
+    }
+
+    .sugestao-card{
+        min-width: calc(50% - 15px)
+    }
+} 
+
+@media (min-width: 1024px){
+    .sugestao-card {
+        min-width: calc(33.33% - 20px);
+    }
+
+    .sugestao-des {
+        font-size: 24px;
+    }
+
+}
+
+@media (min-width: 1200px){
+    .sugestao {
+        margin-bottom: 50px;
+    }
+
+    .sugestao-card{
+        min-width: calc(25% - 22.5px);
+    }
+
+}
+
+/*carrosel de empresas*/
+
+.carroselEmpresaPremium{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.container-empresaPremium{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    width: 80%;
+    overflow: hidden;
+   
+}
+
+.container-empresaPremium .slidesrow{
+    display: flex;
+    height: 100%;
+   margin: 4%;
+   align-items: center;
+   gap: 5%;
+   width: 100%;
+    
+}
+
+.container-empresaPremium .slidesrow .slide-empresaP{
+    min-width: 100%;
+    position: relative;
+    display: flex;
+    width: 100%;
+    height: 350px;
+    border-radius: 30px;
+    background-color: #000080;
+    border: 3px solid white;
+    box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.2);
+   
+}
+
+.container-empresaPremium .slidesrow .slide-empresaP img{
+   width: 50%;
+   height: 100%;
+   object-fit: cover;
+   border-radius: 15px;
+}
+
+@media (max-width:991px){ 
+
+    .container-empresaPremium .slidesrow .slide-empresaP{
+        display: grid;
+        height: 100%;
+    }
+    .container-empresaPremium .slidesrow .slide-empresaP img{
+    width: 100%;
+    
+}
+}
+
+
+.container-empresaPremium .slidesrow .slide-empresaP .conteudo{
+    margin: 4%;
+}
+.container-empresaPremium .slidesrow .slide-empresaP .conteudo h1{
+   align-items: center;
+   justify-content: center;
+   display: flex;
+   color: var(--preto);
+ } 
+
+ .container-empresaPremium .slidesrow .slide-empresaP .conteudo p{
+  color: var(--preto);
+    margin-top: 2%;
+  } 
+
+  @media (max-width:991px){
+    .container-empresaPremium .slidesrow .slide-empresaP .conteudo .contato p{
+        margin-left: 10%;
+        margin-top: none;
+  }
+}
+
+  .container-empresaPremium .slidesrow .slide-empresaP .conteudo .end{
+    color: var(--cor-segundaria);
+      margin-top: 5%;
+    } 
+
+    .container-empresaPremium .slidesrow .slide-empresaP .conteudo .contato{
+        margin-left: 60%;
+    margin-top: 10%;
+    color: green;
+        } 
+
+.container-empresaPremium span#next-btn, span#prev-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    padding: 12px 16px;
+    color: var(--textos);
+    font-weight: bold;
+    font-size: 22px;
+    transition: 0.5s;
+    border-radius: 30px;
+    user-select: none;
+    cursor: pointer;
+    z-index: 1;
+    margin-left: 5%;
+    margin-right: 5%;
+}
+
+.container-empresaPremium span#next-btn{
+    right: 10px;
+}
+
+.container-empresaPremium span#prev-btn{
+    left: 10px;
+}
+
+.container-empresaPremium span#next-btn:hover,  span#prev-btn:hover {
+    background-color: var(--cor-segundaria);
+    opacity: 0.8;
+    color: var(--branco);
+}
+
+.container-empresaPremium .dots{
+    position: absolute;
+    bottom: 5px;
+    z-index: 3;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.container-empresaPremium .dots .dot{
+    height: 15px;
+    width: 15px;
+    margin: 0 2px;
+    border: 3px solid #bbb;
+    border-radius: 50%;
+    display: inline-block;
+    transition: background-color 0.6s ease;
+}
+
+.container-empresaPremium .dots .active{
+    background-color: var(--preto);
+}

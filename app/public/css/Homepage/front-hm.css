@@ -1,0 +1,118 @@
+/*serviços*/
+.capa {
+    display: flex;
+    margin: 5%;
+    align-items: center;
+}
+
+.capa-img img {
+    width: 450px;
+}
+
+@media (max-width:1200px) {
+    .capa {
+        display: grid;
+        margin: 3%;
+    }
+
+    .capa-img {
+        display: grid;
+        margin: 3%;
+        justify-content: center;
+        width: 100%;
+    }
+}
+
+@media (max-width:500px) {
+    .capa-img img {
+        width: 250px;
+    }
+
+    .capa {
+        align-items: center;
+        justify-content: center;
+        display: grid;
+        justify-items: center;
+    }
+
+    .servicos .box-container .box-ser {
+        flex: 1 0 10rem;
+        width: 50%;
+    }
+}
+
+.servicos .heading {
+    text-align: center;
+    font-size: 2.5rem;
+    padding: 0.5rem;
+    color: var(--preto);
+
+}
+
+.servicos .heading span {
+    color: var(--cor-primaria);
+}
+
+.servicos .box-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    padding: 2% 2% 2% 10%;
+}
+
+.servicos .box-container .box-ser {
+    flex: 1 1 calc(33.33% - 1rem);
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .1);
+    border: .1rem solid rgba(0, 0, 0, 0.103);
+    cursor: pointer;
+    border-radius: .5rem;
+    background: var(--branco);
+}
+
+@media screen and (max-width:1200px) {
+    .servicos .box-container .box-ser {
+        flex: 1 0 10rem;
+    }
+}
+
+.servicos .box-container .box-ser .image {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    position: absolute;
+    bottom: -100%;
+    left: 0;
+    z-index: 1;
+    transition: ease .7s;
+    opacity: .8;
+}
+
+.servicos .box-container .box-ser:hover{
+    background: #000;
+}
+
+.servicos .box-container .box-ser .content {
+    font-size: 2rem;
+    text-align: center;
+    padding: 2rem;
+    position: relative;
+    z-index: 3;
+}
+
+.servicos .box-container .box-ser .content img {
+    margin: 1.5rem 0;
+}
+
+.servicos .box-container .box-ser .content h3 {
+    font-size: 2.5rem;
+    color: var(--preto);
+}
+
+.servicos .box-container .box-ser:hover .image {
+    bottom: 0;
+}
+.servicos .box-container .box-ser:hover .content {
+    color: var(--branco);
+}

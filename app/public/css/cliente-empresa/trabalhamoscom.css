@@ -1,4 +1,4 @@
-/*card-servico*/
+/*trabalhamos com */
 
 .category {
     margin: 5%;
@@ -29,9 +29,11 @@
     border: .1rem solid rgba(0, 0, 0, 0.171);
     border-radius: 20px;
     scroll-snap-align: start;
+    width: 50%;
 }
 
-.category-img-box {
+.category-img-box img {
+    width: 150px;
     background: var(--qs-branco);
     border: 1px solid hsl(0, 0%, 80%);
     padding: 10px;
@@ -92,7 +94,7 @@
 }
 
 @media (min-width: 780px) {
-    .category-img-box {
+    .category-img-box img {
         padding: 20px;
     }
 }
