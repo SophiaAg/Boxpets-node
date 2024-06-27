@@ -146,7 +146,7 @@ const clienteController = {
     
 
        req.session.save(() => {
-         res.redirect("/template-hm", jsonResult)
+         res.render("pages/template-hm", jsonResult)
       })
 
       } catch (erros) {
@@ -187,7 +187,7 @@ const clienteController = {
           const jsonResult = {
             page: "../partial/landing-home/home-page"
           }
-          res.redirect ("/template-hm", jsonResult)
+          res.render("pages/template-hm", jsonResult)
 
         } else {
           const jsonResult = {

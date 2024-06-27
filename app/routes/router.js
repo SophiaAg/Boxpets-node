@@ -39,8 +39,9 @@ router.get("/template-hm", function (req, res) {
     res.render("pages/template-hm", { pagina: "LandingPage", page: "../pages/template-hm" });
 });
 
+
 router.get("/servicos-gerais", function (req, res) {
-    res.render("pages/template-hm", { pagina: "LandingPage", page: "../partial/servicos-gerais/servicos-gerais" });
+    res.render("pages/template-hm", { pagina: "Servicogerais", page: "../partial/servicosgerais/servicos-gerais" });
 });
 
 router.get("/veterinarios", function (req, res) {
