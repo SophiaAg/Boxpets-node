@@ -45,6 +45,14 @@ const clienteModel = {
             return error
         }
     },
+
+    excluirComentario: async (id) => {
+        try {
+            await pool.query("DELETE FROM MENSAGEM WHERE ID_MENSAGEM = ?", [id]);
+        } catch (error) {
+            return error
+        }
+    }
     // findClienteBy: async (clausulaWhere, valor) => {
     //     try {
     //         const [resultados] = await pool.query('SELECT * FROM USUARIOS WHERE ? ?', [clausulaWhere, valor])

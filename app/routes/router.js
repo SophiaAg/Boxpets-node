@@ -64,7 +64,6 @@ const clienteModel = require("../models/clienteModel")
 router.get("/bsEmpresa", async function(req, res) {
 
     const mensagens = await clienteModel.verComentarios(req, res);
-    console.log("comentarios: "+ mensagens)
 
     res.render("pages/template-hm", { pagina: "Comentários", page: "../partial/cliente-empresa/bsEmpresa.ejs", comentarios: mensagens })
 })
@@ -74,6 +73,16 @@ router.get("/bsEmpresa", async function(req, res) {
 router.post("/fazerComentario", function(req, res) {
     clienteController.FazerComentario(req, res);
 })
+
+router.post("/deletePublication/:id", async function(req, res) {
+
+    const idComentario = req.params.id;
+
+    await clienteModel.excluirComentario(idComentario);
+
+    res.redirect("/bsEmpresa");
+
+});
 
 // deslogar, tira a sessão
 
