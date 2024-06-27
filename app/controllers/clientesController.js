@@ -222,7 +222,7 @@ const clienteController = {
         res.status(500).json({ message: 'Comentario não pode estar vazio' });
       }
 
-      const insert = await clienteModel.insertCommentForUser(id, comment)
+      await clienteModel.insertCommentForUser(id, comment)
 
       res.redirect("/bsEmpresa");
 

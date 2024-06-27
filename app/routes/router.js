@@ -64,7 +64,6 @@ const clienteModel = require("../models/clienteModel")
 router.get("/bsEmpresa", async function(req, res) {
 
     const mensagens = await clienteModel.verComentarios(req, res);
-    console.log(mensagens)
 
     res.render("pages/template-hm", { pagina: "Comentários", mensagens: mensagens ,page: "../partial/cliente-empresa/bsEmpresa.ejs" })
 })
