@@ -588,10 +588,16 @@
 <style>
   /* Estilos do card de comentário */
 
-  .comentarios form{
+  .comentarios .form{
     display: flex;
     align-items: center;
     justify-content: center;
+  }
+
+  .comentarios .del-form{
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
   }
 
   .comentarios-container {
@@ -603,7 +609,7 @@
   }
 .comment-card {
     width: 90%;
-    border: 1px solid #ccc;
+    border: 2px solid #ccc;
     border-radius: 8px;
     padding: 10px;
     margin: 10px;
@@ -652,7 +658,7 @@
 </style>
 
 <section class="comentarios">
-  <form action="/fazerComentario" method="post">
+  <form class=".form" action="/fazerComentario" method="post">
     <input type="text" name="comment">
     <input type="submit" value="Enviar">
   </form>
@@ -669,7 +675,7 @@
             <p class="comment-text"><%= elemento.CONTEUDO_MENSAGEM %></p>
         </div>
         <div class="comment-actions">
-          <form action="/deletePublication/<%= elemento.ID_MENSAGEM %>" method="post">
+          <form class="del-form" action="/deletePublication/<%= elemento.ID_MENSAGEM %>" method="post">
             <input type="submit" class="delete-btn" value="Excluir">
           </form>
         </div>
