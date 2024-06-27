@@ -64,7 +64,7 @@ const clienteController = {
       .matches(/[!@#$%^&*(),.?":{}|<>]/).withMessage('A senha deve conter pelo menos um caractere especial.')
       .bail()
     ,
-    body("cpf").custom(cpf => {
+   body("cpf").custom(cpf => {
 
       cpf = cpf.replace(/[^\d]+/g, '');
       if (cpf.length !== 11 || /^(\d)\1+$/.test(cpf)) {
@@ -137,16 +137,17 @@ const clienteController = {
         DATA_NASC_CLIENTE: nasc,
       }
       try {
-        const usuarioCriado = await clienteModel.createCliente(dadosCliente);
-        req.session.Clienteid = usuarioCriado[0].insertId
-        console.log(usuarioCriado[0])
+       // const usuarioCriado = await clienteModel.createCliente(dadosCliente);
+       // req.session.Clienteid = usuarioCriado[0].insertId
+        //console.log(usuarioCriado[0])
         const jsonResult = {
           page: "../partial/landing-home/home-page"
         }
+    
 
-        req.session.save(() => {
-          res.render("pages/template-hm", jsonResult)
-        })
+       req.session.save(() => {
+         res.redirect("/template-hm", jsonResult)
+      })
 
       } catch (erros) {
         console.log(erros)
@@ -186,7 +187,7 @@ const clienteController = {
           const jsonResult = {
             page: "../partial/landing-home/home-page"
           }
-          res.render("pages/template-hm", jsonResult)
+          res.redirect ("/template-hm", jsonResult)
 
         } else {
           const jsonResult = {
