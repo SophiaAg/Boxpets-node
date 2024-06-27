@@ -51,7 +51,7 @@
    
   .carousel .list .item .content .buttons{
     display: grid;
-    grid-template-columns: repeat(2, 190px);
+    grid-template-columns: repeat(2, 120px);
     grid-template-rows: 60px;
     gap: 5px;
     margin-top: 20px;
@@ -62,7 +62,7 @@
     margin-top: 0.4rem;
     border-radius: 5rem;
     background:var(--cor-segundaria);
-    font-size: 20px;
+    font-size: 16px;
     color: var(--branco);
     cursor: pointer;
     
@@ -129,8 +129,8 @@
    
     }
     .arrows{
-      margin-top: -20%;
-      margin-right: -25%;
+     
+      margin-right: -20%;
     }
   }
    
