@@ -27,6 +27,24 @@ const clienteModel = {
             return error
         }
     },
+    insertCommentForUser: async (id, comment) => {
+        try {
+            const [resultados] = await pool.query("INSERT INTO MENSAGEM (CONTEUDO_MENSAGEM, FK_ID_CLIENTE) VALUES (?, ?)", [comment, id])
+            console.log(resultados)
+            return resultados
+        } catch (error) {
+            return error
+        }
+    },
+    verComentarios: async () => {
+        try {
+            const [resultados] = await pool.query("SELECT * FROM MENSAGEM");
+            console.log(resultados)
+            return resultados
+        } catch (error) {
+            return error
+        }
+    },
     // findClienteBy: async (clausulaWhere, valor) => {
     //     try {
     //         const [resultados] = await pool.query('SELECT * FROM USUARIOS WHERE ? ?', [clausulaWhere, valor])
