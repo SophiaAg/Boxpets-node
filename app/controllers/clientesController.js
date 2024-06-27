@@ -30,7 +30,7 @@ const clienteController = {
     body("nome")
       .isLength({ min: 3, max: 45 }).withMessage("Nome deve ter de 3 a 45 letras!")
       .isAlpha().withMessage("Deve conter apenas letras!"),
-      
+
     body("celular")
       .isMobilePhone('pt-BR').withMessage("Número de telefone inválido")
       .bail()
@@ -64,7 +64,7 @@ const clienteController = {
       .matches(/[!@#$%^&*(),.?":{}|<>]/).withMessage('A senha deve conter pelo menos um caractere especial.')
       .bail()
     ,
-   body("cpf").custom(cpf => {
+    body("cpf").custom(cpf => {
 
       cpf = cpf.replace(/[^\d]+/g, '');
       if (cpf.length !== 11 || /^(\d)\1+$/.test(cpf)) {
@@ -137,17 +137,16 @@ const clienteController = {
         DATA_NASC_CLIENTE: nasc,
       }
       try {
-       // const usuarioCriado = await clienteModel.createCliente(dadosCliente);
-       // req.session.Clienteid = usuarioCriado[0].insertId
-        //console.log(usuarioCriado[0])
+        const usuarioCriado = await clienteModel.createCliente(dadosCliente);
+        req.session.Clienteid = usuarioCriado.insertId
         const jsonResult = {
           page: "../partial/landing-home/home-page"
         }
-    
 
-       req.session.save(() => {
-         res.render("pages/template-hm", jsonResult)
-      })
+
+        req.session.save(() => {
+          res.render("pages/template-hm", jsonResult)
+        })
 
       } catch (erros) {
         console.log(erros)
@@ -161,7 +160,7 @@ const clienteController = {
     //senão busco a partir do um usuário a partir do digitado, e então eu por fim, verifico se o usuario do banco existe
     //e se o hash da senha digitada no form bate com o hash da senha que estava no banco e se a sessão não é null. 
     //Se tudo estiver correto ele renderiza a page home, senão ele manda pra page de login como usuário ou senha incorretos
-    
+
     let errors = validationResult(req)
 
     if (!errors.isEmpty()) {
@@ -178,16 +177,16 @@ const clienteController = {
       const { email, password } = req.body
       try {
         const clienteBd = await clienteModel.findClienteByEmail(email)
-        console.log(clienteBd)
 
         if (clienteBd[0] && bcrypt.compareSync(password, clienteBd[0].SENHA_CLIENTE)
           // && req.session.autenticado.autenticado
         ) {
 
+          req.session.Clienteid = clienteBd[0].ID_CLIENTE
           const jsonResult = {
             page: "../partial/landing-home/home-page"
           }
-          res.render("pages/template-hm", jsonResult)
+          res.redirect("pages/template-hm", jsonResult)
 
         } else {
           const jsonResult = {
@@ -206,6 +205,28 @@ const clienteController = {
 
     }
   },
+
+  // comentar
+
+  FazerComentario: async (req, res) => {
+
+      const id = req.session.Clienteid;
+      const { comment } = req.body;
+
+      if (!id) {
+        // Lida com erros e retorna uma resposta de erro
+        res.status(500).json({ message: 'Usuário não logado' });
+      }
+
+      if(comment.length == 0 ) {
+        res.status(500).json({ message: 'Comentario não pode estar vazio' });
+      }
+
+      await clienteModel.insertCommentForUser(id, comment)
+
+      res.redirect("/bsEmpresa");
+
+  }
 }
 
 module.exports = clienteController

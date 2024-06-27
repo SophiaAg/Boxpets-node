@@ -21,7 +21,7 @@ router.get("/cadastrar", function (req, res) {
         errors: null,
         valores: null,
     }
-    res.render("pages/template-login",jsonResult, );
+    res.render("pages/template-login", jsonResult);
 });
 
 
@@ -30,7 +30,7 @@ router.get("/entrar", function (req, res) {
         form: "../partial/login/entrar",
         errors: null,
         valores: null,
-        incorreto:false
+        incorreto: false
     }
     res.render("pages/template-login", jsonResult);
 });
@@ -59,6 +59,36 @@ router.post("/cadastrarCliente", clienteController.regrasValidacaoCriarConta, fu
 // login de CLIENTES
 router.post("/logarCliente", clienteController.regrasValidacaoLogarConta, function (req, res) {
     clienteController.entrar(req, res)
+})
+
+// rota para comentário da empresa?
+
+const clienteModel = require("../models/clienteModel")
+
+router.get("/bsEmpresa", async function(req, res) {
+
+    const mensagens = await clienteModel.verComentarios(req, res);
+
+    res.render("pages/template-hm", { pagina: "Comentários", mensagens: mensagens ,page: "../partial/cliente-empresa/bsEmpresa.ejs" })
+})
+
+// post para comentar
+
+router.post("/fazerComentario", function(req, res) {
+    clienteController.FazerComentario(req, res);
+})
+
+// deslogar, tira a sessão
+
+router.get("/sair", function (req, res) {
+    try {
+        req.session.destroy(() => {
+            res.status(200).redirect("/");
+        });
+    } catch (error) {
+        console.log(error)
+        return res.status(500).redirect("/");
+    }
 })
 
 module.exports = router;
