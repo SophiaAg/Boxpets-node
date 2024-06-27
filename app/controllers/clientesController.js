@@ -186,7 +186,7 @@ const clienteController = {
           const jsonResult = {
             page: "../partial/landing-home/home-page"
           }
-          res.redirect("pages/template-hm", jsonResult)
+          res.render("pages/template-hm", jsonResult)
 
         } else {
           const jsonResult = {

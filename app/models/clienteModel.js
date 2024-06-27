@@ -38,7 +38,7 @@ const clienteModel = {
     },
     verComentarios: async () => {
         try {
-            const [resultados] = await pool.query("SELECT * FROM MENSAGEM");
+            const [resultados] = await pool.query("SELECT MENSAGEM.* , CLIENTE.* FROM MENSAGEM INNER JOIN CLIENTE ON MENSAGEM.FK_ID_CLIENTE = CLIENTE.ID_CLIENTE ");
             console.log(resultados)
             return resultados
         } catch (error) {

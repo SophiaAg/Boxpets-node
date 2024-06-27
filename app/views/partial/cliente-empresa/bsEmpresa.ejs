@@ -3,24 +3,6 @@
   <h1>Vet Pet</h1>
 </section>
 
-<!-- formulario, temporario, o que importa é a função -->
-
-<form action="/fazerComentario" method="post">
-  <input type="text" name="comment" placeholder="Fazer comentário">
-  <input type="submit" value="Enviar">
-</form>
-
-<ul>
-  <% mensagens.forEach(function(message) { %>
-    <li>
-      <hr>
-        <strong>ID Mensagem:</strong> <%= message.ID_MENSAGEM %><br>
-        <strong>Conteúdo:</strong> <%= message.CONTEUDO_MENSAGEM %><br>
-        <strong>ID ONG:</strong> <%= message.FK_ID_ONGS ? message.FK_ID_ONGS : 'N/A' %><br>
-        <strong>ID Cliente:</strong> <%= message.FK_ID_CLIENTE ? message.FK_ID_CLIENTE : 'N/A' %>
-    </li>
-  <% }); %>
-</ul>
 
 <!--carrosel-->
 <section class="carroselEmpresaPremium">
@@ -593,6 +575,29 @@
         </div>
 
       </div>
+
+ <!-- 
+       - #sistemadecomentarios
+     -->
+
+     <!-- formulario, temporario, o que importa é a função -->
+
+<form action="/fazerComentario" method="post">
+  <input type="text" name="comment" placeholder="Fazer comentário">
+  <input type="submit" value="Enviar">
+</form>
+
+      <ul>
+        <% comentarios.forEach(function(message) { %>
+          <li>
+            <hr>
+              <strong>ID Mensagem:</strong> <%= message.ID_MENSAGEM %><br>
+              <strong>Conteúdo:</strong> <%= message.CONTEUDO_MENSAGEM %><br>
+              <strong>ID ONG:</strong> <%= message.FK_ID_ONGS ? message.FK_ID_ONGS : 'N/A' %><br>
+              <strong>ID Cliente:</strong> <%= message.NOME_CLIENTE ? message.NOME_CLIENTE : 'N/A' %>
+          </li>
+        <% }); %>
+      </ul>
 
           
      <!-- 

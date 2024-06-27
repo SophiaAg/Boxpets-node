@@ -48,10 +48,6 @@ router.get("/veterinarios", function (req, res) {
     res.render("pages/template-hm", { pagina: "LandingPage", page: "../partial/servicosgerais/veterinarios" });
 });
 
-router.get("/bsEmpresa", function (req, res) {
-    res.render("pages/template-hm", { pagina: "LandingPage", page: "../partial/cliente-empresa/bsEmpresa" });
-});
-
 // Cadastro de CLIENTES
 router.post("/cadastrarCliente", clienteController.regrasValidacaoCriarConta, function (req, res) {
     clienteController.cadastrar(req, res)
@@ -68,8 +64,9 @@ const clienteModel = require("../models/clienteModel")
 router.get("/bsEmpresa", async function(req, res) {
 
     const mensagens = await clienteModel.verComentarios(req, res);
+    console.log("comentarios: "+ mensagens)
 
-    res.render("pages/template-hm", { pagina: "Comentários", mensagens: mensagens ,page: "../partial/cliente-empresa/bsEmpresa.ejs" })
+    res.render("pages/template-hm", { pagina: "Comentários", page: "../partial/cliente-empresa/bsEmpresa.ejs", comentarios: mensagens })
 })
 
 // post para comentar
