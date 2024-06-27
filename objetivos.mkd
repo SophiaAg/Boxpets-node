@@ -38,3 +38,10 @@
 
 # OBS
 - Soso eu fiz umas alterações e configurei seu back end para ja conseguir cadastrar, só é realmente necessário a mudança do banco de dados na table usuarios para add a coluna de nome e senha, e por fim, colocar as questões dos middlewares de autorização e autenticação
+
+
+
+
+
+
+hhhhhhh
