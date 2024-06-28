@@ -1,16 +1,16 @@
 /*card-servico*/
 
-.category {
+.bemavaliados {
     margin: 5%;
 }
 
-.category-item-heading {
+.bemavaliados-item-heading {
     color: var(--cor-primaria);
     margin: 2%;
     font-size: 20px;
 }
 
-.category-item-container {
+.bemavaliados-item-container {
     display: flex;
     align-items: center;
     gap: 10px;
@@ -20,7 +20,7 @@
     overscroll-behavior-inline: contain;
 }
 
-.category-item {
+.bemavaliados-item {
     min-width: 100%;
     display: flex;
     align-items: center;
@@ -31,76 +31,76 @@
     scroll-snap-align: start;
 }
 
-.category-img-box {
+.bemavaliados-img-box {
 
     width: 100px;
 }
 
-.category-content-box {
+.bemavaliados-content-box {
     width: 100%;
 }
 
-.category-content-flex {
+.bemavaliados-content-flex {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 10px;
 }
 
-.category-item-title {
+.bemavaliados-item-title {
     color: var(--preto);
     font-size: 20px;
     font-weight: 600;
     text-transform: uppercase;
 }
 
-.category-item-des {
+.bemavaliados-item-des {
     display: flex;
     align-items: center;
     gap: 5%;
 }
 
-.category-item-amount {
+.bemavaliados-item-amount {
     color: var(--textos);
     font-size: 11px;
 }
 
 
-.category-item-amount i {
+.bemavaliados-item-amount i {
     color: var(--textos);
     font-size: 16px;
     color: #E2BC26;
 }
 
-.category-item-text {
+.bemavaliados-item-text {
     color: var(--textos);
     font-size: 14px;
     font-weight: 400;
 }
 
 @media (min-width: 600px) {
-    .category-item-container {
+    .bemavaliados-item-container {
         gap: 30px;
     }
 
-    .category-item {
+    .bemavaliados-item {
         min-width: calc(50% - 15px);
     }
 
 }
 
 @media (min-width: 780px) {
-    .category-img-box {
+    .bemavaliados-img-box {
         padding: 20px;
     }
 }
 
 @media (min-width: 1024px) {
-    .category-item {
+    .bemavaliados-item {
         min-width: calc(33.33% - 20px);
     }
 
-    .category-img-box {
+    .bemavaliados-img-box {
         padding: 20px;
     }
 
