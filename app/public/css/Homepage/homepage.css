@@ -8,7 +8,7 @@
 @import url("./carterinhapet.css");
 @import url("./footer-hm.css");
 
-/*bsEmpresa*/
+/*clientemepresa*/
 @import url("../cliente-empresa/carroselripos.css");
 @import url("../cliente-empresa/trabalhamoscom.css");
 @import url("../cliente-empresa/servicos.css");
@@ -16,7 +16,7 @@
 @import url("../cliente-empresa/funcionarios-empresas.css");
 
 /*servicogerais*/
-@import url("base-hm.css");
-@import url("header.css");
-@import url("card-servico-sercico.css");
-@import url("footer.css");
+@import url("../servicogerais/base-hm.css");
+@import url("../servicogerais/header.css");
+@import url("../servicogerais/card-servico-sercico.css");
+@import url("../servicogerais/footer.css");

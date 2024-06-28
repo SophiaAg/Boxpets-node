@@ -65,7 +65,7 @@ router.get("/bsEmpresa", async function(req, res) {
 
     const mensagens = await clienteModel.verComentarios(req, res);
 
-    res.render("pages/template-hm", { pagina: "Comentários", page: "../partial/cliente-empresa/bsEmpresa.ejs", comentarios: mensagens })
+    res.render("pages/template-hm", { pagina: "Comentários", page: "../partial/cliente-empresa/bsEmpresa", comentarios: mensagens })
 })
 
 // post para comentar

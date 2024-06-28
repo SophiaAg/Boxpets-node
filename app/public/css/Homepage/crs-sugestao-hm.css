@@ -19,6 +19,11 @@
     scroll-snap-align: start;
 }
 
+.sugestao-card-img{
+    height: 80%;
+    width: 80%;
+}
+
 .sugestao-banner{
     width: 100%;
     border-radius: 20px;
