@@ -126,7 +126,8 @@
 
 
 
-.product-grid .price { font-weight: 700; }
+.product-grid .price { font-weight: 700;
+color: var(--preto); }
 
 .product-grid del { 
     color: #585858;
