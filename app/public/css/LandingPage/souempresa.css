@@ -266,12 +266,12 @@ header{
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: var(--cor-primaria);
+ 
   margin: 5%;
    }
 
    .about-section2{
-  background: url('/img_landingpage/src/EmpresaLd.jpg') no-repeat left;
+  background: url('/src/img-landing/pexels-edd1egalaxy-3628100.jpg') no-repeat left;
   background-size: 55%;
   
   overflow: hidden;
@@ -329,11 +329,12 @@ box-shadow: 10px 10px 8px rgba(0, 0, 0, 0.3);
    .wrapper-section3{
     min-height: 20vh;
     width: 100%;
-   background-image:linear-gradient(rgba(0, 0, 0, 0.247), rgba(0,0,0,0.75)), url('../img_landingpage/src/empresaLd2.jpg') ;
+   background-image:linear-gradient(rgba(0, 0, 0, 0.247), rgba(0,0,0,0.75)), url('/src/img-landing/pexels-mikhail-nilov-7988692.jpg') ;
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
     text-align: center;
+    margin-bottom: 10%;
    }
 
    .testimonial {
