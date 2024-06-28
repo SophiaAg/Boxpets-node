@@ -18,6 +18,19 @@ header .header-top .logo{
     margin-left: 3%;
 }
 
+
+@media (max-width:400px){
+    header .header-top .logo{
+        font-size: 20px;
+    }
+}
+
+@media (max-width:300px){
+    header .header-top .logo{
+      display: none;
+    }
+}
+
 header .header-top .logo span{
     color: var(--cor-segundaria);
 }
@@ -26,6 +39,16 @@ header .header-top .logo img {
     width: 60px;
     height: 60px;
 }
+
+
+@media (max-width:400px){
+    header .header-top .logo img {
+        width: 40px;
+        height: 40px;
+    }
+    
+}
+
 
 header .header-top .icons{
     display: flex;
@@ -40,6 +63,15 @@ header .header-top .icons a{
     color: var(--preto);
     cursor: pointer;
     padding: 2%;
+}
+
+
+@media (max-width:400px){
+    header .header-top .icons div,
+    header .header-top .icons a{
+        font-size: 20px;
+    }
+    
 }
 
 header .header-top .icons div:hover,

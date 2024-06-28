@@ -14,3 +14,9 @@
 @import url("../cliente-empresa/servicos.css");
 @import url("../cliente-empresa/servicoempresa.css");
 @import url("../cliente-empresa/funcionarios-empresas.css");
+
+/*servicogerais*/
+@import url("base-hm.css");
+@import url("header.css");
+@import url("card-servico-sercico.css");
+@import url("footer.css");

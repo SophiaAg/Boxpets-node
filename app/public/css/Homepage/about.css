@@ -14,6 +14,14 @@
     font-size: 40px;
     color: var(--branco);
   }
+
+  @media (max-width:400px){
+    .about-section .header-section {
+     
+      font-size: 30px;
+      
+    }
+}
   
   .about-section .header-section span {
     color: var(--cor-segundaria);
