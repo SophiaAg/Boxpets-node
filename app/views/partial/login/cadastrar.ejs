@@ -65,6 +65,7 @@ let avisoErro={
 
   <form action="/cadastrarCliente" class="sign-up-form" method="post">
     <h2 class="title">Cadastrar</h2>
+    
 
     
     <section class=" input-field <%= avisoErro.nome %>">
@@ -105,6 +106,7 @@ let avisoErro={
       <input id="password" name="password" value="<%= valores ? valores.password : '' %>" required type="password" placeholder="Senha" title="Deve conter pelo menos um número, uma letra maiúscula, uma letra minúscula e um dos símbolos (!, @, #, $, %, *) e ter pelo menos 8 ou mais caracteres" />
 
     </section>
+    <h1>Senha deve conter um número, uma letra maiúscula, uma letra minúscula e um dos símbolos </h1>
     
     <section id="messagesection"></section>
     <input type="submit" class="btn" value="Cadastrar" />

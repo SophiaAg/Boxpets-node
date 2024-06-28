@@ -311,8 +311,7 @@ form.sign-in-form {
   .panel {
     flex-direction: row;
     justify-content: space-around;
-    align-items: center;
-    padding: 2.5rem 8%;
+    
     grid-column: 1 / 2;
   }
 
@@ -413,7 +412,7 @@ form.sign-in-form {
   }
 
   .container.sign-up-mode:before {
-    bottom: 28%;
+    bottom: 15%;
     left: 50%;
   }
 }
