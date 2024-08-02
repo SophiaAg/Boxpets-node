@@ -1,7 +1,21 @@
 # PENDENTES
 
-## Front-end
+## Front-end 
 - Página inicial (Obs: Tanto para empresas qnt para clientes);
+  ## Visão do cliente
+  - pagina de historico
+  - pagina de agendamento 
+  - notificação de agendamento feito
+  - pagina de perfil
+  - pagina de carterinha pet
+  - pagina de configuração
+
+## Visão do empresa 
+  - Dashboard 
+  - input de agendamento
+  - configurações
+  -
+
 
 ### Cliente 
 - Página de visualizar empresa;
