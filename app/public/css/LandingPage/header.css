@@ -84,7 +84,7 @@ header{
     transition: height 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   }
   .dropdown_menu.open{
-    height: 300px;
+    height: 330px;
   }
    
   .dropdown_menu a {
@@ -108,6 +108,8 @@ header{
     justify-content: center;
     background-color: var(--cor-primaria);
     color: var();
+    margin-top: 2%;
+
   }
    
    
