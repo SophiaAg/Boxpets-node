@@ -11,6 +11,16 @@ input {
   font-family: "Poppins", sans-serif;
 }
 
+.aviso-senha{
+  padding: 20px;
+    font-size: 14px;
+    font-weight: 100;
+    color: cornflowerblue;
+    border: 0.1px solid #ababab;
+    border-radius: 20px;
+    margin: 5%;
+}
+
 .ver-senha {
   width: 100%;
   padding: 15px;

@@ -106,7 +106,10 @@ let avisoErro={
       <input id="password" name="password" value="<%= valores ? valores.password : '' %>" required type="password" placeholder="Senha" title="Deve conter pelo menos um número, uma letra maiúscula, uma letra minúscula e um dos símbolos (!, @, #, $, %, *) e ter pelo menos 8 ou mais caracteres" />
 
     </section>
-    <h1>Senha deve conter um número, uma letra maiúscula, uma letra minúscula e um dos símbolos </h1>
+    
+    <div class="aviso-senha">
+      <h1>Senha deve conter um número, uma letra maiúscula, uma letra minúscula e um dos símbolos </h1>
+    </div>
     
     <section id="messagesection"></section>
     <input type="submit" class="btn" value="Cadastrar" />
