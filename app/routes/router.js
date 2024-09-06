@@ -48,6 +48,12 @@ router.get("/veterinarios", function (req, res) {
     res.render("pages/template-hm", { pagina: "LandingPage", page: "../partial/servicosgerais/veterinarios" });
 });
 
+// cadastroEmpresa
+router.get("/cadastroEmpresa", function (req, res) {
+    res.render("pages/template-cadastroEmpresa", { errors: null, valores: "" });
+});
+
+
 // Cadastro de CLIENTES
 router.post("/cadastrarCliente", clienteController.regrasValidacaoCriarConta, function (req, res) {
     clienteController.cadastrar(req, res)
@@ -56,6 +62,8 @@ router.post("/cadastrarCliente", clienteController.regrasValidacaoCriarConta, fu
 router.post("/logarCliente", clienteController.regrasValidacaoLogarConta, function (req, res) {
     clienteController.entrar(req, res)
 })
+
+
 
 // rota para comentário da empresa?
 
