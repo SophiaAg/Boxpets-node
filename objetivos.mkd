@@ -56,6 +56,17 @@
 
 
 
+# Cadastro de empresas
+  ## Validação
+  - Colocar as classes nos inputs (trocar avisoErro por classeErro)
+  - Ajustar CSS para encaixar os alertas de invalido embaixo ou onde for de preferência
+  - Criar uma rota de POST para o form
+  - Criar um arquivo de controller para as empresas
+  - Criar a validação com o express-validator para o forms e colocar na rota
+  - Criar uma função para cadastrar as empresas e chamar na rota
 
-
-hhhhhhh
+  ## Cadastrar
+  - Criar um arquivo no models com um objeto de funções para as empresas
+  - Criar uma função nesse objeto para criar uma empresa com os dados passados no form
+  - 
+  - Criar uma verificação para ver se existe erros, se tiver, manda para a página de cadastro novamente com erros e mostra para o usuário, caso não tenha, vai tentar pegar os valores dos inputs do form e usar a função do models para criar uma empresa no banco de dados. Caso tenha algum erro, terá que pegar o erro e fazer o console.log(erro).

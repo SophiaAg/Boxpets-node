@@ -37,9 +37,11 @@ let msgErro={
   if(errors){
 
     errors.errors.forEach(function(erro){
-
+      classeErro[erro.path] = 'invalid';
+      msgErro[erro.path] = erro.msg
     })
-    %>
+   }
+%>
 
 
 
@@ -99,7 +101,6 @@ let msgErro={
       </div>
 
 
-
       <div class="form-outer">
          <form action="/cadastrarEmpresa">
 
@@ -112,7 +113,7 @@ let msgErro={
                </div>
 
 
-               <section class=" input-field <%= avisoErro.cep %>">
+               <section class=" input-field <%= classeErro.cep %>">
 
                   <i class="fas fa-user"></i>
                   <input id="nome" name="nome" required type="text" placeholder="Nome completo" />
