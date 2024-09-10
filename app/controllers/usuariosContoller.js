@@ -4,7 +4,9 @@ var bcrypt = require("bcryptjs")
 var salt = bcrypt.genSaltSync(8)
 const moment = require("moment")
 const { invalid } = require("moment/moment")
-const clienteController = {
+
+
+const usuariosController = {
 
   // Validação do form de cadastro
   regrasValidacaoLogarConta: [
@@ -28,6 +30,10 @@ const clienteController = {
   ],
   regrasValidacaoCriarConta: [
     body("nome")
+      .isLength({ min: 3, max: 45 }).withMessage("Nome deve ter de 3 a 45 letras!")
+      .isAlpha().withMessage("Deve conter apenas letras!"),
+
+      body("nomeempresa")
       .isLength({ min: 3, max: 45 }).withMessage("Nome deve ter de 3 a 45 letras!")
       .isAlpha().withMessage("Deve conter apenas letras!"),
 
@@ -100,41 +106,137 @@ const clienteController = {
       }
 
       return true;
-    })
-    ,
-    body("nasc")
-      .custom(nasc => {
-        const dataNasc = moment(nasc, "YYYY-MM-DD");
-        const dataMin = moment().subtract(16, 'years');
-        if (dataNasc.isAfter(dataMin)) {
-          throw new Error("Necessário ser maior de 16 anos!");
-        }
-        return true;
-      }),
+    }),
+    
+    body("cnpj").custom(cnpj => {
+      cnpj = cnpj.replace(/[^\d]+/g, '');
+
+      // Verifica se o CNPJ tem 14 dígitos
+      if (cnpj.length !== 14) return false;
+  
+      // Elimina CNPJs que são sequências repetidas (11111111111111, 22222222222222, etc.)
+      if (/^(\d)\1+$/.test(cnpj)) return false;
+  
+      // Validação do primeiro dígito verificador
+      let tamanho = cnpj.length - 2;
+      let numeros = cnpj.substring(0, tamanho);
+      let digitos = cnpj.substring(tamanho);
+      let soma = 0;
+      let pos = tamanho - 7;
+  
+      for (let i = tamanho; i >= 1; i--) {
+          soma += numeros.charAt(tamanho - i) * pos--;
+          if (pos < 2) pos = 9;
+      }
+  
+      let resultado = soma % 11 < 2 ? 0 : 11 - (soma % 11);
+  
+      if (resultado !== parseInt(digitos.charAt(0))) return false;
+  
+      // Validação do segundo dígito verificador
+      tamanho = tamanho + 1;
+      numeros = cnpj.substring(0, tamanho);
+      soma = 0;
+      pos = tamanho - 7;
+  
+      for (let i = tamanho; i >= 1; i--) {
+          soma += numeros.charAt(tamanho - i) * pos--;
+          if (pos < 2) pos = 9;
+      }
+  
+      resultado = soma % 11 < 2 ? 0 : 11 - (soma % 11);
+  
+      if (resultado !== parseInt(digitos.charAt(1))) return false;{
+        throw new Error("CNPJ já em uso! Tente outro.");
+      }
+  
+      return true;
+
+    }),
+
+    body("cep").custom(cep => {
+      cep = cep.replace(/[^\d]+/g, '');
+
+      // Verifica se o CEP tem 8 dígitos
+      if (cep.length !== 8) return false;
+  
+      // Verifica se todos os caracteres são números
+      const regex = /^[0-9]{8}$/;
+      return regex.test(cep);
+
+    }),
+
+    body("logradouro").custom(logradouro => {
+      if (logradouro.trim().length < 2) return false;
+
+      // Verifica se contém apenas letras, números e espaços
+      const regex = /^[A-Za-zÀ-ú0-9\s]+$/;
+      return regex.test(logradouro);
+    }),
+
+    
+    body("uf").custom(uf => {
+      const ufsValidas = ['AC', 'AL', 'AM', 'AP', 'BA', 'CE', 'DF', 'ES', 'GO', 'MA', 'MG', 'MS', 'MT', 'PA', 'PB', 'PE', 'PI', 'PR', 'RJ', 'RN', 'RO', 'RR', 'RS', 'SC', 'SE', 'SP', 'TO'];
+    
+    // Converte para maiúsculas e verifica se está na lista de UFs válidas
+    return ufsValidas.includes(uf.toUpperCase());
+    }),
+
+    body("bairro").custom(bairro => {
+      if (bairro.trim().length < 2) return false;
+
+      // Verifica se contém apenas letras, números e espaços
+      const regex = /^[A-Za-zÀ-ú0-9\s]+$/;
+      return regex.test(bairro);
+    }),
+
+    body("razaosocial").custom(razaosocial => {
+      if (razaoSocial.trim().length < 2) return false;
+
+      // Permite letras, números, espaços e alguns caracteres especiais comuns
+      const regex = /^[A-Za-zÀ-ú0-9\s\.,\-]+$/;
+      return regex.test(razaoSocial);
+    }),
+
+    body("cidade").custom(cidade => {
+      if (cidade.trim().length < 2) return false;
+
+    // Verifica se contém apenas letras, espaços e acentos
+    const regex = /^[A-Za-zÀ-ú\s]+$/;
+    return regex.test(cidade);
+    }),
   ],
 
 
-  cadastrar: async (req, res) => {
-    let errors = validationResult(req)
+  cadastrarUsuario: async (req, res) => {
 
-    if (!errors.isEmpty()) {
-      console.log(errors)
+    let error = validationResult(req)
+
+    if (!error.isEmpty()) {
+      console.log(error)
+
       const jsonResult = {
-        form: "../partial/login/cadastrar",
-        errors: errors,
+        form: "../pages/template-cadastroEmpresa",
+        error: error,
         valores: req.body,
         isCadastrar: true
       }
-      res.render("pages/template-login", jsonResult);
+      res.render("/pages/template-cadastroEmpresa", jsonResult);
     } else {
-      const { nome, celular, email, password, cpf, nasc } = req.body
-      dadosCliente = {
-        NOME_CLIENTE: nome,
-        CELULAR_CLIENTE: celular,
-        EMAIL_CLIENTE: email,
-        SENHA_CLIENTE: bcrypt.hashSync(password, salt),
-        CPF_CLIENTE: cpf,
-        DATA_NASC_CLIENTE: nasc,
+      const { nome, cpf, cnpj, email, celular, password, razaosocial, especialidades, nomeempresa, cep, uf, logradouro, cidade, bairro } = req.body
+      dadosUsuario = {
+  NOME_USUARIOS: nome,
+ SENHA_USUARIOS: bcrypt.hashSync(password, salt),
+ CELULAR_USUARIOS: celular,
+ CIDADE_USUARIOS: cidade,
+ UF_USUARIOS: uf,
+ CEP_USUARIOS: cep,
+ LOGRADOURO_USUARIOS: logradouro,
+ BAIRRO_USUARIOS:  bairro,
+ CNPJ_USUARIO: cnpj,
+ CPF_USUARIO: cpf,
+ NOMEEMPRESA_USUARIO: nomeempresa,
+ RAZAOSOCIAL_USUARIO: razaosocial,
       }
       try {
         const usuarioCriado = await clienteModel.createCliente(dadosCliente);
@@ -150,7 +252,7 @@ const clienteController = {
 
       } catch (erros) {
         console.log(erros)
-        res.json(errors)
+        res.json(error)
       }
 
     }
@@ -161,13 +263,13 @@ const clienteController = {
     //e se o hash da senha digitada no form bate com o hash da senha que estava no banco e se a sessão não é null. 
     //Se tudo estiver correto ele renderiza a page home, senão ele manda pra page de login como usuário ou senha incorretos
 
-    let errors = validationResult(req)
+    let error = validationResult(req)
 
-    if (!errors.isEmpty()) {
-      console.log(errors)
+    if (!error.isEmpty()) {
+      console.log(error)
       const jsonResult = {
         form: "../partial/login/entrar",
-        errors: errors,
+        error: error,
         valores: req.body,
         incorreto: false
       }
@@ -191,7 +293,7 @@ const clienteController = {
         } else {
           const jsonResult = {
             form: "../partial/login/entrar",
-            errors: null,
+            error: null,
             valores: req.body,
             incorreto: true
           }
