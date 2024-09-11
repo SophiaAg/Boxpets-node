@@ -331,4 +331,4 @@ const usuariosController = {
   }
 }
 
-module.exports = clienteController
+module.exports = usuariosController

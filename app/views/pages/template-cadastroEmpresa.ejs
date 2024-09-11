@@ -156,7 +156,14 @@ let msgErro={
 
                <section class="input-field <%= classeErro.celular %>">
                   <i class="fas fa-user"></i>
-                  <input id="especialidades" name="especialidades" required type="text" placeholder="Especialidades" />
+                  <select id="especialidades" name="especialidades" required type="text" placeholder="Especialidades">
+                     <% if(especialidades){ 
+                        especialidades.forEach(function(especi){ %>
+                           <option value="<%= especi.ID_ESPECIALIDADE %>"><%= especi.ESPECIALIDADES %></option>
+                           <% })
+                           } %>
+                  </select>
+                     
                </section>
 
                <div class="field btns">

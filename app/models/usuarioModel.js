@@ -27,7 +27,14 @@ const usuariosModel = {
             return error
         }
     },
-    
+    findAllEspeci: async ()=>{
+        try {
+            const [resultados] = await pool.query('SELECT * FROM ESPECIALIDADES')
+            return resultados
+        } catch (error) {
+            return error
+        }
+    }
 }
 
 

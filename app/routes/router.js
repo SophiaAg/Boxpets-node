@@ -1,6 +1,10 @@
 var express = require("express");
-const clienteController = require("../controllers/clientesController");
 var router = express.Router();
+const clienteController = require("../controllers/clientesController");
+const clienteModel = require("../models/clienteModel");
+const usuariosController = require("../controllers/usuariosContoller");
+const usuariosModel = require("../models/usuarioModel");
+
 
 router.get("/", function (req, res) {
     res.render("pages/template-lp", { pagina: "LandingPage", page: "../partial/landing-page/lp-inicial" });
@@ -49,8 +53,9 @@ router.get("/veterinarios", function (req, res) {
 });
 
 // btncadastroEmpresa
-router.get("/cadastroEmpresa", function (req, res) {
-    res.render("pages/template-cadastroEmpresa", { errors: null, valores: "" });
+router.get("/cadastroEmpresa", async function (req, res) {
+    const especialidades = await usuariosModel.findAllEspeci()
+    res.render("pages/template-cadastroEmpresa", { errors: null, valores: "", especialidades:especialidades });
 });
 
 // Cadastro de EMPRESAS
@@ -72,7 +77,7 @@ router.post("/logarCliente", clienteController.regrasValidacaoLogarConta, functi
 
 // rota para comentário da empresa?
 
-const clienteModel = require("../models/clienteModel")
+
 
 router.get("/bsEmpresa", async function(req, res) {
 
