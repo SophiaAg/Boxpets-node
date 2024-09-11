@@ -48,10 +48,15 @@ router.get("/veterinarios", function (req, res) {
     res.render("pages/template-hm", { pagina: "LandingPage", page: "../partial/servicosgerais/veterinarios" });
 });
 
-// cadastroEmpresa
+// btncadastroEmpresa
 router.get("/cadastroEmpresa", function (req, res) {
     res.render("pages/template-cadastroEmpresa", { errors: null, valores: "" });
 });
+
+// Cadastro de EMPRESAS
+router.post("/cadastrarEmpresa", usuariosController.regrasValidacaoCriarConta, function (req, res) {
+   usuariosController.cadastrar(req, res)
+})
 
 
 // Cadastro de CLIENTES

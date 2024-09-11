@@ -239,8 +239,8 @@ const usuariosController = {
  RAZAOSOCIAL_USUARIO: razaosocial,
       }
       try {
-        const usuarioCriado = await clienteModel.createCliente(dadosCliente);
-        req.session.Clienteid = usuarioCriado.insertId
+        const usuarioCriado = await usuariosModel.createUsuario(dadosUsuario);
+        req.session.Usuarioid = usuarioCriado.insertId
         const jsonResult = {
           page: "../partial/landing-home/home-page"
         }
