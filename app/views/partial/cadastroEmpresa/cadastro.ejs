@@ -1,3 +1,19 @@
+<% let classeErro={ 
+   "nome" :"", "cpf" :"", "cnpj" :"", "email" :"", "celular" :"", "password" :"", "razaosocial"
+   :"", "especialidades" :"", "nomeempresa" :"", "cep" :"", "uf" :"", "logradouro" : "" , "cidade" :"", "bairro"
+   :"", "numero" :"", } 
+   
+   let msgErro={ "nome" :"", "cpf" :"", "cnpj" :"", "email" :"", "celular" :"", "password"
+   :"", "razaosocial" :"", "especialidades" :"", "nomeempresa" :"", "cep" :"", "uf" :"", "logradouro" : "" , "cidade"
+   :"", "bairro" :"", "numero" :"", } 
+   
+   if(errors){ 
+      errors.errors.forEach(function(erro){ 
+      classeErro[erro.path]='invalido'; 
+      msgErro[erro.path]=erro.msg 
+   }) } %>
+
+
 <div class="box">
     <div class="progress-bar">
        <div class="step">
@@ -40,8 +56,7 @@
 
 
     <div class="form-outer">
-       <form action="/cadastrarEmpresa">
-
+       <form action="/cadastrarEmpresa" method="post">
 
           <div class="page slide-page">
              <div class="title-info">
@@ -55,23 +70,24 @@
                 <i class="fas fa-user"></i>
                 <input id="nome" name="nome" required type="text" placeholder="Nome da empresa"
                    value="<%= valores.nome %>" />
+                   <span class="msgErro"><%= msgErro.nome %></span>
+                   
              </section>
 
              <section class="input-field <%= classeErro.email %>">
                 <i class="fas fa-envelope"></i>
-                <input name="email" id="email" required type="email" placeholder="Email" />
+                <input name="email" id="email" required type="email" placeholder="Email" value="<%= valores.email %>" />
              </section>
 
              <section class="input-field <%= classeErro.celular %>">
                 <i class="fas fa-user"></i>
-                <input id="celular" name="celular" required type="text" placeholder="Celular" />
+                <input id="celular" name="celular" required type="text" placeholder="Celular" value="<%= valores.celular %>"/>
              </section>
 
              <div class="field">
-                <button class="firstNext next">Next</button>
+                <span class="firstNext next">Next</span>
              </div>
           </div>
-
 
           <div class="page">
              <div class="title-info">
@@ -97,7 +113,7 @@
                 <select id="especialidades" name="especialidades" required type="text"
                    placeholder="Especialidades">
                    <% if(especialidades){ especialidades.forEach(function(especi){ %>
-                      <option value="<%= especi.ID_ESPECIALIDADE %>">
+                      <option value="<%= especi.ID_ESPECIALIDADES %>">
                          <%= especi.ESPECIALIDADES %>
                       </option>
                       <% }) } %>
@@ -106,12 +122,10 @@
              </section>
 
              <div class="field btns">
-                <button class="prev-1 prev">Previous</button>
-                <button class="next-1 next">Next</button>
+                <span class="prev-1 prev">Previous</span>
+                <span class="next-1 next">Next</span>
              </div>
           </div>
-
-
 
           <div class="page">
 
@@ -143,11 +157,10 @@
 
 
              <div class="field btns">
-                <button class="prev-2 prev">Previous</button>
-                <button class="next-2 next">Next</button>
+                <span class="prev-2 prev">Previous</span>
+                <span class="next-2 next">Next</span>
              </div>
           </div>
-
 
           <div class="page">
 
@@ -181,15 +194,18 @@
 
 
              <div class="field btns">
-                <button class="prev-3 prev">Previous</button>
-                <button class="submit">Submit</button>
+                <span class="prev-3 prev">Previous</span>
+                <button class="submit" type="submit">Submit</button>
              </div>
           </div>
        </form>
 
 
     </div>
+
+    <div class="Caminhologar">
+      <h1>Já possui uma conta comercial aqui? <span><a href="">Entrar</a></span></h1>
+    </div>
  </div>
 
- </div>
- </section>
+ 

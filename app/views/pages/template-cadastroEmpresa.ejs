@@ -1,9 +1,3 @@
-<% let classeErro={ "nome" :"", "cpf" :"", "cnpj" :"", "email" :"", "celular" :"", "password" :"", "razaosocial"
-   :"", "especialidades" :"", "nomeempresa" :"", "cep" :"", "uf" :"", "logradouro" : "" , "cidade" :"", "bairro"
-   :"", "numero" :"", } let msgErro={ "nome" :"", "cpf" :"", "cnpj" :"", "email" :"", "celular" :"", "password"
-   :"", "razaosocial" :"", "especialidades" :"", "nomeempresa" :"", "cep" :"", "uf" :"", "logradouro" : "" , "cidade"
-   :"", "bairro" :"", "numero" :"", } if(errors){ errors.errors.forEach(function(erro){ classeErro[erro.path]='invalid'
-   ; msgErro[erro.path]=erro.msg }) } %>
 
 
 
@@ -23,7 +17,9 @@
 
    <body>
       <main>
-      
+
+    <%- include(page) %>
+       
       </main>
 
       <script src="./js/cadastroEmpresa.js"></script>

@@ -55,7 +55,7 @@ router.get("/veterinarios", function (req, res) {
 // btncadastroEmpresa
 router.get("/cadastroEmpresa", async function (req, res) {
     const especialidades = await usuariosModel.findAllEspeci()
-    res.render("pages/template-cadastroEmpresa", { errors: null, valores: "", especialidades:especialidades });
+    res.render("pages/template-cadastroEmpresa", { page: "../partial/cadastroEmpresa/cadastro", errors: null, valores: "", especialidades:especialidades });
 });
 
 // Cadastro de EMPRESAS

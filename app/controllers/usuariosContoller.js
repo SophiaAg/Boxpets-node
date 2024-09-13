@@ -192,7 +192,7 @@ const usuariosController = {
     }),
 
     body("razaosocial").custom(razaosocial => {
-      if (razaoSocial.trim().length < 2) return false;
+      if (razaosocial.trim().length < 2) return false;
 
       // Permite letras, números, espaços e alguns caracteres especiais comuns
       const regex = /^[A-Za-zÀ-ú0-9\s\.,\-]+$/;
@@ -220,9 +220,10 @@ const usuariosController = {
       const jsonResult = {
         errors: error, 
         valores: req.body, 
-        especialidades:especialidades 
+        especialidades:especialidades,
+        page: "../partial/cadastroEmpresa/cadastro"
       }
-      res.render("/pages/template-cadastroEmpresa", jsonResult);
+      res.render("pages/template-cadastroEmpresa", jsonResult);
     } else {
       const { nome, cpf, cnpj, email, celular, password, razaosocial, especialidades, nomeempresa, cep, uf, logradouro, cidade, bairro } = req.body
       dadosUsuario = {
