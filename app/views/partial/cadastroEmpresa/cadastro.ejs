@@ -68,9 +68,9 @@
 
              <section class=" input-field <%= classeErro.nome %>">
                 <i class="fas fa-user"></i>
-                <input id="nome" name="nome" required type="text" placeholder="Nome da empresa"
+                <input id="nome" name="nome" required type="text" placeholder="<%= msgErro.nome ? msgErro.nome : 'Digite seu nome' %>"
                    value="<%= valores.nome %>" />
-                   <span class="msgErro"><%= msgErro.nome %></span>
+
                    
              </section>
 

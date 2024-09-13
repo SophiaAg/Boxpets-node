@@ -239,6 +239,10 @@ form .page .btns button.next{
   font-weight: 500;
 }
 
+.input-field .msgErro{
+  
+}
+
 .form-outer .button-PROXIMO{
   display: inline-block;
   border: none;
@@ -252,9 +256,9 @@ cursor: pointer;
 margin: 20px;
 }
 
-.form-outer
 
-.box .Caminhologar h1 {
+
+ .box .Caminhologar h1 {
   font-size: 16px;
   font-weight: 200;
 }
