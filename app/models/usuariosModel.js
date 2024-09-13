@@ -3,24 +3,24 @@ var pool = require("../../config/pool-conexao");
 const usuariosModel = {
     createUsuario: async (dadosUsuario) => {
         try {
-            const [resultados] = await pool.query("insert into USUARIO set ?", [dadosUsuario])
+            const [resultados] = await pool.query("insert into USUARIOS set ?", [dadosUsuario])
             return resultados
         } catch (error) {
             throw error
         }
     },
-    findClienteByCelular: async (celular) => {
+    findUsuariosByCelular: async (celular) => {
         try {
-            const [resultados] = await pool.query('SELECT * FROM CLIENTE WHERE CELULAR_CLIENTE = ?', [celular])
+            const [resultados] = await pool.query('SELECT * FROM USUARIOS WHERE CELULAR_USUARIOS = ?', [celular])
             console.log(resultados)
             return resultados
         } catch (error) {
             return error
         }
     },
-    findClienteByEmail: async (email) => {
+    findUsuariosByEmail: async (email) => {
         try {
-            const [resultados] = await pool.query('SELECT * FROM CLIENTE WHERE EMAIL_CLIENTE = ?', [email])
+            const [resultados] = await pool.query('SELECT * FROM USUARIOS WHERE EMAIL_USUARIOS = ?', [email])
             console.log(resultados)
             return resultados
         } catch (error) {

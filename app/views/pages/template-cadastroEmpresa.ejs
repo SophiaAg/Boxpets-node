@@ -1,262 +1,32 @@
-<% 
-
-let classeErro={ 
-  "nome" :"", 
-  "cpf" :"", 
-  "cnpj" :"", 
-  "email" :"", 
-  "celular" :"",
-  "password" :"",
-  "razaosocial" :"", 
-  "especialidades" :"", 
-  "nomeempresa" :"", 
-  "cep" :"",
-  "uf" :"", 
-  "logradouro": "",
-  "cidade" :"", 
-  "bairro" :"", 
-  "numero" :"", 
-} 
-let msgErro={ 
-  "nome" :"", 
-  "cpf" :"", 
-  "cnpj" :"", 
-  "email" :"", 
-  "celular" :"",
-  "password" :"",
-  "razaosocial" :"", 
-  "especialidades" :"", 
-  "nomeempresa" :"", 
-  "cep" :"",
-  "uf" :"", 
-  "logradouro": "",
-  "cidade" :"", 
-  "bairro" :"", 
-  "numero" :"", 
-} 
- 
-
-  if(errors){
-
-    errors.errors.forEach(function(erro){
-      classeErro[erro.path] = 'invalid';
-      msgErro[erro.path] = erro.msg
-    })
-   }
-%>
+<% let classeErro={ "nome" :"", "cpf" :"", "cnpj" :"", "email" :"", "celular" :"", "password" :"", "razaosocial"
+   :"", "especialidades" :"", "nomeempresa" :"", "cep" :"", "uf" :"", "logradouro" : "" , "cidade" :"", "bairro"
+   :"", "numero" :"", } let msgErro={ "nome" :"", "cpf" :"", "cnpj" :"", "email" :"", "celular" :"", "password"
+   :"", "razaosocial" :"", "especialidades" :"", "nomeempresa" :"", "cep" :"", "uf" :"", "logradouro" : "" , "cidade"
+   :"", "bairro" :"", "numero" :"", } if(errors){ errors.errors.forEach(function(erro){ classeErro[erro.path]='invalid'
+   ; msgErro[erro.path]=erro.msg }) } %>
 
 
 
 
 
-<!DOCTYPE html>
-<!-- Created By CodingNepal -->
-<html lang="pt">
+   <!DOCTYPE html>
+   <!-- Created By CodingNepal -->
+   <html lang="pt">
 
-<head>
-   <meta charset="utf-8">
-   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <title>Cadastro das empresas </title>
-   <link rel="stylesheet" href="./css/login-empresa/infopessoal.css">
-   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
-</head>
+   <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Cadastro das empresas </title>
+      <link rel="stylesheet" href="./css/login-empresa/infopessoal.css">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+   </head>
 
-<body>
-   <div class="box">
-      <div class="progress-bar">
-         <div class="step">
-            <p>
-               Name
-            </p>
-            <div class="bullet">
-               <span>1</span>
-            </div>
-            <div class="check fas fa-check"></div>
-         </div>
-         <div class="step">
-            <p>
-               Contact
-            </p>
-            <div class="bullet">
-               <span>2</span>
-            </div>
-            <div class="check fas fa-check"></div>
-         </div>
-         <div class="step">
-            <p>
-               Birth
-            </p>
-            <div class="bullet">
-               <span>3</span>
-            </div>
-            <div class="check fas fa-check"></div>
-         </div>
-         <div class="step">
-            <p>
-               Submit
-            </p>
-            <div class="bullet">
-               <span>4</span>
-            </div>
-            <div class="check fas fa-check"></div>
-         </div>
-      </div>
+   <body>
+      <main>
+      
+      </main>
 
+      <script src="./js/cadastroEmpresa.js"></script>
+   </body>
 
-      <div class="form-outer">
-         <form action="/cadastrarEmpresa">
-
-
-            <div class="page slide-page">
-               <div class="title-info">
-                   
-                  <h1>Informações da Empresa</h1>
-                  <p>Preencha as informações da Empresa</p>
-               </div>
-
-
-               <section class=" input-field <%= classeErro.nome %>">
-                  <i class="fas fa-user"></i>
-                  <input id="nome" name="nome" required type="text" placeholder="Nome da empresa" />
-               </section>
-
-               <section class="input-field <%= classeErro.email %>">
-                  <i class="fas fa-envelope"></i>
-                  <input name="email" id="email" required type="email" placeholder="Email" />
-               </section>
-
-               <section class="input-field <%= classeErro.celular %>">
-                  <i class="fas fa-user"></i>
-                  <input id="celular" name="celular" required type="text" placeholder="Celular" />
-               </section>
-           
-               <div class="field">
-                  <button class="firstNext next">Next</button>
-               </div>
-            </div>
-
-
-            <div class="page">
-               <div class="title-info">
-
-                  <h1>Informações da Empresa</h1>
-                  <p>Preencha as informações da Empresa</p>
-               </div>
-
-
-               <section class=" input-field <%= classeErro.nome %>">
-                  <i class="fas fa-user"></i>
-                  <input id="cnpj" name="cnpj" required type="text" placeholder="CNPJ" />
-               </section>
-
-               <section class="input-field <%= classeErro.email %>">
-                  <i class="fas fa-envelope"></i>
-                  <input name="razaosocial" id="razaosocial" required type="razaosocial" placeholder="Razão Social" />
-               </section>
-
-               <section class="input-field <%= classeErro.celular %>">
-                  <i class="fas fa-user"></i>
-                  <select id="especialidades" name="especialidades" required type="text" placeholder="Especialidades">
-                     <% if(especialidades){ 
-                        especialidades.forEach(function(especi){ %>
-                           <option value="<%= especi.ID_ESPECIALIDADE %>"><%= especi.ESPECIALIDADES %></option>
-                           <% })
-                           } %>
-                  </select>
-                     
-               </section>
-
-               <div class="field btns">
-                  <button class="prev-1 prev">Previous</button>
-                  <button class="next-1 next">Next</button>
-               </div>
-            </div>
-
-
-
-            <div class="page">
-
-               <div class="title-info">
-                  <h1>Endereço da Loja</h1>
-                  <p>Preencha as informações de endereço da sua loja.</p>
-               </div>
-
-
-               <section class=" input-field <%= classeErro.cep %>">
-                  <i class="fas fa-user"></i>
-                  <input id="cep" name="cep" required type="text" placeholder="CEP" />
-               </section>
-
-               <section class="input-field <%= classeErro.email %>">
-                  <i class="fas fa-envelope"></i>
-                  <input name="UF" id="UF" required type="text" placeholder="UF" />
-               </section>
-
-               <section class="input-field <%= classeErro.cidade %>">
-                  <i class="fas fa-user"></i>
-                  <input id="cidade" name="cidade" required type="text" placeholder="Cidade" />
-               </section>
-
-               <section class="input-field <%= classeErro.bairro %>">
-                  <i class="fas fa-user"></i>
-                  <input id="bairro" name="bairro" required type="text" placeholder="Bairro" />
-               </section>
-
-
-               <div class="field btns">
-                  <button class="prev-2 prev">Previous</button>
-                  <button class="next-2 next">Next</button>
-               </div>
-            </div>
-
-
-            <div class="page">
-
-               <div class="title-info">
-                  <h1>Informação do responsável</h1>
-                  <p>Preencha as informações suas informações</p>
-               </div>
-
-
-               <section class=" input-field <%= classeErro.cep %>">
-
-                  <i class="fas fa-user"></i>
-                  <input id="nome" name="nome" required type="text" placeholder="Nome completo" />
-                
-               </section>
-
-               <section class="input-field <%= classeErro.cpf %>">
-
-                  <i class="fas fa-user"></i>
-                  <input id="cpf" name="cpf" required type="text" placeholder="Cpf" />
-
-               </section>
-
-               <section class="input-field <%= classeErro.password %>">
-
-                  <i class="fas fa-lock"></i>
-                  <input id="password" name="password" placeholder="Senha" />
-            
-                </section>
-
-              
-
-               <div class="field btns">
-                  <button class="prev-3 prev">Previous</button>
-                  <button class="submit">Submit</button>
-               </div>
-            </div>
-         </form>
-
-
-      </div>
-   </div>
-
-   </div>
-   </section>
-   </main>
-
-   <script src="./js/cadastroEmpresa.js"></script>
-</body>
-
-</html>
+   </html>

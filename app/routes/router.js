@@ -3,7 +3,7 @@ var router = express.Router();
 const clienteController = require("../controllers/clientesController");
 const clienteModel = require("../models/clienteModel");
 const usuariosController = require("../controllers/usuariosContoller");
-const usuariosModel = require("../models/usuarioModel");
+const usuariosModel = require("../models/usuariosModel");
 
 
 router.get("/", function (req, res) {
@@ -60,7 +60,7 @@ router.get("/cadastroEmpresa", async function (req, res) {
 
 // Cadastro de EMPRESAS
 router.post("/cadastrarEmpresa", usuariosController.regrasValidacaoCriarConta, function (req, res) {
-   usuariosController.cadastrar(req, res)
+   usuariosController.cadastrarUsuario(req, res)
 })
 
 

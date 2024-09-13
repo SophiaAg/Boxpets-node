@@ -1,4 +1,4 @@
-const clienteModel = require("../models/clienteModel")
+const usuariosModel = require("../models/usuariosModel")
 const { body, validationResult } = require("express-validator")
 var bcrypt = require("bcryptjs")
 var salt = bcrypt.genSaltSync(8)
@@ -33,7 +33,7 @@ const usuariosController = {
       .isLength({ min: 3, max: 45 }).withMessage("Nome deve ter de 3 a 45 letras!")
       .isAlpha().withMessage("Deve conter apenas letras!"),
 
-      body("nomeempresa")
+    body("nomeempresa")
       .isLength({ min: 3, max: 45 }).withMessage("Nome deve ter de 3 a 45 letras!")
       .isAlpha().withMessage("Deve conter apenas letras!"),
 
@@ -41,7 +41,7 @@ const usuariosController = {
       .isMobilePhone('pt-BR').withMessage("Número de telefone inválido")
       .bail()
       .custom(async (celular) => {
-        const celularExistente = await clienteModel.findClienteByCelular(celular)
+        const celularExistente = await usuariosModel.findClienteByCelular(celular)
         if (celularExistente.length > 0) {
           throw new Error("Celular já em uso! Tente outro.");
         }
@@ -51,7 +51,7 @@ const usuariosController = {
       .isEmail().withMessage('Deve ser um email válido')
       .bail()
       .custom(async (email) => {
-        const emailExistente = await clienteModel.findClienteByEmail(email)
+        const emailExistente = await usuariosModel.findClienteByEmail(email)
         if (emailExistente.length > 0) {
           throw new Error("E-mail já em uso! Tente outro");
         }
@@ -107,49 +107,49 @@ const usuariosController = {
 
       return true;
     }),
-    
+
     body("cnpj").custom(cnpj => {
       cnpj = cnpj.replace(/[^\d]+/g, '');
 
       // Verifica se o CNPJ tem 14 dígitos
       if (cnpj.length !== 14) return false;
-  
+
       // Elimina CNPJs que são sequências repetidas (11111111111111, 22222222222222, etc.)
       if (/^(\d)\1+$/.test(cnpj)) return false;
-  
+
       // Validação do primeiro dígito verificador
       let tamanho = cnpj.length - 2;
       let numeros = cnpj.substring(0, tamanho);
       let digitos = cnpj.substring(tamanho);
       let soma = 0;
       let pos = tamanho - 7;
-  
+
       for (let i = tamanho; i >= 1; i--) {
-          soma += numeros.charAt(tamanho - i) * pos--;
-          if (pos < 2) pos = 9;
+        soma += numeros.charAt(tamanho - i) * pos--;
+        if (pos < 2) pos = 9;
       }
-  
+
       let resultado = soma % 11 < 2 ? 0 : 11 - (soma % 11);
-  
+
       if (resultado !== parseInt(digitos.charAt(0))) return false;
-  
+
       // Validação do segundo dígito verificador
       tamanho = tamanho + 1;
       numeros = cnpj.substring(0, tamanho);
       soma = 0;
       pos = tamanho - 7;
-  
+
       for (let i = tamanho; i >= 1; i--) {
-          soma += numeros.charAt(tamanho - i) * pos--;
-          if (pos < 2) pos = 9;
+        soma += numeros.charAt(tamanho - i) * pos--;
+        if (pos < 2) pos = 9;
       }
-  
+
       resultado = soma % 11 < 2 ? 0 : 11 - (soma % 11);
-  
-      if (resultado !== parseInt(digitos.charAt(1))) return false;{
+
+      if (resultado !== parseInt(digitos.charAt(1))) return false; {
         throw new Error("CNPJ já em uso! Tente outro.");
       }
-  
+
       return true;
 
     }),
@@ -159,12 +159,13 @@ const usuariosController = {
 
       // Verifica se o CEP tem 8 dígitos
       if (cep.length !== 8) return false;
-  
+
       // Verifica se todos os caracteres são números
       const regex = /^[0-9]{8}$/;
+
       return regex.test(cep);
 
-    }),
+    }).withMessage('CEP inválido'),
 
     body("logradouro").custom(logradouro => {
       if (logradouro.trim().length < 2) return false;
@@ -174,12 +175,12 @@ const usuariosController = {
       return regex.test(logradouro);
     }),
 
-    
+
     body("uf").custom(uf => {
       const ufsValidas = ['AC', 'AL', 'AM', 'AP', 'BA', 'CE', 'DF', 'ES', 'GO', 'MA', 'MG', 'MS', 'MT', 'PA', 'PB', 'PE', 'PI', 'PR', 'RJ', 'RN', 'RO', 'RR', 'RS', 'SC', 'SE', 'SP', 'TO'];
-    
-    // Converte para maiúsculas e verifica se está na lista de UFs válidas
-    return ufsValidas.includes(uf.toUpperCase());
+
+      // Converte para maiúsculas e verifica se está na lista de UFs válidas
+      return ufsValidas.includes(uf.toUpperCase());
     }),
 
     body("bairro").custom(bairro => {
@@ -201,42 +202,42 @@ const usuariosController = {
     body("cidade").custom(cidade => {
       if (cidade.trim().length < 2) return false;
 
-    // Verifica se contém apenas letras, espaços e acentos
-    const regex = /^[A-Za-zÀ-ú\s]+$/;
-    return regex.test(cidade);
+      // Verifica se contém apenas letras, espaços e acentos
+      const regex = /^[A-Za-zÀ-ú\s]+$/;
+      return regex.test(cidade);
     }),
   ],
 
-
+//função de cadastrar
   cadastrarUsuario: async (req, res) => {
 
     let error = validationResult(req)
 
     if (!error.isEmpty()) {
       console.log(error)
+      const especialidades = await usuariosModel.findAllEspeci()
 
       const jsonResult = {
-        form: "../pages/template-cadastroEmpresa",
-        error: error,
-        valores: req.body,
-        isCadastrar: true
+        errors: error, 
+        valores: req.body, 
+        especialidades:especialidades 
       }
       res.render("/pages/template-cadastroEmpresa", jsonResult);
     } else {
       const { nome, cpf, cnpj, email, celular, password, razaosocial, especialidades, nomeempresa, cep, uf, logradouro, cidade, bairro } = req.body
       dadosUsuario = {
-  NOME_USUARIOS: nome,
- SENHA_USUARIOS: bcrypt.hashSync(password, salt),
- CELULAR_USUARIOS: celular,
- CIDADE_USUARIOS: cidade,
- UF_USUARIOS: uf,
- CEP_USUARIOS: cep,
- LOGRADOURO_USUARIOS: logradouro,
- BAIRRO_USUARIOS:  bairro,
- CNPJ_USUARIO: cnpj,
- CPF_USUARIO: cpf,
- NOMEEMPRESA_USUARIO: nomeempresa,
- RAZAOSOCIAL_USUARIO: razaosocial,
+        NOME_USUARIOS: nome,
+        SENHA_USUARIOS: bcrypt.hashSync(password, salt),
+        CELULAR_USUARIOS: celular,
+        CIDADE_USUARIOS: cidade,
+        UF_USUARIOS: uf,
+        CEP_USUARIOS: cep,
+        LOGRADOURO_USUARIOS: logradouro,
+        BAIRRO_USUARIOS: bairro,
+        CNPJ_USUARIO: cnpj,
+        CPF_USUARIO: cpf,
+        NOMEEMPRESA_USUARIO: nomeempresa,
+        RAZAOSOCIAL_USUARIO: razaosocial,
       }
       try {
         const usuarioCriado = await usuariosModel.createUsuario(dadosUsuario);
@@ -257,6 +258,11 @@ const usuariosController = {
 
     }
   },
+
+
+
+
+
   entrar: async (req, res) => {
     // Aqui verifico se tem erros de validação no formulário, se tiver carrego a pagina de login novamente com erros, 
     //senão busco a partir do um usuário a partir do digitado, e então eu por fim, verifico se o usuario do banco existe
@@ -278,7 +284,7 @@ const usuariosController = {
 
       const { email, password } = req.body
       try {
-        const clienteBd = await clienteModel.findClienteByEmail(email)
+        const clienteBd = await usuariosModel.findClienteByEmail(email)
 
         if (clienteBd[0] && bcrypt.compareSync(password, clienteBd[0].SENHA_CLIENTE)
           // && req.session.autenticado.autenticado
@@ -312,21 +318,21 @@ const usuariosController = {
 
   FazerComentario: async (req, res) => {
 
-      const id = req.session.Clienteid;
-      const { comment } = req.body;
+    const id = req.session.Clienteid;
+    const { comment } = req.body;
 
-      if (!id) {
-        // Lida com erros e retorna uma resposta de erro
-        res.status(500).json({ message: 'Usuário não logado' });
-      }
+    if (!id) {
+      // Lida com erros e retorna uma resposta de erro
+      res.status(500).json({ message: 'Usuário não logado' });
+    }
 
-      if(comment.length == 0 ) {
-        res.status(500).json({ message: 'Comentario não pode estar vazio' });
-      }
+    if (comment.length == 0) {
+      res.status(500).json({ message: 'Comentario não pode estar vazio' });
+    }
 
-      await clienteModel.insertCommentForUser(id, comment)
+    await usuariosModel.insertCommentForUser(id, comment)
 
-      res.redirect("/bsEmpresa");
+    res.redirect("/bsEmpresa");
 
   }
 }
