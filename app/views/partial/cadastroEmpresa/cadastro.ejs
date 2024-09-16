@@ -1,9 +1,9 @@
 <% let classeErro={ 
-   "nome" :"", "cpf" :"", "cnpj" :"", "email" :"", "celular" :"", "password" :"", "razaosocial"
+   "nome" :"", "cpf" :"", "cnpj" :"", "email" :"", "celular" :"", "senha" :"", "razaosocial"
    :"", "especialidades" :"", "nomeempresa" :"", "cep" :"", "uf" :"", "logradouro" : "" , "cidade" :"", "bairro"
    :"", "numero" :"", } 
    
-   let msgErro={ "nome" :"", "cpf" :"", "cnpj" :"", "email" :"", "celular" :"", "password"
+   let msgErro={ "nome" :"", "cpf" :"", "cnpj" :"", "email" :"", "celular" :"", "senha"
    :"", "razaosocial" :"", "especialidades" :"", "nomeempresa" :"", "cep" :"", "uf" :"", "logradouro" : "" , "cidade"
    :"", "bairro" :"", "numero" :"", } 
    
@@ -66,22 +66,22 @@
              </div>
 
 
-             <section class=" input-field <%= classeErro.nome %>">
+             <section class=" input-field <%= classeErro.nomeempresa %>">
                 <i class="fas fa-user"></i>
-                <input id="nome" name="nome" required type="text" placeholder="<%= msgErro.nome ? msgErro.nome : 'Digite seu nome' %>"
-                   value="<%= valores.nome %>" />
-
-                   
+                <input id="nomeempresa" name="nomeempresa" required type="text" placeholder="<%= msgErro.nomeempresa ? msgErro.nomeempresa : 'Nome da Empresa' %>"
+                value="<%= msgErro.nomeempresa ? '' : (valores.nomeempresa || '') %>" />    
              </section>
 
              <section class="input-field <%= classeErro.email %>">
                 <i class="fas fa-envelope"></i>
-                <input name="email" id="email" required type="email" placeholder="Email" value="<%= valores.email %>" />
+                <input name="email" id="email" required type="email"   placeholder="<%= msgErro.email ? msgErro.email : 'Email' %>"
+                value="<%= msgErro.email ? '' : (valores.email || '') %>" />
              </section>
 
              <section class="input-field <%= classeErro.celular %>">
-                <i class="fas fa-user"></i>
-                <input id="celular" name="celular" required type="text" placeholder="Celular" value="<%= valores.celular %>"/>
+               <i class="fa-solid fa-phone"></i>
+               <input name="celular" id="celular" required type="celular"  placeholder="<%= msgErro.celular ? msgErro.celular : 'Celular' %>"
+               value="<%= msgErro.celular ? '' : (valores.celular || '') %>" />
              </section>
 
              <div class="field">
@@ -97,18 +97,19 @@
              </div>
 
 
-             <section class=" input-field <%= classeErro.nome %>">
-                <i class="fas fa-user"></i>
-                <input id="cnpj" name="cnpj" required type="text" placeholder="CNPJ" />
+             <section class=" input-field <%= classeErro.cnpj %>">
+               <i class="fa-solid fa-caret-up"></i>
+               <input id="cnpj" name="cnpj" required type="text" placeholder="<%= msgErro.cnpj ? msgErro.cnpj : 'CNPJ' %>"
+               value="<%= msgErro.cnpj ? '' : (valores.cnpj || '') %>" />
              </section>
 
-             <section class="input-field <%= classeErro.email %>">
-                <i class="fas fa-envelope"></i>
-                <input name="razaosocial" id="razaosocial" required type="razaosocial"
-                   placeholder="Razão Social" />
+             <section class="input-field <%= classeErro.razaosocial %>">
+               <i class="fa-solid fa-caret-up"></i>
+                <input id="razaosocial" name="razaosocial" required type="text" placeholder="<%= msgErro.razaosocial ? msgErro.razaosocial : 'Razão Social' %>"
+               value="<%= msgErro.razaosocial ? '' : (valores.razaosocial || '') %>" />
              </section>
 
-             <section class="input-field <%= classeErro.celular %>">
+             <section class="input-field <%= classeErro.especialidades %>">
                 <i class="fas fa-user"></i>
                 <select id="especialidades" name="especialidades" required type="text"
                    placeholder="Especialidades">
@@ -136,23 +137,27 @@
 
 
              <section class=" input-field <%= classeErro.cep %>">
-                <i class="fas fa-user"></i>
-                <input id="cep" name="cep" required type="text" placeholder="CEP" />
+               <i class="fa-solid fa-caret-up"></i>
+               <input id="cep" name="cep" required type="text" placeholder="<%= msgErro.cep ? msgErro.cep : 'CEP' %>"
+               value="<%= msgErro.cep ? '' : (valores.cep || '') %>" />
              </section>
 
-             <section class="input-field <%= classeErro.email %>">
-                <i class="fas fa-envelope"></i>
-                <input name="UF" id="UF" required type="text" placeholder="UF" />
+             <section class="input-field <%= classeErro.uf %>">
+               <i class="fa-solid fa-caret-up"></i>
+               <input id="uf" name="uf" required type="text" placeholder="<%= msgErro.uf ? msgErro.uf : 'UF' %>"
+               value="<%= msgErro.uf ? '' : (valores.uf || '') %>" />
              </section>
 
              <section class="input-field <%= classeErro.cidade %>">
-                <i class="fas fa-user"></i>
-                <input id="cidade" name="cidade" required type="text" placeholder="Cidade" />
+                 <i class="fa-solid fa-caret-up"></i>
+               <input id="cidade" name="cidade" required type="text" placeholder="<%= msgErro.cidade ? msgErro.cidade : 'Cidade' %>"
+               value="<%= msgErro.cidade ? '' : (valores.cidade || '') %>" />
              </section>
 
              <section class="input-field <%= classeErro.bairro %>">
-                <i class="fas fa-user"></i>
-                <input id="bairro" name="bairro" required type="text" placeholder="Bairro" />
+               <i class="fa-solid fa-caret-up"></i>
+               <input id="bairro" name="bairro" required type="text" placeholder="<%= msgErro.bairro ? msgErro.bairro : 'Bairro' %>"
+               value="<%= msgErro.bairro ? '' : (valores.bairro || '') %>" />
              </section>
 
 
@@ -170,24 +175,25 @@
              </div>
 
 
-             <section class=" input-field <%= classeErro.cep %>">
+             <section class=" input-field <%= classeErro.nome %>">
 
                 <i class="fas fa-user"></i>
-                <input id="nome" name="nome" required type="text" placeholder="Nome completo" />
-
+                <input id="nome" name="nome" required type="text" placeholder="<%= msgErro.nome ? msgErro.nome : 'Digite seu nome' %>"
+                value="<%= msgErro.nome ? '' : (valores.nome || '') %>" />
              </section>
 
              <section class="input-field <%= classeErro.cpf %>">
 
                 <i class="fas fa-user"></i>
-                <input id="cpf" name="cpf" required type="text" placeholder="Cpf" />
-
+                <input id="cpf" name="cpf" required type="text" placeholder="<%= msgErro.cpf ? msgErro.cpf : 'CPF' %>"
+                value="<%= msgErro.cpf ? '' : (valores.cpf || '') %>" />
              </section>
 
-             <section class="input-field <%= classeErro.password %>">
+             <section class="input-field <%= classeErro.senha %>">
 
                 <i class="fas fa-lock"></i>
-                <input id="password" name="password" placeholder="Senha" />
+                <input id="senha" name="senha" required type="text" placeholder="<%= msgErro.senha ? msgErro.senha : 'Crie uma senha' %>"
+                value="<%= msgErro.senha ? '' : (valores.senha || '') %>" />
 
              </section>
 

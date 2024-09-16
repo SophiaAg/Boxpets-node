@@ -41,7 +41,7 @@ const usuariosController = {
       .isMobilePhone('pt-BR').withMessage("Número de telefone inválido")
       .bail()
       .custom(async (celular) => {
-        const celularExistente = await usuariosModel.findClienteByCelular(celular)
+        const celularExistente = await usuariosModel.findUsuariosByCelular(celular)
         if (celularExistente.length > 0) {
           throw new Error("Celular já em uso! Tente outro.");
         }
@@ -51,13 +51,13 @@ const usuariosController = {
       .isEmail().withMessage('Deve ser um email válido')
       .bail()
       .custom(async (email) => {
-        const emailExistente = await usuariosModel.findClienteByEmail(email)
+        const emailExistente = await usuariosModel.findUsuariosByEmail(email)
         if (emailExistente.length > 0) {
           throw new Error("E-mail já em uso! Tente outro");
         }
         return true;
       }),
-    body('password')
+    body('senha')
       .isLength({ min: 8, max: 30 })
       .withMessage('A senha deve ter pelo menos 8 e no máximo 30 caracteres!')
       .bail()
@@ -152,7 +152,7 @@ const usuariosController = {
 
       return true;
 
-    }),
+    }).withMessage("CNPJ invalido"),
 
     body("cep").custom(cep => {
       cep = cep.replace(/[^\d]+/g, '');
@@ -173,7 +173,7 @@ const usuariosController = {
       // Verifica se contém apenas letras, números e espaços
       const regex = /^[A-Za-zÀ-ú0-9\s]+$/;
       return regex.test(logradouro);
-    }),
+    }) .withMessage('logradouro inválido') ,
 
 
     body("uf").custom(uf => {
@@ -181,7 +181,7 @@ const usuariosController = {
 
       // Converte para maiúsculas e verifica se está na lista de UFs válidas
       return ufsValidas.includes(uf.toUpperCase());
-    }),
+    }).withMessage('UFinválido'),
 
     body("bairro").custom(bairro => {
       if (bairro.trim().length < 2) return false;
@@ -189,7 +189,7 @@ const usuariosController = {
       // Verifica se contém apenas letras, números e espaços
       const regex = /^[A-Za-zÀ-ú0-9\s]+$/;
       return regex.test(bairro);
-    }),
+    }).withMessage('Bairro inválido'),
 
     body("razaosocial").custom(razaosocial => {
       if (razaosocial.trim().length < 2) return false;
@@ -197,7 +197,7 @@ const usuariosController = {
       // Permite letras, números, espaços e alguns caracteres especiais comuns
       const regex = /^[A-Za-zÀ-ú0-9\s\.,\-]+$/;
       return regex.test(razaoSocial);
-    }),
+    }).withMessage('Razão Social inválido'),
 
     body("cidade").custom(cidade => {
       if (cidade.trim().length < 2) return false;
@@ -205,7 +205,7 @@ const usuariosController = {
       // Verifica se contém apenas letras, espaços e acentos
       const regex = /^[A-Za-zÀ-ú\s]+$/;
       return regex.test(cidade);
-    }),
+    }).withMessage('Cidade inválido'),
   ],
 
 //função de cadastrar
