@@ -93,6 +93,7 @@ body{
   margin: 45px 0;
   display: flex;
   position: relative;
+  gap: 3%;
 }
 
 
@@ -109,7 +110,35 @@ form .page .field select{
   font-size: 17px;
   font-weight: 500;
 }
+
+form .page .field select #especialidades{
+  max-width: 380px;
+  width: 100%;
+  background-color: #f0f0f0;
+  margin: 10px 0;
+  border: none;
+}
 form .page .field button{
+  width: 100%;
+  height: calc(100% + 5px);
+  border: none;
+  background: var(--cor-segundaria);
+  margin-top: -20px;
+  border-radius: 20px;
+  color: #fff;
+  cursor: pointer;
+  font-size: 18px;
+  font-weight: 500;
+  letter-spacing: 1px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  text-transform: uppercase;
+  transition: 0.5s ease;
+}
+
+form .page .field span{
   width: 100%;
   height: calc(100% + 5px);
   border: none;
@@ -264,49 +293,45 @@ margin: 20px;
 }
 
 .box .Caminhologar h1 span{
-  font-weight: 400;
+  font-weight: 800;
 }
 
-@media (min-width: 1000px) {
-  .box {
-    padding: 1.5rem;
-    width: 90%;
-    max-width: 100%;
-  }
-  .progress-bar .step {
-    margin-bottom: 10px;
-  }
-
-  .progress-bar .step p {
-   display: none;
-  }
-
-  .progress-bar .step .check{
-    top: 50%;
-  }
-  .form-outer form {
-    flex-direction: column;
-  }
-
-  .form-outer form .page {
-    width: 100%;
-    margin-left: 0; /* Remover o deslocamento lateral */
-  }
-
-  .input-field {
-    width: 100%;
-  }
-}
-
-@media (min-width: 480px) {
+@media (min-width: 1280px) {
   .box {
     padding: 1rem;
+    max-width: 700px;
   }
+}
 
+@media (max-width: 600px) {
+  .box {
+    padding: 2rem; /* Remove padding */
+    width: 100vw; /* Ocupar a largura inteira da tela */
+    height: 100vh; /* Ocupar a altura inteira da tela */
+    border-radius: 0; /* Remover os cantos arredondados */
+    box-shadow: none; /* Remover sombra */
+  }
+ 
   .progress-bar .step p {
-    font-size: 14px;
-  }
-
+    display: none;
+   }
+ 
+   .progress-bar .step .check{
+     top: 50%;
+   }
+   .form-outer form {
+     flex-direction: column;
+   }
+ 
+   .form-outer form .page {
+     width: 100%;
+     margin-left: 0; /* Remover o deslocamento lateral */
+   }
+ 
+   .input-field {
+     width: 100%;
+   }
+ 
   .form-outer form .page .field {
     width: 100%;
   }
