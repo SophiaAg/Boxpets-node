@@ -74,7 +74,7 @@
 
              <section class="input-field <%= classeErro.email %>">
                 <i class="fas fa-envelope"></i>
-                <input name="email" id="email" required type="email"   placeholder="<%= msgErro.email ? msgErro.email : 'Email' %>"
+                <input name="email" id="email"  type="text"   placeholder="<%= msgErro.email ? msgErro.email : 'Email' %>"
                 value="<%= msgErro.email ? '' : (valores.email || '') %>" />
              </section>
 
@@ -192,7 +192,7 @@
              <section class="input-field <%= classeErro.senha %>">
 
                 <i class="fas fa-lock"></i>
-                <input id="senha" name="senha" required type="text" placeholder="<%= msgErro.senha ? msgErro.senha : 'Crie uma senha' %>"
+                <input id="senha" name="senha" required type="password" placeholder="<%= msgErro.senha ? msgErro.senha : 'Crie uma senha' %>"
                 value="<%= msgErro.senha ? '' : (valores.senha || '') %>" />
 
              </section>

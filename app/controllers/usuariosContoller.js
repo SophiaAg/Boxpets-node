@@ -14,7 +14,7 @@ const usuariosController = {
       .isEmail().withMessage('Deve ser um email válido')
       .bail()
     ,
-    body('password')
+    body('senha')
       .isLength({ min: 8, max: 30 })
       .withMessage('A senha deve ter pelo menos 8 e no máximo 30 caracteres!')
       .bail()
@@ -48,6 +48,7 @@ const usuariosController = {
         return true;
       }),
     body('email')
+    .isLength({min:3}).withMessage('Digite o email')
       .isEmail().withMessage('Deve ser um email válido')
       .bail()
       .custom(async (email) => {
@@ -173,7 +174,7 @@ const usuariosController = {
       // Verifica se contém apenas letras, números e espaços
       const regex = /^[A-Za-zÀ-ú0-9\s]+$/;
       return regex.test(logradouro);
-    }) .withMessage('logradouro inválido') ,
+    }).withMessage('logradouro inválido'),
 
 
     body("uf").custom(uf => {
@@ -208,7 +209,7 @@ const usuariosController = {
     }).withMessage('Cidade inválido'),
   ],
 
-//função de cadastrar
+  //função de cadastrar
   cadastrarUsuario: async (req, res) => {
 
     let error = validationResult(req)
@@ -218,17 +219,17 @@ const usuariosController = {
       const especialidades = await usuariosModel.findAllEspeci()
 
       const jsonResult = {
-        errors: error, 
-        valores: req.body, 
-        especialidades:especialidades,
+        errors: error,
+        valores: req.body,
+        especialidades: especialidades,
         page: "../partial/cadastroEmpresa/cadastro"
       }
       res.render("pages/template-cadastroEmpresa", jsonResult);
     } else {
-      const { nome, cpf, cnpj, email, celular, password, razaosocial, especialidades, nomeempresa, cep, uf, logradouro, cidade, bairro } = req.body
-      dadosUsuario = {
+      const { nome, cpf, cnpj, email, celular, senha, razaosocial, especialidades, nomeempresa, cep, uf, logradouro, cidade, bairro } = req.body
+      const dadosUsuario = {
         NOME_USUARIOS: nome,
-        SENHA_USUARIOS: bcrypt.hashSync(password, salt),
+        SENHA_USUARIOS: bcrypt.hashSync(senha, salt),
         CELULAR_USUARIOS: celular,
         CIDADE_USUARIOS: cidade,
         UF_USUARIOS: uf,
@@ -239,10 +240,12 @@ const usuariosController = {
         CPF_USUARIO: cpf,
         NOMEEMPRESA_USUARIO: nomeempresa,
         RAZAOSOCIAL_USUARIO: razaosocial,
+        EMAIL_USUARIOS: email,
+        ID_ESPECIALIDADES: especialidades,
       }
       try {
         const usuarioCriado = await usuariosModel.createUsuario(dadosUsuario);
-        req.session.Usuarioid = usuarioCriado.insertId
+        console.log(usuarioCriado)
         const jsonResult = {
           page: "../partial/landing-home/home-page"
         }
@@ -283,11 +286,11 @@ const usuariosController = {
       res.render("pages/template-login", jsonResult);
     } else {
 
-      const { email, password } = req.body
+      const { email, senha } = req.body
       try {
         const clienteBd = await usuariosModel.findClienteByEmail(email)
 
-        if (clienteBd[0] && bcrypt.compareSync(password, clienteBd[0].SENHA_CLIENTE)
+        if (clienteBd[0] && bcrypt.compareSync(senha, clienteBd[0].SENHA_CLIENTE)
           // && req.session.autenticado.autenticado
         ) {
 
