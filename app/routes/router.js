@@ -58,6 +58,11 @@ router.get("/cadastroEmpresa", async function (req, res) {
     res.render("pages/template-cadastroEmpresa", { page: "../partial/cadastroEmpresa/cadastro", errors: null, valores: "", especialidades:especialidades });
 });
 
+// btnloginEmpresa
+router.get("/loginEmpresa", async function (req, res) {
+    res.render("pages/template-loginEmpresa", { page: "../partial/cadastroEmpresa/login", errors: null, valores: ""});
+});
+
 // Cadastro de EMPRESAS
 router.post("/cadastrarEmpresa", usuariosController.regrasValidacaoCriarConta, function (req, res) {
    usuariosController.cadastrarUsuario(req, res)
