@@ -160,6 +160,12 @@
                value="<%= msgErro.bairro ? '' : (valores.bairro || '') %>" />
              </section>
 
+             <section class="input-field <%= classeErro.logradouro %>">
+               <i class="fa-solid fa-caret-up"></i>
+               <input id="logradouro" name="logradouro" required type="text" placeholder="<%= msgErro.logradouro ? msgErro.logradouro : 'Logradouro' %>"
+               value="<%= msgErro.logradouro ? '' : (valores.logradouro || '') %>" />
+             </section>
+
 
              <div class="field btns">
                 <span class="prev-2 prev">Previous</span>

@@ -111,49 +111,49 @@ const usuariosController = {
 
     body("cnpj").custom(cnpj => {
       cnpj = cnpj.replace(/[^\d]+/g, '');
-
+  
       // Verifica se o CNPJ tem 14 dígitos
       if (cnpj.length !== 14) return false;
-
-      // Elimina CNPJs que são sequências repetidas (11111111111111, 22222222222222, etc.)
+  
+      // Elimina CNPJs que são sequências repetidas
       if (/^(\d)\1+$/.test(cnpj)) return false;
-
+  
       // Validação do primeiro dígito verificador
       let tamanho = cnpj.length - 2;
       let numeros = cnpj.substring(0, tamanho);
       let digitos = cnpj.substring(tamanho);
       let soma = 0;
       let pos = tamanho - 7;
-
+  
       for (let i = tamanho; i >= 1; i--) {
-        soma += numeros.charAt(tamanho - i) * pos--;
-        if (pos < 2) pos = 9;
+          soma += numeros.charAt(tamanho - i) * pos--;
+          if (pos < 2) pos = 9;
       }
-
+  
       let resultado = soma % 11 < 2 ? 0 : 11 - (soma % 11);
-
+  
       if (resultado !== parseInt(digitos.charAt(0))) return false;
-
+  
       // Validação do segundo dígito verificador
       tamanho = tamanho + 1;
       numeros = cnpj.substring(0, tamanho);
       soma = 0;
       pos = tamanho - 7;
-
+  
       for (let i = tamanho; i >= 1; i--) {
-        soma += numeros.charAt(tamanho - i) * pos--;
-        if (pos < 2) pos = 9;
+          soma += numeros.charAt(tamanho - i) * pos--;
+          if (pos < 2) pos = 9;
       }
-
+  
       resultado = soma % 11 < 2 ? 0 : 11 - (soma % 11);
-
-      if (resultado !== parseInt(digitos.charAt(1))) return false; {
-        throw new Error("CNPJ já em uso! Tente outro.");
-      }
-
+  
+      if (resultado !== parseInt(digitos.charAt(1))) return false;
+  
+      // Se chegar aqui, o CNPJ é válido
       return true;
-
-    }).withMessage("CNPJ invalido"),
+  
+  }).withMessage("CNPJ inválido"),
+  
 
     body("cep").custom(cep => {
       cep = cep.replace(/[^\d]+/g, '');
@@ -192,13 +192,8 @@ const usuariosController = {
       return regex.test(bairro);
     }).withMessage('Bairro inválido'),
 
-    body("razaosocial").custom(razaosocial => {
-      if (razaosocial.trim().length < 2) return false;
-
-      // Permite letras, números, espaços e alguns caracteres especiais comuns
-      const regex = /^[A-Za-zÀ-ú0-9\s\.,\-]+$/;
-      return regex.test(razaoSocial);
-    }).withMessage('Razão Social inválido'),
+    body("razaosocial").isLength({ min: 3, max: 45 }).withMessage("Razão Social inválido"),
+    
 
     body("cidade").custom(cidade => {
       if (cidade.trim().length < 2) return false;
@@ -241,7 +236,7 @@ const usuariosController = {
         NOMEEMPRESA_USUARIO: nomeempresa,
         RAZAOSOCIAL_USUARIO: razaosocial,
         EMAIL_USUARIOS: email,
-        ID_ESPECIALIDADES: especialidades,
+        ESPECIALIDADES_ID_ESPECIALIDADES: especialidades,
       }
       try {
         const usuarioCriado = await usuariosModel.createUsuario(dadosUsuario);
@@ -250,10 +245,9 @@ const usuariosController = {
           page: "../partial/landing-home/home-page"
         }
 
-
-        req.session.save(() => {
+       
           res.render("pages/template-hm", jsonResult)
-        })
+      
 
       } catch (erros) {
         console.log(erros)
@@ -288,13 +282,13 @@ const usuariosController = {
 
       const { email, senha } = req.body
       try {
-        const clienteBd = await usuariosModel.findClienteByEmail(email)
+        const userBd  = await usuariosModel.findUsuariosByEmail(email)
 
-        if (clienteBd[0] && bcrypt.compareSync(senha, clienteBd[0].SENHA_CLIENTE)
+        if (userBd [0] && bcrypt.compareSync(senha, userBd[0].SENHA_USUARIOS)
           // && req.session.autenticado.autenticado
         ) {
 
-          req.session.Clienteid = clienteBd[0].ID_CLIENTE
+          
           const jsonResult = {
             page: "../partial/landing-home/home-page"
           }

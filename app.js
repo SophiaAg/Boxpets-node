@@ -1,14 +1,13 @@
 const express = require("express");
 const app = express();
 const port = 3000;
-//guardar a sessão do usuario, para que só esse usuario tenha essa sessão
 const session = require("express-session");
-const FileStore = require("session-file-store")(session); //só pra guardar
+// const FileStore = require("session-file-store")(session); //só pra guardar
 
 app.use(express.static("app/public"));
 
 app.use(session({
-  store: new FileStore(),
+  // store: new FileStore(),
   secret: 'Froez777',
   resave: false,
   saveUninitialized: true,
@@ -20,10 +19,10 @@ app.set("views", "./app/views");
 
 // variaveis globais
 
-app.use((req, res, next) => {
-  res.locals.Clienteid = req.session.Clienteid;
-  next();
-});
+// app.use((req, res, next) => {
+//   res.locals.Clienteid = req.session.Clienteid;
+//   next();
+// });
 
 app.use(express.json()); 
 app.use(express.urlencoded({ extended: true }));
