@@ -1,3 +1,19 @@
+let classeErro={ 
+  "email" :"",
+  "senha" :"", 
+} 
+
+let msgErro={
+  "email" :"",
+  "senha" :"",
+}
+
+if(errors){ 
+  errors.errors.forEach(function(erro){ 
+  classeErro[erro.path]='invalido'; 
+  msgErro[erro.path]=erro.msg 
+}) } %>
+
 
       <div class="box">
         <div class="inner-box">
@@ -16,16 +32,19 @@
 
               <div class="actual-form">
 <div class="">
-                <section class="input-field ">
-                  <i class="fas fa-lock"></i>
-                  <input id="senha" name="senha" required type="password" placeholder='Crie uma senha' %>
-               </section>
+  <section class="input-field <%= classeErro.email %>">
+    <i class="fas fa-envelope"></i>
+    <input name="email" id="email"  type="text"   placeholder="<%= msgErro.email ? msgErro.email : 'Email' %>"
+    value="<%= msgErro.email ? '' : (valores.email || '') %>" />
+ </section>
               </div>
               <div class="">
-               <section class="input-field ">
-                <i class="fas fa-lock"></i>
-                <input id="senha" name="senha" required type="password" placeholder='Crie uma senha' %>
-             </section>
+                <section class="input-field <%= classeErro.senha %>">
+                  <i class="fas fa-lock"></i>
+                  <input id="senha" name="senha" required type="password" placeholder="<%= msgErro.senha ? msgErro.senha : 'Crie uma senha' %>"
+                  value="<%= msgErro.senha ? '' : (valores.senha || '') %>" />
+               </section>
+  
             </div>
 
            

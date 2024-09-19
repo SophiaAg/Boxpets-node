@@ -272,12 +272,12 @@ const usuariosController = {
     if (!error.isEmpty()) {
       console.log(error)
       const jsonResult = {
-        form: "../partial/login/entrar",
+        form: "../partial/cadastroEmpresa/login",
         error: error,
         valores: req.body,
         incorreto: false
       }
-      res.render("pages/template-login", jsonResult);
+      res.render("pages/template-loginEmpresa", jsonResult);
     } else {
 
       const { email, senha } = req.body
@@ -296,12 +296,12 @@ const usuariosController = {
 
         } else {
           const jsonResult = {
-            form: "../partial/login/entrar",
+            form: "../partial/cadastroEmpresa/login",
             error: null,
             valores: req.body,
             incorreto: true
           }
-          res.render("pages/template-login", jsonResult);
+          res.render("pages/template-loginEmpresa", jsonResult);
         }
 
       } catch (erros) {
