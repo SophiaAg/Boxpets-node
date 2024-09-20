@@ -261,7 +261,7 @@ const usuariosController = {
 
 
 
-  entrar: async (req, res) => {
+  entrarEmpresa: async (req, res) => {
     // Aqui verifico se tem erros de validação no formulário, se tiver carrego a pagina de login novamente com erros, 
     //senão busco a partir do um usuário a partir do digitado, e então eu por fim, verifico se o usuario do banco existe
     //e se o hash da senha digitada no form bate com o hash da senha que estava no banco e se a sessão não é null. 

@@ -7,11 +7,11 @@
    :"", "razaosocial" :"", "especialidades" :"", "nomeempresa" :"", "cep" :"", "uf" :"", "logradouro" : "" , "cidade"
    :"", "bairro" :"", "numero" :"", } 
    
-} %>   if(errors){ 
+   if(errors){ 
       errors.errors.forEach(function(erro){ 
       classeErro[erro.path]='invalido'; 
       msgErro[erro.path]=erro.msg 
-   }) 
+   }) }%>
 
 
 <div class="box">

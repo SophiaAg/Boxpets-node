@@ -79,7 +79,7 @@ router.post("/cadastrarEmpresa", usuariosController.regrasValidacaoCriarConta, f
 
 // Login de EMPRESAS
 router.post("/loginEmpresa", usuariosController.regrasValidacaoLogarConta, function (req, res) {
-    usuariosController.cadastrarUsuario(req, res)
+    usuariosController.entrarEmpresa(req, res)
  })
 
 
