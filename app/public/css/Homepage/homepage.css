@@ -20,3 +20,7 @@
 @import url("../servicogerais/header.css");
 @import url("../servicogerais/card-servico-sercico.css");
 @import url("../servicogerais/footer.css");
+
+
+/*Perfildousuario*/
+@import url("../page-user/page-user.css");

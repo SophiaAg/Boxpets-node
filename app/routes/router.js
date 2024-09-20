@@ -52,10 +52,19 @@ router.get("/veterinarios", function (req, res) {
     res.render("pages/template-hm", { pagina: "LandingPage", page: "../partial/servicosgerais/veterinarios" });
 });
 
+router.get("/page-user", function (req, res) {
+    res.render("pages/template-hm", { pagina: "LandingPage", page: "../partial/landing-home/page-user" });
+});
+
 // btncadastroEmpresa
 router.get("/cadastroEmpresa", async function (req, res) {
-    const especialidades = await usuariosModel.findAllEspeci()
-    res.render("pages/template-cadastroEmpresa", { page: "../partial/cadastroEmpresa/cadastro", errors: null, valores: "", especialidades:especialidades });
+    try {
+        const especialidades = await usuariosModel.findAllEspeci()
+        res.render("pages/template-cadastroEmpresa", { page: "../partial/cadastroEmpresa/cadastro", errors: null, valores: "", especialidades:especialidades });
+    } catch (error) {
+        res.redirect("/")
+        // colocar pagina de erro
+    }
 });
 
 // btnloginEmpresa
