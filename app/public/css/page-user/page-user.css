@@ -99,6 +99,9 @@
     .container {
       width: 750px;
     }
+    #areaTwoContent{
+      display: grid;
+    }
   }
 
   @media (min-width: 992px) {
