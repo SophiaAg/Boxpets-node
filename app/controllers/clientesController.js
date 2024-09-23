@@ -112,6 +112,92 @@ const clienteController = {
         return true;
       }),
   ],
+  regrasValidacaoPerfil: [
+    body("nome")
+      .isLength({ min: 3, max: 45 }).withMessage("Nome deve ter de 3 a 45 letras!")
+      .isAlpha().withMessage("Deve conter apenas letras!"),
+
+    body("celular")
+      .isMobilePhone('pt-BR').withMessage("Número de telefone inválido")
+      .bail()
+      .custom(async (celular) => {
+        const celularExistente = await clienteModel.findClienteByCelular(celular)
+        if (celularExistente.length > 0) {
+          throw new Error("Celular já em uso! Tente outro.");
+        }
+        return true;
+      }),
+    body('email')
+      .isEmail().withMessage('Deve ser um email válido')
+      .bail()
+      .custom(async (email) => {
+        const emailExistente = await clienteModel.findClienteByEmail(email)
+        if (emailExistente.length > 0) {
+          throw new Error("E-mail já em uso! Tente outro");
+        }
+        return true;
+      }),
+    body('password')
+      .isLength({ min: 8, max: 30 })
+      .withMessage('A senha deve ter pelo menos 8 e no máximo 30 caracteres!')
+      .bail()
+      .matches(/[A-Z]/).withMessage('A senha deve conter pelo menos uma letra maiúscula.')
+      .bail()
+      .matches(/[a-z]/).withMessage('A senha deve conter pelo menos uma letra minúscula.')
+      .bail()
+      .matches(/[0-9]/).withMessage('A senha deve conter pelo menos um número inteiro.')
+      .bail()
+      .matches(/[!@#$%^&*(),.?":{}|<>]/).withMessage('A senha deve conter pelo menos um caractere especial.')
+      .bail()
+    ,
+    body("cpf").custom(cpf => {
+
+      cpf = cpf.replace(/[^\d]+/g, '');
+      if (cpf.length !== 11 || /^(\d)\1+$/.test(cpf)) {
+        throw new Error('CPF inválido');
+      }
+      let soma = 0;
+      let resto;
+      for (let i = 1; i <= 9; i++) {
+        soma += parseInt(cpf.substring(i - 1, i)) * (11 - i);
+      }
+      resto = (soma * 10) % 11;
+
+      if (resto === 10 || resto === 11) {
+        resto = 0;
+      }
+      if (resto !== parseInt(cpf.substring(9, 10))) {
+        throw new Error('CPF inválido');
+      }
+
+      soma = 0;
+
+      // Validação do segundo dígito verificador
+      for (let i = 1; i <= 10; i++) {
+        soma += parseInt(cpf.substring(i - 1, i)) * (12 - i);
+      }
+      resto = (soma * 10) % 11;
+
+      if (resto === 10 || resto === 11) {
+        resto = 0;
+      }
+      if (resto !== parseInt(cpf.substring(10, 11))) {
+        throw new Error('CPF inválido');
+      }
+
+      return true;
+    })
+    ,
+    body("nasc")
+      .custom(nasc => {
+        const dataNasc = moment(nasc, "YYYY-MM-DD");
+        const dataMin = moment().subtract(16, 'years');
+        if (dataNasc.isAfter(dataMin)) {
+          throw new Error("Necessário ser maior de 16 anos!");
+        }
+        return true;
+      }),
+  ],
 
 
   cadastrar: async (req, res) => {
@@ -137,8 +223,8 @@ const clienteController = {
         DATA_NASC_CLIENTE: nasc,
       }
       try {
-        const usuarioCriado = await clienteModel.createCliente(dadosCliente);
-        req.session.Clienteid = usuarioCriado.insertId
+        const clienteCriado = await clienteModel.createCliente(dadosCliente);
+        req.session.Clienteid = clienteCriado.insertId
         const jsonResult = {
           page: "../partial/landing-home/home-page"
         }
@@ -157,7 +243,7 @@ const clienteController = {
   },
   entrar: async (req, res) => {
     // Aqui verifico se tem erros de validação no formulário, se tiver carrego a pagina de login novamente com erros, 
-    //senão busco a partir do um usuário a partir do digitado, e então eu por fim, verifico se o usuario do banco existe
+    //senão busco a partir do um usuário a partir do digitado, e então eu por fim, verifico se o cliente do banco existe
     //e se o hash da senha digitada no form bate com o hash da senha que estava no banco e se a sessão não é null. 
     //Se tudo estiver correto ele renderiza a page home, senão ele manda pra page de login como usuário ou senha incorretos
 
@@ -205,28 +291,154 @@ const clienteController = {
 
     }
   },
-
-  // comentar
-
-  FazerComentario: async (req, res) => {
-
-      const id = req.session.Clienteid;
-      const { comment } = req.body;
-
-      if (!id) {
-        // Lida com erros e retorna uma resposta de erro
-        res.status(500).json({ message: 'Usuário não logado' });
+  mostrarPerfil: async (req, res) => {
+    try {
+      let results = await cliente.findId(req.session.autenticado.id);
+      if (results[0].cep_cliente != null) {
+        const httpsAgent = new https.Agent({
+          rejectUnauthorized: false,
+        });
+        const response = await fetch('https://viacep.com.br/ws/${results[0].cep_cliente}/json/',
+          { method: 'GET', headers: null, body: null, agent: httpsAgent, });
+        var viaCep = await response.json();
+        var cep = results[0].cep_cliente.slice(0, 5) + "-" + results[0].cep_cliente.slice(5)
+      } else {
+        var viaCep = { logradouro: "", bairro: "", cidade: "", uf: "" }
+        var cep = null;
       }
 
-      if(comment.length == 0 ) {
-        res.status(500).json({ message: 'Comentario não pode estar vazio' });
+
+
+      let campos = {
+        nome_cli: results[0].nome_cliente, email_cli: results[e].email_cliente,
+        cep: cep,
+        numero: results[0].numero_cliente,
+        complemento: results[0].complemento_cliente, logradouro: viaCep.logradouro,
+        bairro: viaCep.bairro, localidade: viaCep.localidade, uf: viaCep.uf,
+        img_perfil_pasta: results[0].img_perfil_pasta,
+        img_perfil_banco: results[0].img_perfil_banco != null ? `data:image/jpeg;base64,${results[0].img_perfil_banco.toString('base64')}` : null,
+        nomecli_cli: results[0].user_cliente, fone_cli: results[0].fone_cliente, senha_cli: ""
       }
 
-      await clienteModel.insertCommentForUser(id, comment)
+      res.render("partial/landing-home/page-user", { avisoErro: null, dadosNotificacao: null, valores: campos })
+    } catch (e) {
+      console.log(e);
+      res.render("partial/landing-home/page-user", {
+        avisoErro: null, dadosNotificacao: null, valores: {
+          img_perfil_banco: "", img_perfil_pasta: "", nome_cli: "", email_cli: "",
+          nomecli_cli: "", fone_cli: "", senha_cli: "", cep: "", numero: "", complemento: "",
+          logradouro: "", bairro: "", localidade: "", uf: ""
+        }
+      })
+    }
+  },
+  gravarPerfil: async (req, res) => {
 
-      res.redirect("/bsEmpresa");
+    const erros = validationResult(req);
+    const erroMulter = req.session.erroMulter;
+    if (!erros.isEmpty() || erroMulter != null) {
+      aviso = !erros.isEmpty() ? erros : { formatter: null, errors: [] };
+      if (erroMulter != null) {
+        aviso.errors.push(erroMulter);
 
+        return res.render("partial/landing-home/page-user", { avisoErros: aviso, dadosNotificacao: null, valores: req.body })
+
+      }
+      try {
+        var dadosForm = {
+
+          nome_cliente: req.body.nome_cli,
+          email_cliente: req.body.email_cli,
+          celular_cliente: req.body.fone_cli,
+          cep_cliente: req.body.cep.replace("-", ""),
+          numero_cliente: req.body.numero,
+          complemento_cliente: req.body.complemento,
+          img_perfil_banco: req.session.autenticado.img_perfil_banco,
+          img_perfil_pasta: req.session.autenticado.img_perfil_pasta,
+        };
+
+        if (req.body.senha_cli != "") {
+          dadosForm.senha_cliente = bcrypt.hashSync(req.body.senha_cli, salt);
+        }
+        if (!req.file) {
+          console.log("Falha no carregamento");
+        } else {
+          //Armazenando o caminho do arquivo salvo na pasta do proieto
+          caminhoArquivo = "imagem/perfil/" + req.file.filename;
+          //Se houve alteracao de imagem de perfil apaga a imagem anterior
+          if (dadosForm.img_perfil_pasta != caminhoArquivo) {
+            removeImg(dadosForm.img_perfil_pasta);
+          }
+
+          dadosForm.img_perfil_pasta = caminhoArquivo;
+          dadosForm.img_perfil_banco = null;
+        }
+        // //Armazenando o buffer de dados binarios do arquivo
+        // dadosForm.img_perfil_banco = req.file.buffer;
+        // //Apagando a imagem armazenada na pasta
+        // removeImg(dadosForm.img_perfil_pasta)
+        // dadosForm. img_perfil_pasta = null;
+
+        let resultUpdate = await cliente.update(dadosForm, req.session.autenticado.id);
+        if (!resultUpdate.isEmpty){
+        if (resultUpdate.changedRows == 1) {
+          var result = await cliente.findId(req.session.autenticado.id);
+          var autenticado = {
+            autenticado: result[0].nome_cliente,
+            id: result[0].id_cliente,
+            // tipo: result[0]id_tipo_usuario,
+            img_perfil_banco: result[0].img_perfil_banco != null ? `data:image/jpeg;base64,${result[0].img_perfil_banco.toString("base64")}` : null,
+            img_perfil_pasta: result[0].img_perfil_pasta
+          };
+          req.session.autenticado - autenticado;
+          var campos = {
+            nome_usu: result[0].nome_usuario, email_usu: result[e].email_usuario,
+            img_perfil_pasta: result[0].img_perfil_pasta, img_perfil_banco: result[0].img_perfil_banco,
+            nomeusu_usu: result[0].user_usuario, fone_usu: result[0].fone_usuario, senha_usu: ""
+          }
+
+          res.render("pages/perfil", {
+            listaErros: null, dadosNotificacao: { titulo: "Perfil! atualizado com sucesso", mensagem: "Alteracoes Gravadas", tipo: "success" }, valores: campos
+          });
+        } else {
+          res.render("pages/perfil", { listaErros: null, dadosNotificacao: { titulo: "Perfil! atualizado com sucesso", mensagem: "Sem alteracoes", tipo: "success" }, valores: dadosForm });
+        }
+      }
+    } catch (e) {
+      console.log(e)
+      res.render("pages/perfil", { listaErros: erros, dadosNotificacao: { titulo: "Erro ao atualizar o perfil!", mensagem: "Verifique os valores digitados!", tipo: "error" }, valores: req.body })
+    }
+    }
+  },
+
+
+ 
+
+
+
+
+
+// comentar
+
+FazerComentario: async (req, res) => {
+
+  const id = req.session.Clienteid;
+  const { comment } = req.body;
+
+  if (!id) {
+    // Lida com erros e retorna uma resposta de erro
+    res.status(500).json({ message: 'Usuário não logado' });
   }
+
+  if (comment.length == 0) {
+    res.status(500).json({ message: 'Comentario não pode estar vazio' });
+  }
+
+  await clienteModel.insertCommentForUser(id, comment)
+
+  res.redirect("/bsEmpresa");
+
 }
+        }
 
 module.exports = clienteController

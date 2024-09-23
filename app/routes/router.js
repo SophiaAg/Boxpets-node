@@ -69,7 +69,7 @@ router.get("/cadastroEmpresa", async function (req, res) {
 
 // btnloginEmpresa
 router.get("/loginEmpresa", async function (req, res) {
-    res.render("pages/template-loginEmpresa", { page: "../partial/cadastroEmpresa/login", errors: null, valores: "", especialidades:especialidades });
+    res.render("pages/template-loginEmpresa", { page: "../partial/cadastroEmpresa/login", errors: null, valores: ""  });
 });
 
 // Cadastro de EMPRESAS

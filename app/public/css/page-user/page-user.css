@@ -93,25 +93,25 @@
     margin-bottom: 30px;
   }
 
+  @media (min-width: 768px){
+    .areaTwoContent{
+      display: grid; 
 
+  }
+  }
 
   @media (min-width: 768px) {
     .container {
       width: 750px;
     }
-    #areaTwoContent{
-      display: grid;
-    }
+  
   }
 
   @media (min-width: 992px) {
     .container {
       width: 970px;
     }
-    .areaTwoContent{
-        display: contents; 
-
-    }
+  
 
   }
 
