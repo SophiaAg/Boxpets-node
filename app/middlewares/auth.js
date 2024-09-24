@@ -1,19 +1,21 @@
-
 const usuariosModel = require("../models/usuariosModel")
 const { body, validationResult } = require("express-validator")
 var bcrypt = require("bcryptjs")
+const clienteModel = require("../models/clienteModel")
 var salt = bcrypt.genSaltSync(8)
- 
+
 const middleWares = {
-    
+
     // Verifica se existe o item autenticado na variavel de sessão, se existir ela cria uma variavel e guarda o seu valor, ja se não, ela cria um objeto com os itens autenticado e id como null. dps disso define a propria variavel de sessão como a variavel criada e passa para o proximo middleWare
     verifyAutenticado: (req, res, next) => {
         if (req.session.autenticado) {
             var aut = req.session.autenticado
-            req.session.logado = req.session.logado + 1
+
         } else {
-            var aut = { autenticado: null, id: null , foto: "perfil-padrao.webp"}
-            req.session.logado = 0
+            var aut = { autenticado: null, id: null
+                //, foto: "perfil-padrao.webp" 
+            }
+
         }
         req.session.autenticado = aut
         next();
@@ -37,25 +39,66 @@ const middleWares = {
     gravarAutenticacao: async (req, res, next) => {
         errors = validationResult(req)
         if (errors.isEmpty()) {
-            var userBd = await usuariosModel.findUserByNickname(req.body.usuario)
-            if (Object.keys(userBd).length == 1) {
-                if (bcrypt.compareSync(req.body.senha, userBd[0].SENHA_USUARIO)) {
-                    var aut = { autenticado: userBd[0].NICKNAME_USUARIO, id: userBd[0].ID_USUARIO , foto: userBd[0].CAMINHO_FOTO    }
+
+            var empresaBd = await usuariosModel.findUsuariosByEmail(req.body.email)
+            var clienteBd = await clienteModel.findClienteByEmail(req.body.email)
+
+            if (empresaBd[0]) {
+
+                if (Object.keys(empresaBd).length == 1) {
+                    if (bcrypt.compareSync(req.body.senha,empresaBd[0].SENHA_USUARIOS)) {
+                        var aut = {
+                            autenticado:empresaBd[0].EMAIL_USUARIOS, id:empresaBd[0].ID_USUARIOS
+                            // , foto:empresaBd[0].CAMINHO_FOTO   
+                        }
+                    } else {
+                        var aut = {
+                            autenticado: null, id: null
+                            // , foto: "perfil-padrao.webp" 
+                        }
+
+                    }
                 } else {
-                    var aut = { autenticado: null, id: null, foto: "perfil-padrao.webp" }
- 
+                    var aut = {
+                        autenticado: null, id: null
+                        // , foto: "perfil-padrao.webp"
+                    }
                 }
-            } else {
-                var aut = { autenticado: null, id: null, foto: "perfil-padrao.webp" }
+
+            } else if (clienteBd[0]) {
+
+                if (Object.keys(clienteBd).length == 1) {
+                    if (bcrypt.compareSync(req.body.senha, clienteBd[0].SENHA_CLIENTE)) {
+                        var aut = {
+                            autenticado: clienteBd[0].EMAIL_CLIENTE, id: clienteBd[0].ID_CLIENTE
+                            // , foto: clienteBd[0].CAMINHO_FOTO   
+                        }
+                    } else {
+                        var aut = {
+                            autenticado: null, id: null
+                            // , foto: "perfil-padrao.webp" 
+                        }
+
+                    }
+                } else {
+                    var aut = {
+                        autenticado: null, id: null
+                        // , foto: "perfil-padrao.webp"
+                    }
+                }
             }
+
+
         } else {
-            var aut = { autenticado: null, id: null, foto: "perfil-padrao.webp" }
+            var aut = {
+                autenticado: null, id: null
+                // , foto: "perfil-padrao.webp" 
+            }
         }
         req.session.autenticado = aut
-        req.session.logado = 0
         next();
     },
- 
+
 }
- 
+
 module.exports = middleWares

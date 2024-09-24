@@ -48,18 +48,8 @@ if (msgErro != "") { %>
     let msgErro = "<%= msgErro %>";
     notify("Erro no preenchimento", "Verifique o(s) campo(s): <br>" + msgErro.replace(/&lt;/g, "<").replace(/&gt;/g, ">"), "error", "center", 5000);
   </script>
-<% }
+<% }  %>
 
-if (dadosNotificacao) { %>
-  <script>
-    notify("<%= dadosNotificacao.titulo %>", "<%= dadosNotificacao.mensagem %>", "<%= dadosNotificacao.tipo %>", "center");
-    if ("<%= dadosNotificacao.tipo %>" == "success") {
-      setTimeout(function() {
-        window.location = "/";
-      }, 3000);
-    }
-  </script>
-<% } %>
 
 <div class="container">
   <h1 id="TituloPerfil">Perfil</h1>

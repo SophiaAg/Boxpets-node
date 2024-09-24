@@ -4,6 +4,7 @@ const clienteController = require("../controllers/clientesController");
 const clienteModel = require("../models/clienteModel");
 const usuariosController = require("../controllers/usuariosContoller");
 const usuariosModel = require("../models/usuariosModel");
+const middleWares = require("../middlewares/auth");
 
 
 router.get("/", function (req, res) {
@@ -52,8 +53,8 @@ router.get("/veterinarios", function (req, res) {
     res.render("pages/template-hm", { pagina: "LandingPage", page: "../partial/servicosgerais/veterinarios" });
 });
 
-router.get("/page-user", function (req, res) {
-    res.render("pages/template-hm", { pagina: "LandingPage", page: "../partial/landing-home/page-user" });
+router.get("/page-user",middleWares.verifyAutenticado,middleWares.verifyAutorizado("login") ,function (req, res) {
+    res.render("pages/template-hm", { pagina: "LandingPage", page: "../partial/landing-home/page-user", valores: "" });
 });
 
 // btncadastroEmpresa
