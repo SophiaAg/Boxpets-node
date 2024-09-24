@@ -242,10 +242,6 @@ const clienteController = {
     }
   },
   entrar: async (req, res) => {
-    // Aqui verifico se tem erros de validação no formulário, se tiver carrego a pagina de login novamente com erros, 
-    //senão busco a partir do um usuário a partir do digitado, e então eu por fim, verifico se o cliente do banco existe
-    //e se o hash da senha digitada no form bate com o hash da senha que estava no banco e se a sessão não é null. 
-    //Se tudo estiver correto ele renderiza a page home, senão ele manda pra page de login como usuário ou senha incorretos
 
     let errors = validationResult(req)
 
@@ -263,12 +259,14 @@ const clienteController = {
       const { email, password } = req.body
       try {
         const clienteBd = await clienteModel.findClienteByEmail(email)
+        console.log(password)
+        console.log(clienteBd[0])
+        if (clienteBd[0] && bcrypt.compareSync(password, clienteBd[0].SENHA_CLIENTE)) {
 
-        if (clienteBd[0] && bcrypt.compareSync(password, clienteBd[0].SENHA_CLIENTE)
-          // && req.session.autenticado.autenticado
-        ) {
-
-          req.session.Clienteid = clienteBd[0].ID_CLIENTE
+          req.session.autenticado = {
+            autenticado: clienteBd[0].EMAIL_CLIENTE,
+            id: clienteBd[0].ID_CLIENTE
+          }
           const jsonResult = {
             page: "../partial/landing-home/home-page"
           }
@@ -380,65 +378,65 @@ const clienteController = {
         // dadosForm. img_perfil_pasta = null;
 
         let resultUpdate = await cliente.update(dadosForm, req.session.autenticado.id);
-        if (!resultUpdate.isEmpty){
-        if (resultUpdate.changedRows == 1) {
-          var result = await cliente.findId(req.session.autenticado.id);
-          var autenticado = {
-            autenticado: result[0].nome_cliente,
-            id: result[0].id_cliente,
-            // tipo: result[0]id_tipo_usuario,
-            img_perfil_banco: result[0].img_perfil_banco != null ? `data:image/jpeg;base64,${result[0].img_perfil_banco.toString("base64")}` : null,
-            img_perfil_pasta: result[0].img_perfil_pasta
-          };
-          req.session.autenticado - autenticado;
-          var campos = {
-            nome_usu: result[0].nome_usuario, email_usu: result[e].email_usuario,
-            img_perfil_pasta: result[0].img_perfil_pasta, img_perfil_banco: result[0].img_perfil_banco,
-            nomeusu_usu: result[0].user_usuario, fone_usu: result[0].fone_usuario, senha_usu: ""
-          }
+        if (!resultUpdate.isEmpty) {
+          if (resultUpdate.changedRows == 1) {
+            var result = await cliente.findId(req.session.autenticado.id);
+            var autenticado = {
+              autenticado: result[0].nome_cliente,
+              id: result[0].id_cliente,
+              // tipo: result[0]id_tipo_usuario,
+              img_perfil_banco: result[0].img_perfil_banco != null ? `data:image/jpeg;base64,${result[0].img_perfil_banco.toString("base64")}` : null,
+              img_perfil_pasta: result[0].img_perfil_pasta
+            };
+            req.session.autenticado - autenticado;
+            var campos = {
+              nome_usu: result[0].nome_usuario, email_usu: result[e].email_usuario,
+              img_perfil_pasta: result[0].img_perfil_pasta, img_perfil_banco: result[0].img_perfil_banco,
+              nomeusu_usu: result[0].user_usuario, fone_usu: result[0].fone_usuario, senha_usu: ""
+            }
 
-          res.render("pages/perfil", {
-            listaErros: null, dadosNotificacao: { titulo: "Perfil! atualizado com sucesso", mensagem: "Alteracoes Gravadas", tipo: "success" }, valores: campos
-          });
-        } else {
-          res.render("pages/perfil", { listaErros: null, dadosNotificacao: { titulo: "Perfil! atualizado com sucesso", mensagem: "Sem alteracoes", tipo: "success" }, valores: dadosForm });
+            res.render("pages/perfil", {
+              listaErros: null, dadosNotificacao: { titulo: "Perfil! atualizado com sucesso", mensagem: "Alteracoes Gravadas", tipo: "success" }, valores: campos
+            });
+          } else {
+            res.render("pages/perfil", { listaErros: null, dadosNotificacao: { titulo: "Perfil! atualizado com sucesso", mensagem: "Sem alteracoes", tipo: "success" }, valores: dadosForm });
+          }
         }
+      } catch (e) {
+        console.log(e)
+        res.render("pages/perfil", { listaErros: erros, dadosNotificacao: { titulo: "Erro ao atualizar o perfil!", mensagem: "Verifique os valores digitados!", tipo: "error" }, valores: req.body })
       }
-    } catch (e) {
-      console.log(e)
-      res.render("pages/perfil", { listaErros: erros, dadosNotificacao: { titulo: "Erro ao atualizar o perfil!", mensagem: "Verifique os valores digitados!", tipo: "error" }, valores: req.body })
-    }
     }
   },
 
 
- 
 
 
 
 
 
-// comentar
 
-FazerComentario: async (req, res) => {
+  // comentar
 
-  const id = req.session.Clienteid;
-  const { comment } = req.body;
+  FazerComentario: async (req, res) => {
 
-  if (!id) {
-    // Lida com erros e retorna uma resposta de erro
-    res.status(500).json({ message: 'Usuário não logado' });
+    const id = req.session.Clienteid;
+    const { comment } = req.body;
+
+    if (!id) {
+      // Lida com erros e retorna uma resposta de erro
+      res.status(500).json({ message: 'Usuário não logado' });
+    }
+
+    if (comment.length == 0) {
+      res.status(500).json({ message: 'Comentario não pode estar vazio' });
+    }
+
+    await clienteModel.insertCommentForUser(id, comment)
+
+    res.redirect("/bsEmpresa");
+
   }
-
-  if (comment.length == 0) {
-    res.status(500).json({ message: 'Comentario não pode estar vazio' });
-  }
-
-  await clienteModel.insertCommentForUser(id, comment)
-
-  res.redirect("/bsEmpresa");
-
 }
-        }
 
 module.exports = clienteController

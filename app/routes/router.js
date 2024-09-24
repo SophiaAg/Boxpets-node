@@ -53,7 +53,15 @@ router.get("/veterinarios", function (req, res) {
     res.render("pages/template-hm", { pagina: "LandingPage", page: "../partial/servicosgerais/veterinarios" });
 });
 
-router.get("/page-user",middleWares.verifyAutenticado,middleWares.verifyAutorizado("login") ,function (req, res) {
+router.get("/page-user",
+middleWares.verifyAutenticado,
+middleWares.verifyAutorizado("pages/template-login",
+{
+    form: "../partial/login/entrar",
+    errors: null,
+    valores: null,
+    incorreto: false
+}) ,function (req, res) {
     res.render("pages/template-hm", { pagina: "LandingPage", page: "../partial/landing-home/page-user", valores: "" });
 });
 
@@ -89,7 +97,7 @@ router.post("/cadastrarCliente", clienteController.regrasValidacaoCriarConta, fu
     clienteController.cadastrar(req, res)
 })
 // login de CLIENTES
-router.post("/logarCliente", clienteController.regrasValidacaoLogarConta, function (req, res) {
+router.post("/logarCliente", clienteController.regrasValidacaoLogarConta, middleWares.gravarAutenticacaoCliente ,function (req, res) {
     clienteController.entrar(req, res)
 })
 

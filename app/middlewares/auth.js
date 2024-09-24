@@ -12,7 +12,8 @@ const middleWares = {
             var aut = req.session.autenticado
 
         } else {
-            var aut = { autenticado: null, id: null
+            var aut = {
+                autenticado: null, id: null
                 //, foto: "perfil-padrao.webp" 
             }
 
@@ -36,19 +37,18 @@ const middleWares = {
         };
     },
     // ele verifica se tem erros nos inputs da pagina, se tiver ele retorna o objeto como null, senao ele prossegue, buscando um usuario que tenha o nome digitado no formulario no campo name='usuario'. Caso tiver apenas 1 usuário, ele compara o hash da senha do input name="senha" com o hash da senha do banco de dados, caso for diferente de 1, ele retorna também tudo como null
-    gravarAutenticacao: async (req, res, next) => {
-        errors = validationResult(req)
+    gravarAutenticacaoEmpresa: async (req, res, next) => {
+        let errors = validationResult(req)
         if (errors.isEmpty()) {
 
             var empresaBd = await usuariosModel.findUsuariosByEmail(req.body.email)
-            var clienteBd = await clienteModel.findClienteByEmail(req.body.email)
 
             if (empresaBd[0]) {
 
                 if (Object.keys(empresaBd).length == 1) {
-                    if (bcrypt.compareSync(req.body.senha,empresaBd[0].SENHA_USUARIOS)) {
+                    if (bcrypt.compareSync(req.body.senha.empresaBd[0].SENHA_USUARIOS)) {
                         var aut = {
-                            autenticado:empresaBd[0].EMAIL_USUARIOS, id:empresaBd[0].ID_USUARIOS
+                            autenticado: empresaBd[0].EMAIL_USUARIOS, id: empresaBd[0].ID_USUARIOS
                             // , foto:empresaBd[0].CAMINHO_FOTO   
                         }
                     } else {
@@ -65,10 +65,31 @@ const middleWares = {
                     }
                 }
 
-            } else if (clienteBd[0]) {
+            }
 
+
+
+        } else {
+            var aut = {
+                autenticado: null, id: null
+                // , foto: "perfil-padrao.webp" 
+            }
+        }
+        req.session.autenticado = aut
+        next();
+    },
+    gravarAutenticacaoCliente: async (req, res, next) => {
+        let errors = validationResult(req)
+        if (errors.isEmpty()) {
+
+
+            var clienteBd = await clienteModel.findClienteByEmail(req.body.email)
+
+            if (clienteBd[0]) {
+                console.log(req.body.password)
+                console.log(clienteBd[0])
                 if (Object.keys(clienteBd).length == 1) {
-                    if (bcrypt.compareSync(req.body.senha, clienteBd[0].SENHA_CLIENTE)) {
+                    if (bcrypt.compareSync(req.body.password, clienteBd[0].SENHA_CLIENTE)) {
                         var aut = {
                             autenticado: clienteBd[0].EMAIL_CLIENTE, id: clienteBd[0].ID_CLIENTE
                             // , foto: clienteBd[0].CAMINHO_FOTO   
@@ -98,7 +119,6 @@ const middleWares = {
         req.session.autenticado = aut
         next();
     },
-
 }
 
 module.exports = middleWares
