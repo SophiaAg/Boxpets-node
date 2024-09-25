@@ -41,15 +41,16 @@ const middleWares = {
         let errors = validationResult(req)
         if (errors.isEmpty()) {
 
-            var empresaBd = await usuariosModel.findUsuariosByEmail(req.body.email)
+            var usuariosBd = await usuariosModel.findUsuariosByEmail(req.body.email)
 
-            if (empresaBd[0]) {
-
-                if (Object.keys(empresaBd).length == 1) {
-                    if (bcrypt.compareSync(req.body.senha.empresaBd[0].SENHA_USUARIOS)) {
+            if (usuariosBd[0]) {
+                console.log(req.body.password)
+                console.log(usuariosBd[0])
+                if (Object.keys(usuariosBd).length == 1) {
+                    if (bcrypt.compareSync(req.body.password, usuariosBd[0].SENHA_USUARIOS)) {
                         var aut = {
-                            autenticado: empresaBd[0].EMAIL_USUARIOS, id: empresaBd[0].ID_USUARIOS
-                            // , foto:empresaBd[0].CAMINHO_FOTO   
+                            autenticado: usuariosBd[0].EMAIL_USUARIOS, id: usuariosBd[0].ID_USUARIOS
+                            // , foto: usuariosBd[0].CAMINHO_FOTO   
                         }
                     } else {
                         var aut = {

@@ -94,6 +94,11 @@ if (msgErro != "") { %>
         <i class="fas fa-envelope"></i>
         <input name="email" id="email" value="<%= valores ? valores.email : '' %>" required type="email" placeholder="Email" />
       </section>
+
+      <section class="input-field <%= avisoErro.email_cli %>">
+        <i class="fas fa-envelope"></i>
+        <input name="email" id="email" value="<%= valores ? valores.email : '' %>" required type="email" placeholder="Email" />
+      </section>
     </div>
   </form>
 </div>

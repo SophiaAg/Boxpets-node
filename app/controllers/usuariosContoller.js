@@ -272,8 +272,8 @@ const usuariosController = {
     if (!error.isEmpty()) {
       console.log(error)
       const jsonResult = {
-        form: "../partial/cadastroEmpresa/login",
-        error: error,
+        page: "../partial/cadastroEmpresa/login",
+        errors: error,
         valores: req.body,
         incorreto: false
       }
@@ -296,8 +296,8 @@ const usuariosController = {
 
         } else {
           const jsonResult = {
-            form: "../partial/cadastroEmpresa/login",
-            error: null,
+            page: "../partial/cadastroEmpresa/login",
+            errors: null,
             valores: req.body,
             incorreto: true
           }

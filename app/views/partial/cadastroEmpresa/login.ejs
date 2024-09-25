@@ -18,7 +18,10 @@ if(errors){
       <div class="box">
         <div class="inner-box">
           <div class="forms-wrap">
-            <form >
+
+            <form action="/loginEmpresa" method="post" >
+             
+              
               <div class="logo">
                 <img src="./img/logo.png" alt="logo" />
                 <h4>BoxPets</h4>
@@ -31,6 +34,7 @@ if(errors){
               </div>
 
               <div class="actual-form">
+                <form action=""></form>
 <div class="">
   <section class="input-field <%= classeErro.email %>">
     <i class="fas fa-envelope"></i>
@@ -41,19 +45,19 @@ if(errors){
               <div class="">
                 <section class="input-field <%= classeErro.senha %>">
                   <i class="fas fa-lock"></i>
-                  <input id="senha" name="senha" required type="password" placeholder="<%= msgErro.senha ? msgErro.senha : 'Crie uma senha' %>"
+                  <input id="senha" name="senha" required type="password" placeholder="<%= msgErro.senha ? msgErro.senha : 'Insira sua senha' %>"
                   value="<%= msgErro.senha ? '' : (valores.senha || '') %>" />
                </section>
   
             </div>
 
            
-              <button class="sign-btn" type="submit">Submit</button>
+             <a href="/"> <button class="sign-btn" type="submit">Entrar </button></a>
            
               <div class="recupereSenha">
                 <p class="text">
-                  Forgotten your password or you login datails?
-                  <a href="#">Get help</a> signing in
+                  Esque sua senha?
+                  <a href="#">Recupere a senha</a> para entrar
                 </p>
                 </div>
 

@@ -2,6 +2,7 @@ const clienteModel = require("../models/clienteModel")
 const { body, validationResult } = require("express-validator")
 var bcrypt = require("bcryptjs")
 var salt = bcrypt.genSaltSync(8)
+const {removeImg} =require("../util/removeImg")
 const moment = require("moment")
 const { invalid } = require("moment/moment")
 const clienteController = {
@@ -259,8 +260,6 @@ const clienteController = {
       const { email, password } = req.body
       try {
         const clienteBd = await clienteModel.findClienteByEmail(email)
-        console.log(password)
-        console.log(clienteBd[0])
         if (clienteBd[0] && bcrypt.compareSync(password, clienteBd[0].SENHA_CLIENTE)) {
 
           req.session.autenticado = {
@@ -308,24 +307,19 @@ const clienteController = {
 
 
       let campos = {
-        nome_cli: results[0].nome_cliente, email_cli: results[e].email_cliente,
-        cep: cep,
-        numero: results[0].numero_cliente,
-        complemento: results[0].complemento_cliente, logradouro: viaCep.logradouro,
-        bairro: viaCep.bairro, localidade: viaCep.localidade, uf: viaCep.uf,
+        nome_cli: results[0].nome_cliente, email_cli: results[0].email_cliente,
         img_perfil_pasta: results[0].img_perfil_pasta,
         img_perfil_banco: results[0].img_perfil_banco != null ? `data:image/jpeg;base64,${results[0].img_perfil_banco.toString('base64')}` : null,
-        nomecli_cli: results[0].user_cliente, fone_cli: results[0].fone_cliente, senha_cli: ""
+        nomecli_cli: results[0].nome_cliente, celular_cli: results[0].celular_cliente, cpf_cli: results[0].cpf_cliente, senha_cli: ""
       }
 
-      res.render("partial/landing-home/page-user", { avisoErro: null, dadosNotificacao: null, valores: campos })
+      res.render("partial/landing-home/page-user", { avisoErro: null, valores: campos })
     } catch (e) {
       console.log(e);
       res.render("partial/landing-home/page-user", {
         avisoErro: null, dadosNotificacao: null, valores: {
           img_perfil_banco: "", img_perfil_pasta: "", nome_cli: "", email_cli: "",
-          nomecli_cli: "", fone_cli: "", senha_cli: "", cep: "", numero: "", complemento: "",
-          logradouro: "", bairro: "", localidade: "", uf: ""
+          nomecli_cli: "", celular_cli: "", senha_cli: "", cpf_cli: ""
         }
       })
     }
@@ -339,7 +333,7 @@ const clienteController = {
       if (erroMulter != null) {
         aviso.errors.push(erroMulter);
 
-        return res.render("partial/landing-home/page-user", { avisoErros: aviso, dadosNotificacao: null, valores: req.body })
+        return res.render("partial/landing-home/page-user", { avisoErros: aviso,  valores: req.body })
 
       }
       try {
@@ -348,9 +342,6 @@ const clienteController = {
           nome_cliente: req.body.nome_cli,
           email_cliente: req.body.email_cli,
           celular_cliente: req.body.fone_cli,
-          cep_cliente: req.body.cep.replace("-", ""),
-          numero_cliente: req.body.numero,
-          complemento_cliente: req.body.complemento,
           img_perfil_banco: req.session.autenticado.img_perfil_banco,
           img_perfil_pasta: req.session.autenticado.img_perfil_pasta,
         };

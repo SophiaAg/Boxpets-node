@@ -3,9 +3,14 @@
 *,
 *::before,
 *::after {
-  padding: 0;
+ 
   margin: 0;
+  padding: 0;
   box-sizing: border-box;
+  list-style: none;
+  text-decoration: none;
+  scroll-padding-top: 2rem;
+  scroll-behavior: smooth;
 }
 
 body,
@@ -149,7 +154,12 @@ form.sign-up-form {
   color: #aaa;
   font-weight: 500;
 }
+.input-field i{
+  display: flex;
+  align-items: center;
+  margin-left: 20%;
 
+}
 
 
 

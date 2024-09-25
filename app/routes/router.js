@@ -78,7 +78,12 @@ router.get("/cadastroEmpresa", async function (req, res) {
 
 // btnloginEmpresa
 router.get("/loginEmpresa", async function (req, res) {
-    res.render("pages/template-loginEmpresa", { page: "../partial/cadastroEmpresa/login", errors: null, valores: ""  });
+    try {
+        res.render("pages/template-loginEmpresa", { page: "../partial/cadastroEmpresa/login", errors: null, valores: ""});
+    } catch (error) {
+        res.redirect("/")
+        // colocar pagina de erro
+    }
 });
 
 // Cadastro de EMPRESAS
@@ -87,7 +92,7 @@ router.post("/cadastrarEmpresa", usuariosController.regrasValidacaoCriarConta, f
 })
 
 // Login de EMPRESAS
-router.post("/loginEmpresa", usuariosController.regrasValidacaoLogarConta, function (req, res) {
+router.post("/logarEmpresa", usuariosController.regrasValidacaoLogarConta, function (req, res) {
     usuariosController.entrarEmpresa(req, res)
  })
 
