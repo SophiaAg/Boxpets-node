@@ -2,7 +2,7 @@ const clienteModel = require("../models/clienteModel")
 const { body, validationResult } = require("express-validator")
 var bcrypt = require("bcryptjs")
 var salt = bcrypt.genSaltSync(8)
-const {removeImg} =require("../util/removeImg")
+const { removeImg } = require("../util/removeImg")
 const moment = require("moment")
 const { invalid } = require("moment/moment")
 const clienteController = {
@@ -290,27 +290,32 @@ const clienteController = {
   },
   mostrarPerfil: async (req, res) => {
     try {
-      let results = await cliente.findId(req.session.autenticado.id);
-      if (results[0].cep_cliente != null) {
-        const httpsAgent = new https.Agent({
-          rejectUnauthorized: false,
-        });
-        const response = await fetch('https://viacep.com.br/ws/${results[0].cep_cliente}/json/',
-          { method: 'GET', headers: null, body: null, agent: httpsAgent, });
-        var viaCep = await response.json();
-        var cep = results[0].cep_cliente.slice(0, 5) + "-" + results[0].cep_cliente.slice(5)
-      } else {
-        var viaCep = { logradouro: "", bairro: "", cidade: "", uf: "" }
-        var cep = null;
-      }
+      let results = await clienteModel.findClienteById(req.session.autenticado.id);
+      // if (results[0].cep_cliente != null) {
+      //   const httpsAgent = new https.Agent({
+      //     rejectUnauthorized: false,
+      //   });
+      //   const response = await fetch('https://viacep.com.br/ws/${results[0].cep_cliente}/json/',
+      //     { method: 'GET', headers: null, body: null, agent: httpsAgent, });
+      //   var viaCep = await response.json();
+      //   var cep = results[0].cep_cliente.slice(0, 5) + "-" + results[0].cep_cliente.slice(5)
+      // } else {
+      //   var viaCep = { logradouro: "", bairro: "", cidade: "", uf: "" }
+      //   var cep = null;
+      // }
 
-
+      const data = new Date(results[0].DATA_NASC_CLIENTE);
+      const dataFormatada = data.toISOString().split('T')[0];
 
       let campos = {
-        nome_cli: results[0].nome_cliente, email_cli: results[0].email_cliente,
-        img_perfil_pasta: results[0].img_perfil_pasta,
-        img_perfil_banco: results[0].img_perfil_banco != null ? `data:image/jpeg;base64,${results[0].img_perfil_banco.toString('base64')}` : null,
-        nomecli_cli: results[0].nome_cliente, celular_cli: results[0].celular_cliente, cpf_cli: results[0].cpf_cliente, senha_cli: ""
+        nome: results[0].NOME_CLIENTE,
+        email: results[0].EMAIL_CLIENTE,
+        /// img_perfil_pasta: results[0].img_perfil_pasta,
+        /// img_perfil_banco: results[0].img_perfil_banco != null ? `data:image/jpeg;base64,${results[0].img_perfil_banco.toString('base64')}` : null,
+        nasc: dataFormatada,
+        celular: results[0].CELULAR_CLIENTE,
+        cpf: results[0].CPF_CLIENTE,
+        senha: ""
       }
 
       res.render("partial/landing-home/page-user", { avisoErro: null, valores: campos })
@@ -333,7 +338,7 @@ const clienteController = {
       if (erroMulter != null) {
         aviso.errors.push(erroMulter);
 
-        return res.render("partial/landing-home/page-user", { avisoErros: aviso,  valores: req.body })
+        return res.render("partial/landing-home/page-user", { avisoErros: aviso, valores: req.body })
 
       }
       try {

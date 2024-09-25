@@ -19,8 +19,10 @@ if(errors){
         <div class="inner-box">
           <div class="forms-wrap">
 
-            <form action="/loginEmpresa" method="post" >
-             
+            <form action="/logarEmpresa" method="post" >
+              <% if(incorreto) { %>
+                <h3 class="alert">usuário ou senha incorretos</h3>
+            <% } %>
               
               <div class="logo">
                 <img src="./img/logo.png" alt="logo" />
@@ -56,7 +58,7 @@ if(errors){
            
               <div class="recupereSenha">
                 <p class="text">
-                  Esque sua senha?
+                  Esqueceu sua senha?
                   <a href="#">Recupere a senha</a> para entrar
                 </p>
                 </div>

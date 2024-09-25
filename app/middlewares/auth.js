@@ -27,9 +27,17 @@ const middleWares = {
         next()
     },
     // verifica se o item 'autenticado' da variavel de sessão 'autenticado' é diferente de null, se for ele passa pro proximo middleWare, senao ele realiza um res.render para a pagina passada como destinoFalha
-    verifyAutorizado: (destinoFalha, objetoResRender = null) => {
-        return (req, res, next) => {
+    verifyAutorizado: (destinoFalha, objetoResRender = null, isForEmpresa) => {
+        return async (req, res, next) => {
             if (req.session.autenticado.autenticado != null) {
+                if (isForEmpresa) {
+                    const empresaBd = await usuariosModel.findUsuariosById(req.session.autenticado.id)
+                    if (empresaBd[0]) {
+                        next();
+                    } else {
+                        res.redirect("/")
+                    }
+                }
                 next();
             } else {
                 res.render(destinoFalha, objetoResRender)

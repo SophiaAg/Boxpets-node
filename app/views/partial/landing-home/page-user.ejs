@@ -90,14 +90,14 @@ if (msgErro != "") { %>
         <input id="celular" name="celular" value="<%= valores ? valores.celular : '' %>" required type="text" placeholder="Celular:" />
       </section>
 
-      <section class="input-field <%= avisoErro.email_cli %>">
+      <section class="input-field <%= avisoErro.email %>">
         <i class="fas fa-envelope"></i>
         <input name="email" id="email" value="<%= valores ? valores.email : '' %>" required type="email" placeholder="Email" />
       </section>
 
-      <section class="input-field <%= avisoErro.email_cli %>">
+      <section class="input-field <%= avisoErro.email %>">
         <i class="fas fa-envelope"></i>
-        <input name="email" id="email" value="<%= valores ? valores.email : '' %>" required type="email" placeholder="Email" />
+        <input name="senha" id="email" value="<%= valores ? valores.email : '' %>" required type="email" placeholder="Email" />
       </section>
     </div>
   </form>

@@ -54,22 +54,18 @@ router.get("/veterinarios", function (req, res) {
 });
 
 router.get("/page-user",
-middleWares.verifyAutenticado,
-middleWares.verifyAutorizado("pages/template-login",
-{
-    form: "../partial/login/entrar",
-    errors: null,
-    valores: null,
-    incorreto: false
-}) ,function (req, res) {
-    res.render("pages/template-hm", { pagina: "LandingPage", page: "../partial/landing-home/page-user", valores: "" });
-});
+    middleWares.verifyAutenticado,
+    middleWares.verifyAutorizado("pages/template-login", { form: "../partial/login/entrar", errors: null, valores: null, incorreto: false }, false ),
+    function (req, res) {
+        
+       clienteController.mostrarPerfil(req,res);
+    });
 
 // btncadastroEmpresa
 router.get("/cadastroEmpresa", async function (req, res) {
     try {
         const especialidades = await usuariosModel.findAllEspeci()
-        res.render("pages/template-cadastroEmpresa", { page: "../partial/cadastroEmpresa/cadastro", errors: null, valores: "", especialidades:especialidades });
+        res.render("pages/template-cadastroEmpresa", { page: "../partial/cadastroEmpresa/cadastro", errors: null, valores: "", especialidades: especialidades });
     } catch (error) {
         res.redirect("/")
         // colocar pagina de erro
@@ -79,7 +75,7 @@ router.get("/cadastroEmpresa", async function (req, res) {
 // btnloginEmpresa
 router.get("/loginEmpresa", async function (req, res) {
     try {
-        res.render("pages/template-loginEmpresa", { page: "../partial/cadastroEmpresa/login", errors: null, valores: ""});
+        res.render("pages/template-loginEmpresa", { page: "../partial/cadastroEmpresa/login", errors: null, valores: "", incorreto: null });
     } catch (error) {
         res.redirect("/")
         // colocar pagina de erro
@@ -88,13 +84,13 @@ router.get("/loginEmpresa", async function (req, res) {
 
 // Cadastro de EMPRESAS
 router.post("/cadastrarEmpresa", usuariosController.regrasValidacaoCriarConta, function (req, res) {
-   usuariosController.cadastrarUsuario(req, res)
+    usuariosController.cadastrarUsuario(req, res)
 })
 
 // Login de EMPRESAS
 router.post("/logarEmpresa", usuariosController.regrasValidacaoLogarConta, function (req, res) {
     usuariosController.entrarEmpresa(req, res)
- })
+})
 
 
 // Cadastro de CLIENTES
@@ -102,7 +98,7 @@ router.post("/cadastrarCliente", clienteController.regrasValidacaoCriarConta, fu
     clienteController.cadastrar(req, res)
 })
 // login de CLIENTES
-router.post("/logarCliente", clienteController.regrasValidacaoLogarConta, middleWares.gravarAutenticacaoCliente ,function (req, res) {
+router.post("/logarCliente", clienteController.regrasValidacaoLogarConta, middleWares.gravarAutenticacaoCliente, function (req, res) {
     clienteController.entrar(req, res)
 })
 
@@ -112,7 +108,7 @@ router.post("/logarCliente", clienteController.regrasValidacaoLogarConta, middle
 
 
 
-router.get("/bsEmpresa", async function(req, res) {
+router.get("/bsEmpresa", async function (req, res) {
 
     const mensagens = await clienteModel.verComentarios(req, res);
 
@@ -121,11 +117,11 @@ router.get("/bsEmpresa", async function(req, res) {
 
 // post para comentar
 
-router.post("/fazerComentario", function(req, res) {
+router.post("/fazerComentario", function (req, res) {
     clienteController.FazerComentario(req, res);
 })
 
-router.post("/deletePublication/:id", async function(req, res) {
+router.post("/deletePublication/:id", async function (req, res) {
 
     const idComentario = req.params.id;
 
