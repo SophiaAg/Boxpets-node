@@ -318,7 +318,7 @@ const clienteController = {
         senha: ""
       }
 
-      res.render("partial/landing-home/page-user", { avisoErro: null, valores: campos })
+      res.render("./pages/template-hm", { page: "../partial/landing-home/page-user", avisoErro: null, valores: campos })
     } catch (e) {
       console.log(e);
       res.render("partial/landing-home/page-user", {
