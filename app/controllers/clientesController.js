@@ -404,6 +404,109 @@ const clienteController = {
       }
     }
   },
+  atualizarFoto: async (req, res) => {
+    let errors = validationResult(req)
+        let errosMulter = req.session.erroMulter
+
+        if (!errors.isEmpty() || errosMulter.length > 0) {
+
+            let listaErros = errors.isEmpty() ? { formatter: null, errors: [] } : errors;
+
+            if (errosMulter.length > 0) {
+                listaErros.errors.push(...errosMulter)
+                if (req.file) removeImg(`./app/public/img/imagens-servidor/perfil/${req.file.filename}`)
+            }
+            console.log("-------erro-de-validação-foto--------")
+            console.log(listaErros)
+            console.log(errors)
+            console.log(errosMulter)
+
+            const user = req.session.autenticado ? await usuariosModel.findUserById(req.session.autenticado.id) : new Error("Erro ao acessar o banco")
+
+            const jsonResult = {
+                page: "../partial/edit-profile/index",
+                pageClass: "index",
+                usuario: user[0],
+                modalAberto: true,
+                erros: listaErros,
+                token: null
+            }
+            res.render("./pages/edit-profile", jsonResult)
+
+        } else {
+
+            if (!req.file) {
+                console.log("falha ao carregar arquivo!")
+                const user = req.session.autenticado ? await usuariosModel.findUserById(req.session.autenticado.id) : new Error("Erro ao acessar o banco")
+                const jsonResult = {
+                    page: "../partial/edit-profile/index",
+                    pageClass: "index",
+                    usuario: user[0],
+                    modalAberto: true,
+                    erros: null,
+                    token: { msg: 'Falha ao carregar a imagem!', type: 'danger' }
+                }
+                return res.render("./pages/edit-profile", jsonResult)
+            } else {
+                try {
+                    var caminhoFoto = req.session.autenticado.foto
+                    if (caminhoFoto != req.file.filename && caminhoFoto != "perfil-padrao.webp") {
+                        removeImg(`./app/public/img/imagens-servidor/perfil/${caminhoFoto}`)
+                    }
+                    caminhoFoto = req.file.filename
+                    let resultado = await usuariosModel.updateUser({ CAMINHO_FOTO: caminhoFoto }, req.session.autenticado.id)
+                    const user = await usuariosModel.findUserById(req.session.autenticado.id)
+
+                    req.session.autenticado.foto = caminhoFoto
+                    console.log(resultado)
+                    const jsonResult = {
+                        page: "../partial/edit-profile/index",
+                        pageClass: "index",
+                        usuario: user[0],
+                        modalAberto: false,
+                        erros: null,
+                        token: { msg: "Foto de usuário atualizada", type: "success" }
+                    }
+                    res.render("./pages/edit-profile", jsonResult)
+
+                } catch (errors) {
+                    console.log(errors)
+                    res.render("pages/error-500")
+
+                }
+            }
+
+        }
+  },
+  excluirFoto: async (req, res) => { 
+     try {
+            var caminhoFoto = req.session.autenticado.foto
+            if (caminhoFoto != "perfil-padrao.webp") {
+                removeImg(`./app/public/img/imagens-servidor/perfil/${caminhoFoto}`)
+            }
+            caminhoFoto = "perfil-padrao.webp"
+            let resultado = await usuariosModel.updateUser({ CAMINHO_FOTO: caminhoFoto }, req.session.autenticado.id)
+            const user = await usuariosModel.findUserById(req.session.autenticado.id)
+            req.session.autenticado.foto = caminhoFoto
+            console.log(resultado)
+            const jsonResult = {
+                page: "../partial/edit-profile/index",
+                pageClass: "index",
+                usuario: user[0],
+                modalAberto: false,
+                erros: null,
+                token: { msg: "Foto excluída com sucesso!", type: "success" }
+            }
+            res.render("./pages/edit-profile", jsonResult)
+
+        } catch (errors) {
+            console.log(errors)
+            res.render("pages/error-500")
+
+        }
+ },
+
+  
 
 
 
@@ -434,5 +537,6 @@ const clienteController = {
 
   }
 }
+
 
 module.exports = clienteController
