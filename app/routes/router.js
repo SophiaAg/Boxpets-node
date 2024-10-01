@@ -69,11 +69,19 @@ router.post("/atualizarFoto",
         next();
     },
     middleWares.verifyAutenticado,
-    middleWares.verifyAutorizado("pages/template-login", { page: "../partial/cadastroEmpresa/login", errors: null, valores: "", incorreto: null }),
+    middleWares.verifyAutorizado("pages/template-login", { form: "../partial/login/entrar", errors: null, valores: "", incorreto: null }),
     uploadClientePerfil("imgPerfil"),
     function (req, res) {
         clienteController.atualizarFoto(req, res)
     });
+
+    router.post("/excluirFoto",
+    middleWares.verifyAutenticado,
+    middleWares.verifyAutorizado("pages/template-login", { form: "../partial/login/entrar", errors: null, valores: "", incorreto: null }),
+    function (req, res) {
+        clienteController.excluirFoto(req, res)
+    });
+
 
 // btncadastroEmpresa
 router.get("/cadastroEmpresa", async function (req, res) {

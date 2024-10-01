@@ -61,6 +61,9 @@ if (msgErro != "") { %>
         <div id="areaFoto">
           <div>
           <form action="/atualizarFoto" method="post" enctype="multipart/form-data">
+            <article data-fotoContainer >
+              <img src="" alt="" class="foto__img">
+            </article>
             <input type="file" name="imgPerfil" id="imgPerfil" class="input__control imgPerfil <%= avisoErro.imgPerfil %>"
             placeholder="Selecione sua foto de perfil" data-inputCapa required>
               <button>Trocar Foto</button><br>
@@ -107,3 +110,5 @@ if (msgErro != "") { %>
       </section>
     </div>
 </div>
+
+<script src="./js/addPerfil.js"></script>

@@ -457,6 +457,8 @@ const clienteController = {
           caminhoFoto = req.file.filename
           let resultado = await clienteModel.updateUser({ img_perfil_pasta: caminhoFoto }, req.session.autenticado.id)
           let results = await clienteModel.findClienteById(req.session.autenticado.id);
+          const data = new Date(results[0].DATA_NASC_CLIENTE);
+          const dataFormatada = data.toISOString().split('T')[0];
 
           req.session.autenticado.foto = caminhoFoto
           console.log(resultado)
@@ -483,23 +485,27 @@ const clienteController = {
   excluirFoto: async (req, res) => {
     try {
       var caminhoFoto = req.session.autenticado.foto
-      if (caminhoFoto != "perfil-padrao.webp") {
-        removeImg(`./app/public/img/imagens-servidor/perfil/${caminhoFoto}`)
+      if (caminhoFoto != "imgUser.png") {
+        removeImg(`./app/public/src/fotos-perfil/${caminhoFoto}`)
       }
-      caminhoFoto = "perfil-padrao.webp"
-      let resultado = await clienteModel.updateUser({ CAMINHO_FOTO: caminhoFoto }, req.session.autenticado.id)
-      const user = await clienteModel.findUserById(req.session.autenticado.id)
+      caminhoFoto = "imgUser.png"
+      let resultado = await clienteModel.updateUser({ img_perfil_pasta: caminhoFoto }, req.session.autenticado.id)
+      let results = await clienteModel.findClienteById(req.session.autenticado.id);
+      const data = new Date(results[0].DATA_NASC_CLIENTE);
+      const dataFormatada = data.toISOString().split('T')[0];
       req.session.autenticado.foto = caminhoFoto
       console.log(resultado)
-      const jsonResult = {
-        page: "../partial/landing-home/page-user",
-        //pageClass: "index",
-        usuario: user[0],
-        //modalAberto: false,
-        erros: null,
-        // token: { msg: "Foto excluída com sucesso!", type: "success" }
+      
+      let campos = {
+        nome: results[0].NOME_CLIENTE,
+        email: results[0].EMAIL_CLIENTE,
+        nasc: dataFormatada,
+        celular: results[0].CELULAR_CLIENTE,
+        cpf: results[0].CPF_CLIENTE,
+        senha: ""
       }
-      res.render("./pages/edit-profile", jsonResult)
+
+     res.render("./pages/template-hm", { page: "../partial/landing-home/page-user", avisoErro: null, valores: campos })
 
     } catch (errors) {
       console.log(errors)
