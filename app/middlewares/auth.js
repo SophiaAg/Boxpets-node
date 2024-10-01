@@ -13,8 +13,7 @@ const middleWares = {
 
         } else {
             var aut = {
-                autenticado: null, id: null
-                //, foto: "perfil-padrao.webp" 
+                autenticado: null, id: null, foto: "imgUser.png" 
             }
 
         }
@@ -57,20 +56,16 @@ const middleWares = {
                 if (Object.keys(usuariosBd).length == 1) {
                     if (bcrypt.compareSync(req.body.password, usuariosBd[0].SENHA_USUARIOS)) {
                         var aut = {
-                            autenticado: usuariosBd[0].EMAIL_USUARIOS, id: usuariosBd[0].ID_USUARIOS
-                            // , foto: usuariosBd[0].CAMINHO_FOTO   
+                            autenticado: usuariosBd[0].EMAIL_USUARIOS, id: usuariosBd[0].ID_USUARIOS, foto: usuariosBd[0].img_perfil_pasta   
                         }
                     } else {
                         var aut = {
-                            autenticado: null, id: null
-                            // , foto: "perfil-padrao.webp" 
+                            autenticado: null, id: null , foto: "imgUser.png" 
                         }
-
                     }
                 } else {
                     var aut = {
-                        autenticado: null, id: null
-                        // , foto: "perfil-padrao.webp"
+                        autenticado: null, id: null , foto: "imgUser.png"
                     }
                 }
 
@@ -80,8 +75,7 @@ const middleWares = {
 
         } else {
             var aut = {
-                autenticado: null, id: null
-                // , foto: "perfil-padrao.webp" 
+                autenticado: null, id: null , foto: "imgUser.png" 
             }
         }
         req.session.autenticado = aut
@@ -100,20 +94,17 @@ const middleWares = {
                 if (Object.keys(clienteBd).length == 1) {
                     if (bcrypt.compareSync(req.body.password, clienteBd[0].SENHA_CLIENTE)) {
                         var aut = {
-                            autenticado: clienteBd[0].EMAIL_CLIENTE, id: clienteBd[0].ID_CLIENTE
-                            // , foto: clienteBd[0].CAMINHO_FOTO   
+                            autenticado: clienteBd[0].EMAIL_CLIENTE, id: clienteBd[0].ID_CLIENTE , foto: clienteBd[0].img_perfil_pasta   
                         }
                     } else {
                         var aut = {
-                            autenticado: null, id: null
-                            // , foto: "perfil-padrao.webp" 
+                            autenticado: null, id: null , foto: "imgUser.png" 
                         }
 
                     }
                 } else {
                     var aut = {
-                        autenticado: null, id: null
-                        // , foto: "perfil-padrao.webp"
+                        autenticado: null, id: null , foto: "imgUser.png" 
                     }
                 }
             }
@@ -121,8 +112,7 @@ const middleWares = {
 
         } else {
             var aut = {
-                autenticado: null, id: null
-                // , foto: "perfil-padrao.webp" 
+                autenticado: null, id: null , foto: "imgUser.png" 
             }
         }
         req.session.autenticado = aut

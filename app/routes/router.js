@@ -6,7 +6,7 @@ const usuariosController = require("../controllers/usuariosContoller");
 const usuariosModel = require("../models/usuariosModel");
 const middleWares = require("../middlewares/auth");
 const upload = require("../util/uploader");
-const uploadClientePerfil = upload("./app/public/img/imagens-cliente/perfil/", 5, ['jpeg', 'jpg', 'png', 'webp']);
+const uploadClientePerfil = upload("./app/public/src/fotos-perfil/", 5, ['jpeg', 'jpg', 'png', 'webp']);
 
 
 router.get("/", function (req, res) {
