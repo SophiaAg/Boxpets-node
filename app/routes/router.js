@@ -57,23 +57,23 @@ router.get("/veterinarios", function (req, res) {
 
 router.get("/page-user",
     middleWares.verifyAutenticado,
-    middleWares.verifyAutorizado("pages/template-login", { form: "../partial/login/entrar", errors: null, valores: null, incorreto: false }, false ),
+    middleWares.verifyAutorizado("pages/template-login", { form: "../partial/login/entrar", errors: null, valores: null, incorreto: false }, false),
     function (req, res) {
-        
-       clienteController.mostrarPerfil(req,res);
+
+        clienteController.mostrarPerfil(req, res);
     });
-    router.post("/page-user",
-        (req, res, next) => {
-            req.session.erroMulter = [];
-            next();
-        },
-        middleWares.verifyAutenticado,
-        middleWares.verifyAutorizado("pages/template-login", destinoDeFalha),
-        uploadClientePerfil("imgPerfil"),
-       // resenhaControl.validacaoResenha,
-        function (req, res) {
-          //  resenhaControl.postarResenha(req, res)
-        });
+
+router.post("/atualizarFoto",
+    (req, res, next) => {
+        req.session.erroMulter = [];
+        next();
+    },
+    middleWares.verifyAutenticado,
+    middleWares.verifyAutorizado("pages/template-login", { page: "../partial/cadastroEmpresa/login", errors: null, valores: "", incorreto: null }),
+    uploadClientePerfil("imgPerfil"),
+    function (req, res) {
+        clienteController.atualizarFoto(req, res)
+    });
 
 // btncadastroEmpresa
 router.get("/cadastroEmpresa", async function (req, res) {

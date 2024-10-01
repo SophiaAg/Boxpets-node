@@ -199,8 +199,6 @@ const clienteController = {
         return true;
       }),
   ],
-
-
   cadastrar: async (req, res) => {
     let errors = validationResult(req)
 
@@ -405,12 +403,11 @@ const clienteController = {
     }
   },
   atualizarFoto: async (req, res) => {
-    let errors = validationResult(req)
         let errosMulter = req.session.erroMulter
 
-        if (!errors.isEmpty() || errosMulter.length > 0) {
+        if (errosMulter.length > 0) {
 
-            let listaErros = errors.isEmpty() ? { formatter: null, errors: [] } : errors;
+            let listaErros =  { formatter: null, errors: [] } ;
 
             if (errosMulter.length > 0) {
                 listaErros.errors.push(...errosMulter)
