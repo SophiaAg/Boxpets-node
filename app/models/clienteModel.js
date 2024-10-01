@@ -36,6 +36,16 @@ const clienteModel = {
             return error
         }
     },
+        updateUser: async (dadosForm, id) => {
+        try {
+            const [resultados] = await pool.query("UPDATE CLIENTE SET ? WHERE ID_CLIENTE = ?", [dadosForm,id])
+            return resultados
+
+        } catch (error) {
+            console.error("Erro ao atualizar usuário", error);
+            throw error;
+        }
+    },
     insertCommentForUser: async (id, comment) => {
         try {
             const [resultados] = await pool.query("INSERT INTO MENSAGEM (CONTEUDO_MENSAGEM, FK_ID_CLIENTE) VALUES (?, ?)", [comment, id])

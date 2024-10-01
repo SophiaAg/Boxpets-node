@@ -485,17 +485,17 @@ const clienteController = {
                 removeImg(`./app/public/img/imagens-servidor/perfil/${caminhoFoto}`)
             }
             caminhoFoto = "perfil-padrao.webp"
-            let resultado = await usuariosModel.updateUser({ CAMINHO_FOTO: caminhoFoto }, req.session.autenticado.id)
-            const user = await usuariosModel.findUserById(req.session.autenticado.id)
+            let resultado = await clienteModel.updateUser({ CAMINHO_FOTO: caminhoFoto }, req.session.autenticado.id)
+            const user = await clienteModel.findUserById(req.session.autenticado.id)
             req.session.autenticado.foto = caminhoFoto
             console.log(resultado)
             const jsonResult = {
-                page: "../partial/edit-profile/index",
-                pageClass: "index",
+                page: "../partial/landing-home/page-user",
+                //pageClass: "index",
                 usuario: user[0],
-                modalAberto: false,
+                //modalAberto: false,
                 erros: null,
-                token: { msg: "Foto excluída com sucesso!", type: "success" }
+               // token: { msg: "Foto excluída com sucesso!", type: "success" }
             }
             res.render("./pages/edit-profile", jsonResult)
 

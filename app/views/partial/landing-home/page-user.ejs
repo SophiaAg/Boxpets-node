@@ -59,7 +59,8 @@ if (msgErro != "") { %>
     <div id="areaTwoContent">
       <div class="sessao-foto">
         <div id="areaFoto">
-          <img src="<%= arquivo.imagem %>" alt="Profile Picture">
+          <input type="file" name="imgPerfil" id="imgPerfil" class="input__control imgPerfil <%= classeErro.imgPerfil %>"
+          placeholder="Selecione sua foto de perfil" data-inputCapa required>
           <div>
             <button>Trocar Foto</button><br>
             <button class="btnDelete">Deletar</button>

@@ -5,6 +5,8 @@ const clienteModel = require("../models/clienteModel");
 const usuariosController = require("../controllers/usuariosContoller");
 const usuariosModel = require("../models/usuariosModel");
 const middleWares = require("../middlewares/auth");
+const upload = require("../util/uploader");
+const uploadClientePerfil = upload("./app/public/img/imagens-cliente/perfil/", 5, ['jpeg', 'jpg', 'png', 'webp']);
 
 
 router.get("/", function (req, res) {
@@ -60,6 +62,18 @@ router.get("/page-user",
         
        clienteController.mostrarPerfil(req,res);
     });
+    router.post("/page-user",
+        (req, res, next) => {
+            req.session.erroMulter = [];
+            next();
+        },
+        middleWares.verifyAutenticado,
+        middleWares.verifyAutorizado("pages/template-login", destinoDeFalha),
+        uploadClientePerfil("imgPerfil"),
+       // resenhaControl.validacaoResenha,
+        function (req, res) {
+          //  resenhaControl.postarResenha(req, res)
+        });
 
 // btncadastroEmpresa
 router.get("/cadastroEmpresa", async function (req, res) {
