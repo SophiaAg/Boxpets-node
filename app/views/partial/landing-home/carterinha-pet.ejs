@@ -1,0 +1,114 @@
+<% 
+let arquivo = { imagem: "imagem/img-perfil.png" };
+
+if (valores && valores.img_perfil_pasta != null) {
+  arquivo.imagem = valores.img_perfil_pasta;
+} else if (valores && valores.img_perfil_banco != null) {
+  arquivo.imagem = valores.img_perfil_banco;
+}
+
+let msgErro = "";
+let avisoErro = { nome_cli: "", email_cli: "", nomecli_cli: "", celular_cli: "", cep: "", imagem: "" };
+
+if (avisoErro && avisoErro.errors) {
+  avisoErro.errors.forEach(function(itemErro) {
+    if (itemErro.path == "nome_cli") {
+      avisoErro.nome_cli = "erro";
+      msgErro += `* ${itemErro.msg} <br>`;
+    }
+    if (itemErro.path == "fone_cli") {
+      avisoErro.fone_cli = "erro";
+      msgErro += `* ${itemErro.msg} <br>`;
+    }
+    if (itemErro.path == "nomecli_cli") {
+      avisoErro.nomecli_cli = "erro";
+      msgErro += `* ${itemErro.msg} <br>`;
+    }
+    if (itemErro.path == "email_cli") {
+      avisoErro.email_cli = "erro";
+      msgErro += `* ${itemErro.msg} <br>`;
+    }
+    if (itemErro.path == "cep") {
+      avisoErro.cep = "erro";
+      msgErro += `* ${itemErro.msg} <br>`;
+    }
+    if (itemErro.path == "numero") {
+      avisoErro.numero = "erro";
+      msgErro += `* ${itemErro.msg} <br>`;
+    }
+    if (itemErro.path == "imagem-perfil_cli") {
+      avisoErro.imagem = "erro";
+      msgErro += `* ${itemErro.msg} <br>`;
+    }
+  });
+}
+
+if (msgErro != "") { %>
+  <script>
+    let msgErro = "<%= msgErro %>";
+    notify("Erro no preenchimento", "Verifique o(s) campo(s): <br>" + msgErro.replace(/&lt;/g, "<").replace(/&gt;/g, ">"), "error", "center", 5000);
+  </script>
+<% }  %>
+
+
+<div class="container">
+  <h1 id="TituloPerfil">Perfil</h1>
+  <p>Lorem ipsum dolor sit amet consectetur.</p>
+
+  
+    <div id="areaTwoContent">
+      <div class="sessao-foto">
+        <div id="areaFoto">
+          <div>
+          <form action="/atualizarFoto" method="post" enctype="multipart/form-data">
+            <article data-fotoContainer >
+              <img src="" alt="" class="foto__img">
+            </article>
+            <input type="file" name="imgPerfil" id="imgPerfil" class="input__control imgPerfil <%= avisoErro.imgPerfil %>"
+            placeholder="Selecione sua foto de perfil" data-inputCapa required>
+              <button>Trocar Foto</button><br>
+            </form>
+            <form action="/excluirFoto" method="post" enctype="multipart/form-data">
+              <button class="btnDelete">Deletar</button>
+            </form>
+
+          </div>
+        </div>
+        <p>Recomendamos fotos com resolução de 256×256px</p>
+      </div>
+    </div>
+
+    <div id="areaInformacoesPerfil">
+      <section>
+        <i class="fas fa-user"></i>
+        <input id="nome" name="nome" value="<%= valores ? valores.nome : '' %>" class="input-field <%= avisoErro.nome_cli %>" required type="text" placeholder="Nome completo" />
+      </section>
+
+      <section class="input-field <%= avisoErro.nasc %>">
+        <i class="fas fa-user"></i>
+        <input id="nasc" name="nasc" value="<%= valores ? valores.nasc : '' %>" required type="date" placeholder="Data de nascimento" />
+      </section>
+
+      <section class="input-field <%= avisoErro.cpf %>">
+        <i class="fas fa-user"></i>
+        <input id="cpf" name="cpf" value="<%= valores ? valores.cpf : '' %>" required type="text" placeholder="CPF" />
+      </section>
+
+      <section class="input-field <%= avisoErro.celular %>">
+        <i class="fas fa-user"></i>
+        <input id="celular" name="celular" value="<%= valores ? valores.celular : '' %>" required type="text" placeholder="Celular:" />
+      </section>
+
+      <section class="input-field <%= avisoErro.email %>">
+        <i class="fas fa-envelope"></i>
+        <input name="email" id="email" value="<%= valores ? valores.email : '' %>" required type="email" placeholder="Email" />
+      </section>
+
+      <section class="input-field <%= avisoErro.email %>">
+        <i class="fas fa-envelope"></i>
+        <input name="senha" id="email" value="<%= valores ? valores.email : '' %>" required type="email" placeholder="Email" />
+      </section>
+    </div>
+</div>
+
+<script src="./js/addPerfil.js"></script>
