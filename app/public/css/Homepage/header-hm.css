@@ -124,3 +124,46 @@ header .header-main .search-form label{
 header .header-main .search-form label:hover{
     color: var(--cor-segundaria);
 }
+
+  /*DROPDOWN*/
+  .dropdown_menu{
+    
+    position: absolute;
+    right: 2rem;
+    top: 60px;
+    height: 0;
+    width: 300px;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(25px);
+    border-radius: 20px;
+    overflow: hidden;
+    transition: height 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  }
+  .dropdown_menu.open{
+    height: 150px;
+  }
+   
+  .dropdown_menu a {
+    padding: 0.7rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    color: var(--cor-primaria);
+  }
+   
+  .dropdown_menu a:hover{
+    color: var(--branco);
+  }
+   
+   
+  .dropdown_menu .action_btn_dropdown{
+    border-radius: 50px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    background-color: var(--cor-primaria);
+    color: var();
+    margin-top: 2%;
+
+  }
