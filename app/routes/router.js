@@ -55,6 +55,10 @@ router.get("/veterinarios", function (req, res) {
     res.render("pages/template-hm", { pagina: "LandingPage", page: "../partial/servicosgerais/veterinarios" });
 });
 
+router.get("/carterinha-pet", function (req, res) {
+    res.render("pages/template-hm", {  page: "../partial/landing-home/carterinha-pet" });
+});
+
 router.get("/page-user",
     middleWares.verifyAutenticado,
     middleWares.verifyAutorizado("pages/template-login", { form: "../partial/login/entrar", errors: null, valores: null, incorreto: false }, false),
@@ -62,6 +66,15 @@ router.get("/page-user",
 
         clienteController.mostrarPerfil(req, res);
     });
+
+    router.post("/info-atualizar",
+        middleWares.verifyAutenticado,
+        middleWares.verifyAutorizado("pages/template-login", { form: "../partial/login/entrar", errors: null, valores: null, incorreto: false }, false),
+        function (req, res) {
+    
+            clienteController.gravarPerfil(req, res);
+        });
+
 
 router.post("/atualizarFoto",
     (req, res, next) => {

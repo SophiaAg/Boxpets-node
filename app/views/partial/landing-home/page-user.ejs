@@ -60,17 +60,25 @@ if (msgErro != "") { %>
       <div class="sessao-foto">
         <div id="areaFoto">
           <div>
-          <form action="/atualizarFoto" method="post" enctype="multipart/form-data">
+          <form id="Fotoperfil" action="/atualizarFoto" method="post" enctype="multipart/form-data">
             <article data-fotoContainer >
-              <img src="" alt="" class="foto__img">
+              <img src="./src/fotos-perfil/<%= foto %>" alt="" class="foto__img">
             </article>
             <input type="file" name="imgPerfil" id="imgPerfil" class="input__control imgPerfil <%= avisoErro.imgPerfil %>"
-            placeholder="Selecione sua foto de perfil" data-inputCapa required>
-              <button>Trocar Foto</button><br>
+            placeholder="Selecione sua foto de perfil" data-inputFoto required>
+              
             </form>
-            <form action="/excluirFoto" method="post" enctype="multipart/form-data">
-              <button class="btnDelete">Deletar</button>
-            </form>
+            <script>
+              document.getElementById('imgPerfil').addEventListener('change', function() {
+                document.getElementById('Fotoperfil').submit();
+              });
+            </script>
+            <% if (foto != "imgUser.png"){ %>
+              <form action="/excluirFoto" method="post" enctype="multipart/form-data">
+                <button class="btnDelete">Deletar</button>
+              </form>
+              <% }  %>
+            
 
           </div>
         </div>
@@ -78,6 +86,7 @@ if (msgErro != "") { %>
       </div>
     </div>
 
+<form action="/info-atualizar" method="post" >
     <div id="areaInformacoesPerfil">
       <section>
         <i class="fas fa-user"></i>
@@ -86,12 +95,12 @@ if (msgErro != "") { %>
 
       <section class="input-field <%= avisoErro.nasc %>">
         <i class="fas fa-user"></i>
-        <input id="nasc" name="nasc" value="<%= valores ? valores.nasc : '' %>" required type="date" placeholder="Data de nascimento" />
+        <input id="nasc" name="nasc" value="<%= valores ? valores.nasc : '' %>" required type="date" placeholder="Data de nascimento" readonly />
       </section>
 
       <section class="input-field <%= avisoErro.cpf %>">
         <i class="fas fa-user"></i>
-        <input id="cpf" name="cpf" value="<%= valores ? valores.cpf : '' %>" required type="text" placeholder="CPF" />
+        <input id="cpf" name="cpf" value="<%= valores ? valores.cpf : '' %>" required type="text" placeholder="CPF" readonly />
       </section>
 
       <section class="input-field <%= avisoErro.celular %>">
@@ -101,14 +110,19 @@ if (msgErro != "") { %>
 
       <section class="input-field <%= avisoErro.email %>">
         <i class="fas fa-envelope"></i>
-        <input name="email" id="email" value="<%= valores ? valores.email : '' %>" required type="email" placeholder="Email" />
+        <input name="email" id="email" value="<%= valores ? valores.email : '' %>" required type="email" placeholder="Email" readonly />
       </section>
 
       <section class="input-field <%= avisoErro.email %>">
         <i class="fas fa-envelope"></i>
         <input name="senha" id="email" value="<%= valores ? valores.email : '' %>" required type="email" placeholder="Email" />
       </section>
+
+      <button class="btn-maior">Atualizar Dados</button> 
+
     </div>
+  </form>
+   
 </div>
 
 <script src="./js/addPerfil.js"></script>

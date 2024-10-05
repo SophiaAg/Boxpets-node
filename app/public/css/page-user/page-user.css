@@ -39,6 +39,10 @@
     margin-bottom: 10px;
   }
 
+  .foto__img{
+    object-fit: cover;
+  }
+
   .sessao-foto button {
     padding: 10px 20px;
     background-color: #6a42f4;
@@ -91,6 +95,19 @@
     flex-direction: column; 
     width: 50%; 
     margin-bottom: 30px;
+  }
+
+  .btn-maior {
+    display: inline-block;
+    margin-top: 1rem;
+    padding: .8rem 3rem;
+    border-radius: 5rem;
+    background:var(--cor-segundaria);
+    font-size: 1.3rem;
+    color: var(--branco);
+    cursor: pointer;
+    box-shadow: 0 .5rem 1rem rgba(0,0,0,.1);
+    transition: all .3s linear;
   }
 
   @media (min-width: 768px){

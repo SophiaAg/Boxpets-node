@@ -317,7 +317,7 @@ const clienteController = {
         senha: ""
       }
 
-      res.render("./pages/template-hm", { page: "../partial/landing-home/page-user", avisoErro: null, valores: campos })
+      res.render("./pages/template-hm", { page: "../partial/landing-home/page-user", avisoErro: null, valores: campos, foto: results[0].img_perfil_pasta })
     } catch (e) {
       console.log(e);
       res.render("partial/landing-home/page-user", {
@@ -331,15 +331,11 @@ const clienteController = {
   gravarPerfil: async (req, res) => {
 
     const erros = validationResult(req);
-    const erroMulter = req.session.erroMulter;
-    if (!erros.isEmpty() || erroMulter != null) {
-      aviso = !erros.isEmpty() ? erros : { formatter: null, errors: [] };
-      if (erroMulter != null) {
-        aviso.errors.push(erroMulter);
+   
+    if (!erros.isEmpty() ) {
+      res.render("pages/perfil", { listaErros: erros, dadosNotificacao: null, valores: req.body });
 
-        return res.render("partial/landing-home/page-user", { avisoErros: aviso, valores: req.body })
-
-      }
+    } else{
       try {
         var dadosForm = {
 
@@ -430,7 +426,7 @@ const clienteController = {
         senha: ""
       }
 
-      res.render("./pages/template-hm", { page: "../partial/landing-home/page-user", avisoErro: listaErros, valores: campos })
+      res.render("./pages/template-hm", { page: "../partial/landing-home/page-user", avisoErro: listaErros, valores: campos, foto: results[0].img_perfil_pasta })
 
 
     } else {
@@ -447,7 +443,7 @@ const clienteController = {
           senha: ""
         }
 
-        return res.render("./pages/template-hm", { page: "../partial/landing-home/page-user", avisoErro: { errors: [{ value: '', msg: 'falhaa ao carregar arquivo!', path: 'imgPerfil' }] }, valores: campos })
+        return res.render("./pages/template-hm", { page: "../partial/landing-home/page-user", avisoErro: { errors: [{ value: '', msg: 'falhaa ao carregar arquivo!', path: 'imgPerfil' }] }, valores: campos, foto: results[0].img_perfil_pasta })
       } else {
         try {
           var caminhoFoto = req.session.autenticado.foto
@@ -471,7 +467,7 @@ const clienteController = {
             senha: ""
           }
   
-         res.render("./pages/template-hm", { page: "../partial/landing-home/page-user", avisoErro: null, valores: campos })
+         res.render("./pages/template-hm", { page: "../partial/landing-home/page-user", avisoErro: null, valores: campos, foto: results[0].img_perfil_pasta })
 
         } catch (errors) {
           console.log(errors)
@@ -505,7 +501,7 @@ const clienteController = {
         senha: ""
       }
 
-     res.render("./pages/template-hm", { page: "../partial/landing-home/page-user", avisoErro: null, valores: campos })
+     res.render("./pages/template-hm", { page: "../partial/landing-home/page-user", avisoErro: null, valores: campos, foto: results[0].img_perfil_pasta })
 
     } catch (errors) {
       console.log(errors)
