@@ -339,56 +339,44 @@ const clienteController = {
       try {
         var dadosForm = {
 
-          nome_cliente: req.body.nome_cli,
-          email_cliente: req.body.email_cli,
-          celular_cliente: req.body.fone_cli,
-          img_perfil_banco: req.session.autenticado.img_perfil_banco,
-          img_perfil_pasta: req.session.autenticado.img_perfil_pasta,
+          NOME_CLIENTE: req.body.nome_cli,
+          EMAIL_CLIENTE: req.body.email_cli,
+          CELULAR_CLIENTE: req.body.celular_cli,
+          CPF_CLIENTE: req.body.cpf_cli,
+          DATA_NASC_CLIENTE: req.body.nasc_cli,
+          SENHA_CLIENTE: req.body.senha_cli,
         };
 
         if (req.body.senha_cli != "") {
-          dadosForm.senha_cliente = bcrypt.hashSync(req.body.senha_cli, salt);
+          dadosForm.SENHA_CLIENTE = bcrypt.hashSync(req.body.senha_cli, salt);
         }
-        if (!req.file) {
-          console.log("Falha no carregamento");
-        } else {
-          //Armazenando o caminho do arquivo salvo na pasta do proieto
-          caminhoArquivo = "imagem/perfil/" + req.file.filename;
-          //Se houve alteracao de imagem de perfil apaga a imagem anterior
-          if (dadosForm.img_perfil_pasta != caminhoArquivo) {
-            removeImg(dadosForm.img_perfil_pasta);
-          }
+       
 
-          dadosForm.img_perfil_pasta = caminhoArquivo;
-          dadosForm.img_perfil_banco = null;
-        }
-        // //Armazenando o buffer de dados binarios do arquivo
-        // dadosForm.img_perfil_banco = req.file.buffer;
-        // //Apagando a imagem armazenada na pasta
-        // removeImg(dadosForm.img_perfil_pasta)
-        // dadosForm. img_perfil_pasta = null;
-
-        let resultUpdate = await cliente.update(dadosForm, req.session.autenticado.id);
+        let resultUpdate = await clienteModel.updateUser(dadosForm, req.session.autenticado.id);
         if (!resultUpdate.isEmpty) {
           if (resultUpdate.changedRows == 1) {
-            var result = await cliente.findId(req.session.autenticado.id);
+            var result = await clienteModel.findClienteById(req.session.autenticado.id);
+
+            const data = new Date(result[0].DATA_NASC_CLIENTE);
+            const dataFormatada = data.toISOString().split('T')[0];
+
             var autenticado = {
               autenticado: result[0].nome_cliente,
               id: result[0].id_cliente,
-              // tipo: result[0]id_tipo_usuario,
-              img_perfil_banco: result[0].img_perfil_banco != null ? `data:image/jpeg;base64,${result[0].img_perfil_banco.toString("base64")}` : null,
-              img_perfil_pasta: result[0].img_perfil_pasta
+              foto:result[0].img_perfil_pasta
+             
             };
             req.session.autenticado - autenticado;
             var campos = {
-              nome_usu: result[0].nome_usuario, email_usu: result[e].email_usuario,
-              img_perfil_pasta: result[0].img_perfil_pasta, img_perfil_banco: result[0].img_perfil_banco,
-              nomeusu_usu: result[0].user_usuario, fone_usu: result[0].fone_usuario, senha_usu: ""
+              nome_cli: result[0]. NOME_CLIENTE, 
+              email_cli: result[e]. EMAIL_CLIENTE,
+              cpf_cli: result[0].CPF_CLIENTE, 
+              celular_cli: result[0].CELULAR_CLIENTE, 
+              nasc_cli: dataFormatada,
+              senha_cli: ""
             }
 
-            res.render("pages/perfil", {
-              listaErros: null, dadosNotificacao: { titulo: "Perfil! atualizado com sucesso", mensagem: "Alteracoes Gravadas", tipo: "success" }, valores: campos
-            });
+            res.render("./pages/template-hm", { page: "../partial/landing-home/page-user", avisoErro: null, valores: campos, foto: result[0].img_perfil_pasta })
           } else {
             res.render("pages/perfil", { listaErros: null, dadosNotificacao: { titulo: "Perfil! atualizado com sucesso", mensagem: "Sem alteracoes", tipo: "success" }, valores: dadosForm });
           }

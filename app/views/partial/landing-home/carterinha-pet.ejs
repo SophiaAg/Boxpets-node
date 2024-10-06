@@ -1,11 +1,4 @@
 <% 
-let arquivo = { imagem: "imagem/img-perfil.png" };
-
-if (valores && valores.img_perfil_pasta != null) {
-  arquivo.imagem = valores.img_perfil_pasta;
-} else if (valores && valores.img_perfil_banco != null) {
-  arquivo.imagem = valores.img_perfil_banco;
-}
 
 let msgErro = "";
 let avisoErro = { nome_cli: "", email_cli: "", nomecli_cli: "", celular_cli: "", cep: "", imagem: "" };

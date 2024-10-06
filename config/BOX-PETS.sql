@@ -26,6 +26,35 @@ SET @@SESSION.SQL_LOG_BIN= 0;
 SET @@GLOBAL.GTID_PURGED=/*!80000 '+'*/ 'f41d366d-91e5-11e9-8525-cecd028ee826:1-142367744';
 
 --
+-- Table structure for table `CARTERINHA_PET`
+--
+
+DROP TABLE IF EXISTS `CARTERINHA_PET`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `CARTERINHA_PET` (
+  `ID_PET` int(11) NOT NULL,
+  `NOME_PET` varchar(45) NOT NULL,
+  `IDADE_PET` varchar(45) NOT NULL,
+  `SEXO_PET` varchar(45) NOT NULL,
+  `PORTE_PET` varchar(45) NOT NULL,
+  `RACA_PET` varchar(45) NOT NULL,
+  PRIMARY KEY (`ID_PET`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `CARTERINHA_PET`
+--
+
+LOCK TABLES `CARTERINHA_PET` WRITE;
+/*!40000 ALTER TABLE `CARTERINHA_PET` DISABLE KEYS */;
+/*!40000 ALTER TABLE `CARTERINHA_PET` ENABLE KEYS */;
+UNLOCK TABLES;
+SET @@SESSION.SQL_LOG_BIN = @MYSQLDUMP_TEMP_LOG_BIN;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+--
 -- Table structure for table `CLIENTE`
 --
 

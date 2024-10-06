@@ -102,13 +102,42 @@
     margin-top: 1rem;
     padding: .8rem 3rem;
     border-radius: 5rem;
-    background:var(--cor-segundaria);
+    background:var(--cor-primaria);
     font-size: 1.3rem;
     color: var(--branco);
     cursor: pointer;
     box-shadow: 0 .5rem 1rem rgba(0,0,0,.1);
     transition: all .3s linear;
   }
+  .input-field {
+    max-width: 380px;
+    width: 100%;
+    background-color: #f0f0f0;
+    margin: 10px 0;
+    height: 55px;
+    border-radius: 55px;
+    display: grid;
+    grid-template-columns: 15% 85%;
+    padding: 0 0.4rem;
+    position: relative;
+    align-items: center;
+  
+    &.invalido {
+      border: 1.5px solid #ff8686;
+    }
+  }
+  
+  .input-field input {
+    background: none;
+    outline: none;
+    border: none;
+    line-height: 1;
+    font-weight: 500;
+    font-size: 1rem;
+    color: #adadad;
+  }
+  
+
 
   @media (min-width: 768px){
     .areaTwoContent{
