@@ -70,8 +70,8 @@ router.get("/page-user",
     router.post("/info-atualizar",
         middleWares.verifyAutenticado,
         middleWares.verifyAutorizado("pages/template-login", { form: "../partial/login/entrar", errors: null, valores: null, incorreto: false }, false),
+        clienteController.regrasValidacaoPerfil,
         function (req, res) {
-    
             clienteController.gravarPerfil(req, res);
         });
 

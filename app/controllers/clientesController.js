@@ -332,8 +332,21 @@ const clienteController = {
 
     const erros = validationResult(req);
    
-    if (!erros.isEmpty() ) {
-      res.render("pages/perfil", { listaErros: erros, dadosNotificacao: null, valores: req.body });
+    if (!erros.isEmpty()) {
+      let result = await clienteModel.findClienteById(req.session.autenticado.id);
+
+      const data = new Date(result[0].DATA_NASC_CLIENTE);
+            const dataFormatada = data.toISOString().split('T')[0];
+            
+      const campos = {
+        nome_cli: result[0].NOME_CLIENTE, 
+        email_cli: result[0].EMAIL_CLIENTE,
+        cpf_cli: result[0].CPF_CLIENTE, 
+        celular_cli: result[0].CELULAR_CLIENTE, 
+        nasc_cli: dataFormatada,
+        senha_cli: ""
+      }
+      res.render("./pages/template-hm", { page: "../partial/landing-home/page-user", listaErros: erros, dadosNotificacao: null, valores: campos  , foto: result[0].img_perfil_pasta });
 
     } else{
       try {
@@ -344,46 +357,51 @@ const clienteController = {
           CELULAR_CLIENTE: req.body.celular_cli,
           CPF_CLIENTE: req.body.cpf_cli,
           DATA_NASC_CLIENTE: req.body.nasc_cli,
-          SENHA_CLIENTE: req.body.senha_cli,
+          // SENHA_CLIENTE: req.body.senha_cli,
         };
 
-        if (req.body.senha_cli != "") {
-          dadosForm.SENHA_CLIENTE = bcrypt.hashSync(req.body.senha_cli, salt);
-        }
+        // if (req.body.senha_cli != "") {
+        //   console.log(req.body.senha_cli)
+        //   dadosForm.SENHA_CLIENTE = bcrypt.hashSync(req.body.senha_cli, salt);
+        // }
        
 
         let resultUpdate = await clienteModel.updateUser(dadosForm, req.session.autenticado.id);
         if (!resultUpdate.isEmpty) {
-          if (resultUpdate.changedRows == 1) {
-            var result = await clienteModel.findClienteById(req.session.autenticado.id);
+          var result = await clienteModel.findClienteById(req.session.autenticado.id);
+          console.log('Foto:', result[0].img_perfil_pasta);
+          if (resultUpdate.changedRows == 1) { 
+            console.log("ATUALIZADO--------------------")
+           
 
             const data = new Date(result[0].DATA_NASC_CLIENTE);
             const dataFormatada = data.toISOString().split('T')[0];
 
             var autenticado = {
-              autenticado: result[0].nome_cliente,
-              id: result[0].id_cliente,
+              autenticado: result[0].NOME_CLIENTE,
+              id: result[0].ID_CLIENTE,
               foto:result[0].img_perfil_pasta
              
             };
-            req.session.autenticado - autenticado;
-            var campos = {
-              nome_cli: result[0]. NOME_CLIENTE, 
-              email_cli: result[e]. EMAIL_CLIENTE,
+            req.session.autenticado = autenticado;
+            const campos = {
+              nome_cli: result[0].NOME_CLIENTE, 
+              email_cli: result[0].EMAIL_CLIENTE,
               cpf_cli: result[0].CPF_CLIENTE, 
               celular_cli: result[0].CELULAR_CLIENTE, 
               nasc_cli: dataFormatada,
               senha_cli: ""
             }
 
-            res.render("./pages/template-hm", { page: "../partial/landing-home/page-user", avisoErro: null, valores: campos, foto: result[0].img_perfil_pasta })
+            res.render("./pages/template-hm", { page: "../partial/landing-home/page-user", avisoErro: null, valores: campos, foto: req.session.autenticado.foto })
           } else {
-            res.render("pages/perfil", { listaErros: null, dadosNotificacao: { titulo: "Perfil! atualizado com sucesso", mensagem: "Sem alteracoes", tipo: "success" }, valores: dadosForm });
+            console.log("Sem alterações")
+            res.render("./pages/template-hm", { page: "../partial/landing-home/page-user", avisoErro: null, valores: campos, foto: result[0].img_perfil_pasta })
           }
         }
-      } catch (e) {
-        console.log(e)
-        res.render("pages/perfil", { listaErros: erros, dadosNotificacao: { titulo: "Erro ao atualizar o perfil!", mensagem: "Verifique os valores digitados!", tipo: "error" }, valores: req.body })
+      } catch (erros) {
+        console.log(erros)
+        res.redirect("/")
       }
     }
   },

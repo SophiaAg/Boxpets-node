@@ -111,13 +111,13 @@ if (msgErro != "") { %>
 
       <section class="input-field <%= avisoErro.email %>">
         <i class="fas fa-envelope"></i>
-        <input name="email" id="email_cli" value="<%= valores ? valores.email : '' %>" required type="email" placeholder="Email" readonly />
+        <input name="email_cli" id="email_cli" value="<%= valores ? valores.email : '' %>" required type="email" placeholder="Email" readonly />
       </section>
 
-      <section class="input-field <%= avisoErro.senha %>">
+      <!-- <section class="input-field <%= avisoErro.senha %>">
         <i class="fas fa-envelope"></i>
-        <input name="senha" id="senha_cli" value="<%= valores ? valores.senha : '' %>" required type="senha" placeholder="senha" />
-      </section>
+        <input name="senha" id="senha_cli" value="<%= valores ? valores.senha : '' %>"  type="senha" placeholder="senha" />
+      </section> -->
 
       <button class="btn-maior">Atualizar Dados</button> 
 
