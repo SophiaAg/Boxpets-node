@@ -331,7 +331,8 @@ const clienteController = {
   gravarPerfil: async (req, res) => {
 
     const erros = validationResult(req);
-   
+    console.log(erros)
+    
     if (!erros.isEmpty()) {
       let result = await clienteModel.findClienteById(req.session.autenticado.id);
 
