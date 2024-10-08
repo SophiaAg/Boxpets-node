@@ -56,7 +56,7 @@ router.get("/veterinarios", function (req, res) {
 });
 
 router.get("/carterinha-pet", function (req, res) {
-    res.render("pages/template-hm", {  page: "../partial/landing-home/carterinha-pet" });
+    res.render("pages/template-hm", { page: "../partial/landing-home/carterinha-pet" });
 });
 
 router.get("/page-user",
@@ -67,13 +67,13 @@ router.get("/page-user",
         clienteController.mostrarPerfil(req, res);
     });
 
-    router.post("/info-atualizar",
-        middleWares.verifyAutenticado,
-        middleWares.verifyAutorizado("pages/template-login", { form: "../partial/login/entrar", errors: null, valores: null, incorreto: false }, false),
-        clienteController.regrasValidacaoPerfil,
-        function (req, res) {
-            clienteController.gravarPerfil(req, res);
-        });
+router.post("/info-atualizar",
+    middleWares.verifyAutenticado,
+    middleWares.verifyAutorizado("pages/template-login", { form: "../partial/login/entrar", errors: null, valores: null, incorreto: false }, false),
+    clienteController.regrasValidacaoPerfil,
+    function (req, res) {
+        clienteController.gravarPerfil(req, res);
+    });
 
 
 router.post("/atualizarFoto",
@@ -88,7 +88,7 @@ router.post("/atualizarFoto",
         clienteController.atualizarFoto(req, res)
     });
 
-    router.post("/excluirFoto",
+router.post("/excluirFoto",
     middleWares.verifyAutenticado,
     middleWares.verifyAutorizado("pages/template-login", { form: "../partial/login/entrar", errors: null, valores: "", incorreto: null }),
     function (req, res) {

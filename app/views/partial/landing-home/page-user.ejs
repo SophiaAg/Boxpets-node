@@ -91,27 +91,27 @@ if (msgErro != "") { %>
     <div id="areaInformacoesPerfil">
       <section  class="input-field <%= avisoErro.nome %>">
         <i class="fas fa-user"></i>
-        <input id="nome" name="nome_cli" value="<%= valores ? valores.nome : '' %>" class="input-field <%= avisoErro.nome_cli %>" required type="text" placeholder="Nome completo" />
+        <input id="nome" name="nome_cli" value="<%= valores ? valores.nome_cli : '' %>" class="input-field <%= avisoErro.nome_cli %>" required type="text" placeholder="Nome completo" />
       </section>
 
       <section class="input-field <%= avisoErro.nasc %>">
         <i class="fas fa-user"></i>
-        <input id="nasc" name="nasc_cli" value="<%= valores ? valores.nasc : '' %>" required type="date" placeholder="Data de nascimento" readonly />
+        <input id="nasc" name="nasc_cli" value="<%= valores ? valores.nasc_cli : '' %>" required type="date" placeholder="Data de nascimento" readonly />
       </section>
 
       <section class="input-field <%= avisoErro.cpf %>">
         <i class="fas fa-user"></i>
-        <input id="cpf" name="cpf_cli" value="<%= valores ? valores.cpf : '' %>" required type="text" placeholder="CPF" readonly />
+        <input id="cpf" name="cpf_cli" value="<%= valores ? valores.cpf_cli : '' %>" required type="text" placeholder="CPF" readonly />
       </section>
 
       <section class="input-field <%= avisoErro.celular %>">
         <i class="fas fa-user"></i>
-        <input id="celular" name="celular_cli" value="<%= valores ? valores.celular : '' %>" required type="text" placeholder="Celular:" />
+        <input id="celular" name="celular_cli" value="<%= valores ? valores.celular_cli : '' %>" required type="text" placeholder="Celular:" />
       </section>
 
       <section class="input-field <%= avisoErro.email %>">
         <i class="fas fa-envelope"></i>
-        <input name="email_cli" id="email_cli" value="<%= valores ? valores.email : '' %>" required type="email" placeholder="Email" readonly />
+        <input name="email_cli" id="email_cli" value="<%= valores ? valores.email_cli : '' %>" required type="email" placeholder="Email" readonly />
       </section>
 
       <!-- <section class="input-field <%= avisoErro.senha %>">

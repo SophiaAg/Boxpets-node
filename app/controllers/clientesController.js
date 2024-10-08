@@ -114,44 +114,37 @@ const clienteController = {
       }),
   ],
   regrasValidacaoPerfil: [
-    body("nome")
+    body("nome_cli")
       .isLength({ min: 3, max: 45 }).withMessage("Nome deve ter de 3 a 45 letras!")
       .isAlpha().withMessage("Deve conter apenas letras!"),
 
-    body("celular")
+    body("celular_cli")
       .isMobilePhone('pt-BR').withMessage("Número de telefone inválido")
       .bail()
       .custom(async (celular) => {
         const celularExistente = await clienteModel.findClienteByCelular(celular)
         if (celularExistente.length > 0) {
+          if (celular == celularExistente[0].CELULAR_CLIENTE) {
+            return true
+          }
           throw new Error("Celular já em uso! Tente outro.");
         }
         return true;
       }),
-    body('email')
+    body('email_cli')
       .isEmail().withMessage('Deve ser um email válido')
       .bail()
       .custom(async (email) => {
         const emailExistente = await clienteModel.findClienteByEmail(email)
         if (emailExistente.length > 0) {
+          if (email == emailExistente[0].EMAIL_CLIENTE) {
+            return true
+          }
           throw new Error("E-mail já em uso! Tente outro");
         }
         return true;
       }),
-    body('password')
-      .isLength({ min: 8, max: 30 })
-      .withMessage('A senha deve ter pelo menos 8 e no máximo 30 caracteres!')
-      .bail()
-      .matches(/[A-Z]/).withMessage('A senha deve conter pelo menos uma letra maiúscula.')
-      .bail()
-      .matches(/[a-z]/).withMessage('A senha deve conter pelo menos uma letra minúscula.')
-      .bail()
-      .matches(/[0-9]/).withMessage('A senha deve conter pelo menos um número inteiro.')
-      .bail()
-      .matches(/[!@#$%^&*(),.?":{}|<>]/).withMessage('A senha deve conter pelo menos um caractere especial.')
-      .bail()
-    ,
-    body("cpf").custom(cpf => {
+    body("cpf_cli").custom(cpf => {
 
       cpf = cpf.replace(/[^\d]+/g, '');
       if (cpf.length !== 11 || /^(\d)\1+$/.test(cpf)) {
@@ -189,7 +182,7 @@ const clienteController = {
       return true;
     })
     ,
-    body("nasc")
+    body("nasc_cli")
       .custom(nasc => {
         const dataNasc = moment(nasc, "YYYY-MM-DD");
         const dataMin = moment().subtract(16, 'years');
@@ -307,49 +300,45 @@ const clienteController = {
       const dataFormatada = data.toISOString().split('T')[0];
 
       let campos = {
-        nome: results[0].NOME_CLIENTE,
-        email: results[0].EMAIL_CLIENTE,
+        nome_cli: results[0].NOME_CLIENTE,
+        email_cli: results[0].EMAIL_CLIENTE,
         /// img_perfil_pasta: results[0].img_perfil_pasta,
         /// img_perfil_banco: results[0].img_perfil_banco != null ? `data:image/jpeg;base64,${results[0].img_perfil_banco.toString('base64')}` : null,
-        nasc: dataFormatada,
-        celular: results[0].CELULAR_CLIENTE,
-        cpf: results[0].CPF_CLIENTE,
-        senha: ""
+        nasc_cli: dataFormatada,
+        celular_cli: results[0].CELULAR_CLIENTE,
+        cpf_cli: results[0].CPF_CLIENTE,
+        senha_cli: ""
       }
 
       res.render("./pages/template-hm", { page: "../partial/landing-home/page-user", avisoErro: null, valores: campos, foto: results[0].img_perfil_pasta })
     } catch (e) {
       console.log(e);
-      res.render("partial/landing-home/page-user", {
-        avisoErro: null, dadosNotificacao: null, valores: {
-          img_perfil_banco: "", img_perfil_pasta: "", nome_cli: "", email_cli: "",
-          nomecli_cli: "", celular_cli: "", senha_cli: "", cpf_cli: ""
-        }
-      })
+      res.redirect("/")
     }
   },
   gravarPerfil: async (req, res) => {
 
     const erros = validationResult(req);
-    console.log(erros)
-    
+
     if (!erros.isEmpty()) {
+      console.log(erros)
+
       let result = await clienteModel.findClienteById(req.session.autenticado.id);
 
       const data = new Date(result[0].DATA_NASC_CLIENTE);
-            const dataFormatada = data.toISOString().split('T')[0];
-            
+      const dataFormatada = data.toISOString().split('T')[0];
+
       const campos = {
-        nome_cli: result[0].NOME_CLIENTE, 
+        nome_cli: result[0].NOME_CLIENTE,
         email_cli: result[0].EMAIL_CLIENTE,
-        cpf_cli: result[0].CPF_CLIENTE, 
-        celular_cli: result[0].CELULAR_CLIENTE, 
+        cpf_cli: result[0].CPF_CLIENTE,
+        celular_cli: result[0].CELULAR_CLIENTE,
         nasc_cli: dataFormatada,
         senha_cli: ""
       }
-      res.render("./pages/template-hm", { page: "../partial/landing-home/page-user", listaErros: erros, dadosNotificacao: null, valores: campos  , foto: result[0].img_perfil_pasta });
+      res.render("./pages/template-hm", { page: "../partial/landing-home/page-user", listaErros: erros, dadosNotificacao: null, valores: campos, foto: result[0].img_perfil_pasta });
 
-    } else{
+    } else {
       try {
         var dadosForm = {
 
@@ -365,35 +354,32 @@ const clienteController = {
         //   console.log(req.body.senha_cli)
         //   dadosForm.SENHA_CLIENTE = bcrypt.hashSync(req.body.senha_cli, salt);
         // }
-       
+
 
         let resultUpdate = await clienteModel.updateUser(dadosForm, req.session.autenticado.id);
         if (!resultUpdate.isEmpty) {
           var result = await clienteModel.findClienteById(req.session.autenticado.id);
+          const data = new Date(result[0].DATA_NASC_CLIENTE);
+          const dataFormatada = data.toISOString().split('T')[0];
+          const campos = {
+            nome_cli: result[0].NOME_CLIENTE,
+            email_cli: result[0].EMAIL_CLIENTE,
+            cpf_cli: result[0].CPF_CLIENTE,
+            celular_cli: result[0].CELULAR_CLIENTE,
+            nasc_cli: dataFormatada,
+            senha_cli: ""
+          }
           console.log('Foto:', result[0].img_perfil_pasta);
-          if (resultUpdate.changedRows == 1) { 
+          if (resultUpdate.changedRows == 1) {
             console.log("ATUALIZADO--------------------")
-           
-
-            const data = new Date(result[0].DATA_NASC_CLIENTE);
-            const dataFormatada = data.toISOString().split('T')[0];
 
             var autenticado = {
               autenticado: result[0].NOME_CLIENTE,
               id: result[0].ID_CLIENTE,
-              foto:result[0].img_perfil_pasta
-             
+              foto: result[0].img_perfil_pasta
+
             };
             req.session.autenticado = autenticado;
-            const campos = {
-              nome_cli: result[0].NOME_CLIENTE, 
-              email_cli: result[0].EMAIL_CLIENTE,
-              cpf_cli: result[0].CPF_CLIENTE, 
-              celular_cli: result[0].CELULAR_CLIENTE, 
-              nasc_cli: dataFormatada,
-              senha_cli: ""
-            }
-
             res.render("./pages/template-hm", { page: "../partial/landing-home/page-user", avisoErro: null, valores: campos, foto: req.session.autenticado.foto })
           } else {
             console.log("Sem alterações")
@@ -473,8 +459,8 @@ const clienteController = {
             cpf: results[0].CPF_CLIENTE,
             senha: ""
           }
-  
-         res.render("./pages/template-hm", { page: "../partial/landing-home/page-user", avisoErro: null, valores: campos, foto: results[0].img_perfil_pasta })
+
+          res.render("./pages/template-hm", { page: "../partial/landing-home/page-user", avisoErro: null, valores: campos, foto: results[0].img_perfil_pasta })
 
         } catch (errors) {
           console.log(errors)
@@ -498,7 +484,7 @@ const clienteController = {
       const dataFormatada = data.toISOString().split('T')[0];
       req.session.autenticado.foto = caminhoFoto
       console.log(resultado)
-      
+
       let campos = {
         nome: results[0].NOME_CLIENTE,
         email: results[0].EMAIL_CLIENTE,
@@ -508,7 +494,7 @@ const clienteController = {
         senha: ""
       }
 
-     res.render("./pages/template-hm", { page: "../partial/landing-home/page-user", avisoErro: null, valores: campos, foto: results[0].img_perfil_pasta })
+      res.render("./pages/template-hm", { page: "../partial/landing-home/page-user", avisoErro: null, valores: campos, foto: results[0].img_perfil_pasta })
 
     } catch (errors) {
       console.log(errors)

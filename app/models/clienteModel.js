@@ -37,7 +37,6 @@ const clienteModel = {
         updateUser: async (dadosForm, id) => {
         try {
             const [resultados] = await pool.query("UPDATE CLIENTE SET ? WHERE ID_CLIENTE = ?", [dadosForm,id])
-            console.log("attUSUARIO")
             return resultados
 
         } catch (error) {
