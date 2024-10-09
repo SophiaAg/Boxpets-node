@@ -1,22 +1,47 @@
-<div id="areaTwoContent">
-  <div class="sessao-foto">
-    <div id="areaFoto">
-      <div>
-      <form id="Fotoperfil" action="/atualizarFoto" method="post" enctype="multipart/form-data">
-        <article data-fotoContainer >
-          <img src="./src/fotos-perfil/" alt="" class="foto__img">
-        </article>
-        <input type="file" name="imgPerfil" id="imgPerfil" class="input__control imgPerfil <%= avisoErro.imgPerfil %>"
-        placeholder="Selecione sua foto de perfil" data-inputFoto required>
-          
-        </form>
-        <script>
-          document.getElementById('imgPerfil').addEventListener('change', function() {
-            document.getElementById('Fotoperfil').submit();
-          });
-        </script>
-      
-          <form action="/excluirFoto" method="post" enctype="multipart/form-data">
-            <button class="btnDelete">Deletar</button>
-          </form>
-        
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carteirinha Dinâmica</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h2>Crie sua Carteirinha</h2>
+    <button id="createCardBtn">Criar Carteirinha</button>
+
+    <div id="cardContainer" class="card-container">
+        <!-- As carteirinhas serão adicionadas aqui -->
+    </div>
+
+    <!-- Modal -->
+    <div id="cardModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Preencha os dados da Carteirinha</h2>
+            <form id="cardForm">
+
+              <section  class="input-field ">
+                <i class="fas fa-user"></i>
+                <input for="" id="nome" name="nome_cli" required type="text" placeholder="Nome completo" />
+              </section>
+
+              <section  class="input-field ">
+                <i class="fas fa-user"></i>
+                <input for="" id="nome" name="nome_cli" required type="text" placeholder="Nome completo" />
+              </section>
+
+                <label for="role">Função:</label>
+                <input type="text" id="role" name="role" required><br><br>
+
+                <label for="img">Imagem (URL):</label>
+                <input type="url" id="img" name="img" placeholder="Cole o link da imagem"><br><br>
+
+                <button type="submit">Salvar</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="./js/carterinha-pet.js"></script>
+</body>
+</html>
