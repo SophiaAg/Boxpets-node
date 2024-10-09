@@ -34,7 +34,10 @@ form.onsubmit = function(event) {
     
     // Capturar os valores do formulário
     var nome = document.getElementById("nome").value;
-    var role = document.getElementById("role").value;
+    var idade = document.getElementById("idade").value;
+    var sexo = document.getElementById("sexo").value;
+    var porte = document.getElementById("porte").value;
+    var raca = document.getElementById("raca").value;
     var img = document.getElementById("img").value || 'https://via.placeholder.com/100'; // Imagem padrão se não for fornecida
 
     // Criar o elemento da carteirinha
@@ -45,7 +48,10 @@ form.onsubmit = function(event) {
         <button class="delete-btn">&times;</button>
         <img src="${img}" alt="${nome}">
         <h3>${nome}</h3>
-        <p>${role}</p>
+        <p>${idade}</p>
+        <p>${sexo}</p>
+        <p>${porte}</p>
+        <p>${raca}</p>
     `;
 
     // Adicionar o botão de excluir funcional à carteirinha

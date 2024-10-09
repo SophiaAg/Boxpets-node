@@ -80,12 +80,13 @@ button {
 
 /* Estilo das carteirinhas */
 .card {
-    width: 200px;
+    width: 250px;
     padding: 10px;
     background-color: #f4f4f4;
     border-radius: 10px;
     text-align: center;
     box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+    margin: 10%;
 }
 
 .card img {

@@ -34,6 +34,14 @@ const clienteModel = {
             return error
         }
     },
+    findPetById: async (id) => {
+        try {
+            const [resultados] = await pool.query('SELECT * FROM CARTERINHA_PET WHERE ID_PET = ?', [id])
+            return resultados
+        } catch (error) {
+            return error
+        }
+    },
         updateUser: async (dadosForm, id) => {
         try {
             const [resultados] = await pool.query("UPDATE CLIENTE SET ? WHERE ID_CLIENTE = ?", [dadosForm,id])

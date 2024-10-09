@@ -23,19 +23,39 @@
 
               <section  class="input-field ">
                 <i class="fas fa-user"></i>
-                <input for="" id="nome" name="nome_cli" required type="text" placeholder="Nome completo" />
+                <input for="" id="nome" name="nome_cli" required type="text" placeholder="Nome do Pet" />
               </section>
 
               <section  class="input-field ">
                 <i class="fas fa-user"></i>
-                <input for="" id="nome" name="nome_cli" required type="text" placeholder="Nome completo" />
+                <input for="" id="idade" name="nome_cli" required type="text" placeholder="Idade" />
               </section>
 
-                <label for="role">Função:</label>
-                <input type="text" id="role" name="role" required><br><br>
+              <section  class="input-field ">
+                <i class="fas fa-user"></i>
+                <input for="" id="sexo" name="nome_cli" required type="text" placeholder="Sexo" />
+              </section>
 
-                <label for="img">Imagem (URL):</label>
-                <input type="url" id="img" name="img" placeholder="Cole o link da imagem"><br><br>
+              <section  class="input-field ">
+                <i class="fas fa-user"></i>
+                <input for="" id="porte" name="nome_cli" required type="text" placeholder="Porte" />
+              </section>
+
+              <section  class="input-field ">
+                <i class="fas fa-user"></i>
+                <input for="" id="raca" name="nome_cli" required type="text" placeholder="Raça" />
+              </section>
+
+                
+
+              <form id="Fotoperfil" action="/atualizarFoto" method="post" enctype="multipart/form-data">
+                <article data-fotoContainer >
+                  <img src="./src/fotos-perfil/" alt="" class="foto__img">
+                </article>
+                <input type="file" name="imgPerfil" id="imgPerfil" class="input__control imgPerfil "
+                placeholder="Selecione sua foto de perfil" data-inputFoto required>
+                  
+                </form>
 
                 <button type="submit">Salvar</button>
             </form>
