@@ -502,37 +502,23 @@ const clienteController = {
 
     }
   },
-  mostrarPerfil: async (req, res) => {
+  mostrarPet: async (req, res) => {
     try {
-      let results = await clienteModel.findClienteById(req.session.autenticado.id);
-      // if (results[0].cep_cliente != null) {
-      //   const httpsAgent = new https.Agent({
-      //     rejectUnauthorized: false,
-      //   });
-      //   const response = await fetch('https://viacep.com.br/ws/${results[0].cep_cliente}/json/',
-      //     { method: 'GET', headers: null, body: null, agent: httpsAgent, });
-      //   var viaCep = await response.json();
-      //   var cep = results[0].cep_cliente.slice(0, 5) + "-" + results[0].cep_cliente.slice(5)
-      // } else {
-      //   var viaCep = { logradouro: "", bairro: "", cidade: "", uf: "" }
-      //   var cep = null;
+      let pets = await clienteModel.findPetById(req.session.autenticado.id);
+
+
+      // const data = new Date(results[0].DATA_NASC_CLIENTE);
+      // const dataFormatada = data.toISOString().split('T')[0];
+
+      // let campos = {
+      //   nome_pet: results[0].NOME_PET,
+      //   idade_pet: dataFormatada,
+      //   sexo_pet: results[0].SEXO_PET,
+      //   porte_pet: results[0].PORTE_PET,
+      //   raca_pet: results[0].RACA_PET,
       // }
 
-      const data = new Date(results[0].DATA_NASC_CLIENTE);
-      const dataFormatada = data.toISOString().split('T')[0];
-
-      let campos = {
-        nome_cli: results[0].NOME_CLIENTE,
-        email_cli: results[0].EMAIL_CLIENTE,
-        /// img_perfil_pasta: results[0].img_perfil_pasta,
-        /// img_perfil_banco: results[0].img_perfil_banco != null ? `data:image/jpeg;base64,${results[0].img_perfil_banco.toString('base64')}` : null,
-        nasc_cli: dataFormatada,
-        celular_cli: results[0].CELULAR_CLIENTE,
-        cpf_cli: results[0].CPF_CLIENTE,
-        senha_cli: ""
-      }
-
-      res.render("./pages/template-hm", { page: "../partial/landing-home/page-user", avisoErro: null, valores: campos, foto: results[0].img_perfil_pasta })
+      res.render("./pages/template-hm", { page: "../partial/landing-home/carterinha-pet", avisoErro: null, pets: pets, modalAberto: false})
     } catch (e) {
       console.log(e);
       res.redirect("/")

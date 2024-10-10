@@ -56,7 +56,7 @@ router.get("/veterinarios", function (req, res) {
 });
 
 router.get("/carterinha-pet", function (req, res) {
-    res.render("pages/template-hm", { page: "../partial/landing-home/carterinha-pet" });
+    clienteController.mostrarPet(req, res);
 });
 
 router.get("/page-user",

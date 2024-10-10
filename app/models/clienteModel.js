@@ -36,7 +36,7 @@ const clienteModel = {
     },
     findPetById: async (id) => {
         try {
-            const [resultados] = await pool.query('SELECT * FROM CARTERINHA_PET WHERE ID_PET = ?', [id])
+            const [resultados] = await pool.query('SELECT * FROM CARTERINHA_PET WHERE ID_CLIENTE = ?', [id])
             return resultados
         } catch (error) {
             return error
