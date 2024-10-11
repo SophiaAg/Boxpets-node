@@ -9,6 +9,15 @@ const clienteModel = {
             throw error
         }
     },
+    createPet: async (dadosPet) => {
+        try {
+            const [resultados] = await pool.query("insert into CARTERINHA_PET set ?", [dadosPet])
+            return resultados
+        } catch (error) {
+            throw error
+        }
+    },
+ 
     findClienteByCelular: async (celular) => {
         try {
             const [resultados] = await pool.query('SELECT * FROM CLIENTE WHERE CELULAR_CLIENTE = ?', [celular])

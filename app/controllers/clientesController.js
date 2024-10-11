@@ -524,6 +524,47 @@ const clienteController = {
       res.redirect("/")
     }
   },
+  cadastrarPet: async (req, res) => {
+    let errors = validationResult(req)
+
+    if (!errors.isEmpty()) {
+      console.log(errors)
+      const jsonResult = {
+        page: "../partial/landing-home/carterinha-pet",
+        errors: errors,
+        valores: req.body,
+        modalAberto: true
+      }
+      res.render("pages/template-hm", jsonResult);
+    } else {
+      const { nome_pet, idade_pet, sexo_pet, porte_pet, raca_pet} = req.body
+      dadosPet = {
+        NOME_PET: nome_pet,
+        IDADE_PET: idade_pet,
+        SEXO_PET: sexo_pet,
+        PORTE_PET: porte_pet,
+        RACA_PET: raca_pet,
+        
+      }
+      try {
+        const petCriado = await petModel.createPet(dadosPet);
+        req.session.Petid = petCriado.insertId
+        const jsonResult = {
+          page: "../partial/landing-home/carterinha-pet"
+        }
+
+
+        req.session.save(() => {
+          res.render("pages/template-hm", jsonResult)
+        })
+
+      } catch (erros) {
+        console.log(erros)
+        res.json(errors)
+      }
+
+    }
+  },
 
 
 

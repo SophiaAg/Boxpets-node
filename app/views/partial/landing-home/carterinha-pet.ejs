@@ -48,11 +48,11 @@ if (msgErro != "") { %>
     <div class="card">
       <button class="delete-btn">&times;</button>
       <img src="img" alt="nome">
-      <h3>pet.NOME_PET</h3>
-      <p>pet.IDADE_PET</p>
-      <p>pet.SEXO_PET</p>
-      <p>pet.PORTE_PET</p>
-      <p>pet.RACA_PET</p>
+      <h3><%= pet.NOME_PET %></h3>
+      <p><%=pet.IDADE_PET %></p>
+      <p><%=pet.SEXO_PET %></p>
+      <p><%=pet.PORTE_PET%></p>
+      <p><%=pet.RACA_PET%></p>
     </div>
  <% }) 
  } %>
@@ -61,12 +61,12 @@ if (msgErro != "") { %>
     </div>
 
     <!-- Modal -->
-    <div id="cardModal" class="modal" style="<%= modalAberto ? 'display: flex;' : '' %>" >
+    <div id="cardModal" class="modal" style= <%= modalAberto ? 'display: flex;' : '' %>  >
 
         <div class="modal-content">
             <span class="close">&times;</span>
             <h2>Preencha os dados da Carteirinha</h2>
-            <form id="cardForm">
+            <form id="cardForm" action="/criarCarterinhaPet" method="post">
 
               <section  class="input-field ">
                 <i class="fas fa-user"></i>
@@ -90,7 +90,7 @@ if (msgErro != "") { %>
 
               <section  class="input-field ">
                 <i class="fas fa-user"></i>
-                <input for="" id="raca" name="nome_cli" required type="text" placeholder="Raça" />
+                <input for="" id="raca" name="raca_cli" required type="text" placeholder="Raça" />
               </section>
 
                 

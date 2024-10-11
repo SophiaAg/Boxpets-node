@@ -59,6 +59,15 @@ router.get("/carterinha-pet", function (req, res) {
     clienteController.mostrarPet(req, res);
 });
 
+router.post("/criarCarterinhaPet",
+    middleWares.verifyAutenticado,
+    middleWares.verifyAutorizado("pages/template-login", { form: "../partial/login/entrar", errors: null, valores: null, incorreto: false }, false),
+    clienteController.regrasValidacaoPerfil,
+    function (req, res) {
+        clienteController.cadastrarPet(req, res);
+    });
+
+
 router.get("/page-user",
     middleWares.verifyAutenticado,
     middleWares.verifyAutorizado("pages/template-login", { form: "../partial/login/entrar", errors: null, valores: null, incorreto: false }, false),
