@@ -192,6 +192,12 @@ const clienteController = {
         return true;
       }),
   ],
+  regrasValidacaoPet: [
+    body("nome_pet")
+    .isLength({ min: 3, max: 45 }).withMessage("Nome deve ter de 3 a 45 letras!")
+    .isAlpha().withMessage("Deve conter apenas letras!"),
+
+  ],
   cadastrar: async (req, res) => {
     let errors = validationResult(req)
 

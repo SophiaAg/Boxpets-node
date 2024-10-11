@@ -62,7 +62,7 @@ router.get("/carterinha-pet", function (req, res) {
 router.post("/criarCarterinhaPet",
     middleWares.verifyAutenticado,
     middleWares.verifyAutorizado("pages/template-login", { form: "../partial/login/entrar", errors: null, valores: null, incorreto: false }, false),
-    clienteController.regrasValidacaoPerfil,
+    clienteController.regrasValidacaoPet,
     function (req, res) {
         clienteController.cadastrarPet(req, res);
     });
