@@ -61,7 +61,7 @@ if (msgErro != "") { %>
     </div>
 
     <!-- Modal -->
-    <div id="cardModal" class="modal" style= <%= modalAberto ? 'display: flex;' : '' %>  >
+    <div id="cardModal" class="modal" style="<%= modalAberto ? 'display: flex;' : '' %>"  >
 
         <div class="modal-content">
             <span class="close">&times;</span>
@@ -80,22 +80,31 @@ if (msgErro != "") { %>
 
               <section  class="input-field ">
                 <i class="fas fa-user"></i>
-                <input for="" id="sexo" name="sexo_pet" required type="text" placeholder="Sexo" />
+                <select id="sexo" name="sexo_pet" required type="text" placeholder="Sexo" >
+                    <option value="Macho">Macho</option>
+                    <option value="Femea">Femêa</option>
+                </select>
               </section>
 
               <section  class="input-field ">
                 <i class="fas fa-user"></i>
-                <input for="" id="porte" name="porte_pet" required type="text" placeholder="Porte" />
+                <select for="" id="porte" name="porte_pet" required type="text" placeholder="Porte" >
+                  <option value="Pequeno">Pequeno</option>
+                  <option value="Medio">Médio</option>
+                  <option value="Grande">Grande </option>
+                </select>
               </section>
 
               <section  class="input-field ">
                 <i class="fas fa-user"></i>
-                <input for="" id="raca" name="raca_cli" required type="text" placeholder="Raça" />
+                <input for="" id="raca" name="raca_pet" required type="text" placeholder="Raça" />
               </section>
 
-                
-              <label for="img">Imagem (URL):</label>
-              <input type="url" id="img" name="img" placeholder="Cole o link da imagem"><br><br>
+            
+              <!-- <section  class="input-field ">
+                <i class="fas fa-user"></i>
+                <input  id="" name="raca_pet" required type="text" placeholder="Raça" />
+              </section> -->
                 <button type="submit">Salvar</button>
             </form>
         </div>

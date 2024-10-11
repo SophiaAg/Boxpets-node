@@ -194,8 +194,15 @@ const clienteController = {
   ],
   regrasValidacaoPet: [
     body("nome_pet")
-    .isLength({ min: 3, max: 45 }).withMessage("Nome deve ter de 3 a 45 letras!")
-    .isAlpha().withMessage("Deve conter apenas letras!"),
+      .isLength({ min: 2, max: 45 }).withMessage("Nome deve ter de 2 a 45 letras!")
+      .isAlpha().withMessage("Deve conter apenas letras!"),
+      body("idade_pet")
+      .isNumeric().withMessage("Não é uma idade valida"),
+      body("raca_pet")
+      .isLength({ min: 3, max: 45 }).withMessage("Nome deve ter de 3 a 45 letras!")
+      .isAlpha().withMessage("Deve conter apenas letras!"),
+
+
 
   ],
   cadastrar: async (req, res) => {
@@ -524,7 +531,7 @@ const clienteController = {
       //   raca_pet: results[0].RACA_PET,
       // }
 
-      res.render("./pages/template-hm", { page: "../partial/landing-home/carterinha-pet", avisoErro: null, pets: pets, modalAberto: false})
+      res.render("./pages/template-hm", { page: "../partial/landing-home/carterinha-pet", avisoErro: null, pets: pets, modalAberto: false })
     } catch (e) {
       console.log(e);
       res.redirect("/")
@@ -543,27 +550,19 @@ const clienteController = {
       }
       res.render("pages/template-hm", jsonResult);
     } else {
-      const { nome_pet, idade_pet, sexo_pet, porte_pet, raca_pet} = req.body
-      dadosPet = {
+      const { nome_pet, idade_pet, sexo_pet, porte_pet, raca_pet } = req.body
+      const dadosPet = {
         NOME_PET: nome_pet,
         IDADE_PET: idade_pet,
         SEXO_PET: sexo_pet,
         PORTE_PET: porte_pet,
         RACA_PET: raca_pet,
-        
+
       }
       try {
-        const petCriado = await petModel.createPet(dadosPet);
-        req.session.Petid = petCriado.insertId
-        const jsonResult = {
-          page: "../partial/landing-home/carterinha-pet"
-        }
-
-
-        req.session.save(() => {
-          res.render("pages/template-hm", jsonResult)
-        })
-
+        const petCriado = await clienteModel.createPet(dadosPet);
+        console.log(petCriado)
+        res.redirect("/carterinha-pet")
       } catch (erros) {
         console.log(erros)
         res.json(errors)
