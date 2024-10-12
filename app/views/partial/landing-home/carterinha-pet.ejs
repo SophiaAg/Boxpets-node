@@ -66,7 +66,7 @@ if (msgErro != "") { %>
         <div class="modal-content">
             <span class="close">&times;</span>
             <h2>Preencha os dados da Carteirinha</h2>
-            <form id="cardForm" action="/criarCarterinhaPet" method="post">
+            <form id="cardForm" action="/criarCarterinhaPet" method="post" enctype="multipart/form-data">
 
               <section  class="input-field ">
                 <i class="fas fa-user"></i>
@@ -93,13 +93,18 @@ if (msgErro != "") { %>
                 <input for="" id="raca" name="raca_cli" required type="text" placeholder="Raça" />
               </section>
 
-                
-              <label for="img">Imagem (URL):</label>
-              <input type="url" id="img" name="img" placeholder="Cole o link da imagem"><br><br>
+              <article data-fotoContainer >
+                <img src="" alt="" class="foto__img">
+              </article>
+              <input type="file" name="imgPet" id="imgPet" class="input__control imgPet <%= avisoErro.imgPet %>"
+              placeholder="Selecione a foto do seu Pet" data-inputFoto required>
+
                 <button type="submit">Salvar</button>
             </form>
         </div>
     </div>
 
     <script src="./js/carterinha-pet.js"></script>
+    <script src="./js/addPerfil.js"></script>
+    <script src="./js/notificacao.js"></script>
 

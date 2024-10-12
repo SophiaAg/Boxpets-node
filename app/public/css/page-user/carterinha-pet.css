@@ -121,3 +121,9 @@ button {
 .card .delete-btn:hover {
     background-color: darkred;
 }
+
+.modal-content .foto__img{
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+}
