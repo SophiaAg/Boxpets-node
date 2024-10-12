@@ -7,6 +7,7 @@ const usuariosModel = require("../models/usuariosModel");
 const middleWares = require("../middlewares/auth");
 const upload = require("../util/uploader");
 const uploadClientePerfil = upload("./app/public/src/fotos-perfil/", 5, ['jpeg', 'jpg', 'png', 'webp']);
+const uploadPet = upload("./app/public/src/fotos-pet/", 5, ['jpeg', 'jpg', 'png', 'webp']);
 
 
 router.get("/", function (req, res) {
@@ -62,7 +63,8 @@ router.get("/carterinha-pet", function (req, res) {
 router.post("/criarCarterinhaPet",
     middleWares.verifyAutenticado,
     middleWares.verifyAutorizado("pages/template-login", { form: "../partial/login/entrar", errors: null, valores: null, incorreto: false }, false),
-    clienteController.regrasValidacaoPerfil,
+    clienteController.regrasValidacaoPet,
+
     function (req, res) {
         clienteController.cadastrarPet(req, res);
     });
