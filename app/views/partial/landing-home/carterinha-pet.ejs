@@ -47,7 +47,7 @@ if (msgErro != "") { %>
   pets.forEach(pet => {%>
     <div class="card">
       <button class="delete-btn">&times;</button>
-      <img src="img" alt="nome">
+      <img src="./src/fotos-pet/<%= pet.img_pet %>" alt="foto do pet">
       <h3><%= pet.NOME_PET %></h3>
       <p><%=pet.IDADE_PET %></p>
       <p><%=pet.SEXO_PET %></p>

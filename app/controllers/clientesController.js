@@ -115,8 +115,7 @@ const clienteController = {
   ],
   regrasValidacaoPerfil: [
     body("nome_cli")
-      .isLength({ min: 3, max: 45 }).withMessage("Nome deve ter de 3 a 45 letras!")
-      .isAlpha().withMessage("Deve conter apenas letras!"),
+      .isLength({ min: 3, max: 45 }).withMessage("Nome deve ter de 3 a 45 letras!").matches(/^[A-Za-zÀ-ÿ\s]+$/).withMessage("Deve conter apenas letras!"),
 
     body("celular_cli")
       .isMobilePhone('pt-BR').withMessage("Número de telefone inválido")
@@ -194,17 +193,18 @@ const clienteController = {
   ],
   regrasValidacaoPet: [
     body("nome_pet")
-      .isLength({ min: 2, max: 45 }).withMessage("Nome deve ter de 2 a 45 letras!")
-      .isAlpha().withMessage("Deve conter apenas letras!"),
-      body("idade_pet")
-      .isNumeric().withMessage("Não é uma idade valida"),
-      body("raca_pet")
-      .isLength({ min: 3, max: 45 }).withMessage("Nome deve ter de 3 a 45 letras!")
-      .isAlpha().withMessage("Deve conter apenas letras!"),
+    .matches(/^[A-Za-zÀ-ÿ\s]+$/)
+    .withMessage("O nome do pet deve conter apenas letras!"),
+  body("idade_pet")
+    .isInt({ min: 0 })
+    .withMessage("Não é uma idade válida!"),
+  body("raca_pet")
+    .isLength({ min: 3, max: 45 })
+    .withMessage("O nome da raça deve ter entre 3 e 45 letras!")
+    .matches(/^[A-Za-zÀ-ÿ\s]+$/)
+    .withMessage("O nome da raça deve conter apenas letras!")
+],
 
-
-
-  ],
   cadastrar: async (req, res) => {
     let errors = validationResult(req)
 
@@ -539,9 +539,15 @@ const clienteController = {
   },
   cadastrarPet: async (req, res) => {
     let errors = validationResult(req)
+    let errorsMulter = req.session.erroMulter
+    if (!errors.isEmpty() && errorsMulter.length > 0) {
 
-    if (!errors.isEmpty()) {
-      console.log(errors)
+      let listaErros = errors.isEmpty ? { formatter: null, errors: [] }: errors;
+      if (errorsMulter.length > 0) {
+        listaErros.errors.push(...errorsMulter)
+        if (req.file) removeImg(`./app/public/src/fotos-pet/${req.file.filename}`)
+      }
+      console.log(listaErros)
       const jsonResult = {
         page: "../partial/landing-home/carterinha-pet",
         errors: errors,
@@ -551,13 +557,24 @@ const clienteController = {
       res.render("pages/template-hm", jsonResult);
     } else {
       const { nome_pet, idade_pet, sexo_pet, porte_pet, raca_pet } = req.body
+      const imgPet = req.file.filename
+      if (!req.file) {
+        const jsonResult = {
+          page: "../partial/landing-home/carterinha-pet",
+          errors: null,
+          valores: req.body,
+          modalAberto: true
+        }
+        return res.render("pages/template-hm", jsonResult);
+      }
       const dadosPet = {
         NOME_PET: nome_pet,
         IDADE_PET: idade_pet,
         SEXO_PET: sexo_pet,
         PORTE_PET: porte_pet,
         RACA_PET: raca_pet,
-
+        ID_CLIENTE: req.session.autenticado.id,
+        img_pet: imgPet
       }
       try {
         const petCriado = await clienteModel.createPet(dadosPet);
@@ -570,16 +587,6 @@ const clienteController = {
 
     }
   },
-
-
-
-
-
-
-
-
-
-
   // comentar
 
   FazerComentario: async (req, res) => {

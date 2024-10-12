@@ -33,7 +33,7 @@ DROP TABLE IF EXISTS `CARTERINHA_PET`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `CARTERINHA_PET` (
-  `ID_PET` int(11) NOT NULL,
+ `ID_PET` INT(11) NOT NULL AUTO_INCREMENT,
   `NOME_PET` varchar(45) NOT NULL,
   `IDADE_PET` varchar(45) NOT NULL,
   `SEXO_PET` varchar(45) NOT NULL,
