@@ -1,0 +1,38 @@
+<% if(notify) {%>
+    <script>
+        let msg = "<%= notify.msg %>"
+        newNotify(
+            "Horario criado!",
+            msg,
+            "success",
+            "center",
+            5000
+        )
+    </script>
+    <% } %>
+        <div class="dia">
+            <h3>
+                <%= dia %>
+            </h3>
+        </div>
+        <div class="horarios">
+            <% if(horarios) { 
+                horarios.forEach(horario=>{
+                console.log(horario.DATA_HORARIO == dia)
+
+                if(horario.DATA_HORARIO == dia) { 
+                     %>
+                <div class="horario-item">
+                    <%= horario.HORARIO_SERVICO %>
+                </div>
+            <% } }) } %>
+        </div>
+
+        <form action="/criarHorario?idServico=<%= idServico %>" method="POST">
+            <input type="date" name="dataHorario" id="dataHorario" placeholder="" required>
+            <input type="time" name="horario" id="horario" placeholder="" required>
+            <input type="text" name="descr" id="descr" placeholder="" required>
+            <button>Criar</button>
+        </form>
+
+        <script src="./js/notificacao.js"></script>

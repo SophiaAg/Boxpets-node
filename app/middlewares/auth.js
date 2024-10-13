@@ -32,7 +32,7 @@ const middleWares = {
                 if (isForEmpresa) {
                     const empresaBd = await usuariosModel.findUsuariosById(req.session.autenticado.id)
                     if (empresaBd[0]) {
-                        next();
+                       return next();
                     } else {
                         res.redirect("/")
                     }
@@ -51,10 +51,10 @@ const middleWares = {
             var usuariosBd = await usuariosModel.findUsuariosByEmail(req.body.email)
 
             if (usuariosBd[0]) {
-                console.log(req.body.password)
+                console.log(req.body.senha)
                 console.log(usuariosBd[0])
                 if (Object.keys(usuariosBd).length == 1) {
-                    if (bcrypt.compareSync(req.body.password, usuariosBd[0].SENHA_USUARIOS)) {
+                    if (bcrypt.compareSync(req.body.senha, usuariosBd[0].SENHA_USUARIOS)) {
                         var aut = {
                             autenticado: usuariosBd[0].EMAIL_USUARIOS, id: usuariosBd[0].ID_USUARIOS, foto: usuariosBd[0].img_perfil_pasta   
                         }

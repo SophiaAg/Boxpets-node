@@ -44,6 +44,27 @@ const usuariosModel = {
             return error
         }
     },
+
+    findHorariosIdservico : async (id)=>{
+        try {
+            const [resultados] = await pool.query('SELECT * FROM HORARIOS_SERVICO WHERE ID_SERVICO = ?', [id])
+            console.log(resultados)
+            return resultados
+        } catch (error) {
+            return error
+        }
+    },
+    criarHorario : async (dadosHorario)=>{
+        try {
+            const [resultados] = await pool.query('INSERT INTO HORARIOS_SERVICO SET ?', [dadosHorario])
+            console.log("HORARIO CRIADO")
+            console.log(resultados)
+            return resultados
+        } catch (error) {
+            console.log("erros do criar o horário")
+            return error
+        }
+    }
 }
 
 

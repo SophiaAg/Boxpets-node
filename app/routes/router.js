@@ -6,6 +6,7 @@ const usuariosController = require("../controllers/usuariosContoller");
 const usuariosModel = require("../models/usuariosModel");
 const middleWares = require("../middlewares/auth");
 const upload = require("../util/uploader");
+const { validationResult } = require("express-validator");
 const uploadClientePerfil = upload("./app/public/src/fotos-perfil/", 5, ['jpeg', 'jpg', 'png', 'webp']);
 const uploadPet = upload("./app/public/src/fotos-pet/", 5, ['jpeg', 'jpg', 'png', 'webp']);
 
@@ -107,6 +108,20 @@ router.post("/excluirFoto",
     });
 
 
+
+
+// Cadastro de CLIENTES
+router.post("/cadastrarCliente", clienteController.regrasValidacaoCriarConta, function (req, res) {
+    clienteController.cadastrar(req, res)
+})
+// login de CLIENTES
+router.post("/logarCliente", clienteController.regrasValidacaoLogarConta, middleWares.gravarAutenticacaoCliente, function (req, res) {
+    clienteController.entrar(req, res)
+})
+
+
+//EMPRESAAA
+
 // btncadastroEmpresa
 router.get("/cadastroEmpresa", async function (req, res) {
     try {
@@ -134,19 +149,70 @@ router.post("/cadastrarEmpresa", usuariosController.regrasValidacaoCriarConta, f
 })
 
 // Login de EMPRESAS
-router.post("/logarEmpresa", usuariosController.regrasValidacaoLogarConta, function (req, res) {
+router.post("/logarEmpresa", usuariosController.regrasValidacaoLogarConta, middleWares.gravarAutenticacaoEmpresa, function (req, res) {
     usuariosController.entrarEmpresa(req, res)
 })
 
+router.get("/editAgenda",
+    middleWares.verifyAutenticado,
+    middleWares.verifyAutorizado("pages/template-cadastroEmpresa", { page: "../partial/cadastroEmpresa/login", errors: null, valores: "", incorreto: null }, true),
+    async function (req, res) {
+        const idServico = req.query.idServico;
+        const horarios = await usuariosModel.findHorariosIdservico(idServico);
+        const dia = req.query.dia
+        
 
-// Cadastro de CLIENTES
-router.post("/cadastrarCliente", clienteController.regrasValidacaoCriarConta, function (req, res) {
-    clienteController.cadastrar(req, res)
-})
-// login de CLIENTES
-router.post("/logarCliente", clienteController.regrasValidacaoLogarConta, middleWares.gravarAutenticacaoCliente, function (req, res) {
-    clienteController.entrar(req, res)
-})
+        if (!idServico) {
+            return res.status(404).render("pages/error-404");
+        }
+
+        res.render("pages/editAgenda", {
+            idServico: idServico,
+            horarios: horarios,
+            dia: dia,
+            erros: null,
+            notify: null
+        });
+    }
+);
+
+router.post("/criarHorario",
+    middleWares.verifyAutenticado,
+    middleWares.verifyAutorizado("pages/template-cadastroEmpresa", { page: "../partial/cadastroEmpresa/login", errors: null, valores: "", incorreto: null }, true),
+    async function (req, res) {
+        let errors = validationResult(req)
+        if (!errors.isEmpty()) {
+
+        } else {
+            try {
+                const idServico = req.query.idServico;
+                if (!idServico) {
+                    console.log("Id de servico não encontrado")
+                    return res.status(404).render("pages/error-404");
+                }
+                
+                const { dataHorario, horario, descr } = req.body
+                const date = new Date(dataHorario);
+                const formattedDate = date.toISOString().split('T')[0];
+                const dadosHorario = {
+                    DATA_HORARIO: formattedDate,
+                    DESCRICAO_HORARIO: descr,
+                    HORARIO_SERVICO: horario,
+                    ID_SERVICO: idServico
+                }
+
+                const result = await usuariosModel.criarHorario(dadosHorario)
+                
+                res.redirect(`/editAgenda?idServico="${idServico}`)
+            } catch (error) {
+                console.log(error)
+                return res.status(404).render("pages/error-404");
+
+            }
+
+        }
+    }
+);
 
 
 
