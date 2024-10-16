@@ -1,6 +1,6 @@
 CREATE DATABASE  IF NOT EXISTS `bvgqmhhfrhckmih6zmov` /*!40100 DEFAULT CHARACTER SET utf8 */;
 USE `bvgqmhhfrhckmih6zmov`;
--- MySQL dump 10.13  Distrib 8.0.36, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.31, for Win64 (x86_64)
 --
 -- Host: bvgqmhhfrhckmih6zmov-mysql.services.clever-cloud.com    Database: bvgqmhhfrhckmih6zmov
 -- ------------------------------------------------------
@@ -23,7 +23,7 @@ SET @@SESSION.SQL_LOG_BIN= 0;
 -- GTID state at the beginning of the backup 
 --
 
-SET @@GLOBAL.GTID_PURGED=/*!80000 '+'*/ 'f41d366d-91e5-11e9-8525-cecd028ee826:1-143241490';
+SET @@GLOBAL.GTID_PURGED=/*!80000 '+'*/ 'f41d366d-91e5-11e9-8525-cecd028ee826:1-143581802';
 
 --
 -- Table structure for table `CARTERINHA_PET`
@@ -33,18 +33,18 @@ DROP TABLE IF EXISTS `CARTERINHA_PET`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `CARTERINHA_PET` (
- `ID_PET` INT(11) NOT NULL AUTO_INCREMENT,
+  `ID_PET` int(11) NOT NULL AUTO_INCREMENT,
   `NOME_PET` varchar(45) NOT NULL,
   `IDADE_PET` varchar(45) NOT NULL,
   `SEXO_PET` varchar(45) NOT NULL,
   `PORTE_PET` varchar(45) NOT NULL,
   `RACA_PET` varchar(45) NOT NULL,
   `ID_CLIENTE` int(11) NOT NULL,
-  `img_pet` VARCHAR(60) NOT NULL,
+  `img_pet` varchar(60) NOT NULL,
   PRIMARY KEY (`ID_PET`),
   KEY `ID_CLIENTE_CLIENTES_idx` (`ID_CLIENTE`),
   CONSTRAINT `ID_CLIENTE_CLIENTES` FOREIGN KEY (`ID_CLIENTE`) REFERENCES `CLIENTE` (`ID_CLIENTE`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -53,6 +53,7 @@ CREATE TABLE `CARTERINHA_PET` (
 
 LOCK TABLES `CARTERINHA_PET` WRITE;
 /*!40000 ALTER TABLE `CARTERINHA_PET` DISABLE KEYS */;
+INSERT INTO `CARTERINHA_PET` VALUES (1,'Simba','18','Macho','Medio','amarelo',3,'imgPet-1728752878686.jpg'),(2,'1','4','Macho','Pequeno','1',3,'imgPet-1728753008220.jpg'),(3,'1','s','Macho','Pequeno','1',3,'imgPet-1728756526784.jpg'),(4,'1','18','Macho','Pequeno','1',3,'imgPet-1728756629545.jpg'),(5,'1','s','Macho','Pequeno','1',3,'imgPet-1728756970429.jpg');
 /*!40000 ALTER TABLE `CARTERINHA_PET` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -117,6 +118,35 @@ LOCK TABLES `ESPECIALIDADES` WRITE;
 /*!40000 ALTER TABLE `ESPECIALIDADES` DISABLE KEYS */;
 INSERT INTO `ESPECIALIDADES` VALUES (1,'veterinário'),(2,'petshop'),(3,'adestramento'),(4,'passeio'),(5,'creche');
 /*!40000 ALTER TABLE `ESPECIALIDADES` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `HORARIOS_SERVICO`
+--
+
+DROP TABLE IF EXISTS `HORARIOS_SERVICO`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `HORARIOS_SERVICO` (
+  `ID_PEDIDO_SERVICO` int(11) NOT NULL AUTO_INCREMENT,
+  `DATA_HORARIO` date NOT NULL,
+  `DESCRICAO_HORARIO` varchar(400) NOT NULL,
+  `ID_SERVICO` int(11) NOT NULL,
+  `HORARIO_SERVICO` time NOT NULL,
+  PRIMARY KEY (`ID_PEDIDO_SERVICO`),
+  KEY `ID_SERVICO_idx` (`ID_SERVICO`),
+  CONSTRAINT `ID_SERVICO` FOREIGN KEY (`ID_SERVICO`) REFERENCES `SERVICO` (`ID_SERVICO`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `HORARIOS_SERVICO`
+--
+
+LOCK TABLES `HORARIOS_SERVICO` WRITE;
+/*!40000 ALTER TABLE `HORARIOS_SERVICO` DISABLE KEYS */;
+INSERT INTO `HORARIOS_SERVICO` VALUES (3,'2024-10-12','Horario teste',1,'21:11:00'),(4,'2024-10-12','Horario teste',1,'20:12:00');
+/*!40000 ALTER TABLE `HORARIOS_SERVICO` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -206,33 +236,6 @@ LOCK TABLES `ONGS` WRITE;
 UNLOCK TABLES;
 
 --
--- Table structure for table `PEDIDO_SERVICO`
---
-
-DROP TABLE IF EXISTS `PEDIDO_SERVICO`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `PEDIDO_SERVICO` (
-  `ID_PEDIDO_SERVICO` int(11) NOT NULL AUTO_INCREMENT,
-  `DATA_PEDIDO_SERVICO` date DEFAULT NULL,
-  `DESCRICAO_PEDIDO_SERVICO` varchar(400) NOT NULL,
-  `FK_ID_ITEM_PEDIDO_SERVICO` int(11) DEFAULT NULL,
-  PRIMARY KEY (`ID_PEDIDO_SERVICO`),
-  KEY `FK_ID_ITEM_PEDIDO_SERVICO` (`FK_ID_ITEM_PEDIDO_SERVICO`),
-  CONSTRAINT `PEDIDO_SERVICO_ibfk_1` FOREIGN KEY (`FK_ID_ITEM_PEDIDO_SERVICO`) REFERENCES `ITEM_PEDIDO_SERVICO` (`ID_ITEM_SERVICO`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `PEDIDO_SERVICO`
---
-
-LOCK TABLES `PEDIDO_SERVICO` WRITE;
-/*!40000 ALTER TABLE `PEDIDO_SERVICO` DISABLE KEYS */;
-/*!40000 ALTER TABLE `PEDIDO_SERVICO` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `PETS_CLIENTE`
 --
 
@@ -274,10 +277,12 @@ CREATE TABLE `SERVICO` (
   `ID_SERVICO` int(11) NOT NULL AUTO_INCREMENT,
   `NOME_SERVICO` varchar(45) NOT NULL,
   `DESCRICAO_SERVICO` varchar(400) NOT NULL,
-  `DATA_POSTAGEM_SERVICO` date NOT NULL,
   `CATEGORIA_SERVICO` int(11) NOT NULL,
-  PRIMARY KEY (`ID_SERVICO`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `ID_USUARIO` int(11) NOT NULL,
+  PRIMARY KEY (`ID_SERVICO`),
+  KEY `ID_USUARIO_idx` (`ID_USUARIO`),
+  CONSTRAINT `ID_USUARIO` FOREIGN KEY (`ID_USUARIO`) REFERENCES `USUARIOS` (`ID_USUARIOS`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -286,6 +291,7 @@ CREATE TABLE `SERVICO` (
 
 LOCK TABLES `SERVICO` WRITE;
 /*!40000 ALTER TABLE `SERVICO` DISABLE KEYS */;
+INSERT INTO `SERVICO` VALUES (1,'SERVICO-TESTE','UM TESTE DE UM SERVICO',4,20);
 /*!40000 ALTER TABLE `SERVICO` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -380,6 +386,65 @@ LOCK TABLES `USUARIOS_PJ` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `enterprise`
+--
+
+DROP TABLE IF EXISTS `enterprise`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `enterprise` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(24) NOT NULL,
+  `createdAt` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updatedAt` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `enterprise`
+--
+
+LOCK TABLES `enterprise` WRITE;
+/*!40000 ALTER TABLE `enterprise` DISABLE KEYS */;
+/*!40000 ALTER TABLE `enterprise` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `share`
+--
+
+DROP TABLE IF EXISTS `share`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `share` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `banner` longblob,
+  `title` varchar(64) NOT NULL,
+  `description` text,
+  `services` longtext,
+  `moreImage` longblob,
+  `moreText` text,
+  `peoples` longtext,
+  `onwer` int(11) DEFAULT NULL,
+  `createdAt` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updatedAt` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `onwer` (`onwer`),
+  CONSTRAINT `share_ibfk_1` FOREIGN KEY (`onwer`) REFERENCES `enterprise` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `share`
+--
+
+LOCK TABLES `share` WRITE;
+/*!40000 ALTER TABLE `share` DISABLE KEYS */;
+/*!40000 ALTER TABLE `share` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `usuarioTeste`
 --
 
@@ -411,4 +476,4 @@ SET @@SESSION.SQL_LOG_BIN = @MYSQLDUMP_TEMP_LOG_BIN;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-10-09 21:57:19
+-- Dump completed on 2024-10-16 10:20:20
