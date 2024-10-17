@@ -1,0 +1,15 @@
+<section class="card">
+    <section class="archive">
+        <%- include('../../partials/inputs/files.ejs', { text: fileText, name: fileName }) %>
+    </section>
+    <section class="description">
+        <% fields.forEach(function(field) { %>
+            <section class="input-control">
+                <% if (field.prefix) { %>
+                    <span><%= field.prefix %></span>
+                <% } %>
+                <input type="text" name="<%= field.name %>" placeholder="<%= field.placeholder %>">
+            </section>
+        <% }); %>
+    </section>
+</section>

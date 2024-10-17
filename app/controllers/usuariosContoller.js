@@ -332,7 +332,9 @@ const usuariosController = {
 
     res.redirect("/bsEmpresa");
 
-  }
+  },
+
+  
 }
 
 module.exports = usuariosController

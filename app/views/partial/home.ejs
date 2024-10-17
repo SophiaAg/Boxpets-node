@@ -1,0 +1,124 @@
+<main class="main-for-share">
+    <!-- formulario -->
+    <section class="main-content">
+
+        <section class="shares-container">
+            
+            <% sharePosts.forEach(element => { %>
+                <%- include('../../partials/cards/shares.ejs', {element: element}) %>
+            <% }) %>
+
+        </section>
+
+        <section class="form-control">
+            <form action="/share" method="post" enctype="multipart/form-data">
+
+                <!-- header (banner) -->
+                
+                <header class="banner">
+                    <section class="image">
+                        <%- include('../../partials/inputs/files.ejs',
+                            {text: 'drag and drop your file here or click to select a file!' , name: 'bannerShare' }) %>
+                    </section>
+                    <section class="text">
+                        <section class="input-control">
+                            <input type="text" name="title" placeholder="Loren Ipsun">
+                        </section>
+                        <section class="input-control">
+                            <textarea name="description" id="textArea-description" cols="30" rows="12"
+                                placeholder="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec lobortis faucibus bibendum. Fusce elementum elementum libero et venenatis. Suspendisse semper arcu odio, ut bibendum risus pulvinar eget."></textarea>
+                        </section>
+                    </section>
+                </header>
+
+                <!-- aréa de serviços -->
+
+                <section class="service-control">
+
+                    <section class="button-for-add-service">
+                        <button type="button" onclick="addForm('service')">Adicionar Serviço</button>
+                    </section>
+
+                    <section class="services">
+                        <!-- <%- include('../../partials/cards/forShare.ejs', {
+                        fileText: 'drag and drop your file here or click to select a file!' , fileName: 'serviceBanner' ,
+                        fields: [ { name: 'serviceName' , placeholder: 'Tosa' }, { prefix: 'R$' , name: 'servicePrice1' ,
+                        placeholder: '??.??' } ] }) %> -->
+                    </section>
+
+                </section>
+
+                <!-- area de mais detalhes -->
+
+                <section class="more">
+                    <section class="image">
+                        <%- include('../../partials/inputs/files.ejs',
+                            {text: 'drag and drop your file here or click to select a file!' , name: 'moreImage' }) %>
+                    </section>
+                    <section class="text">
+                        <textarea maxlength="250" name="moreText" cols="30" rows="8"
+                            placeholder="Lorem ipsum dolor sit amet consectetur adipisicing elit. Eius illum quasi iure asperiores, eum soluta facilis, quo animi nisi aliquid molestiae cupiditate dicta, ipsa delectus saepe id adipisci itaque ullam!"></textarea>
+                    </section>
+                </section>
+
+                <!-- pessoas -->
+
+                <section class="peoples">
+
+                    <section>
+                        <section>
+                            <button type="button" onclick="addForm('people')">Adicionar pessoa</button>
+                        </section>
+                    </section>
+
+                    <!-- <%- include('../../partials/cards/forShare.ejs', {
+                                fileText: 'drag and drop your file here or click to select a file!' , fileName: 'people' ,
+                                fields: [ { name: 'peopleName' , placeholder: 'Alana' }, { name: 'peopleFunction' , placeholder: 'Developer'
+                                } ] }) %> -->
+
+                </section>
+
+                <section class="submit">
+                    <input type="submit" value="Enviar">
+                </section>
+
+            </form>
+        </section>
+    </section>
+</main>
+
+<!-- script -->
+
+<script>
+    const textarea = document.getElementById('textArea-description');
+    const lineHeight = 24; // Ajuste o valor conforme o tamanho da linha
+
+    // Função para ajustar o número de linhas do textarea
+    function adjustTextareaRows(textareaElement) {
+        // Reseta as linhas para recalcular
+        textareaElement.rows = 1;
+
+        // Calcula o número de linhas com base no scrollHeight
+        const newRows = Math.ceil(textareaElement.scrollHeight / lineHeight);
+
+        // Define o número de linhas no textarea
+        textareaElement.rows = newRows;
+    }
+
+    // Evento para ajustar as linhas ao digitar
+    textarea.addEventListener('input', function () {
+        adjustTextareaRows(this);
+    });
+
+    // Ajusta o número de linhas ao carregar a página com base no placeholder
+    window.addEventListener('load', function () {
+        const placeholderContent = textarea.placeholder;
+
+        // Temporariamente atribui o placeholder ao valor para medir as linhas
+        textarea.value = placeholderContent;
+        adjustTextareaRows(textarea);
+
+        // Restaura o valor vazio para manter o comportamento normal
+        textarea.value = '';
+    });
+</script>

@@ -1,0 +1,18 @@
+<% 
+    const base64Image = Buffer.from(element.banner).toString('base64');
+    const imgSrc = `data:image/png;base64,${base64Image}`;
+%>
+
+<a href="/share/<%= element.id %>" class="share-archor">
+    <sectiion class="card">
+        <section class="banner">
+            <img class="banner" 
+            src="<%= imgSrc %>" 
+            alt="Banner de <%= element.enterprise %>">   
+        </section>
+        <section class="texts">
+            <h2><%= element.title %></h3>
+            <H3>De: <%= element.enterprise %></H2>
+        </section>
+    </sectiion>
+</a>

@@ -215,7 +215,17 @@ router.post("/criarHorario",
 );
 
 
+router.get("/paginaEmpresa", async function (req, res){
+    const query = `
+    SELECT share.*, enterprise.name AS enterprise
+    FROM share
+    INNER JOIN enterprise ON share.onwer = enterprise.id;
+    `
 
+    const [sharePosts] = await connection.query(query);
+
+    res.status(200).render("layouts/main.ejs", { router: "../partial/home.ejs", sharePosts : sharePosts });
+})
 // rota para comentário da empresa?
 
 
