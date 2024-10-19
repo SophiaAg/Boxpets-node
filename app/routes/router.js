@@ -108,7 +108,14 @@ router.post("/excluirFoto",
     });
 
 
-
+    router.get("/dashboard", function (req, res) {
+        const jsonResult = {
+            page: "../partial/dashboard/principal",
+            errors: null,
+            valores: null,
+        }
+        res.render("pages/template-dashboard", jsonResult);
+    });
 
 // Cadastro de CLIENTES
 router.post("/cadastrarCliente", clienteController.regrasValidacaoCriarConta, function (req, res) {

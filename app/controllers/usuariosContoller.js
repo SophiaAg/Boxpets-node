@@ -241,12 +241,12 @@ const usuariosController = {
       try {
         const usuarioCriado = await usuariosModel.createUsuario(dadosUsuario);
         console.log(usuarioCriado)
+         
         const jsonResult = {
-          page: "../partial/landing-home/home-page"
+          page: "../partial/dashboard/principal"
         }
+        res.render("pages/template-dashboard", jsonResult)
 
-       
-          res.render("pages/template-hm", jsonResult)
       
 
       } catch (erros) {
@@ -290,9 +290,9 @@ const usuariosController = {
 
           
           const jsonResult = {
-            page: "../partial/landing-home/home-page"
+            page: "../partial/dashboard/principal"
           }
-          res.render("pages/template-hm", jsonResult)
+          res.render("pages/template-dashboard", jsonResult)
 
         } else {
           const jsonResult = {
