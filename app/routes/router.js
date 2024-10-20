@@ -9,6 +9,9 @@ const upload = require("../util/uploader");
 const { validationResult } = require("express-validator");
 const uploadClientePerfil = upload("./app/public/src/fotos-perfil/", 5, ['jpeg', 'jpg', 'png', 'webp']);
 const uploadPet = upload("./app/public/src/fotos-pet/", 5, ['jpeg', 'jpg', 'png', 'webp']);
+const storage = require("../util/storage.js")
+const uploadEmpresa = storage;
+const MainController = require('../controllers/mainController.js');
 
 
 router.get("/", function (req, res) {
@@ -113,9 +116,13 @@ router.post("/excluirFoto",
             page: "../partial/dashboard/principal",
             errors: null,
             valores: null,
+            classePagina: 'dashboard',
         }
         res.render("pages/template-dashboard", jsonResult);
     });
+
+    
+    
 
 // Cadastro de CLIENTES
 router.post("/cadastrarCliente", clienteController.regrasValidacaoCriarConta, function (req, res) {
@@ -222,17 +229,10 @@ router.post("/criarHorario",
 );
 
 
-router.get("/paginaEmpresa", async function (req, res){
-    const query = `
-    SELECT share.*, enterprise.name AS enterprise
-    FROM share
-    INNER JOIN enterprise ON share.onwer = enterprise.id;
-    `
+router.get('/paginaEmpresa', MainController.first);
+router.post('/share', uploadEmpresa.any(), MainController.sharePost)
+router.get('/share/:id', MainController.viewPost)
 
-    const [sharePosts] = await connection.query(query);
-
-    res.status(200).render("layouts/main.ejs", { router: "../partial/home.ejs", sharePosts : sharePosts });
-})
 // rota para comentário da empresa?
 
 

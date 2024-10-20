@@ -116,13 +116,13 @@
      width: 100%;
     }
     
-    aside .slidebar a#active{
+    aside .slidebar a.active{
         background: #fffff0;
         color: var(--cor-segundaria);
         margin-left: 0;
     
     }
-    aside .slidebar a#active:before {
+    aside .slidebar a.active:before {
         content: '';
         width: 6px;
         height: 100%;
@@ -130,7 +130,7 @@
     
     }
     
-    aside .slidebar a#active span {
+    aside .slidebar a.active span {
         color: var(--cor-segundaria);
         margin-left: calc(1rem - 3px);
     }
