@@ -290,7 +290,8 @@ const usuariosController = {
 
           
           const jsonResult = {
-            page: "../partial/dashboard/principal"
+            page: "../partial/dashboard/principal",
+             classePagina: 'dashboard'
           }
           res.render("pages/template-dashboard", jsonResult)
 
