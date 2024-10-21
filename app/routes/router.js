@@ -121,6 +121,17 @@ router.post("/excluirFoto",
         res.render("pages/template-dashboard", jsonResult);
     });
 
+    router.get("/agendamento", function (req, res) {
+        res.render("pages/template-dashboard", { page: "../partial/dashboard/agendamento" , classePagina: 'agenda', });
+    });
+    
+    router.get("/planos", function (req, res) {
+        res.render("pages/template-dashboard", { page: "../partial/dashboard/planos" , classePagina: 'planos', });
+    });
+    
+
+
+
     
     
 
@@ -229,7 +240,7 @@ router.post("/criarHorario",
 );
 
 
-router.get('/paginaEmpresa', MainController.first);
+router.get('/paginacomercial', MainController.first);
 router.post('/share', uploadEmpresa.any(), MainController.sharePost)
 router.get('/share/:id', MainController.viewPost)
 

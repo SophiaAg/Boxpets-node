@@ -1,0 +1,98 @@
+.upcoming{
+    width: 100%;
+    margin: 10%;
+}
+
+.upcoming .upcoming-box{
+    margin: 5%;
+}
+
+ .upcoming .dates{
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 40px;
+}
+
+ .upcoming .dates .item{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+}
+
+ .upcoming .dates .item h5{
+    font-weight: 600;
+}
+
+ .upcoming .dates .item a{
+    color: #000;
+    font-size: 13px;
+    padding: 5px 9px;
+    border-radius: 50%;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+ .upcoming .dates .item.active a,
+ .upcoming .dates .item a:hover{
+    color: #fff;
+    background: #031224;
+}
+
+ .upcoming .events{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+ .upcoming .events .item{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #eff6ff;
+    padding: 10px;
+    border-radius: 10px;
+}
+.upcoming .events .item-adicionar{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #eff6ff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow:  0 .5rem 1rem rgba(0, 0, 0, .1);
+}
+
+.upcoming .events .item-adicionar:hover{
+    background: var(--cor-segundaria);
+}
+.upcoming .events .item-adicionar .event-info a{
+    font-size: 14px;
+    color: #000;
+    font-weight: 800;
+}
+
+ .upcoming .events .item > i{
+    cursor: pointer;
+}
+
+ .upcoming .events .item > div{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+ .upcoming .events .item > div i{
+    font-size: 30px;
+}
+
+ .upcoming .events .item .event-info a{
+    font-size: 14px;
+    color: #000;
+    font-weight: 500;
+}
+
+ .upcoming .events .item .event-info p{
+    font-size: 13px;
+    color: #9b9b9b;
+}
