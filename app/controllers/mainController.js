@@ -11,7 +11,7 @@ module.exports = class MainController {
 
         const [sharePosts] = await connection.query(query);
 
-        res.status(200).render("pages/template-dashboard", { page: "../pages/home.ejs", sharePosts : sharePosts, classePagina: "paginaComercial"});
+        res.status(200).render("pages/template-dashboard", { page: "../pages/home.ejs", sharePosts: sharePosts, classePagina: "paginaComercial" });
 
     }
 
@@ -132,7 +132,7 @@ module.exports = class MainController {
         // Preparar os dados para serem inseridos na tabela
         const servicesJSON = JSON.stringify(services);
         const peoplesJSON = JSON.stringify(peoples);
-        const ownerId = 1;
+        const ownerId = req.session.autenticado.id;
 
         // console.log('Valores a serem inseridos:');
         // console.log('Title:', title);
@@ -143,9 +143,9 @@ module.exports = class MainController {
         // console.log('Peoples JSON:', peoplesJSON);
         // console.log('Owner ID:', ownerId);
 
-       const item = await connection.query(query, [bannerShare, title, description, servicesJSON, moreImage, moreText, peoplesJSON, ownerId]);
-        
-       res.status(200).redirect('/share/'+item[0].insertId)
+        const item = await connection.query(query, [bannerShare, title, description, servicesJSON, moreImage, moreText, peoplesJSON, ownerId]);
+
+        res.status(200).redirect('/share/' + item[0].insertId)
     }
 
     static async viewPost(req, res) {

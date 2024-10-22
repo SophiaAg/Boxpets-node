@@ -241,6 +241,7 @@ router.post("/criarHorario",
 
 
 router.get('/paginacomercial', MainController.first);
+// Postar pagina empresa
 router.post('/share', uploadEmpresa.any(), MainController.sharePost)
 router.get('/share/:id', MainController.viewPost)
 
