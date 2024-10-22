@@ -2,7 +2,9 @@
     width: 100%;
     margin: 10%;
 }
-
+.upcoming .inputs{
+    margin: 5%;
+}
 .upcoming .upcoming-box{
     margin: 5%;
 }
