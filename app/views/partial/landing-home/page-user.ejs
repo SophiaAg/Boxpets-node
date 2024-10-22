@@ -53,10 +53,12 @@ if (msgErro != "") { %>
 
 
 <div class="container">
-  <h1 id="TituloPerfil">Perfil</h1>
-  <p>Lorem ipsum dolor sit amet consectetur.</p>
 
-  
+  <h1 id="TituloPerfil">Perfil</h1>
+  <p>Veja as informações do seu perfil da boxpets</p>
+
+
+  <div class="conteudo">
     <div id="areaTwoContent">
       <div class="sessao-foto">
         <div id="areaFoto">
@@ -76,14 +78,13 @@ if (msgErro != "") { %>
             </script>
             <% if (foto != "imgUser.png"){ %>
               <form action="/excluirFoto" method="post" enctype="multipart/form-data">
-                <button class="btnDelete">Deletar</button>
+                <button class="btnDelete">Deletar foto</button>
               </form>
               <% }  %>
             
 
           </div>
         </div>
-        <p>Recomendamos fotos com resolução de 256×256px</p>
       </div>
     </div>
 
@@ -124,6 +125,7 @@ if (msgErro != "") { %>
     </div>
   </form>
    
+</div>
 </div>
 
 <script src="./js/addPerfil.js"></script>

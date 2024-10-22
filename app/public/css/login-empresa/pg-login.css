@@ -141,6 +141,8 @@ form.sign-up-form {
 }
 
 .input-field input {
+  
+  border-radius: 55px;
   background: none;
   outline: none;
   border: none;
