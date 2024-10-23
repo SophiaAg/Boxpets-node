@@ -43,22 +43,37 @@ if (msgErro != "") { %>
     <button id="createCardBtn">Criar Carteirinha</button>
 
     <div id="cardContainer" class="card-container">
+      
  <% if (pets) {
   pets.forEach(pet => {%>
     <div class="card">
-      <button class="delete-btn">&times;</button>
+      <button class="delete-btn" onclick="openPetModal()">!</button>
+     
       <img src="./src/fotos-pet/<%= pet.img_pet %>" alt="foto do pet">
+      <div class="info-pets">
       <h3><%= pet.NOME_PET %></h3>
       <p><%=pet.IDADE_PET %></p>
       <p><%=pet.SEXO_PET %></p>
       <p><%=pet.PORTE_PET%></p>
       <p><%=pet.RACA_PET%></p>
     </div>
+  </div>
+  
  <% }) 
- } %>
-
-        <!-- As carteirinhas serão adicionadas aqui -->
+ } %>   <!-- As carteirinhas serão adicionadas aqui -->
     </div>
+ 
+
+
+ <!-- Estrutura do modal-pet -->
+ <div id="petOptionsModal" class="modal">
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <h2>Opções da Carteirinha Pet</h2>
+    <button class="btn-att" onclick="editPet()">Editar</button>
+    <button class="btn-att" onclick="deletePet()">Excluir</button>
+  </div>
+</div>
 
     <!-- Modal -->
     <div id="cardModal" class="modal" style="<%= modalAberto ? 'display: flex;' : '' %>"  >

@@ -7,13 +7,7 @@ h2 {
     text-align: center;
 }
 
-button {
-    padding: 10px 20px;
-    font-size: 16px;
-    cursor: pointer;
-    display: block;
-    margin: 20px auto;
-}
+
 
 #createCardBtn{
     display: inline-block;
@@ -37,7 +31,9 @@ button {
     justify-content: center;
     gap: 20px;
     margin-top: 20px;
+   
 }
+
 
 /* Estilo do modal */
 .modal {
@@ -56,11 +52,19 @@ button {
 /* Conteúdo do modal */
 .modal-content {
     background-color: #fff;
-    padding: 20px;
+    padding: 50px;
     border-radius: 20px;
     max-width: 700px;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
     text-align: center;
+}
+
+select {
+    border: none;
+    line-height: 1;
+    font-weight: 500;
+    font-size: 1rem;
+    background: none;
 }
 
 /* Botão de fechar (X) */
@@ -80,13 +84,16 @@ button {
 
 /* Estilo das carteirinhas */
 .card {
-    width: 250px;
+    display: flex;
+    width: 350px;
     padding: 10px;
     background-color: #f4f4f4;
     border-radius: 10px;
     text-align: center;
     box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
-    margin: 10%;
+    margin: 5%;
+   z-index: 1; 
+  
 }
 
 .card img {
@@ -105,17 +112,33 @@ button {
     color: #666;
 }
 
-* Botão de excluir */
+.card .info-pets{
+    margin: auto;
+    font-size: 20px;
+    font-weight: 300;
+    padding: 10px;
+}
+
+
+
+/* Botão de excluir */
 .card .delete-btn {
-    position: absolute;
-    top: 5px;
-    right: 5px;
-    background-color: red;
+    background-color: var(--cor-primaria);
     color: white;
     border: none;
-    padding: 5px;
     border-radius: 50%;
     cursor: pointer;
+    height: 20px;
+    width: 20px;
+}
+.modal-content .btn-att {
+    background-color: var(--cor-primaria);
+    color: white;
+    border: none;
+    border-radius: 20%;
+    cursor: pointer;
+    height: 50px;
+    width: 50px;
 }
 
 .card .delete-btn:hover {
@@ -127,3 +150,15 @@ button {
     height: 100px;
     border-radius: 50%;
 }
+
+@media (max-width: 430px){
+    .card {
+        display: block;
+    }
+    .card .delete-btn{
+        position: absolute;
+        left: 10%;
+    }
+
+}
+
