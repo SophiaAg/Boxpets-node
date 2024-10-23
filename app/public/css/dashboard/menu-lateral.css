@@ -637,7 +637,88 @@
       
     }
     
-  
+    @media screen and (max-width: 868px){
+        .container{
+            display: block;
+        }
+    
+        aside{
+            position: fixed;
+            left: -100%;
+            background: white;
+            width: 18rem;
+            z-index: 3;
+            box-shadow: 1rem 3rem 4rem var(--cor-segundaria);
+            height: 100vh;
+            display: none;
+            padding-right: var(--cor-primaria);
+            animation: showMenu 400ms ease forwards;
+    
+        }
+    
+        @keyframes showMenu {
+            to{
+                left: 0;
+            }
+        }
+    
+        aside .logo{
+            margin-left: 1rem;
+    
+        }
+    
+        aside .logo h2{
+            display: inline;
+        }
+    
+        aside .slidebar h3{
+            display: inline;
+        }
+    
+        aside .slidebar a{
+            width: 100%;
+            height: 3.4rem;
+        }
+        aside .slidebar a:last-child{
+            position: relative;
+            margin-top: 5rem;
+        }
+    
+        aside .close{
+            display: inline-block;
+            cursor: pointer;
+        }
+    
+        .menulateral{
+            width: 94%;
+            margin: 0 auto 4rem;
+        }
+    
+        .menulateral .top {
+            position: fixed;
+            top: 0;
+            left: 0;
+            align-items: center;
+            padding: 0 0.8rem;
+            height: 4.6rem;
+            background: white;
+            width: 100%;
+            margin: 0;
+            z-index: 2;
+            box-shadow: 0 1rem 1rem #bdbdbd;
+        }
+        .menulateral .top button {
+            display: inline-block;
+            background: transparent;
+            cursor: pointer;
+            color: var(--preto);
+            position: absolute;
+            left: 1rem;
+        }
+        .menulateral .top button span {
+            font-size: 2rem;
+        }
+    }
 
 
 .right .user-profile h2{
