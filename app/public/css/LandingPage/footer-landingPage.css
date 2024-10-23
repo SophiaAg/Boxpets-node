@@ -9,7 +9,7 @@
   border: none;
   list-style: none;
   text-decoration: none;
-  text-transform: capitalize;
+  text-transform: none;
   transition: .2s linear;
   text-decoration: none;
   scroll-padding-top: 2rem;
@@ -20,7 +20,7 @@ footer{
   position: relative;
     width: 100%;
     bottom: 0;
-    background: linear-gradient(to right, var(--cor-segundaria), var(--cor-primaria));
+    background:  rgb(32, 92, 255);
     color: var(--branco);
     padding: 100px 0 30px;
     border-top-left-radius: 125px;
