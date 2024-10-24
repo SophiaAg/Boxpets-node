@@ -22,6 +22,10 @@
 @import url("../servicogerais/footer.css");
 
 
-/*Perfildousuario*/
+/*Perfildocliente*/
 @import url("../page-user/page-user.css");
 @import url("../page-user/carterinha-pet.css");
+
+/*Agendadocliente*/
+@import url("../Homepage/historico-cli.css");
+@import url("../cliente-empresa/servicoempresa.css");

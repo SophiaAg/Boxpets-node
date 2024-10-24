@@ -111,6 +111,7 @@ header .header-main .search-form input {
     width: 100%;
     text-transform: none;
     color: var(--preto);
+    border: none;
 }
 
 header .header-main .search-form label{

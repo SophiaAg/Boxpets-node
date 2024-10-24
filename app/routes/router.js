@@ -60,6 +60,10 @@ router.get("/veterinarios", function (req, res) {
     res.render("pages/template-hm", { pagina: "LandingPage", page: "../partial/servicosgerais/veterinarios" });
 });
 
+router.get("/historico-cli", function (req, res) {
+    res.render("pages/template-hm", {  page: "../partial/landing-home/historico-cli.ejs" });
+});
+
 router.get("/carterinha-pet", function (req, res) {
     clienteController.mostrarPet(req, res);
 });
