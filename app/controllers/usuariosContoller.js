@@ -243,7 +243,8 @@ const usuariosController = {
         console.log(usuarioCriado)
          
         const jsonResult = {
-          page: "../partial/dashboard/principal"
+          page: "../partial/dashboard/principal",
+          nomeempresa: nomeempresa // Aqui é onde passamos o nome da empresa
         }
         res.render("pages/template-dashboard", jsonResult)
 
@@ -256,11 +257,6 @@ const usuariosController = {
 
     }
   },
-
-
-
-
-
   entrarEmpresa: async (req, res) => {
     // Aqui verifico se tem erros de validação no formulário, se tiver carrego a pagina de login novamente com erros, 
     //senão busco a partir do um usuário a partir do digitado, e então eu por fim, verifico se o usuario do banco existe
@@ -284,13 +280,14 @@ const usuariosController = {
       try {
         const userBd  = await usuariosModel.findUsuariosByEmail(email)
 
-        if (userBd [0] && bcrypt.compareSync(senha, userBd[0].SENHA_USUARIOS)
+        if (userBd [0] && bcrypt.compareSync(senha, userBd[0].SENHA_USUARIOS))
           // && req.session.autenticado.autenticado
-        ) {
+         {
 
-          
+          const nomeempresa = userBd[0].NOMEEMPRESA_USUARIO;
           const jsonResult = {
             page: "../partial/dashboard/principal",
+            nomeempresa: nomeempresa,// Aqui é onde passamos o nome da empresa
              classePagina: 'dashboard'
           }
           res.render("pages/template-dashboard", jsonResult)

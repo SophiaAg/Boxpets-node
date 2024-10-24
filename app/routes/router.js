@@ -122,6 +122,8 @@ router.post("/excluirFoto",
             errors: null,
             valores: null,
             classePagina: 'dashboard',
+            nomeempresa: nomeempresa,
+            
         }
         res.render("pages/template-dashboard", jsonResult);
     });
