@@ -214,7 +214,7 @@ const clienteController = {
         form: "../partial/login/cadastrar",
         errors: errors,
         valores: req.body,
-        isCadastrar: true
+        isCadastrar: true,
       }
       res.render("pages/template-login", jsonResult);
     } else {
@@ -232,7 +232,8 @@ const clienteController = {
         const clienteCriado = await clienteModel.createCliente(dadosCliente);
         req.session.Clienteid = clienteCriado.insertId
         const jsonResult = {
-          page: "../partial/landing-home/home-page"
+          page: "../partial/landing-home/home-page" ,
+          nome: dadosCliente.NOME_CLIENTE
         }
 
 
@@ -248,7 +249,6 @@ const clienteController = {
     }
   },
   entrar: async (req, res) => {
-
     let errors = validationResult(req)
 
     if (!errors.isEmpty()) {
@@ -257,7 +257,7 @@ const clienteController = {
         form: "../partial/login/entrar",
         errors: errors,
         valores: req.body,
-        incorreto: false
+        incorreto: false,
       }
       res.render("pages/template-login", jsonResult);
     } else {
@@ -265,14 +265,16 @@ const clienteController = {
       const { email, password } = req.body
       try {
         const clienteBd = await clienteModel.findClienteByEmail(email)
-        if (clienteBd[0] && bcrypt.compareSync(password, clienteBd[0].SENHA_CLIENTE)) {
+        if (clienteBd[0] && bcrypt.compareSync(password, clienteBd[0].SENHA_CLIENTE))
+           {
 
           req.session.autenticado = {
             autenticado: clienteBd[0].EMAIL_CLIENTE,
             id: clienteBd[0].ID_CLIENTE
           }
           const jsonResult = {
-            page: "../partial/landing-home/home-page"
+            page: "../partial/landing-home/home-page", 
+            nome: clienteBd[0].NOME_CLIENTE
           }
           res.render("pages/template-hm", jsonResult)
 
@@ -281,7 +283,8 @@ const clienteController = {
             form: "../partial/login/entrar",
             errors: null,
             valores: req.body,
-            incorreto: true
+            incorreto: true,
+  
           }
           res.render("pages/template-login", jsonResult);
         }

@@ -47,8 +47,9 @@ router.get("/entrar", function (req, res) {
     res.render("pages/template-login", jsonResult);
 });
 
+
 router.get("/ ", function (req, res) {
-    res.render("pages/template-hm", { pagina: "LandingPage", page: "../pages/template-hm" });
+    res.render('pages/template-hm', { page: 'partial/landing-home/home-page', nomeUsuario });
 });
 
 
