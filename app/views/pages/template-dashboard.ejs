@@ -20,6 +20,13 @@
 
 
 <div class="container">
+    <div class="top">
+        <button id="menu-btn">
+            <span class="material-symbols-outlined">  menu </span>
+        </button>
+        <article class="fa-regular fa-moon" id="darkmode"> </article>
+
+    </div>
 <aside>
     <!--Menu lateral-->
     <div class="menulateral">
@@ -32,13 +39,7 @@
             <span class="material-symbols-outlined">  close </span>
     </div>
     </div>
-    <div class="top">
-        <button id="menu-btn">
-            <span class="material-symbols-outlined">  menu </span>
-        </button>
-        <article class="fa-regular fa-moon" id="darkmode"> </article>
 
-    </div>
 
     <div class="slidebar">
         <a class="item <%= classePagina == 'dashboard' ? 'active' : '' %> " href="/dashboard"  >
@@ -76,7 +77,7 @@
 </div>
 
 <!--rodapé-->
-<  <footer>
+<footer>
     <section class="row">
         <section class="col">
             <a href="" class="logo"><img src="/src/img-homepage/logo.png" width="80">BOX <span>PETS</span></a>
@@ -106,9 +107,9 @@
     <p class="copyright">Easy Tutorials 2024 - All Rights Reserved</p>
 </footer>
 
-        <script src="js/landingPage.js"></script>
-        <script src="js/modoescuro.js"></script>
-        <script src="js/equipe.js"></script>
+<script src="js/dashboard-menu.js"></script>
+<script src="js/modoescuro.js"></script>
+<script src="js/app.js"></script>
 </body>
 
 </html>
