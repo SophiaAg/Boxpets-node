@@ -29,3 +29,6 @@
 /*Agendadocliente*/
 @import url("../Homepage/historico-cli.css");
 @import url("../cliente-empresa/servicoempresa.css");
+
+/*page erro*/
+@import url("../pg-erro.css");
