@@ -254,7 +254,10 @@ router.get('/share/:id', MainController.viewPost)
 
 // rota para comentário da empresa?
 
+router.get("/buySer", async function (req, res) {
 
+    res.render("pages/template-hm", {  page: "../partial/cliente-empresa/buySer"})
+})
 
 router.get("/bsEmpresa", async function (req, res) {
 

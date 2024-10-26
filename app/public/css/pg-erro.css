@@ -1,4 +1,4 @@
-.container {
+.container-erro {
     max-width: 400px;
     padding: 2rem;
     margin: auto;
@@ -15,11 +15,11 @@
     font-size: 4rem;
     font-weight: 900;
   }
-  .container h3 {
+  .container-erro h3 {
     font-size: 2rem;
     font-weight: 900;
   }
-  .container img {
+  .container-erro img {
     width: 100%;
     max-width: 300px;
     margin: auto;
@@ -54,12 +54,12 @@
     nav {
       max-width: 1000px;
     }
-    .container {
+    .container-erro {
       max-width: 1200px;
       grid-template-columns: repeat(2, 1fr);
       gap: 2rem;
     }
-    .container img {
+    .container-erro img {
       max-width: 550px;
       grid-area: 1/1/3/2;
     }
@@ -69,7 +69,7 @@
   }
   
   @media (min-width: 1024px) {
-    .container {
+    .container-erro {
       column-gap: 5rem;
     }
     .header h1 {

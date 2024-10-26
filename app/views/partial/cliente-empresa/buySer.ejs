@@ -1,0 +1,274 @@
+
+<section>
+    <div class="container-card flex">
+      <div class="left">
+        <div class="main_image">
+          <img src="src/agendar/agendar1.jpg" class="slide">
+        </div>
+        <div class="option flex">
+          <img src="src/agendar/agendar1.jpg" onclick="img('image/p1.jpg')">
+          <img src="src/agendar/agendar1.jpg" onclick="img('image/p2.jpg')">
+          <img src="src/agendar/agendar1.jpg" onclick="img('image/p3.jpg')">
+          <img src="src/agendar/agendar1.jpg" onclick="img('image/p4.jpg')">
+        </div>
+      </div>
+      <div class="right">
+        <h3>Um banho comum</h3>
+        <h4> <small>$</small>999.99 </h4>
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. </p>
+        <h5>Portes aceitos</h5>
+        <div class="portes">
+          <span><img src="src/cliente-empresa/porte1.png" alt=""><p>P</p></span>
+          <span><img src="src/cliente-empresa/porte2.png" alt=""><p>M</p></span>
+          <span><img src="src/cliente-empresa/porte3.png" alt=""><p>G</p></span>
+         
+        </div>
+        <h5>Number</h5>
+        <div class="add flex1">
+        
+          <span>+</span>
+          <p>Adicionar Carterinha</p>
+        </div>
+  
+        <button id="openModalBtn" >Agendar</button>
+      </div>
+    </div>
+  </section>
+
+  <div id="scheduleModal" class="modal-card">
+    <div class="modal-content-card">
+        <div class="modal-header">
+            <h2>Agendar Horário</h2>
+            <span class="close">&times;</span>
+            <label for="date">Escolha o dia:</label>
+            <input type="date" id="date" name="date" required>
+        </div>
+
+        <div class="modal-body">
+            <form id="scheduleForm">
+                <div class="item">
+                    <div>
+                        <i class='bx bx-time'></i>
+                        <div class="event-info">
+                            <a href="#">Horário 2</a>
+                            <p>13:30-15:00</p>
+                        </div>
+                    </div>
+                    <i class='bx bx-dots-horizontal-rounded'></i>
+                </div>
+
+                <div class="item">
+                    <div>
+                        <i class='bx bx-time'></i>
+                        <div class="event-info">
+                            <a href="#">Horário 2</a>
+                            <p>13:30-15:00</p>
+                        </div>
+                    </div>
+                    <i class='bx bx-dots-horizontal-rounded'></i>
+                </div>
+
+                <div class="item">
+                    <div>
+                        <i class='bx bx-time'></i>
+                        <div class="event-info">
+                            <a href="#">Horário 2</a>
+                            <p>13:30-15:00</p>
+                        </div>
+                    </div>
+                    <i class='bx bx-dots-horizontal-rounded'></i>
+                </div>
+
+                <button type="submit">Agendar</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+  <div class="product-main">
+
+    <h2 class="title">Nossos Serviços</h2>
+  
+    <div class="product-grid">
+  
+      <div class="showcase">
+  
+        <div class="showcase-banner">
+  
+          <img src=" /src/img-homepage/washing-pet-dog-home.jpg" alt="Mens Winter Leathers Jackets" width="300"
+            class="product-img default">
+          <img src=" /src/img-homepage/washing-pet-dog-home (1).jpg" alt="Mens Winter Leathers Jackets" width="300"
+            class="product-img hover">
+  
+          <p class="showcase-badge">15%</p>
+  
+        </div>
+  
+        <div class="showcase-content">
+          <a href="/buySer" class="showcase-category">Banho basico</a>
+          <a href="/buySer">
+            <h3 class="showcase-title">Um banho comum</h3>
+          </a>
+  
+          <div class="price-box">
+            <p class="price">R$48.00</p>
+            <del>R$75.00</del>
+          </div>
+  
+        </div>
+  
+      </div>
+  
+      <div class="showcase">
+  
+        <div class="showcase-banner">
+  
+          <img src=" /src/img-homepage/washing-pet-dog-home.jpg" alt="Mens Winter Leathers Jackets" width="300"
+            class="product-img default">
+          <img src=" /src/img-homepage/washing-pet-dog-home (1).jpg" alt="Mens Winter Leathers Jackets" width="300"
+            class="product-img hover">
+  
+          <p class="showcase-badge angle black">sale</p>
+  
+  
+        </div>
+  
+        <div class="showcase-content">
+          <a href="#" class="showcase-category">Tosa</a>
+  
+          <h3>
+            <a href="#" class="showcase-title">Apenas a Tosa</a>
+          </h3>
+  
+          <div class="price-box">
+            <p class="price">R$45.00</p>
+            <del>R$56.00</del>
+          </div>
+  
+        </div>
+  
+      </div>
+  
+      <div class="showcase">
+  
+        <div class="showcase-banner">
+  
+          <img src=" /src/img-homepage/washing-pet-dog-home.jpg" alt="Mens Winter Leathers Jackets" width="300"
+            class="product-img default">
+          <img src=" /src/img-homepage/washing-pet-dog-home (1).jpg" alt="Mens Winter Leathers Jackets" width="300"
+            class="product-img hover">
+         
+        </div>
+  
+        <div class="showcase-content">
+          <a href="/buySer" class="showcase-category">Banho e Tosa</a>
+  
+          <h3>
+            <a href="/buySer" class="showcase-title">Os dois em um só</a>
+          </h3>
+          
+  
+          <div class="price-box">
+            <p class="price">R$58.00</p>
+            <del>R$65.00</del>
+          </div>
+  
+        </div>
+  
+      </div>
+  
+      <div class="showcase">
+  
+        <div class="showcase-banner">
+  
+          <img src="/src/img-homepage/washing-pet-dog-home.jpg" alt="Mens Winter Leathers Jackets" width="300"
+            class="product-img default">
+          <img src=" /src/img-homepage/washing-pet-dog-home (1).jpg" alt="Mens Winter Leathers Jackets" width="300"
+            class="product-img hover">
+  
+          <p class="showcase-badge angle pink">new</p>
+  
+  
+        <div class="showcase-content">
+          <a href="#" class="showcase-category">Banho premium</a>
+  
+          <h3>
+            <a href="#" class="showcase-title">O melhor para o seu pet</a>
+          </h3>
+  
+          
+  
+          <div class="price-box">
+            <p class="price">$85.00</p>
+            <del>$105.00</del>
+          </div>
+  
+        </div>
+  
+      </div>
+  
+  
+    </div>
+  
+  </div>
+  
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+    const modal = document.getElementById("scheduleModal");
+    const openModalBtn = document.getElementById("openModalBtn");
+    const closeModalBtn = document.querySelector(".close");
+    const scheduleForm = document.getElementById("scheduleForm");
+    const dateInput = document.getElementById("date");
+    const errorMessage = document.createElement("p");
+    errorMessage.style.color = "red";
+    errorMessage.style.display = "none";
+    scheduleForm.appendChild(errorMessage);
+
+    // Abre o modal
+    openModalBtn.addEventListener("click", () => {
+        modal.style.display = "block";
+    });
+
+    // Fecha o modal
+    closeModalBtn.addEventListener("click", () => {
+        modal.style.display = "none";
+        resetForm();
+    });
+
+    // Fecha o modal ao clicar fora dele
+    window.addEventListener("click", (event) => {
+        if (event.target === modal) {
+            modal.style.display = "none";
+            resetForm();
+        }
+    });
+
+    // Verifica a data no formulário
+    scheduleForm.addEventListener("submit", (event) => {
+        event.preventDefault();
+        const selectedDate = new Date(dateInput.value);
+        const currentDate = new Date();
+        
+        // Verifica se a data é anterior ao dia atual
+        if (selectedDate.setHours(0, 0, 0, 0) < currentDate.setHours(0, 0, 0, 0)) {
+            errorMessage.textContent = "É impossível marcar para um dia que já passou. Selecione outra data.";
+            errorMessage.style.display = "block";
+        } else {
+            const selectedTime = document.getElementById("time").value;
+            alert(`Agendamento confirmado para ${dateInput.value} às ${selectedTime}.`);
+            modal.style.display = "none";
+            resetForm();
+        }
+    });
+
+    // Reseta o formulário e oculta mensagens de erro
+    function resetForm() {
+        scheduleForm.reset();
+        errorMessage.style.display = "none";
+    }
+});
+
+
+  </script>

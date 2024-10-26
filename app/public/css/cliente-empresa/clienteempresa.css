@@ -1,5 +1,10 @@
+/*base empresa*/
+
 @import url("./carroselripos.css");
 @import url("./trabalhamoscom.css");
 @import url("./servicos.css");
 @import url("./servicoempresa.css");
 @import url("./funcionarios-empresas.css");
+
+/*buy page */
+@import url("./cardbuy.css");
