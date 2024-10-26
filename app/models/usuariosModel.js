@@ -9,6 +9,14 @@ const usuariosModel = {
             throw error
         }
     },
+    updateUsuario: async (dadosUsuario, id) => {
+        try {
+            const [resultados] = await pool.query("update USUARIOS set ? where ID_USUARIOS = ?", [dadosUsuario, id])
+            return resultados
+        } catch (error) {
+            throw error
+        }
+    },
     findUsuariosByCelular: async (celular) => {
         try {
             const [resultados] = await pool.query('SELECT * FROM USUARIOS WHERE CELULAR_USUARIOS = ?', [celular])
@@ -36,7 +44,7 @@ const usuariosModel = {
             return error
         }
     },
-    findAllEspeci: async ()=>{
+    findAllEspeci: async () => {
         try {
             const [resultados] = await pool.query('SELECT * FROM ESPECIALIDADES')
             return resultados
@@ -45,7 +53,7 @@ const usuariosModel = {
         }
     },
 
-    findHorariosIdservico : async (id)=>{
+    findHorariosIdservico: async (id) => {
         try {
             const [resultados] = await pool.query('SELECT * FROM HORARIOS_SERVICO WHERE ID_SERVICO = ?', [id])
             console.log(resultados)
@@ -54,7 +62,7 @@ const usuariosModel = {
             return error
         }
     },
-    criarHorario : async (dadosHorario)=>{
+    criarHorario: async (dadosHorario) => {
         try {
             const [resultados] = await pool.query('INSERT INTO HORARIOS_SERVICO SET ?', [dadosHorario])
             console.log("HORARIO CRIADO")

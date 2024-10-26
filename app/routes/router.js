@@ -12,6 +12,10 @@ const uploadPet = upload("./app/public/src/fotos-pet/", 5, ['jpeg', 'jpg', 'png'
 const storage = require("../util/storage.js")
 const uploadEmpresa = storage;
 const MainController = require('../controllers/mainController.js');
+const mercadopago = require("mercadopago");
+const dotenv = require("dotenv");
+dotenv.config();
+mercadopago.access_token = process.env.MERCADO_PAGO_ACCESS_TOKEN
 
 
 router.get("/", function (req, res) {
@@ -62,7 +66,7 @@ router.get("/veterinarios", function (req, res) {
 });
 
 router.get("/historico-cli", function (req, res) {
-    res.render("pages/template-hm", {  page: "../partial/landing-home/historico-cli.ejs" });
+    res.render("pages/template-hm", { page: "../partial/landing-home/historico-cli.ejs" });
 });
 
 router.get("/carterinha-pet", function (req, res) {
@@ -116,31 +120,31 @@ router.post("/excluirFoto",
     });
 
 
-    router.get("/dashboard", function (req, res) {
-        const jsonResult = {
-            page: "../partial/dashboard/principal",
-            errors: null,
-            valores: null,
-            classePagina: 'dashboard',
-            nomeempresa: nomeempresa,
-            
-        }
-        res.render("pages/template-dashboard", jsonResult);
-    });
+router.get("/dashboard", function (req, res) {
+    const jsonResult = {
+        page: "../partial/dashboard/principal",
+        errors: null,
+        valores: null,
+        classePagina: 'dashboard',
+        nomeempresa: nomeempresa,
 
-    router.get("/agendamento", function (req, res) {
-        res.render("pages/template-dashboard", { page: "../partial/dashboard/agendamento" , classePagina: 'agenda', });
-    });
-    
-    router.get("/planos", function (req, res) {
-        res.render("pages/template-dashboard", { page: "../partial/dashboard/planos" , classePagina: 'planos', });
-    });
-    
+    }
+    res.render("pages/template-dashboard", jsonResult);
+});
 
+router.get("/agendamento", function (req, res) {
+    res.render("pages/template-dashboard", { page: "../partial/dashboard/agendamento", classePagina: 'agenda', });
+});
+
+router.get("/planos", function (req, res) {
+    res.render("pages/template-dashboard", { page: "../partial/dashboard/planos", classePagina: 'planos', });
+});
 
 
-    
-    
+
+
+
+
 
 // Cadastro de CLIENTES
 router.post("/cadastrarCliente", clienteController.regrasValidacaoCriarConta, function (req, res) {
@@ -192,7 +196,7 @@ router.get("/editAgenda",
         const idServico = req.query.idServico;
         const horarios = await usuariosModel.findHorariosIdservico(idServico);
         const dia = req.query.dia
-        
+
 
         if (!idServico) {
             return res.status(404).render("pages/error-404");
@@ -222,7 +226,7 @@ router.post("/criarHorario",
                     console.log("Id de servico não encontrado")
                     return res.status(404).render("pages/error-404");
                 }
-                
+
                 const { dataHorario, horario, descr } = req.body
                 const date = new Date(dataHorario);
                 const formattedDate = date.toISOString().split('T')[0];
@@ -234,7 +238,7 @@ router.post("/criarHorario",
                 }
 
                 const result = await usuariosModel.criarHorario(dadosHorario)
-                
+
                 res.redirect(`/editAgenda?idServico="${idServico}`)
             } catch (error) {
                 console.log(error)
@@ -256,7 +260,7 @@ router.get('/share/:id', MainController.viewPost)
 
 router.get("/buySer", async function (req, res) {
 
-    res.render("pages/template-hm", {  page: "../partial/cliente-empresa/buySer"})
+    res.render("pages/template-hm", { page: "../partial/cliente-empresa/buySer" })
 })
 
 router.get("/bsEmpresa", async function (req, res) {
@@ -294,5 +298,70 @@ router.get("/sair", function (req, res) {
         return res.status(500).redirect("/");
     }
 })
+router.post("/criarAssinaturaMensal",
+    middleWares.verifyAutenticado,
+    middleWares.verifyAutorizado("pages/template-cadastroEmpresa", { page: "../partial/cadastroEmpresa/login", errors: null, valores: "", incorreto: null }, true),
+    async (req, res) => {
+        try {
+            const empresa = await usuariosModel.findUsuariosyId(req.session.autenticado.id);
+            const assinatura = await mercadopago.preapproval.create({
+                preapproval_plan_id: 'colaboradorMensal',
+                payer_email: empresa[0].EMAIL_USUARIOS,
+                back_url: `${process.env.URL_BASE}/feedback-assinatura`,
+                reason: 'Assinatura mensal',
+                status: 'pending'
+            });
+
+            if (assinatura && assinatura.body && assinatura.body.init_point) {
+                res.redirect(assinatura.body.init_point);
+            } else {
+                throw new Error("Erro ao criar assinatura")
+            }
+        } catch (error) {
+            console.log(error)
+            return res.status(500).redirect("/");
+        }
+    })
+router.post("/criarAssinaturaAnual",
+    middleWares.verifyAutenticado,
+    middleWares.verifyAutorizado("pages/template-cadastroEmpresa", { page: "../partial/cadastroEmpresa/login", errors: null, valores: "", incorreto: null }, true),
+    async (req, res) => {
+        try {
+            const empresa = await usuariosModel.findUsuariosyId(req.session.autenticado.id);
+            const assinatura = await mercadopago.preapproval.create({
+                preapproval_plan_id: 'colaboradorAnual',
+                payer_email: empresa[0].EMAIL_USUARIOS,
+                back_url: `${process.env.URL_BASE}/feedback-assinatura`,
+                reason: 'Assinatura anual',
+                status: 'pending'
+            });
+
+            if (assinatura && assinatura.body && assinatura.body.init_point) {
+                res.redirect(assinatura.body.init_point);
+            } else {
+                throw new Error("Erro ao criar assinatura")
+            }
+        } catch (error) {
+            console.log(error)
+            return res.status(500).redirect("/");
+        }
+    })
+
+router.post('/atualizarAssinatura', async (req, res) => {
+    const data = req.body
+    try {
+        if(data.status === 'authorized'){
+            await usuariosModel.updateUsuario({IS_ASSINANTE: true}, user[0].ID_USUARIOS)
+            console.log(`Usuário ${user[0].NOME_USUARIOS} teve a assinatura ativada.`)
+        }else if(data.status === 'paused'){
+            await usuariosModel.updateUsuario({IS_ASSINANTE: false}, user[0].ID_USUARIOS)
+            console.log(`Usuário ${user[0].NOME_USUARIOS} teve a assinatura pausada.`)
+        }
+    } catch (error) {
+        console.log(error)
+        console.log('Erro de comunicação com Mercado Pago')
+    }
+    
+});
 
 module.exports = router;

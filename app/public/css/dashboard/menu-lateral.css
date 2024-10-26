@@ -55,14 +55,15 @@
     h3{
         font-size: 0.87rem;
     }
-    
+
     .container{
         display: grid;
+        gap: 1.8rem;
+        grid-template-columns: 14rem auto 23rem;
         width: 96%;
         margin: 0 auto;
       
-        gap: 1.8rem;
-        grid-template-columns: 14rem auto 23rem;
+      
     }
     
     aside{
@@ -572,6 +573,10 @@
         margin-left: 90%;
     }
     @media screen and (max-width: 1200px){
+        #menu-btn{
+            display: flex;
+        }
+        
      .container{
         
         grid-template-columns: 7rem auto auto;
@@ -607,6 +612,7 @@
     }
     
     @media screen and (max-width: 992px){
+     
         .separator .info{
             gap: 15px;
         }
@@ -638,6 +644,7 @@
     }
     
     @media screen and (max-width: 868px){
+      
         .container{
             display: block;
         }
