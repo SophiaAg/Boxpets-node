@@ -30,27 +30,33 @@
  
 /*cores*/
 :root {
-  --cor-primaria: #7B9CC7;
+  --cor-primaria: #6794FE;
   --cor-segundaria:#FF8100;
-    --qs-branco: #eeeeeeda;
-    --branco:#fff;
-    --preto:#000;
-    --textos:#333;
+  --fundo:#FFFFFF;
+  --txt-1:#333333;
+  --txt-2:#666666 ;
+  --txt-suave:#999999;
+  --txt-erro: #D32F2F;
+  --branco:#fff;
+  --preto:#333;
 }
  
 body.color{
-    --cor-primaria: #5BB9F0 ;
-    --cor-segundaria:#FFE027;
-    --qs-branco: #2b2b2bda;
-    --branco:#252525;
-    --preto:#fff;
-    --textos:#bebebe;
+  --cor-primaria: #6794FE;
+  --cor-segundaria:#FF8100;
+  --fundo:#121212;
+  --txt-1:#E0E0E0 ;
+  --txt-2:#B3B3B3 ;
+  --txt-suave:#757575 ;
+  --txt-erro: #FF6B6B  ;
+  --branco:#fff;
+  --preto:#333;
  
 }
  
  
 body{
-  background-color: var(--branco)
+  background-color: var(--fundo)
 }
  
 
@@ -76,7 +82,7 @@ body{
   border-radius: 5rem;
   background:var(--cor-primaria);
   font-size: 1.3rem;
-  color: var(--branco);
+  color: var(--txt-suave);
   cursor: pointer;
   box-shadow: 0 .5rem 1rem rgba(0,0,0,.1);
   transition: all .3s linear;

@@ -37,18 +37,17 @@ header{
   .navbar .links-name {
     display: flex;
     gap: 2rem;
-    color: #000080;
   }
    
   .navbar .links-name-cor{
-    color: var(--preto);
+    color: var(--txt-1);
   }
    
   .navbar .links-name-cor:hover{
     color: var(--cor-segundaria);
   }
   .navbar .toggle_btn {
-    color: var(--preto);
+    color: var(--txt-1);
     font-size: 1.5rem;
     cursor: pointer;
     display: none;
@@ -95,7 +94,7 @@ header{
     align-items: center;
     justify-content: center;
     overflow: hidden;
-    color: var(--Azul-Marinho);
+    color: var(--cor-primaria);
   }
    
   .dropdown_menu a:hover{
