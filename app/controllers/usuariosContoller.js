@@ -383,7 +383,7 @@ const usuariosController = {
         })
     } catch (error) {
         console.log(error)
-        res.redirect("/error-500")
+        res.render("./partial/pg-erro")
     }
 },
 verificarTokenRedefinirSenha: async (req, res) => {
@@ -396,7 +396,7 @@ verificarTokenRedefinirSenha: async (req, res) => {
             } else {
                 req.session.token = null;
             }
-            return res.status(404).render("pages/pg-erro");
+            return res.render("./partial/pg-erro");
         }
 
         jwt.verify(token, process.env.SECRET_KEY, async (err, decoded) => {
@@ -405,9 +405,9 @@ verificarTokenRedefinirSenha: async (req, res) => {
                 res.redirect("/esqueceuSenha")
             } else {
                 const jsonResult = {
-                    page: "../partial/cadastroEmpresa/redefinirSenha-modal",
+                    page: "../partial/cadastroEmpresa/esqueceuSenha",
                     erros: null,
-                    ID_USUARIOS: decoded.userId,
+                    idUser: decoded.userId,
                     modalAberto: true
                 }
                 res.render("./pages/template-loginEmpresa", jsonResult)
@@ -415,7 +415,7 @@ verificarTokenRedefinirSenha: async (req, res) => {
         })
     } catch (error) {
         console.log(error)
-        res.redirect("/error-500")
+        res.render("./partial/pg-erro")
 
     }
 },
@@ -456,7 +456,7 @@ solicitarResetSenha: async (req, res) => {
 
         } catch (error) {
             console.log(error)
-            res.redirect("/error-500")
+            res.render("./partial/pg-erro")
 
         }
     }
@@ -466,7 +466,7 @@ redefinirSenha: async (req, res) => {
     if (!idUser) {
         console.log("usuario não achado")
         req.session.token = { msg: "Usuário não encontrado", type: "danger", contagem: 0 }
-        return res.redirect("/error-500")
+        return res.render("./partial/pg-erro")
     }
     let error = validationResult(req)
 
@@ -490,7 +490,7 @@ redefinirSenha: async (req, res) => {
             res.redirect("/entrar")
         } catch (error) {
             console.log(error)
-            res.redirect("/error-500")
+            res.render("./partial/pg-erro")
         }
     }
 },
