@@ -12,10 +12,11 @@ const uploadPet = upload("./app/public/src/fotos-pet/", 5, ['jpeg', 'jpg', 'png'
 const storage = require("../util/storage.js")
 const uploadEmpresa = storage;
 const MainController = require('../controllers/mainController.js');
-const mercadopago = require("mercadopago");
+const crypto = require('crypto');
 const dotenv = require("dotenv");
+const { MercadoPagoConfig, PreApproval, PreApprovalPlan } = require('mercadopago')
 dotenv.config();
-mercadopago.access_token = process.env.MERCADO_PAGO_ACCESS_TOKEN
+
 
 
 router.get("/", function (req, res) {
@@ -138,13 +139,7 @@ router.get("/agendamento", function (req, res) {
 
 router.get("/planos", function (req, res) {
     res.render("pages/template-dashboard", { page: "../partial/dashboard/planos", classePagina: 'planos', });
-});
-
-
-
-
-
-
+}); ''
 
 // Cadastro de CLIENTES
 router.post("/cadastrarCliente", clienteController.regrasValidacaoCriarConta, function (req, res) {
@@ -298,27 +293,39 @@ router.get("/sair", function (req, res) {
         return res.status(500).redirect("/");
     }
 })
+const mercadopago = new MercadoPagoConfig({
+    accessToken: 'APP_USR-2987350217777313-102619-f933e92e0b23c5666b837599613dfac5-2061285426',
+    options: { timeout: 5000, idempotencyKey: 'abc' }
+});
+
 router.post("/criarAssinaturaMensal",
     middleWares.verifyAutenticado,
     middleWares.verifyAutorizado("pages/template-cadastroEmpresa", { page: "../partial/cadastroEmpresa/login", errors: null, valores: "", incorreto: null }, true),
     async (req, res) => {
         try {
-            const empresa = await usuariosModel.findUsuariosyId(req.session.autenticado.id);
-            const assinatura = await mercadopago.preapproval.create({
-                preapproval_plan_id: 'colaboradorMensal',
-                payer_email: empresa[0].EMAIL_USUARIOS,
-                back_url: `${process.env.URL_BASE}/feedback-assinatura`,
-                reason: 'Assinatura mensal',
-                status: 'pending'
+
+            const empresa = await usuariosModel.findUsuariosById(req.session.autenticado.id);
+            const preApproval = new PreApproval(mercadopago);
+            const assinatura = await preApproval.create({
+                body: {
+                    preapproval_plan_id: '2c938084929566050192c9f9205e1089',
+                    payer_email: empresa[0].EMAIL_USUARIOS,
+                    back_url: `${process.env.URL_BASE}/feedback-assinatura`,
+                    reason: 'Assinatura mensal',
+                    status: 'pending'
+                }
             });
 
+
+
             if (assinatura && assinatura.body && assinatura.body.init_point) {
+                console.log(assinatura.body.init_point)
                 res.redirect(assinatura.body.init_point);
             } else {
                 throw new Error("Erro ao criar assinatura")
             }
         } catch (error) {
-            console.log(error)
+            console.error(error)
             return res.status(500).redirect("/");
         }
     })
@@ -327,15 +334,16 @@ router.post("/criarAssinaturaAnual",
     middleWares.verifyAutorizado("pages/template-cadastroEmpresa", { page: "../partial/cadastroEmpresa/login", errors: null, valores: "", incorreto: null }, true),
     async (req, res) => {
         try {
-            const empresa = await usuariosModel.findUsuariosyId(req.session.autenticado.id);
-            const assinatura = await mercadopago.preapproval.create({
-                preapproval_plan_id: 'colaboradorAnual',
+            const empresa = await usuariosModel.findUsuariosbyId(req.session.autenticado.id);
+            const preApproval = new PreApproval(mercadopago);
+            const assinatura = await preApproval.create({
+                preapproval_plan_id: '2c93808492bf1ff80192c9fae8040330',
                 payer_email: empresa[0].EMAIL_USUARIOS,
                 back_url: `${process.env.URL_BASE}/feedback-assinatura`,
                 reason: 'Assinatura anual',
                 status: 'pending'
-            });
 
+            });
             if (assinatura && assinatura.body && assinatura.body.init_point) {
                 res.redirect(assinatura.body.init_point);
             } else {
@@ -346,22 +354,37 @@ router.post("/criarAssinaturaAnual",
             return res.status(500).redirect("/");
         }
     })
-
+function verificarWebhook(payload, assinaturaRecebida, segredo) {
+    const hash = crypto
+        .createHmac('sha256', segredo)
+        .update(payload)
+        .digest('hex');
+    return hash === assinaturaRecebida;
+}
 router.post('/atualizarAssinatura', async (req, res) => {
     const data = req.body
     try {
-        if(data.status === 'authorized'){
-            await usuariosModel.updateUsuario({IS_ASSINANTE: true}, user[0].ID_USUARIOS)
-            console.log(`Usuário ${user[0].NOME_USUARIOS} teve a assinatura ativada.`)
-        }else if(data.status === 'paused'){
-            await usuariosModel.updateUsuario({IS_ASSINANTE: false}, user[0].ID_USUARIOS)
-            console.log(`Usuário ${user[0].NOME_USUARIOS} teve a assinatura pausada.`)
+
+        if (verificarWebhook(JSON.stringify(data), req.headers['x-webhook-signature'], process.env.ASSINATURA_WEBHOOK_SECRET_TESTE)) {
+
+            if (data.status === 'authorized') {
+                await usuariosModel.updateUsuario({ IS_ASSINANTE: true }, user[0].ID_USUARIOS)
+                console.log(`Usuário ${user[0].NOME_USUARIOS} teve a assinatura ativada.`)
+            } else if (data.status === 'paused') {
+                await usuariosModel.updateUsuario({ IS_ASSINANTE: false }, user[0].ID_USUARIOS)
+                console.log(`Usuário ${user[0].NOME_USUARIOS} teve a assinatura pausada.`)
+            }
+            res.status(200).send('Webhook processado com sucesso');
+        } else {
+            console.log('Assinatura inválida')
+            res.status(403).send('Assinatura inválida');
         }
+
     } catch (error) {
         console.log(error)
         console.log('Erro de comunicação com Mercado Pago')
     }
-    
+
 });
 
 module.exports = router;

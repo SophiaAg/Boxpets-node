@@ -38,7 +38,6 @@ const usuariosModel = {
     findUsuariosById: async (id) => {
         try {
             const [resultados] = await pool.query('SELECT * FROM USUARIOS WHERE ID_USUARIOS = ?', [id])
-            console.log(resultados)
             return resultados
         } catch (error) {
             return error
