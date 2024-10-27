@@ -37,12 +37,36 @@ const usuariosModel = {
     },
     findUsuariosById: async (id) => {
         try {
-            const [resultados] = await pool.query('SELECT * FROM USUARIOS WHERE ID_USUARIOS = ?', [id])
+            const [resultados] = await pool.query("SELECT * FROM USUARIOS WHERE ID_USUARIOS = ? AND STATUS_USUARIOS = 'ativo' LIMIT 1", [id])
             return resultados
         } catch (error) {
             return error
         }
     },
+
+    findUserByIdInativo: async (id) => {
+        try {
+            const [resultados] = await pool.query("SELECT * FROM USUARIOS WHERE ID_USUARIOS = ? AND STATUS_USUARIO = 'inativo' LIMIT 1", [id])
+            return resultados
+
+        } catch (error) {
+            console.error("Erro ao buscar usuário", error);
+            throw error;
+        }
+    },
+
+    updateUser: async (dadosForm, id) => {
+        try {
+            const [resultados] = await pool.query("UPDATE USUARIOS SET ? WHERE ID_USUARIOS = ? ", [dadosForm, id])
+            console.log(resultados)
+            return resultados
+
+        } catch (error) {
+            console.error("Erro ao atualizar usuário", error);
+            throw error;
+        }
+    },
+
     findAllEspeci: async () => {
         try {
             const [resultados] = await pool.query('SELECT * FROM ESPECIALIDADES')

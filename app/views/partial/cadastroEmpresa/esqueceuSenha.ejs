@@ -1,0 +1,32 @@
+<link rel="stylesheet" href="./css/login/entrar.css">
+    
+<article class="fundo__login">
+    <figure class="logo-login">
+        <img src="./img/quasart-logo-branca.png" alt="bp">
+    </figure>
+</article>
+
+<article class="container__form">
+    <header class="form__title">
+        <h2 class="title">REDEFINIR SENHA</h2>
+        <h3 class="subtitle">Vamos te ajudar a recuperar sua senha!</h3>
+    </header>
+    <p class="text helpText mt-1
+ mb-3">Digite o seu e-mail no campo abaixo e lhe enviaremos
+        um código de ativação para a redefinição de senha.</p>
+    <form action="/solicitarResetSenha" method="post">
+        <article class="input__container">
+            <input type="text" name="email" id="email" class="input__control" placeholder="E-mail" required>
+            <label for="email">E-mail:</label>
+        </article>
+        <article class="links">
+            <a href="/logarEmpresa" class="link">Cancelar</a>
+        </article>
+        <button class="btn submit text p-2 mt-3" type="submit">Enviar</button>
+    </form>
+</article>
+
+
+<% if(modalAberto){ %>
+    <%- include("./redefinirSenha-modal") %>
+<%}%>

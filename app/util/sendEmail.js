@@ -3,6 +3,7 @@ require('dotenv').config();
 const ativarContaTemplate = require('./emails/ativar-conta');
 const recuperarSenhaTemplate = require('./emails/recuperarSenha');
 
+console.log(process.env.EMAIL_PASS)
 const transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {

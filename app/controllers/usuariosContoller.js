@@ -4,6 +4,8 @@ var bcrypt = require("bcryptjs")
 var salt = bcrypt.genSaltSync(8)
 const moment = require("moment")
 const { invalid } = require("moment/moment")
+const jwt = require("jsonwebtoken")
+const { enviarEmail, enviarEmailAtivacao, enviarEmailRecuperarSenha } = require("../util/sendEmail")
 
 
 const usuariosController = {
@@ -203,6 +205,32 @@ const usuariosController = {
       return regex.test(cidade);
     }).withMessage('Cidade inválido'),
   ],
+  regrasValidacaoRecuperarSenha: [
+    body('email')
+    .isEmail().withMessage('Deve ser um email válido')
+    .bail()
+    .custom(async (email) => {
+        const emailExistente = await usuariosModel.findUsuariosByEmail(email)
+        if (emailExistente.length > 0) {
+            return true
+        }
+        throw new Error("Nenhum e-mail encontrado");
+    })
+  ],
+  regrasValidacaoRedefinirSenha: [
+    body('senha')
+    .isLength({ min: 8, max: 30 })
+    .withMessage('A senha deve ter pelo menos 8 e no máximo 30 caracteres!')
+    .bail()
+    .matches(/[A-Z]/).withMessage('A senha deve conter pelo menos uma letra maiúscula.')
+    .bail()
+    .matches(/[a-z]/).withMessage('A senha deve conter pelo menos uma letra minúscula.')
+    .bail()
+    .matches(/[0-9]/).withMessage('A senha deve conter pelo menos um número inteiro.')
+    .bail()
+    .matches(/[!@#$%^&*(),.?":{}|<>]/).withMessage('A senha deve conter pelo menos um caractere especial.')
+    .bail(),
+  ],
 
   //função de cadastrar
   cadastrarUsuario: async (req, res) => {
@@ -241,14 +269,35 @@ const usuariosController = {
       try {
         const usuarioCriado = await usuariosModel.createUsuario(dadosUsuario);
         console.log(usuarioCriado)
-         
+        const token = jwt.sign(
+          {
+              userId: resultados.insertId
+          },
+          process.env.SECRET_KEY
+      )
+
+      
+              
+        enviarEmailAtivacao(
+          dadosForm.EMAIL_USUARIOS,
+          "Cadastro realizado na BoxPets",
+          process.env.URL_BASE,
+          token,
+          async () => {
+              const userBd = await usuariosModel.findUserByIdInativo(resultados.insertId);
+              console.log(`------ Usuário ${userBd[0].NOME_USUARIOS} cadastrado! ------`)
+              console.log(`------ Verificação enviada para ${userBd[0].EMAIL_USUARIOS} ------`)
+              console.log(userBd[0])
+              res.redirect("/entrar")
+          })
+       
         const jsonResult = {
           page: "../partial/dashboard/principal",
           nomeempresa: nomeempresa // Aqui é onde passamos o nome da empresa
         }
         res.render("pages/template-dashboard", jsonResult)
 
-      
+
 
       } catch (erros) {
         console.log(erros)
@@ -310,6 +359,141 @@ const usuariosController = {
     }
   },
 
+
+
+
+ ativarConta: async (req, res) => {
+    try {
+        const token = req.query.token
+        console.log(token)
+        jwt.verify(token, process.env.SECRET_KEY, async (err, decoded) => {
+            console.log(decoded)
+            if (err) {
+                console.log("Token inválido ou expirado")
+            } else {
+                const userBd = await usuariosModel.findUserByIdInativo(decoded.userId)
+                if (!userBd[0]) {
+                    return console.log("Usuário não encontrado")
+                }
+
+                await usuariosModel.updateUser({ STATUS_USUARIO: 'ativo' }, decoded.userId);
+                console.log("Conta ativada!")
+                res.redirect("/logarEmpresa")
+            }
+        })
+    } catch (error) {
+        console.log(error)
+        res.redirect("/error-500")
+    }
+},
+verificarTokenRedefinirSenha: async (req, res) => {
+    try {
+        const token = req.query.token
+        if (!token) {
+            let alert = req.session.token ? req.session.token : null;
+            if (alert && alert.contagem < 1) {
+                req.session.token.contagem++;
+            } else {
+                req.session.token = null;
+            }
+            return res.status(404).render("pages/pg-erro");
+        }
+
+        jwt.verify(token, process.env.SECRET_KEY, async (err, decoded) => {
+            if (err) {
+                req.session.token = { msg: "Link expirado!", type: "danger", contagem: 0 }
+                res.redirect("/esqueceuSenha")
+            } else {
+                const jsonResult = {
+                    page: "../partial/cadastroEmpresa/redefinirSenha-modal",
+                    erros: null,
+                    ID_USUARIOS: decoded.userId,
+                    modalAberto: true
+                }
+                res.render("./pages/template-loginEmpresa", jsonResult)
+            }
+        })
+    } catch (error) {
+        console.log(error)
+        res.redirect("/error-500")
+
+    }
+},
+solicitarResetSenha: async (req, res) => {
+    let error = validationResult(req)
+
+    if (!error.isEmpty) {
+        const jsonResult = {
+            page: "../partial/template-loginEmpresa/esqueceuSenha",
+            modal: "fechado",
+            erros: error,
+            modalAberto: false
+        }
+        res.render("pages/template-loginEmpresa", jsonResult);
+    } else {
+        try {
+            const { email } = req.body
+            const user = await usuariosModel.findUsuariosByEmail(email)
+
+            const token = jwt.sign(
+                {
+                    userId: user[0].ID_USUARIOS,
+                    expiresIn: "40m"
+                },
+                process.env.SECRET_KEY
+            )
+
+            enviarEmailRecuperarSenha(
+                user[0].EMAIL_USUARIOS,
+                "Recuperar de senha",
+                process.env.URL_BASE,
+                token,
+                async () => {
+                    req.session.aviso = { msg: "E-mail enviado com sucesso", type: "success", contagem: 0 }
+                    res.redirect("/esqueceuSenha")
+                })
+
+
+        } catch (error) {
+            console.log(error)
+            res.redirect("/error-500")
+
+        }
+    }
+},
+redefinirSenha: async (req, res) => {
+    let idUser = req.query.idUser
+    if (!idUser) {
+        console.log("usuario não achado")
+        req.session.token = { msg: "Usuário não encontrado", type: "danger", contagem: 0 }
+        return res.redirect("/error-500")
+    }
+    let error = validationResult(req)
+
+    if (!error.isEmpty) {
+        const jsonResult = {
+            page: "../partial/template-loginEmpresa/esqueceuSenha",
+            token: null,
+            erros: error,
+            idUser: idUser,
+            modalAberto: true
+        }
+        res.render("./pages/template-loginEmpresa", jsonResult)
+    } else {
+        try {
+            const { senha } = req.body
+            let hashSenha = bcrypt.hashSync(senha, salt);
+            var resultado = await usuariosModel.updateUser({ SENHA_USUARIO: hashSenha }, idUser)
+            console.log("-------- senha redefinida -----------")
+            console.log(resultado)
+            req.session.token = { msg: "Senha redefinida com sucesso!", type: "success", contagem: 0 }
+            res.redirect("/entrar")
+        } catch (error) {
+            console.log(error)
+            res.redirect("/error-500")
+        }
+    }
+},
 
 
   // comentar

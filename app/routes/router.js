@@ -14,8 +14,10 @@ const uploadEmpresa = storage;
 const MainController = require('../controllers/mainController.js');
 const crypto = require('crypto');
 const dotenv = require("dotenv");
-const { MercadoPagoConfig, PreApproval, PreApprovalPlan } = require('mercadopago')
+const { MercadoPagoConfig, PreApproval, PreApprovalPlan } = require('mercadopago');
 dotenv.config();
+const jwt = require("jsonwebtoken");
+const { enviarEmail, enviarEmailAtivacao, enviarEmailRecuperarSenha } = require("../util/sendEmail");
 
 
 
@@ -392,67 +394,41 @@ router.post('/atualizarAssinatura', async (req, res) => {
 
 router.get("/ativar-conta",
     middleWares.verifyAutenticado,
+    middleWares.verifyAutorizado("pages/template-cadastroEmpresa", { page: "../partial/cadastroEmpresa/login", errors: null, valores: "", incorreto: null }, true),
     async function (req, res) {
         usuariosController.ativarConta(req, res);
     }
 )
 
 router.get("/esqueceuSenha", function (req, res) {
-    let alert = req.session.token ? req.session.token : null;
+    let alert = req.session.aviso  ? req.session.aviso  : null;
     if (alert && alert.contagem < 1) {
-        req.session.token.contagem++;
+        req.session.aviso.contagem++;
     } else {
-        req.session.token = null;
+        req.session.aviso  = null;
     }
     const jsonResult = {
-        page: "../partial/template-login/esqueceuSenha",
+        page: "../partial/cadastroEmpresa/esqueceuSenha",
         modal: "fechado",
         erros: null,
         token: alert,
         modalAberto: false
     }
-    res.render("pages/template-login", jsonResult);
+    res.render("pages/template-loginEmpresa", jsonResult);
 });
 
 
-router.post("/solicitarResetSenha",
-    [
-        body('email')
-            .isEmail().withMessage('Deve ser um email válido')
-            .bail()
-            .custom(async (email) => {
-                const emailExistente = await usuariosModel.findUserByEmail(email)
-                if (emailExistente.length > 0) {
-                    return true
-                }
-                throw new Error("Nenhum e-mail encontrado");
-            })],
-    async function (req, res) {
-
-        usuariosController.solicitarResetSenha(req, res)
-
-    });
+router.post("/solicitarResetSenha", usuariosController.regrasValidacaoRecuperarSenha , async function (req, res) {
+ usuariosController.solicitarResetSenha(req,res)
+ });
 
     router.get("/redefinir-senha",
         function (req, res) {
             usuariosController.verificarTokenRedefinirSenha(req, res)
         });
 
-    router.post("/redefinirSenha",
-        body('senha')
-            .isLength({ min: 8, max: 30 })
-            .withMessage('A senha deve ter pelo menos 8 e no máximo 30 caracteres!')
-            .bail()
-            .matches(/[A-Z]/).withMessage('A senha deve conter pelo menos uma letra maiúscula.')
-            .bail()
-            .matches(/[a-z]/).withMessage('A senha deve conter pelo menos uma letra minúscula.')
-            .bail()
-            .matches(/[0-9]/).withMessage('A senha deve conter pelo menos um número inteiro.')
-            .bail()
-            .matches(/[!@#$%^&*(),.?":{}|<>]/).withMessage('A senha deve conter pelo menos um caractere especial.')
-            .bail(),
-        async function (req, res) {
-            usuariosController.redefinirSenha(req, res)
+    router.post("/redefinirSenha", usuariosController.regrasValidacaoRedefinirSenha, async function (req, res) {
+            usuariosController.redefinirSenha(req,res)
         })
 
 
