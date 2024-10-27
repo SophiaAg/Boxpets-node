@@ -6,7 +6,7 @@ const usuariosController = require("../controllers/usuariosContoller");
 const usuariosModel = require("../models/usuariosModel");
 const middleWares = require("../middlewares/auth");
 const upload = require("../util/uploader");
-const { validationResult } = require("express-validator");
+const { validationResult, body } = require("express-validator");
 const uploadClientePerfil = upload("./app/public/src/fotos-perfil/", 5, ['jpeg', 'jpg', 'png', 'webp']);
 const uploadPet = upload("./app/public/src/fotos-pet/", 5, ['jpeg', 'jpg', 'png', 'webp']);
 const storage = require("../util/storage.js")
@@ -336,7 +336,7 @@ router.post("/criarAssinaturaAnual",
     middleWares.verifyAutorizado("pages/template-cadastroEmpresa", { page: "../partial/cadastroEmpresa/login", errors: null, valores: "", incorreto: null }, true),
     async (req, res) => {
         try {
-            const empresa = await usuariosModel.findUsuariosbyId(req.session.autenticado.id);
+            const empresa = await usuariosModel.findUsuariosById(req.session.autenticado.id);
             const preApproval = new PreApproval(mercadopago);
             const assinatura = await preApproval.create({
                 preapproval_plan_id: '2c93808492bf1ff80192c9fae8040330',
