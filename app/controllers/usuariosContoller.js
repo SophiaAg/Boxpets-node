@@ -242,11 +242,7 @@ const usuariosController = {
         const usuarioCriado = await usuariosModel.createUsuario(dadosUsuario);
         console.log(usuarioCriado)
          
-        const jsonResult = {
-          page: "../partial/dashboard/principal",
-          nomeempresa: nomeempresa // Aqui é onde passamos o nome da empresa
-        }
-        res.render("pages/template-dashboard", jsonResult)
+        res.redirect("/dashboard")
 
       
 
