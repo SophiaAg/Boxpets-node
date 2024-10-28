@@ -284,7 +284,7 @@ const usuariosController = {
           process.env.URL_BASE,
           token,
           async () => {
-              const userBd = await usuariosModel.findUserByIdInativo(resultados.insertId);
+              const userBd = await usuariosModel.findUserByIdInativo(dadosUsuario.insertId);
               console.log(`------ Usuário ${userBd[0].NOME_USUARIOS} cadastrado! ------`)
               console.log(`------ Verificação enviada para ${userBd[0].EMAIL_USUARIOS} ------`)
               console.log(userBd[0])
