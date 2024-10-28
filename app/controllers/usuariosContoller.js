@@ -407,7 +407,7 @@ verificarTokenRedefinirSenha: async (req, res) => {
             } else {
                 const jsonResult = {
                     page: "../partial/cadastroEmpresa/esqueceuSenha",
-                    errors: null,
+                    erros: null,
                     idUser: decoded.userId,
                     modalAberto: true
                 }
