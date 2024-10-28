@@ -1,0 +1,95 @@
+.box-esqueceuSenha {
+    position: relative;
+    width: 100%;
+    max-width: 1020px;
+    height: 640px;
+    background-color: #fff;
+    border-radius: 3.3rem;
+    box-shadow: 0 60px 40px -30px rgba(0, 0, 0, 0.27);
+  }
+  
+  .inner-box-esqueceuSenha {
+    position: absolute;
+    width: calc(100% - 4.1rem);
+    height: calc(100% - 4.1rem);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+.input-field {
+    position: absolute;
+    max-width: 380px;
+    width: 100%;
+    background-color: #f0f0f0;
+    margin: 10px 0;
+    height: 55px;
+    border-radius: 55px;
+    display: grid;
+    grid-template-columns: 15% 85%;
+    padding: 0 0.4rem;
+    position: relative;
+  }
+  
+  .input-field input {
+    
+    border-radius: 55px;
+    background: none;
+    outline: none;
+    border: none;
+    line-height: 1;
+    font-weight: 500;
+    font-size: 1rem;
+    color: #adadad;
+  }
+  
+  .input-field input::placeholder {
+    color: #aaa;
+    font-weight: 500;
+  }
+  .input-field i{
+    display: flex;
+    align-items: center;
+    margin-left: 20%;
+  
+  }
+
+  .esqueceuSenha{
+    max-width: 460px;
+    width: 100%;
+    margin: 5% auto;
+    height: max-content;
+  }
+
+  .links link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: smaller;
+    font-weight: 400
+  }
+
+  
+
+
+  @media (max-width: 850px) {
+    .box-esqueceuSenha {
+      height: auto;
+      max-width: 550px;
+      overflow: hidden;
+    }
+}
+
+@media (max-width: 530px) {
+    main {
+      padding: 1rem;
+    }
+  
+    .box-esqueceuSenha {
+      border-radius: 2rem;
+    }
+  
+    .inner-box-esqueceuSenha {
+      padding: 1rem;
+    }
+}

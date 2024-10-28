@@ -407,7 +407,7 @@ verificarTokenRedefinirSenha: async (req, res) => {
             } else {
                 const jsonResult = {
                     page: "../partial/cadastroEmpresa/esqueceuSenha",
-                    erros: null,
+                    errors: null,
                     idUser: decoded.userId,
                     modalAberto: true
                 }
@@ -427,7 +427,7 @@ solicitarResetSenha: async (req, res) => {
         const jsonResult = {
             page: "../partial/template-loginEmpresa/esqueceuSenha",
             modal: "fechado",
-            erros: error,
+            errors: error,
             modalAberto: false
         }
         res.render("pages/template-loginEmpresa", jsonResult);
@@ -475,7 +475,7 @@ redefinirSenha: async (req, res) => {
         const jsonResult = {
             page: "../partial/template-loginEmpresa/esqueceuSenha",
             token: null,
-            erros: error,
+            errors: error,
             idUser: idUser,
             modalAberto: true
         }
