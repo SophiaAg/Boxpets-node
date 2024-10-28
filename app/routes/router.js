@@ -311,94 +311,94 @@ const mercadopago = new MercadoPagoConfig({
     options: { timeout: 5000, idempotencyKey: 'abc' }
 });
 
-router.post("/criarAssinaturaMensal",
-    middleWares.verifyAutenticado,
-    middleWares.verifyAutorizado("pages/template-cadastroEmpresa", { page: "../partial/cadastroEmpresa/login", errors: null, valores: "", incorreto: null }, true),
-    async (req, res) => {
-        try {
+// router.post("/criarAssinaturaMensal",
+//     middleWares.verifyAutenticado,
+//     middleWares.verifyAutorizado("pages/template-cadastroEmpresa", { page: "../partial/cadastroEmpresa/login", errors: null, valores: "", incorreto: null }, true),
+//     async (req, res) => {
+//         try {
 
-            const empresa = await usuariosModel.findUsuariosById(req.session.autenticado.id);
-            const preApproval = new PreApproval(mercadopago);
-            const assinatura = await preApproval.create({
-                body: {
-                    preapproval_plan_id: '2c938084929566050192c9f9205e1089',
-                    payer_email: empresa[0].EMAIL_USUARIOS,
-                    back_url: `${process.env.URL_BASE}/feedback-assinatura`,
-                    reason: 'Assinatura mensal',
-                    status: 'pending'
-                }
-            });
+//             const empresa = await usuariosModel.findUsuariosById(req.session.autenticado.id);
+//             const preApproval = new PreApproval(mercadopago);
+//             const assinatura = await preApproval.create({
+//                 body: {
+//                     preapproval_plan_id: '2c938084929566050192c9f9205e1089',
+//                     payer_email: empresa[0].EMAIL_USUARIOS,
+//                     back_url: `${process.env.URL_BASE}/feedback-assinatura`,
+//                     reason: 'Assinatura mensal',
+//                     status: 'pending'
+//                 }
+//             });
 
 
 
-            if (assinatura && assinatura.body && assinatura.body.init_point) {
-                console.log(assinatura.body.init_point)
-                res.redirect(assinatura.body.init_point);
-            } else {
-                throw new Error("Erro ao criar assinatura")
-            }
-        } catch (error) {
-            console.error(error)
-            return res.status(500).redirect("/");
-        }
-    })
-router.post("/criarAssinaturaAnual",
-    middleWares.verifyAutenticado,
-    middleWares.verifyAutorizado("pages/template-cadastroEmpresa", { page: "../partial/cadastroEmpresa/login", errors: null, valores: "", incorreto: null }, true),
-    async (req, res) => {
-        try {
-            const empresa = await usuariosModel.findUsuariosById(req.session.autenticado.id);
-            const preApproval = new PreApproval(mercadopago);
-            const assinatura = await preApproval.create({
-                preapproval_plan_id: '2c93808492bf1ff80192c9fae8040330',
-                payer_email: empresa[0].EMAIL_USUARIOS,
-                back_url: `${process.env.URL_BASE}/feedback-assinatura`,
-                reason: 'Assinatura anual',
-                status: 'pending'
+//             if (assinatura && assinatura.body && assinatura.body.init_point) {
+//                 console.log(assinatura.body.init_point)
+//                 res.redirect(assinatura.body.init_point);
+//             } else {
+//                 throw new Error("Erro ao criar assinatura")
+//             }
+//         } catch (error) {
+//             console.error(error)
+//             return res.status(500).redirect("/");
+//         }
+//     })
+// router.post("/criarAssinaturaAnual",
+//     middleWares.verifyAutenticado,
+//     middleWares.verifyAutorizado("pages/template-cadastroEmpresa", { page: "../partial/cadastroEmpresa/login", errors: null, valores: "", incorreto: null }, true),
+//     async (req, res) => {
+//         try {
+//             const empresa = await usuariosModel.findUsuariosById(req.session.autenticado.id);
+//             const preApproval = new PreApproval(mercadopago);
+//             const assinatura = await preApproval.create({
+//                 preapproval_plan_id: '2c93808492bf1ff80192c9fae8040330',
+//                 payer_email: empresa[0].EMAIL_USUARIOS,
+//                 back_url: `${process.env.URL_BASE}/feedback-assinatura`,
+//                 reason: 'Assinatura anual',
+//                 status: 'pending'
 
-            });
-            if (assinatura && assinatura.body && assinatura.body.init_point) {
-                res.redirect(assinatura.body.init_point);
-            } else {
-                throw new Error("Erro ao criar assinatura")
-            }
-        } catch (error) {
-            console.log(error)
-            return res.status(500).redirect("/");
-        }
-    })
-function verificarWebhook(payload, assinaturaRecebida, segredo) {
-    const hash = crypto
-        .createHmac('sha256', segredo)
-        .update(payload)
-        .digest('hex');
-    return hash === assinaturaRecebida;
-}
-router.post('/atualizarAssinatura', async (req, res) => {
-    const data = req.body
-    try {
+//             });
+//             if (assinatura && assinatura.body && assinatura.body.init_point) {
+//                 res.redirect(assinatura.body.init_point);
+//             } else {
+//                 throw new Error("Erro ao criar assinatura")
+//             }
+//         } catch (error) {
+//             console.log(error)
+//             return res.status(500).redirect("/");
+//         }
+//     })
+// function verificarWebhook(payload, assinaturaRecebida, segredo) {
+//     const hash = crypto
+//         .createHmac('sha256', segredo)
+//         .update(payload)
+//         .digest('hex');
+//     return hash === assinaturaRecebida;
+// }
+// router.post('/atualizarAssinatura', async (req, res) => {
+//     const data = req.body
+//     try {
 
-        if (verificarWebhook(JSON.stringify(data), req.headers['x-webhook-signature'], process.env.ASSINATURA_WEBHOOK_SECRET_TESTE)) {
+//         if (verificarWebhook(JSON.stringify(data), req.headers['x-webhook-signature'], process.env.ASSINATURA_WEBHOOK_SECRET_TESTE)) {
 
-            if (data.status === 'authorized') {
-                await usuariosModel.updateUsuario({ IS_ASSINANTE: true }, user[0].ID_USUARIOS)
-                console.log(`Usuário ${user[0].NOME_USUARIOS} teve a assinatura ativada.`)
-            } else if (data.status === 'paused') {
-                await usuariosModel.updateUsuario({ IS_ASSINANTE: false }, user[0].ID_USUARIOS)
-                console.log(`Usuário ${user[0].NOME_USUARIOS} teve a assinatura pausada.`)
-            }
-            res.status(200).send('Webhook processado com sucesso');
-        } else {
-            console.log('Assinatura inválida')
-            res.status(403).send('Assinatura inválida');
-        }
+//             if (data.status === 'authorized') {
+//                 await usuariosModel.updateUsuario({ IS_ASSINANTE: true }, user[0].ID_USUARIOS)
+//                 console.log(`Usuário ${user[0].NOME_USUARIOS} teve a assinatura ativada.`)
+//             } else if (data.status === 'paused') {
+//                 await usuariosModel.updateUsuario({ IS_ASSINANTE: false }, user[0].ID_USUARIOS)
+//                 console.log(`Usuário ${user[0].NOME_USUARIOS} teve a assinatura pausada.`)
+//             }
+//             res.status(200).send('Webhook processado com sucesso');
+//         } else {
+//             console.log('Assinatura inválida')
+//             res.status(403).send('Assinatura inválida');
+//         }
 
-    } catch (error) {
-        console.log(error)
-        console.log('Erro de comunicação com Mercado Pago')
-    }
+//     } catch (error) {
+//         console.log(error)
+//         console.log('Erro de comunicação com Mercado Pago')
+//     }
 
-});
+// });
 
 
 //verifcar e redefinir senha
