@@ -304,7 +304,7 @@ box-shadow: 10px 10px 8px rgba(0, 0, 0, 0.3);
   line-height: 7rem;
   border-radius: 50%;
   margin-bottom: 1rem;
- color: var(--branco);
+  color: var(--branco);
   background: var(--cor-segundaria);
   display: inline-block;
 }
@@ -312,7 +312,6 @@ box-shadow: 10px 10px 8px rgba(0, 0, 0, 0.3);
 .planos .box-container-planos .box-planos h3 {
   font-size: 1.7rem;
   color: var(--cor-primaria);
- 
 }
  
 .planos .box-container-planos .box-planos .price {
@@ -329,6 +328,7 @@ box-shadow: 10px 10px 8px rgba(0, 0, 0, 0.3);
  
 .planos .box-container-planos .box-planos .list-plan{
   padding: 1rem 0;
+  text-align: left;
   list-style: none;
 }
  
