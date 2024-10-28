@@ -33,11 +33,11 @@ const usuariosController = {
   regrasValidacaoCriarConta: [
     body("nome")
       .isLength({ min: 3, max: 45 }).withMessage("Nome deve ter de 3 a 45 letras!")
-      .matches()().withMessage("Deve conter apenas letras!"),
+      .matches(/^[A-Za-zÀ-ÖØ-öø-ÿ\s]+$/).withMessage("Deve conter apenas letras!"),
 
     body("nomeempresa")
       .isLength({ min: 3, max: 45 }).withMessage("Nome deve ter de 3 a 45 letras!")
-      .matches().withMessage("Deve conter apenas letras!"),
+      .matches(/^[A-Za-zÀ-ÖØ-öø-ÿ\s]+$/).withMessage("Deve conter apenas letras!"),
 
     body("celular")
       .isMobilePhone('pt-BR').withMessage("Número de telefone inválido")
