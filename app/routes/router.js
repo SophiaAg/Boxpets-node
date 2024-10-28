@@ -26,7 +26,7 @@ router.get("/", function (req, res) {
 });
 
 router.get("/pg-erro", function (req, res) {
-    res.render("pages/template-lp", { pagina: "LandingPage", page: "../partial/pg-erro" });
+    res.render("pages/template-lp", { page: "../partial/pg-erro" });
 });
 
 router.get("/souempresa", function (req, res) {
@@ -59,7 +59,7 @@ router.get("/entrar", function (req, res) {
 });
 
 
-router.get("/ ", function (req, res) {
+router.get("/hm ", function (req, res) {
     res.render('pages/template-hm', { page: 'partial/landing-home/home-page', nomeUsuario });
 });
 
