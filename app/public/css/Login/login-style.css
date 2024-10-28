@@ -422,7 +422,7 @@ form.sign-in-form {
   }
 
   .container.sign-up-mode:before {
-    bottom: 15%;
+    bottom: 10%;
     left: 50%;
   }
 }
