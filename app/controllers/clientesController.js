@@ -204,6 +204,32 @@ const clienteController = {
     .matches(/^[A-Za-zÀ-ÿ\s]+$/)
     .withMessage("O nome da raça deve conter apenas letras!")
 ],
+regrasValidacaoRecuperarSenha: [
+  body('email')
+  .isEmail().withMessage('Deve ser um email válido')
+  .bail()
+  .custom(async (email) => {
+      const emailExistente = await usuariosModel.findUsuariosByEmail(email)
+      if (emailExistente.length > 0) {
+          return true
+      }
+      throw new Error("Nenhum e-mail encontrado");
+  })
+],
+regrasValidacaoRedefinirSenha: [
+  body('senha')
+  .isLength({ min: 8, max: 30 })
+  .withMessage('A senha deve ter pelo menos 8 e no máximo 30 caracteres!')
+  .bail()
+  .matches(/[A-Z]/).withMessage('A senha deve conter pelo menos uma letra maiúscula.')
+  .bail()
+  .matches(/[a-z]/).withMessage('A senha deve conter pelo menos uma letra minúscula.')
+  .bail()
+  .matches(/[0-9]/).withMessage('A senha deve conter pelo menos um número inteiro.')
+  .bail()
+  .matches(/[!@#$%^&*(),.?":{}|<>]/).withMessage('A senha deve conter pelo menos um caractere especial.')
+  .bail(),
+],
 
   cadastrar: async (req, res) => {
     let errors = validationResult(req)
@@ -634,7 +660,7 @@ verificarTokenRedefinirSenha: async (req, res) => {
       jwt.verify(token, process.env.SECRET_KEY, async (err, decoded) => {
           if (err) {
               req.session.token = { msg: "Link expirado!", type: "danger", contagem: 0 }
-              res.redirect("/esqueceuSenha")
+              res.redirect("/esqueceuSenha-cli")
           } else {
               const jsonResult = {
                   page: "../partial/login/esqueceuSenha",
@@ -682,7 +708,7 @@ solicitarResetSenha: async (req, res) => {
               token,
               async () => {
                   req.session.aviso = { msg: "E-mail enviado com sucesso", type: "success", contagem: 0 }
-                  res.redirect("/esqueceuSenha")
+                  res.redirect("/esqueceuSenha-cli")
               })
 
 
@@ -710,7 +736,7 @@ redefinirSenha: async (req, res) => {
           idUser: idUser,
           modalAberto: true
       }
-      res.render("./pages/template-loginEmpresa", jsonResult)
+      res.render("./pages/template-login", jsonResult)
   } else {
       try {
           const { senha } = req.body
@@ -719,7 +745,7 @@ redefinirSenha: async (req, res) => {
           console.log("-------- senha redefinida -----------")
           console.log(resultado)
           req.session.aviso = { msg: "Senha redefinida com sucesso!", type: "success", contagem: 0 }
-          res.redirect("/loginEmpresa")
+          res.redirect("/logarCliente")
       } catch (error) {
           console.log(error)
           res.render("/pg-erro")

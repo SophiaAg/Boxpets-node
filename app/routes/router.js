@@ -440,6 +440,48 @@ router.get("/redefinir-senha",
 
 router.post("/redefinirSenha", usuariosController.regrasValidacaoRedefinirSenha, async function (req, res) {
     usuariosController.redefinirSenha(req, res)
+});
+
+
+//cliente
+
+router.get("/ativar-conta-cli",
+    middleWares.verifyAutenticado,
+    middleWares.verifyAutorizado("pages/template-login", { page: "../partial/login/login", errors: null, valores: "", incorreto: null }, true),
+    async function (req, res) {
+        clienteController.ativarConta(req, res);
+    }
+)
+
+router.get("/esqueceuSenha-cli", function (req, res) {
+    let alert = req.session.aviso ? req.session.aviso : null;
+    if (alert && alert.contagem < 1) {
+        req.session.aviso.contagem++;
+    } else {
+        req.session.aviso = null;
+    }
+    const jsonResult = {
+        page: "../partial/login/esqueceuSenha",
+        modal: "fechado",
+        erros: null,
+        token: alert,
+        modalAberto: false
+    }
+    res.render("pages/template-loginEmpresa", jsonResult);
+});
+
+
+router.post("/solicitarResetSenha-cli",  clienteController.regrasValidacaoRecuperarSenha, async function (req, res) {
+     clienteController.solicitarResetSenha(req, res)
+});
+
+router.get("/redefinir-senha-cli",
+    function (req, res) {
+         clienteController.verificarTokenRedefinirSenha(req, res)
+    });
+
+router.post("/redefinirSenha-cli",  clienteController.regrasValidacaoRedefinirSenha, async function (req, res) {
+     clienteController.redefinirSenha(req, res)
 })
 
 
