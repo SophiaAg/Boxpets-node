@@ -271,7 +271,7 @@ const usuariosController = {
         console.log(usuarioCriado)
         const token = jwt.sign(
           {
-              userId: resultados.insertId
+              userId: usuarioCriado.insertId
           },
           process.env.SECRET_KEY
       )
