@@ -173,12 +173,12 @@ router.get("/cadastroEmpresa", async function (req, res) {
 // btnloginEmpresa
 router.get("/loginEmpresa", async function (req, res) {
     try {
-        let alert = req.session.aviso  ? req.session.aviso  : null;
-    if (alert && alert.contagem < 1) {
-        req.session.aviso.contagem++;
-    } else {
-        req.session.aviso  = null;
-    }
+        let alert = req.session.aviso ? req.session.aviso : null;
+        if (alert && alert.contagem < 1) {
+            req.session.aviso.contagem++;
+        } else {
+            req.session.aviso = null;
+        }
 
         res.render("pages/template-loginEmpresa", { page: "../partial/cadastroEmpresa/login", errors: null, valores: "", incorreto: alert });
     } catch (error) {
@@ -412,11 +412,11 @@ router.get("/ativar-conta",
 )
 
 router.get("/esqueceuSenha", function (req, res) {
-    let alert = req.session.aviso  ? req.session.aviso  : null;
+    let alert = req.session.aviso ? req.session.aviso : null;
     if (alert && alert.contagem < 1) {
         req.session.aviso.contagem++;
     } else {
-        req.session.aviso  = null;
+        req.session.aviso = null;
     }
     const jsonResult = {
         page: "../partial/cadastroEmpresa/esqueceuSenha",
@@ -429,18 +429,18 @@ router.get("/esqueceuSenha", function (req, res) {
 });
 
 
-router.post("/solicitarResetSenha", usuariosController.regrasValidacaoRecuperarSenha , async function (req, res) {
- usuariosController.solicitarResetSenha(req,res)
- });
+router.post("/solicitarResetSenha", usuariosController.regrasValidacaoRecuperarSenha, async function (req, res) {
+    usuariosController.solicitarResetSenha(req, res)
+});
 
-    router.get("/redefinir-senha",
-        function (req, res) {
-            usuariosController.verificarTokenRedefinirSenha(req, res)
-        });
+router.get("/redefinir-senha",
+    function (req, res) {
+        usuariosController.verificarTokenRedefinirSenha(req, res)
+    });
 
-    router.post("/redefinirSenha", usuariosController.regrasValidacaoRedefinirSenha, async function (req, res) {
-            usuariosController.redefinirSenha(req,res)
-        })
+router.post("/redefinirSenha", usuariosController.regrasValidacaoRedefinirSenha, async function (req, res) {
+    usuariosController.redefinirSenha(req, res)
+})
 
 
 module.exports = router;
