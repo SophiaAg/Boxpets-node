@@ -1,0 +1,33 @@
+
+
+<link rel="stylesheet" href="./css/login-empresa/esqueceuSenha.css">
+    
+
+<article class="box-esqueceuSenha">
+    
+    <div class="inner-box-esqueceuSenha">
+        <div class="logo">
+            <img src="src/dashboard/logo.png" alt="logo" />
+          </div>
+    <h2>Redefinir Senha</h2>
+        <h3>Em poucos passa você terá uma senha nova</h3>
+    <h6>Digite o seu e-mail no campo abaixo e lhe enviaremos
+        um código de ativação para a redefinição de senha.</h6>
+    <form class="esqueceuSenha" action="/solicitarResetSenha" method="post">
+       <section class="input-field">
+    <i class="fas fa-envelope"></i>
+    <input name="email" id="email"  type="text"   placeholder="Email" value= "" />
+ </section>
+        
+        <a href="/redefinir-senha"><button class="sign-btn" type="submit">Enviar</button></a>
+        <article class="links">
+            <a href="/logarEmpresa" class="link">Cancelar</a>
+        </article>
+    </form>
+    </div>
+</article>
+
+
+<% if(modalAberto){ %>
+    <%- include("./redefinirSenha-modal") %>
+<%}%>

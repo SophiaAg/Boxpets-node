@@ -35,6 +35,14 @@ const clienteModel = {
             return error
         }
     },
+    updateUsuario: async (dadosUsuario, id) => {
+        try {
+            const [resultados] = await pool.query("update CLIENTE set ? where ID_CLIENTE = ?", [dadosUsuario, id])
+            return resultados
+        } catch (error) {
+            throw error
+        }
+    },
     findClienteById: async (id) => {
         try {
             const [resultados] = await pool.query('SELECT * FROM CLIENTE WHERE ID_CLIENTE = ?', [id])
@@ -43,6 +51,27 @@ const clienteModel = {
             return error
         }
     },
+    findClienteByEmailAtivo: async (email) => {
+        try {
+            const [resultados] = await pool.query("SELECT * FROM CLIENTE WHERE EMAIL_USUARIOS = ? AND CLIENTE_STATUS = 'ativo' LIMIT 1", [email])
+            console.log(resultados)
+            return resultados
+        } catch (error) {
+            return error
+        }
+    },
+
+    findUserByIdInativo: async (id) => {
+        try {
+            const [resultados] = await pool.query("SELECT * FROM CLIENTE WHERE ID_CLIENTE = ? AND CLIENTE_STATUS = 'inativo' LIMIT 1", [id])
+            return resultados
+
+        } catch (error) {
+            console.error("Erro ao buscar usuário", error);
+            throw error;
+        }
+    },
+
     findPetById: async (id) => {
         try {
             const [resultados] = await pool.query('SELECT * FROM CARTERINHA_PET WHERE ID_CLIENTE = ?', [id])
@@ -89,7 +118,7 @@ const clienteModel = {
     }
     // findClienteBy: async (clausulaWhere, valor) => {
     //     try {
-    //         const [resultados] = await pool.query('SELECT * FROM USUARIOS WHERE ? ?', [clausulaWhere, valor])
+    //         const [resultados] = await pool.query('SELECT * FROM CLIENTE WHERE ? ?', [clausulaWhere, valor])
     //         console.log(resultados)
     //         return resultados
     //     } catch (error) {

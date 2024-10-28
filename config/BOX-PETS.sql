@@ -65,7 +65,7 @@ DROP TABLE IF EXISTS `CLIENTE`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `CLIENTE` (
-  `ID_CLIENTE` int(11) NOT NULL AUTO_INCREMENT,
+  `TEID_CLIEN` int(11) NOT NULL AUTO_INCREMENT,
   `EMAIL_CLIENTE` varchar(50) NOT NULL,
   `CELULAR_CLIENTE` varchar(15) NOT NULL,
   `NOME_CLIENTE` varchar(70) NOT NULL,
