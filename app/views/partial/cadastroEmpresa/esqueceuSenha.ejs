@@ -1,19 +1,15 @@
-<link rel="stylesheet" href="./css/login/entrar.css">
+<link rel="stylesheet" href="./css/login-empresa/esqueceuSenha.css">
     
-<article class="fundo__login">
-    <figure class="logo-login">
-        <img src="./img/quasart-logo-branca.png" alt="bp">
-    </figure>
-</article>
+<div class="logo">
+    <img src="src/dashboard/logo.png" alt="logo" />
+  </div>
 
-<article class="container__form">
-    <header class="form__title">
-        <h2 class="title">REDEFINIR SENHA</h2>
-        <h3 class="subtitle">Vamos te ajudar a recuperar sua senha!</h3>
-    </header>
-    <p class="text helpText mt-1
- mb-3">Digite o seu e-mail no campo abaixo e lhe enviaremos
-        um código de ativação para a redefinição de senha.</p>
+<article class="box">
+    <div class="inner-box">
+    <h2>Redefinir Senha</h2>
+        <h3>Em poucos passa você terá uma senha nova</h3>
+    <h6>Digite o seu e-mail no campo abaixo e lhe enviaremos
+        um código de ativação para a redefinição de senha.</h6>
     <form action="/solicitarResetSenha" method="post">
         <article class="input__container">
             <input type="text" name="email" id="email" class="input__control" placeholder="E-mail" required>
@@ -24,6 +20,7 @@
         </article>
         <button class="btn submit text p-2 mt-3" type="submit">Enviar</button>
     </form>
+    </div>
 </article>
 
 

@@ -282,13 +282,13 @@ const usuariosController = {
           dadosUsuario.EMAIL_USUARIOS,
           "Cadastro realizado na BoxPets",
           process.env.URL_BASE,
-          token,
+          token, 
           async () => {
               const userBd = await usuariosModel.findUserByIdInativo(dadosUsuario.insertId);
               console.log(`------ Usuário ${userBd[0].NOME_USUARIOS} cadastrado! ------`)
               console.log(`------ Verificação enviada para ${userBd[0].EMAIL_USUARIOS} ------`)
               console.log(userBd[0])
-              res.redirect("/entrar")
+              res.redirect("/loginEmpresa")
           })
        
         const jsonResult = {
