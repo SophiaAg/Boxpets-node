@@ -291,12 +291,12 @@ const usuariosController = {
               res.redirect("/loginEmpresa")
           })
        
-        const jsonResult = {
-          page: "../partial/dashboard/principal",
-          nomeempresa: nomeempresa, // Aqui é onde passamos o nome da empresa
-          classePagina: 'dashboard'
-        }
-        res.render("pages/template-dashboard", jsonResult)
+        // const jsonResult = {
+        //   page: "../partial/dashboard/principal",
+        //   nomeempresa: nomeempresa, // Aqui é onde passamos o nome da empresa
+        //   classePagina: 'dashboard'
+        // }
+        // res.render("pages/template-dashboard", jsonResult)
 
 
 
