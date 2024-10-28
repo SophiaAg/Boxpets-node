@@ -1,3 +1,33 @@
+/*cores*/
+
+ 
+:root {
+  --cor-primaria: #6794FE;
+  --cor-segundaria:#FF8100;
+  --fundo:#FFFFFF;
+  --qs-branco: #eeeeeeda;
+  --branco:#fff;
+  --preto:#000;
+  --textos:#252525;
+
+  --branco-fixo: #fff;
+  --preto-fixo: #000;
+}
+
+body.color{
+  --cor-primaria: #6794FE;
+  --cor-segundaria:#FF8100;
+  --fundo:#121212;
+  --qs-branco: #2b2b2bda;
+  --branco:#252525;
+  --preto:#fff;
+  --textos:#bebebe;
+
+  --branco-fixo: #fff;
+  --preto-fixo: #000;
+
+}
+
 /*Home*/
  
 .carousel{
@@ -27,7 +57,7 @@
     transform: translateX(-50%);
     padding-right: 30%;
     box-sizing: border-box;
-    color: var(--branco);
+    color: var(--branco-fixo);
     text-shadow: 0 5px 10px #0004;
   }
    
@@ -55,7 +85,7 @@
     grid-template-rows: 60px;
     gap: 5px;
     margin-top: 20px;
-    color: var(--preto);
+    color: var(--branco-fixo);
   }
    
   .carousel .list .item .content button {

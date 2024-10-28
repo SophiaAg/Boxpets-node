@@ -1,3 +1,34 @@
+ 
+/*cores*/
+
+ 
+:root {
+  --cor-primaria: #6794FE;
+  --cor-segundaria:#FF8100;
+  --fundo:#FFFFFF;
+  --qs-branco: #eeeeeeda;
+  --branco:#fff;
+  --preto:#000;
+  --textos:#252525;
+
+  --branco-fixo: #fff;
+  --preto-fixo: #000;
+}
+
+body.color{
+  --cor-primaria: #6794FE;
+  --cor-segundaria:#FF8100;
+  --fundo:#121212;
+  --qs-branco: #2b2b2bda;
+  --branco:#252525;
+  --preto:#fff;
+  --textos:#bebebe;
+
+  --branco-fixo: #fff;
+  --preto-fixo: #000;
+
+}
+
 /*header*/
  
 header{
@@ -40,7 +71,7 @@ header{
   }
    
   .navbar .links-name-cor{
-    color: var(--txt-1);
+    color: var(--textos);
   }
    
   .navbar .links-name-cor:hover{
@@ -108,7 +139,7 @@ header{
     display: flex;
     justify-content: center;
     background-color: var(--cor-primaria);
-    color: var();
+    color: var(--branco-fixo);
     margin-top: 2%;
 
   }
