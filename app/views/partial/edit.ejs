@@ -1,0 +1,172 @@
+<main class="main-for-edit">
+    <%- include('../../partials/header.ejs') %>
+        <!-- main (conteudo principal para adição da pagina) -->
+        <!-- formulario -->
+        <section class="main-content">
+
+            <section class="form-control">
+                <form action="/share/edit" method="post" enctype="multipart/form-data">
+                    <input type="hidden" name="id" value="<%= share.id %>">
+                    <!-- header (banner) -->
+                    <a href="/share/<%= share.id %>"><i class="bi bi-arrow-left-short"></i> Voltar</a>
+                    <header class="banner">
+
+                            <% 
+                            const base64banner = Buffer.from(share.banner).toString('base64');
+                            const bannerSrc = `data:image/png;base64,${base64banner}`;
+                            %>
+                        <section class="image">
+                            <%- include('../../partials/inputs/files.ejs',
+                                {text: 'drag and drop your file here or click to select a file!' , name: 'bannerShare', hasBg: true, urlBg: bannerSrc }) %>
+                        </section>
+                        <section class="text">
+                            <section class="input-control">
+                                <input type="text" name="title" placeholder="<%= share.title %>" value="<%= share.title %>">
+                            </section>
+                            <section class="input-control">
+                                <textarea name="description" id="textArea-description" cols="30" rows="12"
+                                    placeholder="<%= share.description %>"><%= share.description %></textarea>
+                            </section>
+                        </section>
+                    </header>
+
+                    <!-- aréa de serviços -->
+
+                    <section class="service-control">
+
+
+                        <% const services=JSON.parse(share.services); %>
+
+                            <section class="button-for-add-service">
+                                <button type="button" onclick="addForm('service', <%= services.length %>)">Adicionar
+                                    Serviço</button>
+                            </section>
+
+                            <section class="services">
+
+                                <% services.forEach(element=> { %>
+
+                                    <section class="card">
+                                        <% 
+                                        const base64 = Buffer.from(element.banner.buffer).toString('base64');
+                                        const src = `data:image/png;base64,${base64}`;
+                                        %>
+                                
+                                        <section class="image">
+                                            <img class="banner" 
+                                            src="<%= src %>" 
+                                            alt="Banner de compartilhamento">   
+                                        </section>
+                                        <section class="text">
+                                            <h2><%= element.name %></h2>
+                                            <span><%= element.price %></span>
+                                        </section>
+                                    </section>
+                                        <% }) %>
+
+                            </section>
+
+                    </section>
+
+                    <!-- area de mais detalhes -->
+
+                    <section class="more">
+                        <section class="image">
+                            <% 
+                            const base64mImage = Buffer.from(share.moreImage).toString('base64');
+                            const mImageSrc = `data:image/png;base64,${base64mImage}`;
+                            %>
+                        
+                            <%- include('../../partials/inputs/files.ejs',
+                                {text: 'drag and drop your file here or click to select a file!' , name: 'moreImage', hasBg: true, urlBg: mImageSrc })
+                            %>
+                        </section>
+                        <section class="text">
+                            <textarea maxlength="250" name="moreText" cols="30" rows="8"
+                                placeholder="<%= share.moreText %>"><%= share.moreText %></textarea>
+                        </section>
+                    </section>
+
+                    <!-- pessoas -->
+
+                    <section class="peoples">
+
+                        <% const peoples=JSON.parse(share.peoples); %>
+
+                            <section>
+                                <section>
+                                    <button type="button" onclick="addForm('people', <%= peoples.length %>)">Adicionar
+                                        pessoa</button>
+                                </section>
+                            </section>
+
+                            <!-- <%- include('../../partials/cards/forShare.ejs', {
+                                fileText: 'drag and drop your file here or click to select a file!' , fileName: 'people' ,
+                                fields: [ { name: 'peopleName' , placeholder: 'Alana' }, { name: 'peopleFunction' , placeholder: 'Developer'
+                    } ] }) %> -->
+
+                            <% peoples.forEach(element=> { %>
+                                <section class="card">
+                                    <% const base64=Buffer.from(element.banner.buffer).toString('base64'); const
+                                        src=`data:image/png;base64,${base64}`; %>
+
+                                        <section class="image">
+                                            <img class="banner" src="<%= src %>" alt="Image de pessoa">
+                                        </section>
+                                        <section class="description">
+                                            <section class="text">
+                                                <h2><%= element.name %></h2>
+                                                <span><%= element.function %></span>
+                                            </section>
+                                        </section>
+                                </section>
+
+                                <% }) %>
+
+                    </section>
+
+                    <section class="submit">
+                        <input type="submit" value="Editar">
+                        <span>Os parametros não alterados permaneceram iguais a seu estado anterior</span>
+                    </section>
+
+                </form>
+            </section>
+        </section>
+</main>
+
+<!-- script -->
+
+<script>
+    const textarea = document.getElementById('textArea-description');
+    const lineHeight = 24; // Ajuste o valor conforme o tamanho da linha
+
+    // Função para ajustar o número de linhas do textarea
+    function adjustTextareaRows(textareaElement) {
+        // Reseta as linhas para recalcular
+        textareaElement.rows = 1;
+
+        // Calcula o número de linhas com base no scrollHeight
+        const newRows = Math.ceil(textareaElement.scrollHeight / lineHeight);
+
+        // Define o número de linhas no textarea
+        textareaElement.rows = newRows;
+    }
+
+    // Evento para ajustar as linhas ao digitar
+    textarea.addEventListener('input', function () {
+        adjustTextareaRows(this);
+    });
+
+    // Ajusta o número de linhas ao carregar a página com base no placeholder
+    window.addEventListener('load', function () {
+        const placeholderContent = textarea.placeholder;
+
+        // Temporariamente atribui o placeholder ao valor para medir as linhas
+        textarea.value = placeholderContent;
+        adjustTextareaRows(textarea);
+
+        // Restaura o valor vazio para manter o comportamento normal
+        textarea.value = '';
+    });
+</script>

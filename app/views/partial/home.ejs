@@ -1,4 +1,6 @@
 <main class="main-for-share">
+    <%- include('../../partials/header.ejs') %>
+    <!-- main (conteudo principal para adição da pagina) -->
     <!-- formulario -->
     <section class="main-content">
 
@@ -18,7 +20,7 @@
                 <header class="banner">
                     <section class="image">
                         <%- include('../../partials/inputs/files.ejs',
-                            {text: 'drag and drop your file here or click to select a file!' , name: 'bannerShare' }) %>
+                            {text: 'drag and drop your file here or click to select a file!' , name: 'bannerShare', hasBg: false, urlBg: '' }) %>
                     </section>
                     <section class="text">
                         <section class="input-control">
@@ -36,7 +38,7 @@
                 <section class="service-control">
 
                     <section class="button-for-add-service">
-                        <button type="button" onclick="addForm('service')">Adicionar Serviço</button>
+                        <button type="button" onclick="addForm('service', undefined)">Adicionar Serviço</button>
                     </section>
 
                     <section class="services">
@@ -53,7 +55,7 @@
                 <section class="more">
                     <section class="image">
                         <%- include('../../partials/inputs/files.ejs',
-                            {text: 'drag and drop your file here or click to select a file!' , name: 'moreImage' }) %>
+                            {text: 'drag and drop your file here or click to select a file!' , name: 'moreImage', hasBg: false, urlBg: '' }) %>
                     </section>
                     <section class="text">
                         <textarea maxlength="250" name="moreText" cols="30" rows="8"
@@ -67,7 +69,7 @@
 
                     <section>
                         <section>
-                            <button type="button" onclick="addForm('people')">Adicionar pessoa</button>
+                            <button type="button" onclick="addForm('people', undefined)">Adicionar pessoa</button>
                         </section>
                     </section>
 

@@ -5,6 +5,9 @@ var salt = bcrypt.genSaltSync(8)
 const { removeImg } = require("../util/removeImg")
 const moment = require("moment")
 const { invalid } = require("moment/moment")
+const jwt = require("jsonwebtoken")
+const { enviarEmail, enviarEmailAtivacao, enviarEmailRecuperarSenha } = require("../util/sendEmail")
+
 const clienteController = {
 
   // Validação do form de cadastro

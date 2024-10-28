@@ -1,0 +1,117 @@
+<section class="main-for-share">
+    <%- include('../../partials/header.ejs') %>
+<section class="share-control">
+
+    <!-- header (banner) -->
+
+    <header class="banner">
+        
+        <% 
+        const base64banner = Buffer.from(share.banner).toString('base64');
+        const bannerSrc = `data:image/png;base64,${base64banner}`;
+        %>
+
+        <section class="image">
+            <img class="banner" 
+            src="<%= bannerSrc %>" 
+            alt="Banner de compartilhamento">   
+        </section>
+        <section class="divider">
+            <section class="text">
+                <h2><%= share.title %></h2>
+                <P><%= share.description %></p>
+            </section>
+            <% if (share.onwer === userid) { %>
+                <section class="edit">
+                    <a href="/share/edit/<%= share.id %>">Editar</a>
+                </section>
+            <% } %>
+        </section>
+    </header>
+
+    <!-- aréa de serviços -->
+
+    <section class="service-control">
+
+        <section class="services">
+            <% 
+            const services = JSON.parse(share.services);
+            %>
+
+            <% services.forEach(element => { %>
+                
+               <a href="/view/<%= share.id %>/<%= element.id %>">
+                <section class="card">
+                    <% 
+                    const base64 = Buffer.from(element.banner.buffer).toString('base64');
+                    const src = `data:image/png;base64,${base64}`;
+                    %>
+
+                    <% console.log(element.id) %>
+            
+                    <section class="image">
+                        <img class="banner" 
+                        src="<%= src %>" 
+                        alt="Banner de compartilhamento">   
+                    </section>
+                    <section class="text">
+                        <h2><%= element.name %></h2>
+                        <span><%= element.price %></span>
+                    </section>
+                </section>
+               </a>
+
+            <% }) %>
+        </section>
+
+    </section>
+
+    <!-- area de mais detalhes -->
+
+    <section class="more">
+        <% 
+        const base64mImage = Buffer.from(share.moreImage).toString('base64');
+        const mImageSrc = `data:image/png;base64,${base64mImage}`;
+        %>
+
+        <section class="image">
+            <img class="banner" 
+            src="<%= mImageSrc %>" 
+            alt="Banner de mais sobre">   
+        </section>
+        <section class="text">
+            <p><%= share.moreText %></p>    
+        </section>
+    </section>
+
+    <!-- pessoas -->
+
+    <section class="peoples">
+
+        <% 
+            const peoples = JSON.parse(share.peoples);
+        %>
+
+        <% peoples.forEach(element => { %>
+                
+            <section class="card">
+                <% const base64=Buffer.from(element.banner.buffer).toString('base64'); const
+                    src=`data:image/png;base64,${base64}`; %>
+
+                    <section class="image">
+                        <img class="banner" src="<%= src %>" alt="Image de pessoa">
+                    </section>
+                    <section class="description">
+                        <section class="text">
+                            <h2><%= element.name %></h2>
+                            <span><%= element.function %></span>
+                        </section>
+                    </section>
+            </section>
+
+        <% }) %>
+
+    </section>
+
+</section>
+</section>
