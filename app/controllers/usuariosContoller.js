@@ -377,7 +377,7 @@ const usuariosController = {
                     return console.log("Usuário não encontrado")
                 }
 
-                await usuariosModel.updateUser({ STATUS_USUARIOS: 'ativo' }, decoded.userId);
+                await usuariosModel.updateUser({ USUARIOS_STATUS: 'ativo' }, decoded.userId);
                 console.log("Conta ativada!")
                 res.redirect("/loginEmpresa")
             }
