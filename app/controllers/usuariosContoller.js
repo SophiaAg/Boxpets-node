@@ -279,7 +279,7 @@ const usuariosController = {
       
               
         enviarEmailAtivacao(
-          dadosForm.EMAIL_USUARIOS,
+          dadosUsuario.EMAIL_USUARIOS,
           "Cadastro realizado na BoxPets",
           process.env.URL_BASE,
           token,
