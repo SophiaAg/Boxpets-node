@@ -327,7 +327,7 @@ const usuariosController = {
 
       const { email, senha } = req.body
       try {
-        const userBd  = await usuariosModel.findUsuariosByEmail(email)
+        const userBd  = await usuariosModel.findUsuariosByEmailAtivo(email)
 
         if (userBd [0] && bcrypt.compareSync(senha, userBd[0].SENHA_USUARIOS))
           // && req.session.autenticado.autenticado
