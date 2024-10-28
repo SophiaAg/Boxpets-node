@@ -293,7 +293,8 @@ const usuariosController = {
        
         const jsonResult = {
           page: "../partial/dashboard/principal",
-          nomeempresa: nomeempresa // Aqui é onde passamos o nome da empresa
+          nomeempresa: nomeempresa, // Aqui é onde passamos o nome da empresa
+          classePagina: 'dashboard'
         }
         res.render("pages/template-dashboard", jsonResult)
 
