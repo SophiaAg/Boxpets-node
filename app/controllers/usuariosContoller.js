@@ -483,11 +483,11 @@ redefinirSenha: async (req, res) => {
         try {
             const { senha } = req.body
             let hashSenha = bcrypt.hashSync(senha, salt);
-            var resultado = await usuariosModel.updateUser({ SENHA_USUARIO: hashSenha }, idUser)
+            var resultado = await usuariosModel.updateUser({ SENHA_USUARIOS: hashSenha }, idUser)
             console.log("-------- senha redefinida -----------")
             console.log(resultado)
-            req.session.token = { msg: "Senha redefinida com sucesso!", type: "success", contagem: 0 }
-            res.redirect("/entrar")
+            req.session.aviso = { msg: "Senha redefinida com sucesso!", type: "success", contagem: 0 }
+            res.redirect("/loginEmpresa")
         } catch (error) {
             console.log(error)
             res.render("./partial/pg-erro")

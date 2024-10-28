@@ -25,6 +25,10 @@ router.get("/", function (req, res) {
     res.render("pages/template-lp", { pagina: "LandingPage", page: "../partial/landing-page/lp-inicial" });
 });
 
+router.get("/pg-erro", function (req, res) {
+    res.render("pages/template-lp", { pagina: "LandingPage", page: "../partial/pg-erro" });
+});
+
 router.get("/souempresa", function (req, res) {
     res.render("pages/template-lp", { pagina: "LandingPage", page: "../partial/landing-page/souempresa" });
 });
@@ -169,7 +173,14 @@ router.get("/cadastroEmpresa", async function (req, res) {
 // btnloginEmpresa
 router.get("/loginEmpresa", async function (req, res) {
     try {
-        res.render("pages/template-loginEmpresa", { page: "../partial/cadastroEmpresa/login", errors: null, valores: "", incorreto: null });
+        let alert = req.session.aviso  ? req.session.aviso  : null;
+    if (alert && alert.contagem < 1) {
+        req.session.aviso.contagem++;
+    } else {
+        req.session.aviso  = null;
+    }
+
+        res.render("pages/template-loginEmpresa", { page: "../partial/cadastroEmpresa/login", errors: null, valores: "", incorreto: alert });
     } catch (error) {
         res.redirect("/")
         // colocar pagina de erro
