@@ -311,10 +311,10 @@ router.get("/sair", function (req, res) {
         return res.status(500).redirect("/");
     }
 })
-const mercadopago = new MercadoPagoConfig({
-    accessToken: 'APP_USR-2987350217777313-102619-f933e92e0b23c5666b837599613dfac5-2061285426',
-    options: { timeout: 5000, idempotencyKey: 'abc' }
-});
+// const mercadopago = new MercadoPagoConfig({
+//     accessToken: 'APP_USR-2987350217777313-102619-f933e92e0b23c5666b837599613dfac5-2061285426',
+//     options: { timeout: 5000, idempotencyKey: 'abc' }
+// });
 
 // router.post("/criarAssinaturaMensal",
 //     middleWares.verifyAutenticado,

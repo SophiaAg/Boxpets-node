@@ -320,13 +320,11 @@ body('agendamento')
 
     if (!error.isEmpty()) {
       console.log(error)
-      const nomeempresa = userBd[0].NOMEEMPRESA_USUARIO;
       const jsonResult = {
         page: "../partial/cadastroEmpresa/login",
         errors: error,
         valores: req.body,
         incorreto: false,
-        nomeempresa: nomeempresa
       }
       res.render("pages/template-loginEmpresa", jsonResult);
     } else {
@@ -334,16 +332,15 @@ body('agendamento')
       const { email, senha } = req.body
       try {
         const userBd = await usuariosModel.findUsuariosByEmailAtivo(email)
-
+        
         if (userBd[0] && bcrypt.compareSync(senha, userBd[0].SENHA_USUARIOS))
-        // && req.session.autenticado.autenticado
         {
 
           console.log(userBd[0])
           const nomeempresa = userBd[0].NOMEEMPRESA_USUARIO; 
           const jsonResult = {
             page: "../partial/dashboard/principal",
-            nomeempresa: nomeempresa, // Aqui é onde passamos o nome da empresa
+            nomeempresa: nomeempresa, 
             classePagina: 'dashboard'
           }
           res.render("pages/template-dashboard", jsonResult)
@@ -379,6 +376,7 @@ body('agendamento')
           console.log("Token inválido ou expirado")
         } else {
           const userBd = await usuariosModel.findUserByIdInativo(decoded.userId)
+          console.log(userBd[0])
           if (!userBd[0]) {
             return console.log("Usuário não encontrado")
           }
