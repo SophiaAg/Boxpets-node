@@ -356,7 +356,7 @@ const usuariosController = {
 
       } catch (errors) {
         console.log(error)
-        res.json()
+        res.render("./partial/pg-erro")
       }
 
     }

@@ -10,7 +10,7 @@ module.exports = class MainController {
 
         const [sharePosts] = await connection.query(query);
 
-        res.status(200).render("layouts/main.ejs", { router: "../pages/home/home.ejs", sharePosts: sharePosts });
+        res.status(200).render("layouts/main.ejs", { router: "../partial/home.ejs", sharePosts: sharePosts });
 
     }
 
