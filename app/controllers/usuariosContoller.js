@@ -300,28 +300,28 @@ const usuariosController = {
 
 
 
-      } catch (erros) {
-        console.log(erros)
-        res.json(error)
-      }
+      } catch (errors) {
+        console.log(errors)
+        res.render("./partial/pg-erro")
+
+    }
 
     }
   },
   entrarEmpresa: async (req, res) => {
-    // Aqui verifico se tem erros de validação no formulário, se tiver carrego a pagina de login novamente com erros, 
-    //senão busco a partir do um usuário a partir do digitado, e então eu por fim, verifico se o usuario do banco existe
-    //e se o hash da senha digitada no form bate com o hash da senha que estava no banco e se a sessão não é null. 
-    //Se tudo estiver correto ele renderiza a page home, senão ele manda pra page de login como usuário ou senha incorretos
+  
 
     let error = validationResult(req)
 
     if (!error.isEmpty()) {
       console.log(error)
+      const nomeempresa = userBd[0].NOMEEMPRESA_USUARIO;
       const jsonResult = {
         page: "../partial/cadastroEmpresa/login",
         errors: error,
         valores: req.body,
-        incorreto: false
+        incorreto: false,
+        nomeempresa: nomeempresa
       }
       res.render("pages/template-loginEmpresa", jsonResult);
     } else {
@@ -337,24 +337,26 @@ const usuariosController = {
           const nomeempresa = userBd[0].NOMEEMPRESA_USUARIO;
           const jsonResult = {
             page: "../partial/dashboard/principal",
-            nomeempresa: nomeempresa,// Aqui é onde passamos o nome da empresa
+            nomeempresa: nomeempresa, // Aqui é onde passamos o nome da empresa
              classePagina: 'dashboard'
           }
           res.render("pages/template-dashboard", jsonResult)
 
         } else {
+          const nomeempresa = userBd[0].NOMEEMPRESA_USUARIO;
           const jsonResult = {
             page: "../partial/cadastroEmpresa/login",
             errors: null,
             valores: req.body,
+            nomeempresa: nomeempresa, 
             incorreto: true
           }
           res.render("pages/template-loginEmpresa", jsonResult);
         }
 
-      } catch (erros) {
-        console.log(erros)
-        res.render("pages/error-500")
+      } catch (errors) {
+        console.log(error)
+        res.json()
       }
 
     }

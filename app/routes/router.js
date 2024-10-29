@@ -25,6 +25,10 @@ router.get("/", function (req, res) {
     res.render("pages/template-lp", { pagina: "LandingPage", page: "../partial/landing-page/lp-inicial" });
 });
 
+router.get("/hm ", function (req, res) {
+    res.render('pages/template-hm', { page: 'partial/landing-home/home-page' , nomeUsuario });
+});
+
 router.get("/pg-erro", function (req, res) {
     res.render("pages/template-lp", { page: "../partial/pg-erro" });
 });
@@ -59,9 +63,6 @@ router.get("/entrar", function (req, res) {
 });
 
 
-router.get("/hm ", function (req, res) {
-    res.render('pages/template-hm', { page: 'partial/landing-home/home-page', nomeUsuario });
-});
 
 
 router.get("/servicos-gerais", function (req, res) {
@@ -132,8 +133,9 @@ router.get("/dashboard", function (req, res) {
         page: "../partial/dashboard/principal",
         errors: null,
         valores: null,
+        nomeempresa: 'nomeempresa',
         classePagina: 'dashboard',
-        nomeempresa: nomeempresa,
+        
 
     }
     res.render("pages/template-dashboard", jsonResult);
@@ -145,7 +147,7 @@ router.get("/agendamento", function (req, res) {
 
 router.get("/planos", function (req, res) {
     res.render("pages/template-dashboard", { page: "../partial/dashboard/planos", classePagina: 'planos', });
-}); ''
+}); 
 
 // Cadastro de CLIENTES
 router.post("/cadastrarCliente", clienteController.regrasValidacaoCriarConta, function (req, res) {

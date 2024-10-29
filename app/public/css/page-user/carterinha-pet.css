@@ -89,14 +89,16 @@ select {
     display: flex;
     width: 350px;
     padding: 10px;
-    background-color: #f4f4f4;
+    background-color:var(--fundo);
     border-radius: 10px;
     text-align: center;
-    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 .5rem 1rem rgba(235, 167, 42, 0.822);
     margin: 5%;
    z-index: 1; 
+   color: var(--preto);
   
 }
+
 
 .card img {
     width: 100px;
@@ -111,7 +113,7 @@ select {
 }
 
 .card p {
-    color: #666;
+    color:var(--preto);
 }
 
 .card .info-pets{
