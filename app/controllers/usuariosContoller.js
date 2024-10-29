@@ -231,9 +231,6 @@ const usuariosController = {
       .matches(/[!@#$%^&*(),.?":{}|<>]/).withMessage('A senha deve conter pelo menos um caractere especial.')
       .bail(),
   ],
-  regrasValidacaoAgendamento: [
-body('agendamento')
-  ],
 
 
   //função de cadastrar
@@ -335,8 +332,6 @@ body('agendamento')
         
         if (userBd[0] && bcrypt.compareSync(senha, userBd[0].SENHA_USUARIOS))
         {
-
-          console.log(userBd[0])
           const nomeempresa = userBd[0].NOMEEMPRESA_USUARIO; 
           const jsonResult = {
             page: "../partial/dashboard/principal",
