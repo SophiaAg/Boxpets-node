@@ -382,7 +382,7 @@ router.get("/esqueceuSenha-cli", function (req, res) {
         token: alert,
         modalAberto: false
     }
-    res.render("pages/template-loginEmpresa", jsonResult);
+    res.render("pages/template-login", jsonResult);
 });
 
 

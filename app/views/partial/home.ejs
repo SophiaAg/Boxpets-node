@@ -7,7 +7,7 @@
         <section class="shares-container">
             
             <% sharePosts.forEach(element => { %>
-                <%- include('../../partials/cards/shares.ejs', {element: element}) %>
+                <%- include('../../partials/cards/shares.ejs',   { sharePosts: arrayDePosts } , {element: element}) %>
             <% }) %>
 
         </section>
@@ -19,7 +19,7 @@
                 
                 <header class="banner">
                     <section class="image">
-                        <%- include('../../partials/inputs/files.ejs',
+                        <%- include('./partials/inputs/files.ejs',
                             {text: 'drag and drop your file here or click to select a file!' , name: 'bannerShare', hasBg: false, urlBg: '' }) %>
                     </section>
                     <section class="text">

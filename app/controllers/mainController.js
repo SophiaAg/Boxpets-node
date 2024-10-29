@@ -158,7 +158,7 @@ module.exports = class MainController {
 
         const [share] = await connection.query(query, [id]);
 
-        res.status(200).render("layouts/main.ejs", { router: "../pages/home/share.ejs", share: share[0], userid: userid });
+        res.status(200).render("pages/template-dashboard", { page: "../pages/home.ejs", share: share[0], userid: userid, classePagina: '', sharePosts: ''});
     }
 
     static async edit(req, res) {
