@@ -269,7 +269,7 @@ router.get('/paginacomercial', MainController.first);
 router.post('/share', uploadEmpresa.any(), MainController.sharePost)
 router.get('/share/:id', MainController.viewPost)
 router.get('/share/edit/:id', MainController.edit)
-router.post('/share/edit', upload.any(), MainController.makeEdit)
+router.post('/share/edit', uploadEmpresa.any(), MainController.makeEdit)
 
 // rota para comentário da empresa?
 

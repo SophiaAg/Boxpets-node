@@ -47,7 +47,12 @@ if(errors){
                 <section class="input-field <%= classeErro.senha %>">
                   <i class="fas fa-lock"></i>
                   <input id="senha" name="senha" required type="password" placeholder="<%= msgErro.senha ? msgErro.senha : 'Insira sua senha' %>"
-                  value="<%= msgErro.senha ? '' : (valores.senha || '') %>" />
+                  value="<%= msgErro.senha ? '' : (valores.senha || '') %>"  />
+
+                  <button onclick="togglesenha('senha')">
+                    <span class="fa-solid">&#128065;</span> <!-- Ícone de olhinho -->
+                </button>
+
                </section>
   
             </div>
@@ -95,5 +100,36 @@ if(errors){
       </div>
       <script src="/js/notificacao.js"></script>
 
+      <script>
+        function togglesenha(senhaFieldId) {
+            const senhaInput = document.getElementById(senhaFieldId);
+            const button = senhaInput.nextElementSibling;
+            const eyeIcon = button.querySelector(".eye-icon");
+     
+            // Alterna entre "senha" e "text"
+            const issenha = senhaInput.type === 'senha';
+            senhaInput.type = issenha ? 'text' : 'senha';
+     
+            // Altera o ícone conforme o tipo de input
+            eyeIcon.innerHTML = issenha ? '&#128064;' : '&#128065;';
+        }
+     </script>
+     
+     <style>
+     .input-field{
+      display: flex;
+        align-items: center;
+        justify-content: end;
+     }
+      button {
+          background: none;
+          border: none;
+          cursor: pointer;
+          padding: 5px;
+          font-size: 18px;
+      }
+     </style>
+     
+      
 
  

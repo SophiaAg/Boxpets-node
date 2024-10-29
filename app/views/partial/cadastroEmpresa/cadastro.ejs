@@ -77,6 +77,7 @@
                <i class="fa-solid fa-phone"></i>
                <input name="celular" id="celular" required type="celular"  placeholder="<%= msgErro.celular ? msgErro.celular : 'Celular' %>"
                value="<%= msgErro.celular ? '' : (valores.celular || '') %>" />
+              
              </section>
 
              <div class="field">
@@ -195,7 +196,9 @@
                 <i class="fas fa-lock"></i>
                 <input id="senha" name="senha" required type="password" placeholder="<%= msgErro.senha ? msgErro.senha : 'Crie uma senha' %>"
                 value="<%= msgErro.senha ? '' : (valores.senha || '') %>" />
-
+                <button onclick="togglePassword('password')">
+                  <span class="fa-solid">&#128065;</span> <!-- Ícone de olhinho -->
+              </button>
              </section>
 
 
@@ -216,5 +219,35 @@
  </div>
 
  <script src="/js/notificacao.js"></script>
+
+ <script>
+   function togglePassword(passwordFieldId) {
+       const passwordInput = document.getElementById(passwordFieldId);
+       const button = passwordInput.nextElementSibling;
+       const eyeIcon = button.querySelector(".eye-icon");
+
+       // Alterna entre "password" e "text"
+       const isPassword = passwordInput.type === 'password';
+       passwordInput.type = isPassword ? 'text' : 'password';
+
+       // Altera o ícone conforme o tipo de input
+       eyeIcon.innerHTML = isPassword ? '&#128064;' : '&#128065;';
+   }
+</script>
+
+<style>
+.input-field{
+ display: flex;
+   align-items: center;
+   justify-content: center;
+}
+ button {
+     background: none;
+     border: none;
+     cursor: pointer;
+     padding: 5px;
+     font-size: 18px;
+ }
+</style>
 
  

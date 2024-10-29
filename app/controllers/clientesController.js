@@ -33,7 +33,7 @@ const clienteController = {
   regrasValidacaoCriarConta: [
     body("nome")
       .isLength({ min: 3, max: 45 }).withMessage("Nome deve ter de 3 a 45 letras!")
-      .isAlpha().withMessage("Deve conter apenas letras!"),
+      .matches(/^[A-Za-zÀ-ÖØ-öø-ÿ\s]+$/).withMessage("Deve conter apenas letras!"),
 
     body("celular")
       .isMobilePhone('pt-BR').withMessage("Número de telefone inválido")
@@ -328,18 +328,6 @@ regrasValidacaoRedefinirSenha: [
   mostrarPerfil: async (req, res) => {
     try {
       let results = await clienteModel.findClienteById(req.session.autenticado.id);
-      // if (results[0].cep_cliente != null) {
-      //   const httpsAgent = new https.Agent({
-      //     rejectUnauthorized: false,
-      //   });
-      //   const response = await fetch('https://viacep.com.br/ws/${results[0].cep_cliente}/json/',
-      //     { method: 'GET', headers: null, body: null, agent: httpsAgent, });
-      //   var viaCep = await response.json();
-      //   var cep = results[0].cep_cliente.slice(0, 5) + "-" + results[0].cep_cliente.slice(5)
-      // } else {
-      //   var viaCep = { logradouro: "", bairro: "", cidade: "", uf: "" }
-      //   var cep = null;
-      // }
 
       const data = new Date(results[0].DATA_NASC_CLIENTE);
       const dataFormatada = data.toISOString().split('T')[0];
@@ -347,9 +335,6 @@ regrasValidacaoRedefinirSenha: [
       let campos = {
         nome_cli: results[0].NOME_CLIENTE,
         email_cli: results[0].EMAIL_CLIENTE,
-        /// img_perfil_pasta: results[0].img_perfil_pasta,
-        /// img_perfil_banco: results[0].img_perfil_banco != null ? `data:image/jpeg;base64,${results[0].img_perfil_banco.toString('base64')}` : null,
-        nasc_cli: dataFormatada,
         celular_cli: results[0].CELULAR_CLIENTE,
         cpf_cli: results[0].CPF_CLIENTE,
         senha_cli: ""

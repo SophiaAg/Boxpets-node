@@ -1,3 +1,4 @@
+const connection = require("../../config/pool-conexao.js");
 
 module.exports = class MainController {
     static async first(req, res) {
@@ -10,7 +11,7 @@ module.exports = class MainController {
 
         const [sharePosts] = await connection.query(query);
 
-        res.status(200).render("layouts/main.ejs", { router: "../partial/home.ejs", sharePosts: sharePosts });
+        res.status(200).render("pages/template-dashboard", { page: "../pages/home.ejs", sharePosts: sharePosts, classePagina: "paginaComercial" });
 
     }
 

@@ -53,6 +53,9 @@ let avisoErro={
             <i class="fas fa-lock"></i>
             <input name="password" id="password" type="password" placeholder="Senha" title="Sua senha entá incorreta, revise sua senha"
                 pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%&*]).{8,}" />
+                <button onclick="togglePassword('password')">
+                  <span class="fa-solid">&#128065;</span> <!-- Ícone de olhinho -->
+              </button>
         </section>
         <div class="aviso-senha">
           <h1>Senha deve conter um número, uma letra maiúscula, uma letra minúscula e um dos símbolos </h1>
@@ -68,3 +71,33 @@ let avisoErro={
        
     </form>
     <script src="/js/notificacao.js"></script>
+
+    <script>
+      function togglePassword(passwordFieldId) {
+          const passwordInput = document.getElementById(passwordFieldId);
+          const button = passwordInput.nextElementSibling;
+          const eyeIcon = button.querySelector(".eye-icon");
+  
+          // Alterna entre "password" e "text"
+          const isPassword = passwordInput.type === 'password';
+          passwordInput.type = isPassword ? 'text' : 'password';
+  
+          // Altera o ícone conforme o tipo de input
+          eyeIcon.innerHTML = isPassword ? '&#128064;' : '&#128065;';
+      }
+  </script>
+  
+  <style>
+  .input-field{
+    display: flex;
+      align-items: center;
+      justify-content: center;
+  }
+    button {
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 5px;
+        font-size: 18px;
+    }
+  </style>
