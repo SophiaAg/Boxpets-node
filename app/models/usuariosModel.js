@@ -9,6 +9,15 @@ const usuariosModel = {
             throw error
         }
     },
+
+    createAgendamento: async (dadosUsuario) => {
+        try {
+            const [resultados] = await pool.query("insert into AGENDAMENTOS set ?", [dadosUsuario])
+            return resultados
+        } catch (error) {
+            throw error
+        }
+    },
     updateUsuario: async (dadosUsuario, id) => {
         try {
             const [resultados] = await pool.query("update USUARIOS set ? where ID_USUARIOS = ?", [dadosUsuario, id])

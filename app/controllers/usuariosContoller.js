@@ -50,7 +50,7 @@ const usuariosController = {
         return true;
       }),
     body('email')
-    .isLength({min:3}).withMessage('Digite o email')
+      .isLength({ min: 3 }).withMessage('Digite o email')
       .isEmail().withMessage('Deve ser um email válido')
       .bail()
       .custom(async (email) => {
@@ -113,49 +113,49 @@ const usuariosController = {
 
     body("cnpj").custom(cnpj => {
       cnpj = cnpj.replace(/[^\d]+/g, '');
-  
+
       // Verifica se o CNPJ tem 14 dígitos
       if (cnpj.length !== 14) return false;
-  
+
       // Elimina CNPJs que são sequências repetidas
       if (/^(\d)\1+$/.test(cnpj)) return false;
-  
+
       // Validação do primeiro dígito verificador
       let tamanho = cnpj.length - 2;
       let numeros = cnpj.substring(0, tamanho);
       let digitos = cnpj.substring(tamanho);
       let soma = 0;
       let pos = tamanho - 7;
-  
+
       for (let i = tamanho; i >= 1; i--) {
-          soma += numeros.charAt(tamanho - i) * pos--;
-          if (pos < 2) pos = 9;
+        soma += numeros.charAt(tamanho - i) * pos--;
+        if (pos < 2) pos = 9;
       }
-  
+
       let resultado = soma % 11 < 2 ? 0 : 11 - (soma % 11);
-  
+
       if (resultado !== parseInt(digitos.charAt(0))) return false;
-  
+
       // Validação do segundo dígito verificador
       tamanho = tamanho + 1;
       numeros = cnpj.substring(0, tamanho);
       soma = 0;
       pos = tamanho - 7;
-  
+
       for (let i = tamanho; i >= 1; i--) {
-          soma += numeros.charAt(tamanho - i) * pos--;
-          if (pos < 2) pos = 9;
+        soma += numeros.charAt(tamanho - i) * pos--;
+        if (pos < 2) pos = 9;
       }
-  
+
       resultado = soma % 11 < 2 ? 0 : 11 - (soma % 11);
-  
+
       if (resultado !== parseInt(digitos.charAt(1))) return false;
-  
+
       // Se chegar aqui, o CNPJ é válido
       return true;
-  
-  }).withMessage("CNPJ inválido"),
-  
+
+    }).withMessage("CNPJ inválido"),
+
 
     body("cep").custom(cep => {
       cep = cep.replace(/[^\d]+/g, '');
@@ -195,7 +195,7 @@ const usuariosController = {
     }).withMessage('Bairro inválido'),
 
     body("razaosocial").isLength({ min: 3, max: 45 }).withMessage("Razão Social inválido"),
-    
+
 
     body("cidade").custom(cidade => {
       if (cidade.trim().length < 2) return false;
@@ -207,30 +207,34 @@ const usuariosController = {
   ],
   regrasValidacaoRecuperarSenha: [
     body('email')
-    .isEmail().withMessage('Deve ser um email válido')
-    .bail()
-    .custom(async (email) => {
+      .isEmail().withMessage('Deve ser um email válido')
+      .bail()
+      .custom(async (email) => {
         const emailExistente = await usuariosModel.findUsuariosByEmail(email)
         if (emailExistente.length > 0) {
-            return true
+          return true
         }
         throw new Error("Nenhum e-mail encontrado");
-    })
+      })
   ],
   regrasValidacaoRedefinirSenha: [
     body('senha')
-    .isLength({ min: 8, max: 30 })
-    .withMessage('A senha deve ter pelo menos 8 e no máximo 30 caracteres!')
-    .bail()
-    .matches(/[A-Z]/).withMessage('A senha deve conter pelo menos uma letra maiúscula.')
-    .bail()
-    .matches(/[a-z]/).withMessage('A senha deve conter pelo menos uma letra minúscula.')
-    .bail()
-    .matches(/[0-9]/).withMessage('A senha deve conter pelo menos um número inteiro.')
-    .bail()
-    .matches(/[!@#$%^&*(),.?":{}|<>]/).withMessage('A senha deve conter pelo menos um caractere especial.')
-    .bail(),
+      .isLength({ min: 8, max: 30 })
+      .withMessage('A senha deve ter pelo menos 8 e no máximo 30 caracteres!')
+      .bail()
+      .matches(/[A-Z]/).withMessage('A senha deve conter pelo menos uma letra maiúscula.')
+      .bail()
+      .matches(/[a-z]/).withMessage('A senha deve conter pelo menos uma letra minúscula.')
+      .bail()
+      .matches(/[0-9]/).withMessage('A senha deve conter pelo menos um número inteiro.')
+      .bail()
+      .matches(/[!@#$%^&*(),.?":{}|<>]/).withMessage('A senha deve conter pelo menos um caractere especial.')
+      .bail(),
   ],
+  regrasValidacaoAgendamento: [
+body('agendamento')
+  ],
+
 
   //função de cadastrar
   cadastrarUsuario: async (req, res) => {
@@ -271,26 +275,27 @@ const usuariosController = {
         console.log(usuarioCriado)
         const token = jwt.sign(
           {
-              userId: usuarioCriado.insertId
+            userId: usuarioCriado.insertId
           },
           process.env.SECRET_KEY
-      )
+        )
 
-      
-              
+
+
         enviarEmailAtivacao(
           dadosUsuario.EMAIL_USUARIOS,
           "Cadastro realizado na BoxPets",
           process.env.URL_BASE,
-          token, 
+          token,
           async () => {
-              const userBd = await usuariosModel.findUserByIdInativo(dadosUsuario.insertId);
-              console.log(`------ Usuário ${userBd[0].NOME_USUARIOS} cadastrado! ------`)
-              console.log(`------ Verificação enviada para ${userBd[0].EMAIL_USUARIOS} ------`)
-              console.log(userBd[0])
-              res.redirect("/loginEmpresa")
+            const userBd = await usuariosModel.findUserByIdInativo(usuarioCriado.insertId);
+            console.log(`------ Usuário ${userBd[0].NOME_USUARIOS} cadastrado! ------`) 
+            console.log(userBd[0])
+            console.log(`------ Verificação enviada para ${userBd[0].EMAIL_USUARIOS} ------`)
+            console.log(userBd[0])
+            res.redirect("/loginEmpresa")
           })
-       
+
         // const jsonResult = {
         //   page: "../partial/dashboard/principal",
         //   nomeempresa: nomeempresa, // Aqui é onde passamos o nome da empresa
@@ -304,12 +309,12 @@ const usuariosController = {
         console.log(errors)
         res.render("./partial/pg-erro")
 
-    }
+      }
 
     }
   },
   entrarEmpresa: async (req, res) => {
-  
+
 
     let error = validationResult(req)
 
@@ -328,34 +333,33 @@ const usuariosController = {
 
       const { email, senha } = req.body
       try {
-        const userBd  = await usuariosModel.findUsuariosByEmailAtivo(email)
+        const userBd = await usuariosModel.findUsuariosByEmailAtivo(email)
 
-        if (userBd [0] && bcrypt.compareSync(senha, userBd[0].SENHA_USUARIOS))
-          // && req.session.autenticado.autenticado
-         {
+        if (userBd[0] && bcrypt.compareSync(senha, userBd[0].SENHA_USUARIOS))
+        // && req.session.autenticado.autenticado
+        {
 
-          const nomeempresa = userBd[0].NOMEEMPRESA_USUARIO;
+          console.log(userBd[0])
+          const nomeempresa = userBd[0].NOMEEMPRESA_USUARIO; 
           const jsonResult = {
             page: "../partial/dashboard/principal",
             nomeempresa: nomeempresa, // Aqui é onde passamos o nome da empresa
-             classePagina: 'dashboard'
+            classePagina: 'dashboard'
           }
           res.render("pages/template-dashboard", jsonResult)
 
         } else {
-          const nomeempresa = userBd[0].NOMEEMPRESA_USUARIO;
           const jsonResult = {
             page: "../partial/cadastroEmpresa/login",
             errors: null,
             valores: req.body,
-            nomeempresa: nomeempresa, 
             incorreto: true
           }
           res.render("pages/template-loginEmpresa", jsonResult);
         }
 
       } catch (errors) {
-        console.log(error)
+        console.log(errors)
         res.render("./partial/pg-erro")
       }
 
@@ -365,138 +369,191 @@ const usuariosController = {
 
 
 
- ativarConta: async (req, res) => {
+  ativarConta: async (req, res) => {
     try {
-        const token = req.query.token
-        console.log(token)
-        jwt.verify(token, process.env.SECRET_KEY, async (err, decoded) => {
-            console.log(decoded)
-            if (err) {
-                console.log("Token inválido ou expirado")
-            } else {
-                const userBd = await usuariosModel.findUserByIdInativo(decoded.userId)
-                if (!userBd[0]) {
-                    return console.log("Usuário não encontrado")
-                }
+      const token = req.query.token
+      console.log(token)
+      jwt.verify(token, process.env.SECRET_KEY, async (err, decoded) => {
+        console.log(decoded)
+        if (err) {
+          console.log("Token inválido ou expirado")
+        } else {
+          const userBd = await usuariosModel.findUserByIdInativo(decoded.userId)
+          if (!userBd[0]) {
+            return console.log("Usuário não encontrado")
+          }
 
-                await usuariosModel.updateUser({ USUARIOS_STATUS: 'ativo' }, decoded.userId);
-                console.log("Conta ativada!")
-                res.redirect("/loginEmpresa")
-            }
-        })
-    } catch (error) {
-        console.log(error)
-        res.render("./partial/pg-erro")
-    }
-},
-verificarTokenRedefinirSenha: async (req, res) => {
-    try {
-        const token = req.query.token
-        if (!token) {
-            let alert = req.session.token ? req.session.token : null;
-            if (alert && alert.contagem < 1) {
-                req.session.token.contagem++;
-            } else {
-                req.session.token = null;
-            }
-            return res.render("./partial/pg-erro");
+          await usuariosModel.updateUser({ USUARIOS_STATUS: 'ativo' }, decoded.userId);
+          console.log("Conta ativada!")
+          res.redirect("/loginEmpresa")
         }
-
-        jwt.verify(token, process.env.SECRET_KEY, async (err, decoded) => {
-            if (err) {
-                req.session.token = { msg: "Link expirado!", type: "danger", contagem: 0 }
-                res.redirect("/esqueceuSenha")
-            } else {
-                const jsonResult = {
-                    page: "../partial/cadastroEmpresa/esqueceuSenha",
-                    erros: null,
-                    idUser: decoded.userId,
-                    modalAberto: true
-                }
-                res.render("./pages/template-loginEmpresa", jsonResult)
-            }
-        })
+      })
     } catch (error) {
-        console.log(error)
-        res.render("./partial/pg-erro")
+      console.log(error)
+      res.render("./partial/pg-erro")
+    }
+  },
+  verificarTokenRedefinirSenha: async (req, res) => {
+    try {
+      const token = req.query.token
+      if (!token) {
+        let alert = req.session.token ? req.session.token : null;
+        if (alert && alert.contagem < 1) {
+          req.session.token.contagem++;
+        } else {
+          req.session.token = null;
+        }
+        return res.render("./partial/pg-erro");
+      }
+
+      jwt.verify(token, process.env.SECRET_KEY, async (err, decoded) => {
+        if (err) {
+          req.session.token = { msg: "Link expirado!", type: "danger", contagem: 0 }
+          res.redirect("/esqueceuSenha")
+        } else {
+          const jsonResult = {
+            page: "../partial/cadastroEmpresa/esqueceuSenha",
+            erros: null,
+            idUser: decoded.userId,
+            modalAberto: true
+          }
+          res.render("./pages/template-loginEmpresa", jsonResult)
+        }
+      })
+    } catch (error) {
+      console.log(error)
+      res.render("./partial/pg-erro")
 
     }
-},
-solicitarResetSenha: async (req, res) => {
+  },
+  solicitarResetSenha: async (req, res) => {
     let error = validationResult(req)
 
     if (!error.isEmpty) {
-        const jsonResult = {
-            page: "../partial/template-loginEmpresa/esqueceuSenha",
-            modal: "fechado",
-            errors: error,
-            modalAberto: false
-        }
-        res.render("pages/template-loginEmpresa", jsonResult);
+      const jsonResult = {
+        page: "../partial/template-loginEmpresa/esqueceuSenha",
+        modal: "fechado",
+        errors: error,
+        modalAberto: false
+      }
+      res.render("pages/template-loginEmpresa", jsonResult);
     } else {
-        try {
-            const { email } = req.body
-            const user = await usuariosModel.findUsuariosByEmail(email)
+      try {
+        const { email } = req.body
+        const user = await usuariosModel.findUsuariosByEmail(email)
 
-            const token = jwt.sign(
-                {
-                    userId: user[0].ID_USUARIOS,
-                    expiresIn: "40m"
-                },
-                process.env.SECRET_KEY
-            )
+        const token = jwt.sign(
+          {
+            userId: user[0].ID_USUARIOS,
+            expiresIn: "40m"
+          },
+          process.env.SECRET_KEY
+        )
 
-            enviarEmailRecuperarSenha(
-                user[0].EMAIL_USUARIOS,
-                "Recuperar de senha",
-                process.env.URL_BASE,
-                token,
-                async () => {
-                    req.session.aviso = { msg: "E-mail enviado com sucesso", type: "success", contagem: 0 }
-                    res.redirect("/esqueceuSenha")
-                })
+        enviarEmailRecuperarSenha(
+          user[0].EMAIL_USUARIOS,
+          "Recuperar de senha",
+          process.env.URL_BASE,
+          token,
+          async () => {
+            req.session.aviso = { msg: "E-mail enviado com sucesso", type: "success", contagem: 0 }
+            res.redirect("/esqueceuSenha")
+          })
 
 
-        } catch (error) {
-            console.log(error)
-            res.render("./partial/pg-erro")
+      } catch (error) {
+        console.log(error)
+        res.render("./partial/pg-erro")
 
-        }
+      }
     }
-},
-redefinirSenha: async (req, res) => {
+  },
+  redefinirSenha: async (req, res) => {
     let idUser = req.query.idUser
     if (!idUser) {
-        console.log("usuario não achado")
-        req.session.token = { msg: "Usuário não encontrado", type: "danger", contagem: 0 }
-        return res.render("./partial/pg-erro")
+      console.log("usuario não achado")
+      req.session.token = { msg: "Usuário não encontrado", type: "danger", contagem: 0 }
+      return res.render("./partial/pg-erro")
     }
     let error = validationResult(req)
 
     if (!error.isEmpty) {
-        const jsonResult = {
-            page: "../partial/template-loginEmpresa/esqueceuSenha",
-            token: null,
-            errors: error,
-            idUser: idUser,
-            modalAberto: true
-        }
-        res.render("./pages/template-loginEmpresa", jsonResult)
+      const jsonResult = {
+        page: "../partial/template-loginEmpresa/esqueceuSenha",
+        token: null,
+        errors: error,
+        idUser: idUser,
+        modalAberto: true
+      }
+      res.render("./pages/template-loginEmpresa", jsonResult)
     } else {
-        try {
-            const { senha } = req.body
-            let hashSenha = bcrypt.hashSync(senha, salt);
-            var resultado = await usuariosModel.updateUser({ SENHA_USUARIOS: hashSenha }, idUser)
-            console.log("-------- senha redefinida -----------")
-            console.log(resultado)
-            req.session.aviso = { msg: "Senha redefinida com sucesso!", type: "success", contagem: 0 }
-            res.redirect("/loginEmpresa")
-        } catch (error) {
-            console.log(error)
-            res.render("./partial/pg-erro")
-        }
+      try {
+        const { senha } = req.body
+        let hashSenha = bcrypt.hashSync(senha, salt);
+        var resultado = await usuariosModel.updateUser({ SENHA_USUARIOS: hashSenha }, idUser)
+        console.log("-------- senha redefinida -----------")
+        console.log(resultado)
+        req.session.aviso = { msg: "Senha redefinida com sucesso!", type: "success", contagem: 0 }
+        res.redirect("/loginEmpresa")
+      } catch (error) {
+        console.log(error)
+        res.render("./partial/pg-erro")
+      }
     }
-},
+  },
+
+//   agendamentoUsuario: async (req, res) => {
+// console.log(res)
+//     let error = validationResult(req)
+   
+
+//     if (!error.isEmpty()) {
+//       console.log(error)
+  
+//       const jsonResult = {
+//         errors: error,
+//         valores: req.body,
+//         page: "../partial/dashboard/agendamento"
+//       }
+//       res.render("pages/template-dashboard", jsonResult);
+
+//     } else {
+//       const { cliente, servicocliente, horariocliente, diacliente, statuscliente, horarioAgendacliente, usercliente } = req.body
+//       const dadosUsuario = {
+        
+//         ID_CLIENTE: cliente,
+//         ID_SERVICO: servicocliente,
+//         ID_HORARIO_SERVICO: horariocliente,
+//         DIA_SEMANA: diacliente,
+//         ID_STATUS: statuscliente,
+//         HORARIO_AGENDA: horarioAgendacliente,
+//         ID_USUARIO: 
+//       }
+//       try {
+//         const agendaCriado = await usuariosModel.createAgendamento(dadosUsuario);
+//         console.log(agendaCriado)
+
+        
+
+//  const jsonResult = {
+//    page: "../partial/dashboard/agendamento",
+//    classePagina: 'agendamento'
+//  }
+//  res.render("pages/template-dashboard", jsonResult)
+
+
+
+//       } catch (errors) {
+//         console.log(errors)
+//         res.render("./partial/pg-erro")
+
+//       }
+
+//     }
+//   },
+
+
+
 
 
   // comentar
@@ -521,7 +578,7 @@ redefinirSenha: async (req, res) => {
 
   },
 
-  
+
 }
 
 module.exports = usuariosController

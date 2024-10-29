@@ -224,8 +224,10 @@ router.get("/editAgenda",
 
 router.post("/criarHorario",
     middleWares.verifyAutenticado,
-    middleWares.verifyAutorizado("pages/template-cadastroEmpresa", { page: "../partial/cadastroEmpresa/login", errors: null, valores: "", incorreto: null }, true),
-    async function (req, res) {
+   middleWares.verifyAutorizado("pages/template-cadastroEmpresa", { page: "../partial/cadastroEmpresa/login", errors: null, valores: "", incorreto: null }, true),
+    async function (req, res){
+        // usuariosController.agendamentoUsuario(req, res)
+
         let errors = validationResult(req)
         if (!errors.isEmpty()) {
 
@@ -237,12 +239,11 @@ router.post("/criarHorario",
                     return res.status(404).render("pages/error-404");
                 }
 
-                const { dataHorario, horario, descr } = req.body
+                const { dataHorario, horario} = req.body
                 const date = new Date(dataHorario);
                 const formattedDate = date.toISOString().split('T')[0];
                 const dadosHorario = {
                     DATA_HORARIO: formattedDate,
-                    DESCRICAO_HORARIO: descr,
                     HORARIO_SERVICO: horario,
                     ID_SERVICO: idServico
                 }
@@ -255,10 +256,12 @@ router.post("/criarHorario",
                 return res.status(404).render("pages/error-404");
 
             }
-
         }
-    }
-);
+    });
+       
+
+    
+
 
 
 router.get('/paginacomercial', MainController.first);
@@ -485,6 +488,11 @@ router.get("/redefinir-senha-cli",
 router.post("/redefinirSenha-cli",  clienteController.regrasValidacaoRedefinirSenha, async function (req, res) {
      clienteController.redefinirSenha(req, res)
 })
+
+
+router.post("/agendamento", usuariosController.regrasValidacaoAgendamento, async function (req, res){
+        usuariosController.agendamentoUsuario(req, res)
+    })
 
 
 module.exports = router;
