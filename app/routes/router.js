@@ -199,28 +199,6 @@ router.post("/logarEmpresa", usuariosController.regrasValidacaoLogarConta, middl
     usuariosController.entrarEmpresa(req, res)
 })
 
-router.get("/editAgenda",
-    middleWares.verifyAutenticado,
-    middleWares.verifyAutorizado("pages/template-cadastroEmpresa", { page: "../partial/cadastroEmpresa/login", errors: null, valores: "", incorreto: null }, true),
-    async function (req, res) {
-        const idServico = req.query.idServico;
-        const horarios = await usuariosModel.findHorariosIdservico(idServico);
-        const dia = req.query.dia
-
-
-        if (!idServico) {
-            return res.status(404).render("pages/error-404");
-        }
-
-        res.render("pages/editAgenda", {
-            idServico: idServico,
-            horarios: horarios,
-            dia: dia,
-            erros: null,
-            notify: null
-        });
-    }
-);
 
 router.post("/criarHorario",
     middleWares.verifyAutenticado,
