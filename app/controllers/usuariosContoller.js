@@ -329,10 +329,13 @@ const usuariosController = {
 
       const { email, senha } = req.body
       try {
-        const userBd = await usuariosModel.findUsuariosByEmailAtivo(email)
-        
+        const userBd = await usuariosModel.findUsuariosByEmail(email)
         if (userBd[0] && bcrypt.compareSync(senha, userBd[0].SENHA_USUARIOS))
         {
+          req.session.autenticado = {
+            autenticado: userBd[0].EMAIL_USUARIOS,
+            id: userBd[0].ID_USUARIOS
+          }
           const nomeempresa = userBd[0].NOMEEMPRESA_USUARIO; 
           const jsonResult = {
             page: "../partial/dashboard/principal",

@@ -130,7 +130,7 @@ router.post("/excluirFoto",
 
 
 router.get("/dashboard", function (req, res) {
-    console.log(userBd[0])
+    
 
     const params = new URLSearchParams(req.query);
 
@@ -143,7 +143,7 @@ router.get("/dashboard", function (req, res) {
         req.flash('error', `Erro em efetuar o pagamento. Não foram somados os tokens a sua conta.`)
     }
 
-    res.status(200).render("layouts/main.ejs", { router: "../pages/store/points.ejs", user: account[0][0], notifications: notifications[0], challenges: challenges[0], challengesForUser: challengesForUser[0][0], tokens: tokens[0], title: "Collectverse - Loja" });
+    // res.status(200).render("layouts/main.ejs", { router: "../pages/store/points.ejs", user: account[0][0], notifications: notifications[0], challenges: challenges[0], challengesForUser: challengesForUser[0][0], tokens: tokens[0], title: "Collectverse - Loja" });
 
     const jsonResult = {
         page: "../partial/dashboard/principal",
