@@ -22,6 +22,11 @@
         <li><i class="material-symbols-outlined">close </i> agenda </li>
         <li><i class="material-symbols-outlined">close </i> agenda </li>
         <li><i class="material-symbols-outlined">close </i> agenda </li>
+
+        <form action="/PagarAssinatura" method="post">
+            <input type="hidden" value="1" name="id" >
+            <button type="submit" >Selecionar</button>
+        </form>
        
        
     </ul>
@@ -38,8 +43,9 @@
         <li> <i class="material-symbols-outlined">check </i> agenda </li>
         <li> <i class="material-symbols-outlined">check </i> agenda </li>
     </ul>
-    <form action="/criarAssinaturaMensal" method="post">
-        <button>Selecionar</button>
+    <form action="/PagarAssinatura" method="post">
+        <input type="hidden" value="2" name="id" >
+        <button type="submit" >Selecionar</button>
     </form>
 </div>
 </div>

@@ -14,10 +14,11 @@ const uploadEmpresa = storage;
 const MainController = require('../controllers/mainController.js');
 const crypto = require('crypto');
 const dotenv = require("dotenv");
-const { MercadoPagoConfig, PreApproval, PreApprovalPlan } = require('mercadopago');
 dotenv.config();
 const jwt = require("jsonwebtoken");
 const { enviarEmail, enviarEmailAtivacao, enviarEmailRecuperarSenha } = require("../util/sendEmail");
+var pool = require("../../config/pool-conexao");
+
 
 
 
@@ -26,7 +27,7 @@ router.get("/", function (req, res) {
 });
 
 router.get("/hm ", function (req, res) {
-    res.render('pages/template-hm', { page: 'partial/landing-home/home-page' , nomeUsuario });
+    res.render('pages/template-hm', { page: 'partial/landing-home/home-page', nomeUsuario });
 });
 
 router.get("/pg-erro", function (req, res) {
@@ -129,13 +130,28 @@ router.post("/excluirFoto",
 
 
 router.get("/dashboard", function (req, res) {
+    console.log(userBd[0])
+
+    const params = new URLSearchParams(req.query);
+
+    if (params.has('success')) {
+        if (req.session.id !== undefined) {
+            // Lógica para quando a ação foi bem-sucedida
+            usuariosController.createPlanos(req, res)
+        }
+    } else if (params.has('failure') || params.has('pending')) {
+        req.flash('error', `Erro em efetuar o pagamento. Não foram somados os tokens a sua conta.`)
+    }
+
+    res.status(200).render("layouts/main.ejs", { router: "../pages/store/points.ejs", user: account[0][0], notifications: notifications[0], challenges: challenges[0], challengesForUser: challengesForUser[0][0], tokens: tokens[0], title: "Collectverse - Loja" });
+
     const jsonResult = {
         page: "../partial/dashboard/principal",
         errors: null,
         valores: null,
         nomeempresa: 'nomeempresa',
         classePagina: 'dashboard',
-        
+
 
     }
     res.render("pages/template-dashboard", jsonResult);
@@ -147,7 +163,7 @@ router.get("/agendamento", function (req, res) {
 
 router.get("/planos", function (req, res) {
     res.render("pages/template-dashboard", { page: "../partial/dashboard/planos", classePagina: 'planos', });
-}); 
+});
 
 // Cadastro de CLIENTES
 router.post("/cadastrarCliente", clienteController.regrasValidacaoCriarConta, function (req, res) {
@@ -195,20 +211,43 @@ router.post("/cadastrarEmpresa", usuariosController.regrasValidacaoCriarConta, f
 })
 
 // Login de EMPRESAS
-router.post("/logarEmpresa", usuariosController.regrasValidacaoLogarConta, middleWares.gravarAutenticacaoEmpresa, function (req, res) {
+router.post("/logarEmpresa", usuariosController.regrasValidacaoLogarConta, function (req, res) {
     usuariosController.entrarEmpresa(req, res)
 })
+
+router.get("/editAgenda",
+    middleWares.verifyAutenticado,
+    middleWares.verifyAutorizado("pages/template-cadastroEmpresa", { page: "../partial/cadastroEmpresa/login", errors: null, valores: "", incorreto: null }, true),
+    async function (req, res) {
+        const idServico = req.query.idServico;
+        const horarios = await usuariosModel.findHorariosIdservico(idServico);
+        const dia = req.query.dia
+
+
+        if (!idServico) {
+            return res.status(404).render("pages/error-404");
+        }
+
+        res.render("pages/editAgenda", {
+            idServico: idServico,
+            horarios: horarios,
+            dia: dia,
+            erros: null,
+            notify: null
+
+        })
+    });
 
 
 router.post("/criarHorario",
     middleWares.verifyAutenticado,
-   middleWares.verifyAutorizado("pages/template-cadastroEmpresa", { page: "../partial/cadastroEmpresa/login", errors: null, valores: "", incorreto: null }, true),
-    async function (req, res){
+    middleWares.verifyAutorizado("pages/template-cadastroEmpresa", { page: "../partial/cadastroEmpresa/login", errors: null, valores: "", incorreto: null }, true),
+    async function (req, res) {
         // usuariosController.agendamentoUsuario(req, res)
 
         let errors = validationResult(req)
         if (!errors.isEmpty()) {
-
+            return res.status(404).render("pages/error-404");
         } else {
             try {
                 const idServico = req.query.idServico;
@@ -217,7 +256,7 @@ router.post("/criarHorario",
                     return res.status(404).render("pages/error-404");
                 }
 
-                const { dataHorario, horario} = req.body
+                const { dataHorario, horario } = req.body
                 const date = new Date(dataHorario);
                 const formattedDate = date.toISOString().split('T')[0];
                 const dadosHorario = {
@@ -236,9 +275,9 @@ router.post("/criarHorario",
             }
         }
     });
-       
 
-    
+
+
 
 
 
@@ -364,23 +403,93 @@ router.get("/esqueceuSenha-cli", function (req, res) {
 });
 
 
-router.post("/solicitarResetSenha-cli",  clienteController.regrasValidacaoRecuperarSenha, async function (req, res) {
-     clienteController.solicitarResetSenha(req, res)
+router.post("/solicitarResetSenha-cli", clienteController.regrasValidacaoRecuperarSenha, async function (req, res) {
+    clienteController.solicitarResetSenha(req, res)
 });
 
 router.get("/redefinir-senha-cli",
     function (req, res) {
-         clienteController.verificarTokenRedefinirSenha(req, res)
+        clienteController.verificarTokenRedefinirSenha(req, res)
     });
 
-router.post("/redefinirSenha-cli",  clienteController.regrasValidacaoRedefinirSenha, async function (req, res) {
-     clienteController.redefinirSenha(req, res)
+router.post("/redefinirSenha-cli", clienteController.regrasValidacaoRedefinirSenha, async function (req, res) {
+    clienteController.redefinirSenha(req, res)
 })
 
 
-router.post("/agendamento", usuariosController.regrasValidacaoAgendamento, async function (req, res){
-        usuariosController.agendamentoUsuario(req, res)
+// router.post("/agendamento", usuariosController.regrasValidacaoAgendamento, async function (req, res){
+//         usuariosController.agendamentoUsuario(req, res)
+//     })
+
+//mercadoPago
+const { MercadoPagoConfig, Preference } = require('mercadopago');
+
+const usuario = new MercadoPagoConfig({
+    accessToken: process.env.MERCADO_PAGO_ACCESS_TOKEN,
+    options: { timeout: 5000, idempotencyKey: 'abc' }
+});
+const preference = new Preference(usuario);
+
+router.post("/PagarAssinatura", async function (req, res) {
+    const id = req.body.id
+
+    const baseUrl = req.protocol + '://' + req.get('host');
+
+    let body = undefined;
+    if (id == 1) { // seria id do anual
+        body = {
+            items: [
+                {
+                    id: id,
+                    title: "Pagamento do anual",
+                    description: "Plano anual para empresa da BoxPets",
+                    quantity: 1,
+                    currency_id: 'BRL',
+                    unit_price: 345.6
+                },
+            ],
+            back_urls: {
+                success:`${ baseUrl }/dashboard?success`,
+                failure: `${ baseUrl } /store/points ? failure`,
+                pending: `${ baseUrl } /store/points ? failure`,
+                },
+    auto_return: 'all'
+}
+    } else if (id == 2) { // pacote mensal 
+    body = {
+        items: [
+            {
+                id: id,
+                title:  "Pagamento do mensal",
+                description:"Plano mensal para empresa da BoxPets",
+                quantity: 1,
+                currency_id: 'BRL',
+                unit_price: 32
+            },
+        ],
+        back_urls: {
+        success: `${ baseUrl }/dashboard?success`,
+        failure: `${ baseUrl } /store/points ? failure`,
+        pending: `${ baseUrl } /store/points ? failure`,
+        },
+        auto_return: 'all'
+            }
+        }
+
+preference.create({ body })
+    .then(response => {
+        const initPoint = response.init_point;
+        res.status(200).redirect(initPoint)
     })
+    .catch(error => {
+        console.log(error)
+        req.flash("error", errorMessages.INTERNAL_ERROR);
+        return res.status(500).redirect(`/store/points`)
+    });
+
+
+
+})
 
 
 module.exports = router;

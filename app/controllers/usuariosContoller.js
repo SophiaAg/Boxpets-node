@@ -324,6 +324,7 @@ const usuariosController = {
         incorreto: false,
       }
       res.render("pages/template-loginEmpresa", jsonResult);
+
     } else {
 
       const { email, senha } = req.body
@@ -461,39 +462,39 @@ const usuariosController = {
       }
     }
   },
-  redefinirSenha: async (req, res) => {
-    let idUser = req.query.idUser
-    if (!idUser) {
-      console.log("usuario não achado")
-      req.session.token = { msg: "Usuário não encontrado", type: "danger", contagem: 0 }
-      return res.render("./partial/pg-erro")
-    }
-    let error = validationResult(req)
+  // redefinirSenha: async (req, res) => {
+  //   let idUser = req.query.idUser
+  //   if (!idUser) {
+  //     console.log("usuario não achado")
+  //     req.session.token = { msg: "Usuário não encontrado", type: "danger", contagem: 0 }
+  //     return res.render("./partial/pg-erro")
+  //   }
+  //   let error = validationResult(req)
 
-    if (!error.isEmpty) {
-      const jsonResult = {
-        page: "../partial/template-loginEmpresa/esqueceuSenha",
-        token: null,
-        errors: error,
-        idUser: idUser,
-        modalAberto: true
-      }
-      res.render("./pages/template-loginEmpresa", jsonResult)
-    } else {
-      try {
-        const { senha } = req.body
-        let hashSenha = bcrypt.hashSync(senha, salt);
-        var resultado = await usuariosModel.updateUser({ SENHA_USUARIOS: hashSenha }, idUser)
-        console.log("-------- senha redefinida -----------")
-        console.log(resultado)
-        req.session.aviso = { msg: "Senha redefinida com sucesso!", type: "success", contagem: 0 }
-        res.redirect("/loginEmpresa")
-      } catch (error) {
-        console.log(error)
-        res.render("./partial/pg-erro")
-      }
-    }
-  },
+  //   if (!error.isEmpty) {
+  //     const jsonResult = {
+  //       page: "../partial/template-loginEmpresa/esqueceuSenha",
+  //       token: null,
+  //       errors: error,
+  //       idUser: idUser,
+  //       modalAberto: true
+  //     }
+  //     res.render("./pages/template-loginEmpresa", jsonResult)
+  //   } else {
+  //     try {
+  //       const { senha } = req.body
+  //       let hashSenha = bcrypt.hashSync(senha, salt);
+  //       var resultado = await usuariosModel.updateUser({ SENHA_USUARIOS: hashSenha }, idUser)
+  //       console.log("-------- senha redefinida -----------")
+  //       console.log(resultado)
+  //       req.session.aviso = { msg: "Senha redefinida com sucesso!", type: "success", contagem: 0 }
+  //       res.redirect("/loginEmpresa")
+  //     } catch (error) {
+  //       console.log(error)
+  //       res.render("./partial/pg-erro")
+  //     }
+  //   }
+  // },
 
 //   agendamentoUsuario: async (req, res) => {
 // console.log(res)

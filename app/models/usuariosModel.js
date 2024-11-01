@@ -10,9 +10,9 @@ const usuariosModel = {
         }
     },
 
-    createAgendamento: async (dadosUsuario) => {
+    createPlanos: async (dadosUsuario) => {
         try {
-            const [resultados] = await pool.query("insert into AGENDAMENTOS set ?", [dadosUsuario])
+            const [resultados] = await pool.query("insert into PLANOS set ?", [dadosUsuario])
             return resultados
         } catch (error) {
             throw error
