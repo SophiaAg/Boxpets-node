@@ -1,7 +1,13 @@
 <% 
-    const base64Image = Buffer.from(element.banner).toString('base64');
-    const imgSrc = `data:image/png;base64,${base64Image}`;
+    let imgSrc;
+    if (element.banner) {
+        const base64Image = Buffer.from(element.banner).toString('base64');
+        imgSrc = `data:image/png;base64,${base64Image}`;
+    } else {
+        imgSrc = '/path/to/default/image.png'; // Substitua por um caminho de imagem padrão
+    }
 %>
+<img src="<%= imgSrc %>" alt="Imagem do post">
 
 <a href="/share/<%= element.id %>" class="share-archor">
     <sectiion class="card">

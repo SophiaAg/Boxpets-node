@@ -135,9 +135,13 @@ router.get("/dashboard", function (req, res) {
     const params = new URLSearchParams(req.query);
 
     if (params.has('success')) {
-        if (req.session.id !== undefined) {
+        middleWares.verifyAutenticado,
+        middleWares.verifyAutorizado("pages/template-login", { form: "../partial/login/entrar", errors: null, valores: "", incorreto: null })
+
+        if (req.session.autenticado !== undefined) {
             // Lógica para quando a ação foi bem-sucedida
-            usuariosController.createPlanos(req, res)
+             const id = req.session.autenticado.id
+           
         }
     } else if (params.has('failure') || params.has('pending')) {
         req.flash('error', `Erro em efetuar o pagamento. Não foram somados os tokens a sua conta.`)
