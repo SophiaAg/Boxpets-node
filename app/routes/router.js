@@ -142,6 +142,7 @@ router.get("/dashboard", function (req, res) {
             // Lógica para quando a ação foi bem-sucedida
              const id = req.session.autenticado.id
            
+            
         }
     } else if (params.has('failure') || params.has('pending')) {
         req.flash('error', `Erro em efetuar o pagamento. Não foram somados os tokens a sua conta.`)
