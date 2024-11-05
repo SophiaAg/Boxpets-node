@@ -1,3 +1,14 @@
+<% if (dadosNotificacao) { %> 
+    <script>
+        newNotify(
+            "<%= dadosNotificacao.title %>",
+            "<%= dadosNotificacao.msg %>",
+            "<%= dadosNotificacao.type %>",
+            "center"
+        )
+    </script>    
+<%} %>
+
 <h1>Bem-vindo(a), <%= nome %>!</h1>
 <p>Estamos felizes em tê-lo(a) conosco. Aproveite nossa plataforma!</p>
 

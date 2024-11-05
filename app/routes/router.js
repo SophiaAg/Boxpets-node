@@ -60,7 +60,7 @@ router.get("/entrar", function (req, res) {
 
 
 router.get("/ ", function (req, res) {
-    res.render('pages/template-hm', { page: 'partial/landing-home/home-page', nomeUsuario });
+    res.render('pages/template-hm', { page: 'partial/landing-home/home-page', nomeUsuario, dadosNotificacao: { type: "success",title: "Conta criada com sucesso!",msg: "Verifique sua caixa de email para ativar sua conta."} });
 });
 
 

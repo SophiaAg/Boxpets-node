@@ -259,7 +259,12 @@ regrasValidacaoRedefinirSenha: [
         req.session.Clienteid = clienteCriado.insertId
         const jsonResult = {
           page: "../partial/landing-home/home-page" ,
-          nome: dadosCliente.NOME_CLIENTE
+          nome: dadosCliente.NOME_CLIENTE,
+          dadosNotificacao: {
+            type: "success",
+            title: "Conta criada com sucesso!",
+            msg: "Verifique sua caixa de email para ativar sua conta."
+          }
         }
 
 
@@ -300,7 +305,7 @@ regrasValidacaoRedefinirSenha: [
           }
           const jsonResult = {
             page: "../partial/landing-home/home-page", 
-            nome: clienteBd[0].NOME_CLIENTE
+            nome: clienteBd[0].NOME_CLIENTE,
           }
           res.render("pages/template-hm", jsonResult)
 
