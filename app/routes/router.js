@@ -64,11 +64,9 @@ router.get("/entrar", function (req, res) {
 });
 
 
-<<<<<<< HEAD
 router.get("/ ", function (req, res) {
     res.render('pages/template-hm', { page: 'partial/landing-home/home-page', nomeUsuario, dadosNotificacao: { type: "success",title: "Conta criada com sucesso!",msg: "Verifique sua caixa de email para ativar sua conta."} });
 });
-=======
 // Cadastro de CLIENTES
 router.post("/cadastrarCliente", clienteController.regrasValidacaoCriarConta, function (req, res) {
     clienteController.cadastrar(req, res)
@@ -77,10 +75,6 @@ router.post("/cadastrarCliente", clienteController.regrasValidacaoCriarConta, fu
 router.post("/logarCliente", clienteController.regrasValidacaoLogarConta, middleWares.gravarAutenticacaoCliente, function (req, res) {
     clienteController.entrar(req, res)
 })
-
-
->>>>>>> 85698e02e4c66ca205cf00935e0cf81512f6c78b
-
 
 router.get("/servicos-gerais", function (req, res) {
     res.render("pages/template-hm", { pagina: "Servicogerais", page: "../partial/servicosgerais/servicos-gerais" });
