@@ -390,6 +390,7 @@ const usuariosController = {
       res.render("./partial/pg-erro")
     }
   },
+  
   verificarTokenRedefinirSenha: async (req, res) => {
     try {
       const token = req.query.token

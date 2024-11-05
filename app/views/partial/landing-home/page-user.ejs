@@ -114,11 +114,27 @@ if (msgErro != "") { %>
         <i class="fas fa-envelope"></i>
         <input name="email_cli" id="email_cli" value="<%= valores ? valores.email_cli : '' %>" required type="email" placeholder="Email" readonly />
       </section>
-
-      <!-- <section class="input-field <%= avisoErro.senha %>">
+<!-- 
+     <section class="input-field <%= avisoErro.senha %>">
         <i class="fas fa-envelope"></i>
-        <input name="senha" id="senha_cli" value="<%= valores ? valores.senha : '' %>"  type="senha" placeholder="senha" />
-      </section> -->
+        <input name="senha_cli" id="senha" value="<%= valores ? valores.senha_cli : '' %>" type="password" placeholder="Mudar Senha" />
+        <button onclick="togglePassword('password')">
+          <span class="fa-solid">&#128065;</span> <!-- Ícone de olhinho -->
+      <!-- </button>
+      </section> --> 
+
+
+      <section class="input-field <%= avisoErro.senha %>">
+        <i class="fas fa-lock"></i>
+        <input name="senha_cli" id="password" type="password" placeholder="Mudar Senha"
+            pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%&*]).{8,}" />
+            <button onclick="togglePassword('password')">
+              <span class="fa-solid">&#128065;</span> <!-- Ícone de olhinho -->
+          </button>
+    </section>
+
+      <p>Ao digitar uma nova senha, você estará alterando a antiga permanentemente!</p>
+      <h6>Senha deve conter um número, uma letra maiúscula, uma letra minúscula e um dos símbolos </h6>
 
       <button class="btn-maior">Atualizar Dados</button> 
 
@@ -129,3 +145,18 @@ if (msgErro != "") { %>
 </div>
 
 <script src="./js/addPerfil.js"></script>
+
+<script>
+  function togglePassword(passwordFieldId) {
+      const passwordInput = document.getElementById(passwordFieldId);
+      const button = passwordInput.nextElementSibling;
+      const eyeIcon = button.querySelector(".eye-icon");
+
+      // Alterna entre "password" e "text"
+      const isPassword = passwordInput.type === 'password';
+      passwordInput.type = isPassword ? 'text' : 'password';
+
+      // Altera o ícone conforme o tipo de input
+      eyeIcon.innerHTML = isPassword ? '&#128064;' : '&#128065;';
+  }
+</script>

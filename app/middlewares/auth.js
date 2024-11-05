@@ -88,8 +88,6 @@ const middleWares = {
             var clienteBd = await clienteModel.findClienteByEmail(req.body.email)
 
             if (clienteBd[0]) {
-                console.log(req.body.password)
-                console.log(clienteBd[0])
                 if (Object.keys(clienteBd).length == 1) {
                     if (bcrypt.compareSync(req.body.password, clienteBd[0].SENHA_CLIENTE)) {
                         var aut = {

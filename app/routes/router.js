@@ -64,6 +64,16 @@ router.get("/entrar", function (req, res) {
 });
 
 
+// Cadastro de CLIENTES
+router.post("/cadastrarCliente", clienteController.regrasValidacaoCriarConta, function (req, res) {
+    clienteController.cadastrar(req, res)
+})
+// login de CLIENTES
+router.post("/logarCliente", clienteController.regrasValidacaoLogarConta, middleWares.gravarAutenticacaoCliente, function (req, res) {
+    clienteController.entrar(req, res)
+})
+
+
 
 
 router.get("/servicos-gerais", function (req, res) {
@@ -170,14 +180,6 @@ router.get("/planos", function (req, res) {
     res.render("pages/template-dashboard", { page: "../partial/dashboard/planos", classePagina: 'planos', });
 });
 
-// Cadastro de CLIENTES
-router.post("/cadastrarCliente", clienteController.regrasValidacaoCriarConta, function (req, res) {
-    clienteController.cadastrar(req, res)
-})
-// login de CLIENTES
-router.post("/logarCliente", clienteController.regrasValidacaoLogarConta, middleWares.gravarAutenticacaoCliente, function (req, res) {
-    clienteController.entrar(req, res)
-})
 
 
 //EMPRESAAA
@@ -387,8 +389,7 @@ router.get("/ativar-conta-cli",
     middleWares.verifyAutorizado("pages/template-login", { page: "../partial/login/login", errors: null, valores: "", incorreto: null }, true),
     async function (req, res) {
         clienteController.ativarConta(req, res);
-    }
-)
+    });
 
 router.get("/esqueceuSenha-cli", function (req, res) {
     let alert = req.session.aviso ? req.session.aviso : null;

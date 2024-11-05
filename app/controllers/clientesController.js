@@ -378,13 +378,14 @@ regrasValidacaoRedefinirSenha: [
           CELULAR_CLIENTE: req.body.celular_cli,
           CPF_CLIENTE: req.body.cpf_cli,
           DATA_NASC_CLIENTE: req.body.nasc_cli,
-          // SENHA_CLIENTE: req.body.senha_cli,
+          SENHA_CLIENTE: req.body.senha_cli,
         };
 
-        // if (req.body.senha_cli != "") {
-        //   console.log(req.body.senha_cli)
-        //   dadosForm.SENHA_CLIENTE = bcrypt.hashSync(req.body.senha_cli, salt);
-        // }
+        if (req.body.senha_cli != "") {
+          console.log(req.body.senha_cli)
+          dadosForm.SENHA_CLIENTE = bcrypt.hashSync(req.body.senha_cli, salt);
+        }
+        console.log( dadosForm.SENHA_CLIENTE)
 
 
         let resultUpdate = await clienteModel.updateUser(dadosForm, req.session.autenticado.id);
@@ -400,7 +401,7 @@ regrasValidacaoRedefinirSenha: [
             nasc_cli: dataFormatada,
             senha_cli: ""
           }
-          console.log('Foto:', result[0].img_perfil_pasta);
+        
           if (resultUpdate.changedRows == 1) {
             console.log("ATUALIZADO--------------------")
 
@@ -606,33 +607,34 @@ regrasValidacaoRedefinirSenha: [
     }
   },
 
-  //ativar conta
-//   ativarConta: async (req, res) => {
-//     try {
-//         const token = req.query.token
-//         console.log(token)
-//         jwt.verify(token, process.env.SECRET_KEY, async (err, decoded) => {
-//             console.log(decoded)
-//             if (err) {
-//                 console.log("Token inválido ou expirado")
-//             } else {
-//                 const userBd = await clienteModel.findUserByIdInativo(decoded.userId)
-//                 if (!userBd[0]) {
-//                     return console.log("Usuário não encontrado")
-//                 }
+  // ativar conta
+  ativarConta: async (req, res) => {
+    try {
+        const token = req.query.token
+        console.log(token)
+        jwt.verify(token, process.env.SECRET_KEY, async (err, decoded) => {
+            console.log(decoded)
+            if (err) {
+                console.log("Token inválido ou expirado")
+            } else {
+                const userBd = await clienteModel.findClienteByIdInativo(decoded.userId)
+                if (!userBd[0]) {
+                    return console.log("Usuário não encontrado")
+                }
 
-//                 await clienteModel.updateUser({ CLIENTE_STATUS: 'ativo' }, decoded.userId);
-//                 console.log("Conta ativada!")
-//                 res.redirect("/login")
-//             }
-//         })
-//     } catch (error) {
-//         console.log(error)
-//         res.render("/pg-erro")
-//     }
-// },
+                const resultadoAtivarConta =  await clienteModel.updateUser({ CLIENTE_STATUS: 'ativo' }, decoded.userId);
+                console.log( resultadoAtivarConta )
+                console.log("Conta ativada!")
+                res.redirect("/login")
+            }
+        })
+    } catch (error) {
+        console.log(error)
+        res.render("/pg-erro")
+    }
+},
 
-// //redefinir senha
+//redefinir senha
 // verificarTokenRedefinirSenha: async (req, res) => {
 //   try {
 //       const token = req.query.token
@@ -708,39 +710,116 @@ regrasValidacaoRedefinirSenha: [
 //       }
 //   }
 // },
+
+// verificarTokenRedefinirSenha: async (req, res) => {
+//   try {
+//     const token = req.query.token
+//     if (!token) {
+//       let alert = req.session.token ? req.session.token : null;
+//       if (alert && alert.contagem < 1) {
+//         req.session.token.contagem++;
+//       } else {
+//         req.session.token = null;
+//       }
+//       return res.render("./partial/pg-erro");
+//     }
+
+//     jwt.verify(token, process.env.SECRET_KEY, async (err, decoded) => {
+//       if (err) {
+//         req.session.token = { msg: "Link expirado!", type: "danger", contagem: 0 }
+//         res.redirect("/esqueceuSenha")
+//       } else {
+//         const jsonResult = {
+//           page: "../partial/cadastroEmpresa/esqueceuSenha",
+//           erros: null,
+//           idUser: decoded.userId,
+//           modalAberto: true
+//         }
+//         res.render("./pages/template-loginEmpresa", jsonResult)
+//       }
+//     })
+//   } catch (error) {
+//     console.log(error)
+//     res.render("./partial/pg-erro")
+
+//   }
+// },
+// solicitarResetSenha: async (req, res) => {
+//   let error = validationResult(req)
+
+//   if (!error.isEmpty) {
+//     const jsonResult = {
+//       page: "../partial/template-loginEmpresa/esqueceuSenha",
+//       modal: "fechado",
+//       errors: error,
+//       modalAberto: false
+//     }
+//     res.render("pages/template-loginEmpresa", jsonResult);
+//   } else {
+//     try {
+//       const { email } = req.body
+//       const user = await usuariosModel.findUsuariosByEmail(email)
+
+//       const token = jwt.sign(
+//         {
+//           userId: user[0].ID_USUARIOS,
+//           expiresIn: "40m"
+//         },
+//         process.env.SECRET_KEY
+//       )
+
+//       enviarEmailRecuperarSenha(
+//         user[0].EMAIL_USUARIOS,
+//         "Recuperar de senha",
+//         process.env.URL_BASE,
+//         token,
+//         async () => {
+//           req.session.aviso = { msg: "E-mail enviado com sucesso", type: "success", contagem: 0 }
+//           res.redirect("/esqueceuSenha")
+//         })
+
+
+//     } catch (error) {
+//       console.log(error)
+//       res.render("./partial/pg-erro")
+
+//     }
+//   }
+// },
 // redefinirSenha: async (req, res) => {
 //   let idUser = req.query.idUser
 //   if (!idUser) {
-//       console.log("usuario não achado")
-//       req.session.token = { msg: "Usuário não encontrado", type: "danger", contagem: 0 }
-//       return res.render("/pg-erro")
+//     console.log("usuario não achado")
+//     req.session.token = { msg: "Usuário não encontrado", type: "danger", contagem: 0 }
+//     return res.render("./partial/pg-erro")
 //   }
 //   let error = validationResult(req)
 
 //   if (!error.isEmpty) {
-//       const jsonResult = {
-//           page: "../partial/template-login/esqueceuSenha",
-//           token: null,
-//           errors: error,
-//           idUser: idUser,
-//           modalAberto: true
-//       }
-//       res.render("./pages/template-login", jsonResult)
+//     const jsonResult = {
+//       page: "../partial/template-loginEmpresa/esqueceuSenha",
+//       token: null,
+//       errors: error,
+//       idUser: idUser,
+//       modalAberto: true
+//     }
+//     res.render("./pages/template-loginEmpresa", jsonResult)
 //   } else {
-//       try {
-//           const { senha } = req.body
-//           let hashSenha = bcrypt.hashSync(senha, salt);
-//           var resultado = await clienteModel.updateUser({ SENHA_CLIENTE: hashSenha }, idUser)
-//           console.log("-------- senha redefinida -----------")
-//           console.log(resultado)
-//           req.session.aviso = { msg: "Senha redefinida com sucesso!", type: "success", contagem: 0 }
-//           res.redirect("/logarCliente")
-//       } catch (error) {
-//           console.log(error)
-//           res.render("/pg-erro")
-//       }
+//     try {
+//       const { senha } = req.body
+//       let hashSenha = bcrypt.hashSync(senha, salt);
+//       var resultado = await usuariosModel.updateUser({ SENHA_USUARIOS: hashSenha }, idUser)
+//       console.log("-------- senha redefinida -----------")
+//       console.log(resultado)
+//       req.session.aviso = { msg: "Senha redefinida com sucesso!", type: "success", contagem: 0 }
+//       res.redirect("/loginEmpresa")
+//     } catch (error) {
+//       console.log(error)
+//       res.render("./partial/pg-erro")
+//     }
 //   }
 // },
+
 
 
 

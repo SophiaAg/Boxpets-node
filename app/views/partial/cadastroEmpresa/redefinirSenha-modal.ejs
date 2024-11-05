@@ -19,6 +19,7 @@ if(erros) {
         <form action="/redefinirSenha?idUser=<%= idUser %>" method="post" class="form-attSenha">
             <h2 class="subtitle mb-3" style="color: var(--cor-texto);">Redefina sua senha.</h2>
             <article class="input__container <%= classeErro.senha %> senha alerted-input">
+                
                 <input type="password" name="senha" id="senha" class="input-field" placeholder="Senha" required
                     maxlength="50">
                 <p class="ocultSenha btn"><i class="bi bi-eye"></i></p>
