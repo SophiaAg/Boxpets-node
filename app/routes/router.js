@@ -342,7 +342,7 @@ router.get("/sair", function (req, res) {
 
 router.get("/ativar-conta",
     middleWares.verifyAutenticado,
-    middleWares.verifyAutorizado("pages/template-cadastroEmpresa", { page: "../partial/cadastroEmpresa/login", errors: null, valores: "", incorreto: null }, true),
+    middleWares.verifyAutorizado("pages/template-loginEmpresa", { page: "../partial/cadastroEmpresa/login", errors: null, valores: "", incorreto: null }, true),
     async function (req, res) {
         usuariosController.ativarConta(req, res);
     }

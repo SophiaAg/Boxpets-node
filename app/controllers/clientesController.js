@@ -334,6 +334,7 @@ regrasValidacaoRedefinirSenha: [
 
       let campos = {
         nome_cli: results[0].NOME_CLIENTE,
+        nasc_cli: dataFormatada,
         email_cli: results[0].EMAIL_CLIENTE,
         celular_cli: results[0].CELULAR_CLIENTE,
         cpf_cli: results[0].CPF_CLIENTE,
