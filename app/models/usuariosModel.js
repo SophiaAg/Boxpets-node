@@ -9,6 +9,15 @@ const usuariosModel = {
             throw error
         }
     },
+
+    createPlanos: async (dadosUsuario) => {
+        try {
+            const [resultados] = await pool.query("insert into PLANOS set ?", [dadosUsuario])
+            return resultados
+        } catch (error) {
+            throw error
+        }
+    },
     updateUsuario: async (dadosUsuario, id) => {
         try {
             const [resultados] = await pool.query("update USUARIOS set ? where ID_USUARIOS = ?", [dadosUsuario, id])
@@ -20,7 +29,6 @@ const usuariosModel = {
     findUsuariosByCelular: async (celular) => {
         try {
             const [resultados] = await pool.query('SELECT * FROM USUARIOS WHERE CELULAR_USUARIOS = ?', [celular])
-            console.log(resultados)
             return resultados
         } catch (error) {
             return error
@@ -29,7 +37,6 @@ const usuariosModel = {
     findUsuariosByEmail: async (email) => {
         try {
             const [resultados] = await pool.query('SELECT * FROM USUARIOS WHERE EMAIL_USUARIOS = ?', [email])
-            console.log(resultados)
             return resultados
         } catch (error) {
             return error
@@ -47,7 +54,6 @@ const usuariosModel = {
     findUsuariosByEmailAtivo: async (email) => {
         try {
             const [resultados] = await pool.query("SELECT * FROM USUARIOS WHERE EMAIL_USUARIOS = ? AND USUARIOS_STATUS = 'ativo' LIMIT 1", [email])
-            console.log(resultados)
             return resultados
         } catch (error) {
             return error
@@ -68,7 +74,6 @@ const usuariosModel = {
     updateUser: async (dadosForm, id) => {
         try {
             const [resultados] = await pool.query("UPDATE USUARIOS SET ? WHERE ID_USUARIOS = ? ", [dadosForm, id])
-            console.log(resultados)
             return resultados
 
         } catch (error) {
@@ -89,7 +94,6 @@ const usuariosModel = {
     findHorariosIdservico: async (id) => {
         try {
             const [resultados] = await pool.query('SELECT * FROM HORARIOS_SERVICO WHERE ID_SERVICO = ?', [id])
-            console.log(resultados)
             return resultados
         } catch (error) {
             return error
@@ -99,7 +103,6 @@ const usuariosModel = {
         try {
             const [resultados] = await pool.query('INSERT INTO HORARIOS_SERVICO SET ?', [dadosHorario])
             console.log("HORARIO CRIADO")
-            console.log(resultados)
             return resultados
         } catch (error) {
             console.log("erros do criar o horário")

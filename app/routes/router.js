@@ -14,10 +14,11 @@ const uploadEmpresa = storage;
 const MainController = require('../controllers/mainController.js');
 const crypto = require('crypto');
 const dotenv = require("dotenv");
-const { MercadoPagoConfig, PreApproval, PreApprovalPlan } = require('mercadopago');
 dotenv.config();
 const jwt = require("jsonwebtoken");
 const { enviarEmail, enviarEmailAtivacao, enviarEmailRecuperarSenha } = require("../util/sendEmail");
+var pool = require("../../config/pool-conexao");
+
 
 
 
@@ -25,8 +26,12 @@ router.get("/", function (req, res) {
     res.render("pages/template-lp", { pagina: "LandingPage", page: "../partial/landing-page/lp-inicial" });
 });
 
+router.get("/hm ", function (req, res) {
+    res.render('pages/template-hm', { page: 'partial/landing-home/home-page', nomeUsuario });
+});
+
 router.get("/pg-erro", function (req, res) {
-    res.render("pages/template-lp", { pagina: "LandingPage", page: "../partial/pg-erro" });
+    res.render("pages/template-lp", { page: "../partial/pg-erro" });
 });
 
 router.get("/souempresa", function (req, res) {
@@ -59,9 +64,22 @@ router.get("/entrar", function (req, res) {
 });
 
 
+<<<<<<< HEAD
 router.get("/ ", function (req, res) {
     res.render('pages/template-hm', { page: 'partial/landing-home/home-page', nomeUsuario, dadosNotificacao: { type: "success",title: "Conta criada com sucesso!",msg: "Verifique sua caixa de email para ativar sua conta."} });
 });
+=======
+// Cadastro de CLIENTES
+router.post("/cadastrarCliente", clienteController.regrasValidacaoCriarConta, function (req, res) {
+    clienteController.cadastrar(req, res)
+})
+// login de CLIENTES
+router.post("/logarCliente", clienteController.regrasValidacaoLogarConta, middleWares.gravarAutenticacaoCliente, function (req, res) {
+    clienteController.entrar(req, res)
+})
+
+
+>>>>>>> 85698e02e4c66ca205cf00935e0cf81512f6c78b
 
 
 router.get("/servicos-gerais", function (req, res) {
@@ -128,12 +146,33 @@ router.post("/excluirFoto",
 
 
 router.get("/dashboard", function (req, res) {
+    
+
+    const params = new URLSearchParams(req.query);
+
+    if (params.has('success')) {
+        middleWares.verifyAutenticado,
+        middleWares.verifyAutorizado("pages/template-login", { form: "../partial/login/entrar", errors: null, valores: "", incorreto: null })
+
+        if (req.session.autenticado !== undefined) {
+            // Lógica para quando a ação foi bem-sucedida
+             const id = req.session.autenticado.id
+           
+            
+        }
+    } else if (params.has('failure') || params.has('pending')) {
+        req.flash('error', `Erro em efetuar o pagamento. Não foram somados os tokens a sua conta.`)
+    }
+
+    // res.status(200).render("layouts/main.ejs", { router: "../pages/store/points.ejs", user: account[0][0], notifications: notifications[0], challenges: challenges[0], challengesForUser: challengesForUser[0][0], tokens: tokens[0], title: "Collectverse - Loja" });
+
     const jsonResult = {
         page: "../partial/dashboard/principal",
         errors: null,
         valores: null,
+        nomeempresa: 'nomeempresa',
         classePagina: 'dashboard',
-        nomeempresa: nomeempresa,
+
 
     }
     res.render("pages/template-dashboard", jsonResult);
@@ -145,16 +184,8 @@ router.get("/agendamento", function (req, res) {
 
 router.get("/planos", function (req, res) {
     res.render("pages/template-dashboard", { page: "../partial/dashboard/planos", classePagina: 'planos', });
-}); ''
+});
 
-// Cadastro de CLIENTES
-router.post("/cadastrarCliente", clienteController.regrasValidacaoCriarConta, function (req, res) {
-    clienteController.cadastrar(req, res)
-})
-// login de CLIENTES
-router.post("/logarCliente", clienteController.regrasValidacaoLogarConta, middleWares.gravarAutenticacaoCliente, function (req, res) {
-    clienteController.entrar(req, res)
-})
 
 
 //EMPRESAAA
@@ -193,7 +224,7 @@ router.post("/cadastrarEmpresa", usuariosController.regrasValidacaoCriarConta, f
 })
 
 // Login de EMPRESAS
-router.post("/logarEmpresa", usuariosController.regrasValidacaoLogarConta, middleWares.gravarAutenticacaoEmpresa, function (req, res) {
+router.post("/logarEmpresa", usuariosController.regrasValidacaoLogarConta, function (req, res) {
     usuariosController.entrarEmpresa(req, res)
 })
 
@@ -216,17 +247,20 @@ router.get("/editAgenda",
             dia: dia,
             erros: null,
             notify: null
-        });
-    }
-);
+
+        })
+    });
+
 
 router.post("/criarHorario",
     middleWares.verifyAutenticado,
     middleWares.verifyAutorizado("pages/template-cadastroEmpresa", { page: "../partial/cadastroEmpresa/login", errors: null, valores: "", incorreto: null }, true),
     async function (req, res) {
+        // usuariosController.agendamentoUsuario(req, res)
+
         let errors = validationResult(req)
         if (!errors.isEmpty()) {
-
+            return res.status(404).render("pages/error-404");
         } else {
             try {
                 const idServico = req.query.idServico;
@@ -235,12 +269,11 @@ router.post("/criarHorario",
                     return res.status(404).render("pages/error-404");
                 }
 
-                const { dataHorario, horario, descr } = req.body
+                const { dataHorario, horario } = req.body
                 const date = new Date(dataHorario);
                 const formattedDate = date.toISOString().split('T')[0];
                 const dadosHorario = {
                     DATA_HORARIO: formattedDate,
-                    DESCRICAO_HORARIO: descr,
                     HORARIO_SERVICO: horario,
                     ID_SERVICO: idServico
                 }
@@ -253,16 +286,20 @@ router.post("/criarHorario",
                 return res.status(404).render("pages/error-404");
 
             }
-
         }
-    }
-);
+    });
+
+
+
+
 
 
 router.get('/paginacomercial', MainController.first);
 // Postar pagina empresa
 router.post('/share', uploadEmpresa.any(), MainController.sharePost)
 router.get('/share/:id', MainController.viewPost)
+router.get('/share/edit/:id', MainController.edit)
+router.post('/share/edit', uploadEmpresa.any(), MainController.makeEdit)
 
 // rota para comentário da empresa?
 
@@ -306,106 +343,14 @@ router.get("/sair", function (req, res) {
         return res.status(500).redirect("/");
     }
 })
-const mercadopago = new MercadoPagoConfig({
-    accessToken: 'APP_USR-2987350217777313-102619-f933e92e0b23c5666b837599613dfac5-2061285426',
-    options: { timeout: 5000, idempotencyKey: 'abc' }
-});
-
-router.post("/criarAssinaturaMensal",
-    middleWares.verifyAutenticado,
-    middleWares.verifyAutorizado("pages/template-cadastroEmpresa", { page: "../partial/cadastroEmpresa/login", errors: null, valores: "", incorreto: null }, true),
-    async (req, res) => {
-        try {
-
-            const empresa = await usuariosModel.findUsuariosById(req.session.autenticado.id);
-            const preApproval = new PreApproval(mercadopago);
-            const assinatura = await preApproval.create({
-                body: {
-                    preapproval_plan_id: '2c938084929566050192c9f9205e1089',
-                    payer_email: empresa[0].EMAIL_USUARIOS,
-                    back_url: `${process.env.URL_BASE}/feedback-assinatura`,
-                    reason: 'Assinatura mensal',
-                    status: 'pending'
-                }
-            });
-
-
-
-            if (assinatura && assinatura.body && assinatura.body.init_point) {
-                console.log(assinatura.body.init_point)
-                res.redirect(assinatura.body.init_point);
-            } else {
-                throw new Error("Erro ao criar assinatura")
-            }
-        } catch (error) {
-            console.error(error)
-            return res.status(500).redirect("/");
-        }
-    })
-router.post("/criarAssinaturaAnual",
-    middleWares.verifyAutenticado,
-    middleWares.verifyAutorizado("pages/template-cadastroEmpresa", { page: "../partial/cadastroEmpresa/login", errors: null, valores: "", incorreto: null }, true),
-    async (req, res) => {
-        try {
-            const empresa = await usuariosModel.findUsuariosById(req.session.autenticado.id);
-            const preApproval = new PreApproval(mercadopago);
-            const assinatura = await preApproval.create({
-                preapproval_plan_id: '2c93808492bf1ff80192c9fae8040330',
-                payer_email: empresa[0].EMAIL_USUARIOS,
-                back_url: `${process.env.URL_BASE}/feedback-assinatura`,
-                reason: 'Assinatura anual',
-                status: 'pending'
-
-            });
-            if (assinatura && assinatura.body && assinatura.body.init_point) {
-                res.redirect(assinatura.body.init_point);
-            } else {
-                throw new Error("Erro ao criar assinatura")
-            }
-        } catch (error) {
-            console.log(error)
-            return res.status(500).redirect("/");
-        }
-    })
-function verificarWebhook(payload, assinaturaRecebida, segredo) {
-    const hash = crypto
-        .createHmac('sha256', segredo)
-        .update(payload)
-        .digest('hex');
-    return hash === assinaturaRecebida;
-}
-router.post('/atualizarAssinatura', async (req, res) => {
-    const data = req.body
-    try {
-
-        if (verificarWebhook(JSON.stringify(data), req.headers['x-webhook-signature'], process.env.ASSINATURA_WEBHOOK_SECRET_TESTE)) {
-
-            if (data.status === 'authorized') {
-                await usuariosModel.updateUsuario({ IS_ASSINANTE: true }, user[0].ID_USUARIOS)
-                console.log(`Usuário ${user[0].NOME_USUARIOS} teve a assinatura ativada.`)
-            } else if (data.status === 'paused') {
-                await usuariosModel.updateUsuario({ IS_ASSINANTE: false }, user[0].ID_USUARIOS)
-                console.log(`Usuário ${user[0].NOME_USUARIOS} teve a assinatura pausada.`)
-            }
-            res.status(200).send('Webhook processado com sucesso');
-        } else {
-            console.log('Assinatura inválida')
-            res.status(403).send('Assinatura inválida');
-        }
-
-    } catch (error) {
-        console.log(error)
-        console.log('Erro de comunicação com Mercado Pago')
-    }
-
-});
-
-
-//verifcar e redefinir senha
+// const mercadopago = new MercadoPagoConfig({
+//     accessToken: 'APP_USR-2987350217777313-102619-f933e92e0b23c5666b837599613dfac5-2061285426',
+//     options: { timeout: 5000, idempotencyKey: 'abc' }
+// });
 
 router.get("/ativar-conta",
     middleWares.verifyAutenticado,
-    middleWares.verifyAutorizado("pages/template-cadastroEmpresa", { page: "../partial/cadastroEmpresa/login", errors: null, valores: "", incorreto: null }, true),
+    middleWares.verifyAutorizado("pages/template-loginEmpresa", { page: "../partial/cadastroEmpresa/login", errors: null, valores: "", incorreto: null }, true),
     async function (req, res) {
         usuariosController.ativarConta(req, res);
     }
@@ -450,8 +395,7 @@ router.get("/ativar-conta-cli",
     middleWares.verifyAutorizado("pages/template-login", { page: "../partial/login/login", errors: null, valores: "", incorreto: null }, true),
     async function (req, res) {
         clienteController.ativarConta(req, res);
-    }
-)
+    });
 
 router.get("/esqueceuSenha-cli", function (req, res) {
     let alert = req.session.aviso ? req.session.aviso : null;
@@ -467,21 +411,96 @@ router.get("/esqueceuSenha-cli", function (req, res) {
         token: alert,
         modalAberto: false
     }
-    res.render("pages/template-loginEmpresa", jsonResult);
+    res.render("pages/template-login", jsonResult);
 });
 
 
-router.post("/solicitarResetSenha-cli",  clienteController.regrasValidacaoRecuperarSenha, async function (req, res) {
-     clienteController.solicitarResetSenha(req, res)
+router.post("/solicitarResetSenha-cli", clienteController.regrasValidacaoRecuperarSenha, async function (req, res) {
+    clienteController.solicitarResetSenha(req, res)
 });
 
 router.get("/redefinir-senha-cli",
     function (req, res) {
-         clienteController.verificarTokenRedefinirSenha(req, res)
+        clienteController.verificarTokenRedefinirSenha(req, res)
     });
 
-router.post("/redefinirSenha-cli",  clienteController.regrasValidacaoRedefinirSenha, async function (req, res) {
-     clienteController.redefinirSenha(req, res)
+router.post("/redefinirSenha-cli", clienteController.regrasValidacaoRedefinirSenha, async function (req, res) {
+    clienteController.redefinirSenha(req, res)
+})
+
+
+// router.post("/agendamento", usuariosController.regrasValidacaoAgendamento, async function (req, res){
+//         usuariosController.agendamentoUsuario(req, res)
+//     })
+
+//mercadoPago
+const { MercadoPagoConfig, Preference } = require('mercadopago');
+
+const usuario = new MercadoPagoConfig({
+    accessToken: process.env.MERCADO_PAGO_ACCESS_TOKEN,
+    options: { timeout: 5000, idempotencyKey: 'abc' }
+});
+const preference = new Preference(usuario);
+
+router.post("/PagarAssinatura", async function (req, res) {
+    const id = req.body.id
+
+    const baseUrl = req.protocol + '://' + req.get('host');
+
+    let body = undefined;
+    if (id == 1) { // seria id do anual
+        body = {
+            items: [
+                {
+                    id: id,
+                    title: "Pagamento do anual",
+                    description: "Plano anual para empresa da BoxPets",
+                    quantity: 1,
+                    currency_id: 'BRL',
+                    unit_price: 345.6
+                },
+            ],
+            back_urls: {
+                success:`${ baseUrl }/dashboard?success`,
+                failure: `${ baseUrl } /store/points ? failure`,
+                pending: `${ baseUrl } /store/points ? failure`,
+                },
+    auto_return: 'all'
+}
+    } else if (id == 2) { // pacote mensal 
+    body = {
+        items: [
+            {
+                id: id,
+                title:  "Pagamento do mensal",
+                description:"Plano mensal para empresa da BoxPets",
+                quantity: 1,
+                currency_id: 'BRL',
+                unit_price: 32
+            },
+        ],
+        back_urls: {
+        success: `${ baseUrl }/dashboard?success`,
+        failure: `${ baseUrl } /store/points ? failure`,
+        pending: `${ baseUrl } /store/points ? failure`,
+        },
+        auto_return: 'all'
+            }
+        }
+
+preference.create({ body })
+    .then(response => {
+        const initPoint = response.init_point;
+        res.status(200).redirect(initPoint)
+    })
+    .catch(error => {
+        console.log(error)
+        req.flash("error", errorMessages.INTERNAL_ERROR);
+        return res.status(500).redirect(`/store/points`)
+    });
+
+
+
 })
 
 

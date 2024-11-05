@@ -52,13 +52,13 @@
     width: 100px;
   }
   
-  h3 {
+  .container-card  h3 {
     color: #af827d;
     margin: 20px 0 20px 0;
     font-size: 25px;
   }
   
-  h5,
+  .container-card  h5,
   p,
   small {
     color: #837D7C;
@@ -69,7 +69,7 @@
     font-size: 28px;
   }
   
-  p {
+  .container-card  p {
     margin: 20px 0 50px 0;
     line-height: 25px;
   }

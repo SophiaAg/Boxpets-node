@@ -11,11 +11,41 @@ input {
   font-family: "Poppins", sans-serif;
 }
 
+/*cores*/
+
+ 
+:root {
+  --cor-primaria: #6794FE;
+  --cor-segundaria:#FF8100;
+  --fundo:var(--branco-fixo)FFF;
+  --qs-branco: #eeeeeeda;
+  --branco:var(--branco-fixo);
+  --preto:#000;
+  --textos:#252525;
+
+  --branco-fixo: #fff;
+  --preto-fixo: #000;
+}
+
+body.color{
+  --cor-primaria: #6794FE;
+  --cor-segundaria:#FF8100;
+  --fundo:#121212;
+  --qs-branco: #2b2b2bda;
+  --branco:#252525;
+  --preto:var(--branco-fixo);
+  --textos:#bebebe;
+
+  --branco-fixo:#fff;
+  --preto-fixo: #000;
+
+}
+
 .aviso-senha{
   padding: 20px;
     font-size: 14px;
     font-weight: 100;
-    color: cornflowerblue;
+    color:var(--cor-primaria);
     border: 0.1px solid #ababab;
     border-radius: 20px;
     margin: 5%;
@@ -32,7 +62,7 @@ input {
 .container {
   position: relative;
   width: 100%;
-  background-color: #fff;
+  background-color:var(--branco-fixo);
   min-height: 100vh;
   overflow: hidden;
 }
@@ -148,18 +178,18 @@ form.sign-in-form {
 }
 
 .social-icon:hover {
-  color: #4481eb;
-  border-color: #4481eb;
+  color:var(--cor-segundaria);
+  border-color: var(--cor-segundaria);
 }
 
 .btn {
   width: 150px;
-  background-color: #5995fd;
+  background-color: var(--cor-segundaria);
   border: none;
   outline: none;
   height: 49px;
   border-radius: 49px;
-  color: #fff;
+  color: var(--branco-fixo);
   text-transform: uppercase;
   font-weight: 600;
   margin: 10px 0;
@@ -168,7 +198,7 @@ form.sign-in-form {
 }
 
 .btn:hover {
-  background-color: #4d84e2;
+  background-color:var(--cor-segundaria);
 }
 
 .panels-container {
@@ -189,7 +219,7 @@ form.sign-in-form {
   top: -10%;
   right: 48%;
   transform: translateY(-50%);
-  background-image: linear-gradient(-45deg, #4481eb 0%, #04befe 100%);
+  background-image: linear-gradient(-100deg, var(--cor-primaria) 0%, var(--cor-segundaria) 100%);
   transition: 1.8s ease-in-out;
   border-radius: 50%;
   z-index: 6;
@@ -221,7 +251,7 @@ form.sign-in-form {
 }
 
 .panel .content {
-  color: #fff;
+  color: var(--branco-fixo);
   transition: transform 0.9s ease-in-out;
   transition-delay: 0.6s;
 }
@@ -241,8 +271,8 @@ form.sign-in-form {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: none;
-  border: 2px solid #fff;
+  background-color: var(--cor-primaria);
+  border: none;
   width: 130px;
   height: 41px;
   font-weight: 600;
@@ -373,7 +403,7 @@ form.sign-in-form {
   }
 
   .container.sign-up-mode:before {
-    transform: translate(-50%, 100%);
+    transform: translate(100%, -50%);
     bottom: 32%;
     right: initial;
   }
@@ -386,6 +416,7 @@ form.sign-in-form {
   .container.sign-up-mode .right-panel .image,
   .container.sign-up-mode .right-panel .content {
     transform: translateY(0px);
+    color: #000;
   }
 
   .right-panel .image,
@@ -425,4 +456,10 @@ form.sign-in-form {
     bottom: 10%;
     left: 50%;
   }
+}
+
+@media (max-width: 340px) {
+ .panel{
+  margin-bottom: -25%;
+ }
 }

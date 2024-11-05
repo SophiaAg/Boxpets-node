@@ -1,3 +1,30 @@
+:root {
+  --cor-primaria: #6794FE;
+  --cor-segundaria:#FF8100;
+  --fundo:#FFFFFF;
+  --qs-branco: #eeeeeeda;
+  --branco:#fff;
+  --preto:#000;
+  --textos:#252525;
+
+  --branco-fixo: #fff;
+  --preto-fixo: #000;
+}
+
+body.color{
+  --cor-primaria: #6794FE;
+  --cor-segundaria:#FF8100;
+  --fundo:#121212;
+  --qs-branco: #2b2b2bda;
+  --branco:#252525;
+  --preto:#fff;
+  --textos:#bebebe;
+
+  --branco-fixo: #fff;
+  --preto-fixo: #000;
+
+}
+
 .container {
     padding-right: 15px;
     padding-left: 15px;
@@ -5,7 +32,8 @@
     margin-left: auto;
   }
 
-  #tituloPerfil {
+  #TituloPerfil {
+    color: var(--preto);
     margin-top: 20px;
     margin-bottom: 20px;
   }
@@ -49,12 +77,14 @@
   }
 
   .btnDelete {
-    background-color: #5c3ae0;
-    padding: 10px 20px;
+    background-color:var(--cor-segundaria);
+    padding: 5px 10px;
     color: white;
     border: none;
     border-radius: 20px;
     cursor: pointer;
+    width: 50%;
+    font-size: 16px;
   }
 
   .btnDelete:hover {
@@ -103,7 +133,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: #5c3ae0;
+    background-color:var(--cor-segundaria);
 }
 
   .input-field {

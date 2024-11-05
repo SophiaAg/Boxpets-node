@@ -21,7 +21,6 @@ const clienteModel = {
     findClienteByCelular: async (celular) => {
         try {
             const [resultados] = await pool.query('SELECT * FROM CLIENTE WHERE CELULAR_CLIENTE = ?', [celular])
-            console.log(resultados)
             return resultados
         } catch (error) {
             return error
@@ -61,7 +60,7 @@ const clienteModel = {
         }
     },
 
-    findUserByIdInativo: async (id) => {
+    findClienteByIdInativo: async (id) => {
         try {
             const [resultados] = await pool.query("SELECT * FROM CLIENTE WHERE ID_CLIENTE = ? AND CLIENTE_STATUS = 'inativo' LIMIT 1", [id])
             return resultados

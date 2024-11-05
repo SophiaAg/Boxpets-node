@@ -1,36 +1,39 @@
 /*cores*/
+
+ 
 :root {
-    --cor-primaria: #6794FE;
-    --cor-segundaria:#FF8100;
-    --fundo:#FFFFFF;
-    --txt-1:#333333;
-    --txt-2:#666666 ;
-    --txt-suave:#999999;
-    --txt-erro: #D32F2F;
-    --branco:#fff;
-    --preto:#333;
-  }
-   
-  body.color{
-    --cor-primaria: #6794FE;
-    --cor-segundaria:#FF8100;
-    --fundo:#121212;
-    --txt-1:#E0E0E0 ;
-    --txt-2:#B3B3B3 ;
-    --txt-suave:#757575 ;
-    --txt-erro: #FF6B6B  ;
-    --branco:#fff;
-    --preto:#333;
-   
-  }
-   
+  --cor-primaria: #6794FE;
+  --cor-segundaria:#FF8100;
+  --fundo:#FFFFFF;
+  --qs-branco: #eeeeeeda;
+  --branco:#fff;
+  --preto:#000;
+  --textos:#252525;
+
+  --branco-fixo: #fff;
+  --preto-fixo: #000;
+}
+
+body.color{
+  --cor-primaria: #6794FE;
+  --cor-segundaria:#FF8100;
+  --fundo:#121212;
+  --qs-branco: #2b2b2bda;
+  --branco:#252525;
+  --preto:#fff;
+  --textos:#bebebe;
+
+  --branco-fixo: #fff;
+  --preto-fixo: #000;
+
+}
 
 .box-esqueceuSenha {
     position: relative;
     width: 100%;
     max-width: 1020px;
     height: 640px;
-    background-color: #fff;
+    background-color: var(--branco-fixo);
     border-radius: 3.3rem;
     box-shadow: 0 60px 40px -30px rgba(0, 0, 0, 0.27);
   }
@@ -68,13 +71,14 @@
     line-height: 1;
     font-weight: 500;
     font-size: 1rem;
-    color: #adadad;
+    color: var(--preto-fixo);
   }
   
   .input-field input::placeholder {
     color: #aaa;
     font-weight: 500;
   }
+
   .input-field i{
     display: flex;
     align-items: center;
@@ -83,7 +87,7 @@
   }
 
   .esqueceuSenha{
-    max-width: 460px;
+    max-width: 500px;
     width: 100%;
     margin: 5% auto;
     height: max-content;
@@ -140,7 +144,7 @@
 
   @media (max-width: 850px) {
     .box-esqueceuSenha {
-      height: auto;
+      /* height: auto; */
       max-width: 550px;
       overflow: hidden;
     }
@@ -157,5 +161,8 @@
   
     .inner-box-esqueceuSenha {
       padding: 1rem;
+    }
+    .sign-btn {
+      width: 100%;
     }
 }

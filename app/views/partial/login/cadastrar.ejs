@@ -1,3 +1,7 @@
+<script src="https://kit.fontawesome.com/64d58efce2.js" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/simple-notify@1.0.4/dist/simple-notify.css" />
+<script src="https://cdn.jsdelivr.net/npm/simple-notify@1.0.4/dist/simple-notify.min.js"></script>
+
 <!-- REGISTER PAGE -->
 <% 
 
@@ -104,7 +108,9 @@ let avisoErro={
 
       <i class="fas fa-lock"></i>
       <input id="password" name="password" value="<%= valores ? valores.password : '' %>" required type="password" placeholder="Senha" title="Deve conter pelo menos um número, uma letra maiúscula, uma letra minúscula e um dos símbolos (!, @, #, $, %, *) e ter pelo menos 8 ou mais caracteres" />
-
+      <button onclick="togglePassword('password')">
+        <span class="fa-solid">&#128065;</span> <!-- Ícone de olhinho -->
+    </button>
     </section>
     
     <div class="aviso-senha">
@@ -116,3 +122,33 @@ let avisoErro={
   </form>
 
   <script src="/js/notificacao.js"></script>
+
+  <script>
+    function togglePassword(passwordFieldId) {
+        const passwordInput = document.getElementById(passwordFieldId);
+        const button = passwordInput.nextElementSibling;
+        const eyeIcon = button.querySelector(".eye-icon");
+
+        // Alterna entre "password" e "text"
+        const isPassword = passwordInput.type === 'password';
+        passwordInput.type = isPassword ? 'text' : 'password';
+
+        // Altera o ícone conforme o tipo de input
+        eyeIcon.innerHTML = isPassword ? '&#128064;' : '&#128065;';
+    }
+</script>
+
+<style>
+.input-field{
+  display: flex;
+    align-items: center;
+    justify-content: center;
+}
+  button {
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 5px;
+      font-size: 18px;
+  }
+</style>

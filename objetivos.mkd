@@ -1,71 +1,9 @@
 # PENDENTES
 
-## Front-end 
-- Página inicial (Obs: Tanto para empresas qnt para clientes);
-  ## Visão do cliente
-  - pagina de historico
-  - pagina de agendamento 
-  - notificação de agendamento feito
-  - pagina de perfil
-  - pagina de carterinha pet
-  - pagina de configuração
+## Etapa final 
 
-## Visão do empresa 
-  - Dashboard 
-  - input de agendamento
-  - configurações
-  -
+add img/informação no Buyser
+mercado pago
+agendamento
+historico
 
-
-### Cliente 
-- Página de visualizar empresa;
-    #### Página que mostra as informações da empresa, imagens, serviços, avaliações, dias e horarios de funcionamento, metodos de pagamentos aceitos pela empresa.
-- Página de perfil;
-    #### Página para mostra dados de cadastro e segurança ( obs: tbm poderá incluir páginas de favoritados e historico de agendamentos)
-- Modal de agendamento;
-    # Modal para agendar um serviço em determinada empresa, que contem informaçoes de horário, data e localização ( obs: Esse modal se encontra na página de visualização de empresas, o pagamento é feito direto para a empresa.)
-
-### Empresas
-- Cadastro de Empresas;
-#### pagina para cadastrar empresa com info de CNPJ, Nome da empresa, localização, etc
-- Página de perfil de empresa;
-#### Mesma coisa da página de visualização de empresa, soq com a permissão de edição
-- Estatisticas de empresa
-#### Estatisticas de clientes e agendamentos feitos com a empresa na plataforma. ( Agendamentos feitos, clientes que acessaram o perfil da empresa.)
-
-## Back-end
-- Cadastro de usuário e de empresas;
-#### Cadastrar usuários e empresas no banco de dados
-- ""Agendamento de serviços""
-#### Lançar os agendamentos feitos no banco de dados
-- Criptografia de senhas;
-#### Criar Hash das senhas feitas e lançar no banco de dados
-- Autenticação, gravação e verificação de autorização de sessão (Login);
-#### Verificar hash de senha, gravar sessao e verifciar autorização 
-
-## Banco de dados
-    - adicionar e organizar a table de usuarios ( add nome, senha)
-## Integrações, documentações e definições
-
-- Pesquisa de como funciona a integração do whatsapp com o comprovante de agendamento; (Como integrar o whatsapp com um site)
-
-
-# OBS
-- Soso eu fiz umas alterações e configurei seu back end para ja conseguir cadastrar, só é realmente necessário a mudança do banco de dados na table usuarios para add a coluna de nome e senha, e por fim, colocar as questões dos middlewares de autorização e autenticação
-
-
-
-
-# Cadastro de empresas
-  ## Validação
-  - Colocar as classes nos inputs (trocar avisoErro por classeErro)
-  - Ajustar CSS para encaixar os alertas de invalido embaixo ou onde for de preferência
-  - Criar uma rota de POST para o form
-  - Criar um arquivo de controller para as empresas
-  - Criar a validação com o express-validator para o forms e colocar na rota
-  - Criar uma função para cadastrar as empresas e chamar na rota
-
-  ## Cadastrar
-  - Criar um arquivo no models com um objeto de funções para as empresas
-  - Criar uma função nesse objeto para criar uma empresa com os dados passados no form
-  - Criar uma verificação para ver se existe erros, se tiver, manda para a página de cadastro novamente com erros e mostra para o usuário, caso não tenha, vai tentar pegar os valores dos inputs do form e usar a função do models para criar uma empresa no banco de dados. Caso tenha algum erro, terá que pegar o erro e fazer o console.log(erro).

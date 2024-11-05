@@ -47,9 +47,10 @@ if(errors){
                 <section class="input-field <%= classeErro.senha %>">
                   <i class="fas fa-lock"></i>
                   <input id="senha" name="senha" required type="password" placeholder="<%= msgErro.senha ? msgErro.senha : 'Insira sua senha' %>"
-                  value="<%= msgErro.senha ? '' : (valores.senha || '') %>" />
+                  value="<%= msgErro.senha ? '' : (valores.senha || '') %>"  />
                </section>
-  
+               <h6>Senha deve conter um número, uma letra maiúscula, uma letra minúscula e um dos símbolos </h6>
+
             </div>
 
            
@@ -95,5 +96,5 @@ if(errors){
       </div>
       <script src="/js/notificacao.js"></script>
 
-
+    
  

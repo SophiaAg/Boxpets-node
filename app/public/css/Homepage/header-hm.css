@@ -1,3 +1,37 @@
+:root {
+    --cor-primaria: #6794FE;
+    --cor-segundaria:#FF8100;
+    --fundo:#FFFFFF;
+    --qs-branco: #eeeeeeda;
+    --branco:#fff;
+    --preto:#000;
+    --textos:#252525;
+  
+    --branco-fixo: #fff;
+    --preto-fixo: #000;
+  }
+  
+  body.color{
+    --cor-primaria: #6794FE;
+    --cor-segundaria:#FF8100;
+    --fundo:#121212;
+    --qs-branco: #2b2b2bda;
+    --branco:#252525;
+    --preto:#fff;
+    --textos:#bebebe;
+  
+    --branco-fixo: #fff;
+    --preto-fixo: #000;
+  
+  }
+  .ola-fulano{
+    color: var(--preto);
+    margin: 5%;
+  }
+
+  .ola-fulano span {
+    color: var(--cor-segundaria);
+  }
 header .header-top{
     background: var(--branco);
     padding: 1%;
@@ -118,7 +152,8 @@ header .header-main .search-form label{
    
     font-size: 20px;
     padding: 10%;
-    color: var(--preto);
+    background-color: var(--branco-fixo);
+    color: var(--preto-fixo);
     cursor: pointer;
 }
 

@@ -10,21 +10,33 @@ footer{
     line-height: 20px;
 }
 
-footer .row{
+footer{
+    position: relative;
+      width: 100%;
+      bottom: 0;
+      background:  rgb(32, 92, 255);
+      color: var(--branco-fixo);
+      padding: 100px 0 30px;
+      border-top-left-radius: 125px;
+      font-size: 13px;
+      line-height: 20px;
+  }
+  
+  footer .row{
     width: 85%;
     margin: auto;
     display: flex;
     flex-wrap: wrap;
     align-items: flex-start;
     justify-content: space-between;
-}
-
- .col {
+  }
+  
+  .col {
     flex-basis: 25%;
     padding: 10px;
-}
-
-.col .logo  {
+  }
+  
+  .col .logo  {
     width: 80px;
     margin-bottom: 30px;
     display: flex;
@@ -32,81 +44,83 @@ footer .row{
     font-weight: bolder;
     color: var(--cor-primaria);
     align-items: center;
-}
-.col .logo span{
+  }
+  .col .logo span{
     color: var(--cor-segundaria);
-}
-
-footer .col h3{
+  }
+  
+  footer .col h3{
   width: fit-content;
   margin-bottom: 40px;
   position: relative;
-}
-
-ul li{
+  }
+  
+  ul li{
     list-style: none;
     margin-bottom: 10px;
-}
-
-ul li a{
- text-decoration: none;
- color: var(--branco);
-}
-
-ul li a:hover{
+  }
+  
+  ul li a{
+  text-decoration: none;
+  color: var(--branco-fixo);
+  }
+  
+  ul li a:hover{
     color: var(--cor-segundaria);
    }
-
-hr{
+  
+  hr{
     width: 90%;
     border: 0;
-    border-bottom: 1px solid var(--qs-branco);
+    border-bottom: 1px solid var(--branco-fixo);
     margin: 20px auto;
-}
-
-.copyright{
+  }
+  
+  .copyright{
     text-align: center;
-}
-
-.underline{
+  }
+  
+  .underline{
     width: 100%;
     height: 5px;
-    background: var(--qs-branco);
+    background: var(--branco-fixo);
     border-radius: 3px;
     position: absolute;
     top: 25px;
     left: 0;
     overflow: hidden;
-}
-
-.underlines span {
+  }
+  
+  .underlines span {
     width: 15px;
     height: 100%;
-    background: var(--branco);
+    background: var(--branco-fixo);
     border: 3px;
     border-radius: 3px;
     position: absolute;
     top: 0;
     left: 10px;
     animation: moving 2s linear infinite;
-}
-
-@keyframes moving{
+  }
+  
+  @keyframes moving{
     0%{
         left: -20px;
     }
     100%{
         left: 100%;
     }
-}
-
-
-@media (max-width:600px){
+  }
+  
+  
+  @media (max-width:600px){
     footer{
         bottom: 0;
     }
-
+  
     .col{
         flex-basis: 100%;
     }
-}
+  }
+  
+  

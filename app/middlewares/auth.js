@@ -48,15 +48,14 @@ const middleWares = {
         let errors = validationResult(req)
         if (errors.isEmpty()) {
 
-            var usuariosBd = await usuariosModel.findUsuariosByEmail(req.body.email)
+            var userBd = await usuariosModel.findUsuariosByEmail(req.body.email)
 
-            if (usuariosBd[0]) {
-                console.log(req.body.senha)
-                console.log(usuariosBd[0])
-                if (Object.keys(usuariosBd).length == 1) {
-                    if (bcrypt.compareSync(req.body.senha, usuariosBd[0].SENHA_USUARIOS)) {
+            if (userBd[0]) {
+                console.log(userBd[0])
+                if (Object.keys(userBd).length == 1) {
+                    if (bcrypt.compareSync(req.body.senha, userBd[0].SENHA_USUARIOS)) {
                         var aut = {
-                            autenticado: usuariosBd[0].EMAIL_USUARIOS, id: usuariosBd[0].ID_USUARIOS, foto: usuariosBd[0].img_perfil_pasta   
+                            autenticado: userBd[0].EMAIL_USUARIOS, id: userBd[0].ID_USUARIOS, foto: userBd[0].img_perfil_pasta   
                         }
                     } else {
                         var aut = {
@@ -89,8 +88,6 @@ const middleWares = {
             var clienteBd = await clienteModel.findClienteByEmail(req.body.email)
 
             if (clienteBd[0]) {
-                console.log(req.body.password)
-                console.log(clienteBd[0])
                 if (Object.keys(clienteBd).length == 1) {
                     if (bcrypt.compareSync(req.body.password, clienteBd[0].SENHA_CLIENTE)) {
                         var aut = {
