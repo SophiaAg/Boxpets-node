@@ -1,16 +1,11 @@
 
-<% if (dadosNotificacao) { %> 
+<% if (typeof dadosNotificacao !== "undefined") { %>
     <script>
-        newNotify(
-            "<%= dadosNotificacao.title %>",
-            "<%= dadosNotificacao.msg %>",
-            "<%= dadosNotificacao.type %>",
-            "center"
-        )
-    </script>    
-<%} %>
+        newNotify("<%= dadosNotificacao.title %>", "<%= dadosNotificacao.msg %>", "<%= dadosNotificacao.type %>");
+    </script>
+<% } %>
 
-<h1>Bem-vindo(a), <%= nome %>!</h1>
+
 
 <div class="ola-fulano">
 <h1>Bem-vindo(a), <span><%= nome %></span>!</h1>

@@ -640,190 +640,190 @@ regrasValidacaoRedefinirSenha: [
 },
 
 //redefinir senha
-// verificarTokenRedefinirSenha: async (req, res) => {
-//   try {
-//       const token = req.query.token
-//       if (!token) {
-//           let alert = req.session.token ? req.session.token : null;
-//           if (alert && alert.contagem < 1) {
-//               req.session.token.contagem++;
-//           } else {
-//               req.session.token = null;
-//           }
-//           return res.render("/pg-erro");
-//       }
+verificarTokenRedefinirSenha: async (req, res) => {
+  try {
+      const token = req.query.token
+      if (!token) {
+          let alert = req.session.token ? req.session.token : null;
+          if (alert && alert.contagem < 1) {
+              req.session.token.contagem++;
+          } else {
+              req.session.token = null;
+          }
+          return res.render("/pg-erro");
+      }
 
-//       jwt.verify(token, process.env.SECRET_KEY, async (err, decoded) => {
-//           if (err) {
-//               req.session.token = { msg: "Link expirado!", type: "danger", contagem: 0 }
-//               res.redirect("/esqueceuSenha-cli")
-//           } else {
-//               const jsonResult = {
-//                   page: "../partial/login/esqueceuSenha",
-//                   erros: null,
-//                   idUser: decoded.userId,
-//                   modalAberto: true
-//               }
-//               res.render("./pages/template-login", jsonResult)
-//           }
-//       })
-//   } catch (error) {
-//       console.log(error)
-//       res.render("/pg-erro")
+      jwt.verify(token, process.env.SECRET_KEY, async (err, decoded) => {
+          if (err) {
+              req.session.token = { msg: "Link expirado!", type: "danger", contagem: 0 }
+              res.redirect("/esqueceuSenha-cli")
+          } else {
+              const jsonResult = {
+                  page: "../partial/login/esqueceuSenha",
+                  erros: null,
+                  idUser: decoded.userId,
+                  modalAberto: true
+              }
+              res.render("./pages/template-login", jsonResult)
+          }
+      })
+  } catch (error) {
+      console.log(error)
+      res.render("/pg-erro")
 
-//   }
-// },
-// solicitarResetSenha: async (req, res) => {
-//   let error = validationResult(req)
+  }
+},
+solicitarResetSenha: async (req, res) => {
+  let error = validationResult(req)
 
-//   if (!error.isEmpty) {
-//       const jsonResult = {
-//           page: "../partial/template-login/esqueceuSenha",
-//           modal: "fechado",
-//           errors: error,
-//           modalAberto: false
-//       }
-//       res.render("pages/template-login", jsonResult);
-//   } else {
-//       try {
-//           const { email } = req.body
-//           const user = await clienteModel.findClienteByEmailAtivo(email)
+  if (!error.isEmpty) {
+    const jsonResult = {
+      page: "../partial/login/esqueceuSenha",
+      erros: null,
+      idUser: decoded.userId,
+      modalAberto: true
+  }
+  res.render("./pages/template-login", jsonResult);
+  } else {
+      try {
+          const { email } = req.body
+          const user = await clienteModel.findClienteByEmailAtivo(email)
 
-//           const token = jwt.sign(
-//               {
-//                   userId: user[0].ID_CLIENTE,
-//                   expiresIn: "40m"
-//               },
-//               process.env.SECRET_KEY
-//           )
+          const token = jwt.sign(
+              {
+                  userId: user[0].ID_CLIENTE,
+                  expiresIn: "40m"
+              },
+              process.env.SECRET_KEY
+          )
 
-//           enviarEmailRecuperarSenha(
-//               user[0].EMAIL_CLIENTE,
-//               "Recuperar de senha",
-//               process.env.URL_BASE,
-//               token,
-//               async () => {
-//                   req.session.aviso = { msg: "E-mail enviado com sucesso", type: "success", contagem: 0 }
-//                   res.redirect("/esqueceuSenha-cli")
-//               })
-
-
-//       } catch (error) {
-//           console.log(error)
-//           res.render("/pg-erro")
-
-//       }
-//   }
-// },
-
-// verificarTokenRedefinirSenha: async (req, res) => {
-//   try {
-//     const token = req.query.token
-//     if (!token) {
-//       let alert = req.session.token ? req.session.token : null;
-//       if (alert && alert.contagem < 1) {
-//         req.session.token.contagem++;
-//       } else {
-//         req.session.token = null;
-//       }
-//       return res.render("./partial/pg-erro");
-//     }
-
-//     jwt.verify(token, process.env.SECRET_KEY, async (err, decoded) => {
-//       if (err) {
-//         req.session.token = { msg: "Link expirado!", type: "danger", contagem: 0 }
-//         res.redirect("/esqueceuSenha")
-//       } else {
-//         const jsonResult = {
-//           page: "../partial/cadastroEmpresa/esqueceuSenha",
-//           erros: null,
-//           idUser: decoded.userId,
-//           modalAberto: true
-//         }
-//         res.render("./pages/template-loginEmpresa", jsonResult)
-//       }
-//     })
-//   } catch (error) {
-//     console.log(error)
-//     res.render("./partial/pg-erro")
-
-//   }
-// },
-// solicitarResetSenha: async (req, res) => {
-//   let error = validationResult(req)
-
-//   if (!error.isEmpty) {
-//     const jsonResult = {
-//       page: "../partial/template-loginEmpresa/esqueceuSenha",
-//       modal: "fechado",
-//       errors: error,
-//       modalAberto: false
-//     }
-//     res.render("pages/template-loginEmpresa", jsonResult);
-//   } else {
-//     try {
-//       const { email } = req.body
-//       const user = await usuariosModel.findUsuariosByEmail(email)
-
-//       const token = jwt.sign(
-//         {
-//           userId: user[0].ID_USUARIOS,
-//           expiresIn: "40m"
-//         },
-//         process.env.SECRET_KEY
-//       )
-
-//       enviarEmailRecuperarSenha(
-//         user[0].EMAIL_USUARIOS,
-//         "Recuperar de senha",
-//         process.env.URL_BASE,
-//         token,
-//         async () => {
-//           req.session.aviso = { msg: "E-mail enviado com sucesso", type: "success", contagem: 0 }
-//           res.redirect("/esqueceuSenha")
-//         })
+          enviarEmailRecuperarSenha(
+              user[0].EMAIL_CLIENTE,
+              "Recuperar de senha",
+              process.env.URL_BASE,
+              token,
+              async () => {
+                  req.session.aviso = { msg: "E-mail enviado com sucesso", type: "success", contagem: 0 }
+                  res.redirect("/esqueceuSenha-cli")
+              })
 
 
-//     } catch (error) {
-//       console.log(error)
-//       res.render("./partial/pg-erro")
+      } catch (error) {
+          console.log(error)
+          res.render("/pg-erro")
 
-//     }
-//   }
-// },
-// redefinirSenha: async (req, res) => {
-//   let idUser = req.query.idUser
-//   if (!idUser) {
-//     console.log("usuario não achado")
-//     req.session.token = { msg: "Usuário não encontrado", type: "danger", contagem: 0 }
-//     return res.render("./partial/pg-erro")
-//   }
-//   let error = validationResult(req)
+      }
+  }
+},
 
-//   if (!error.isEmpty) {
-//     const jsonResult = {
-//       page: "../partial/template-loginEmpresa/esqueceuSenha",
-//       token: null,
-//       errors: error,
-//       idUser: idUser,
-//       modalAberto: true
-//     }
-//     res.render("./pages/template-loginEmpresa", jsonResult)
-//   } else {
-//     try {
-//       const { senha } = req.body
-//       let hashSenha = bcrypt.hashSync(senha, salt);
-//       var resultado = await usuariosModel.updateUser({ SENHA_USUARIOS: hashSenha }, idUser)
-//       console.log("-------- senha redefinida -----------")
-//       console.log(resultado)
-//       req.session.aviso = { msg: "Senha redefinida com sucesso!", type: "success", contagem: 0 }
-//       res.redirect("/loginEmpresa")
-//     } catch (error) {
-//       console.log(error)
-//       res.render("./partial/pg-erro")
-//     }
-//   }
-// },
+verificarTokenRedefinirSenha: async (req, res) => {
+  try {
+    const token = req.query.token
+    if (!token) {
+      let alert = req.session.token ? req.session.token : null;
+      if (alert && alert.contagem < 1) {
+        req.session.token.contagem++;
+      } else {
+        req.session.token = null;
+      }
+      return res.render("./partial/pg-erro");
+    }
+
+    jwt.verify(token, process.env.SECRET_KEY, async (err, decoded) => {
+      if (err) {
+        req.session.token = { msg: "Link expirado!", type: "danger", contagem: 0 }
+        res.redirect("/esqueceuSenha-cli")
+      } else {
+        const jsonResult = {
+          page: "../partial/login/esqueceuSenha",
+          erros: null,
+          idUser: decoded.userId,
+          modalAberto: true
+      }
+      res.render("./pages/template-login", jsonResult);
+      }
+    })
+  } catch (error) {
+    console.log(error)
+    res.render("./partial/pg-erro")
+
+  }
+},
+solicitarResetSenha: async (req, res) => {
+  let error = validationResult(req)
+
+  if (!error.isEmpty) {
+    const jsonResult = {
+      page: "../partial/template-login/esqueceuSenha",
+      modal: "fechado",
+      errors: error,
+      modalAberto: false
+    }
+    res.render("pages/template-login", jsonResult);
+  } else {
+    try {
+      const { email } = req.body
+      const user = await clienteModel.findClienteByEmail(email)
+
+      const token = jwt.sign(
+        {
+          userId: user[0].ID_CLIENTE,
+          expiresIn: "40m"
+        },
+        process.env.SECRET_KEY
+      )
+
+      enviarEmailRecuperarSenha(
+        user[0].EMAIL_CLIENTE,
+        "Recuperar de senha",
+        process.env.URL_BASE,
+        token,
+        async () => {
+          req.session.aviso = { msg: "E-mail enviado com sucesso", type: "success", contagem: 0 }
+          res.redirect("/esqueceuSenha-cli")
+        })
+
+
+    } catch (error) {
+      console.log(error)
+      res.render("./partial/pg-erro")
+
+    }
+  }
+},
+redefinirSenha: async (req, res) => {
+  let idUser = req.query.idUser
+  if (!idUser) {
+    console.log("usuario não achado")
+    req.session.token = { msg: "Usuário não encontrado", type: "danger", contagem: 0 }
+    return res.render("./partial/pg-erro")
+  }
+  let error = validationResult(req)
+
+  if (!error.isEmpty) {
+    const jsonResult = {
+      page: "../partial/template-login/esqueceuSenha",
+      token: null,
+      errors: error,
+      idUser: idUser,
+      modalAberto: true
+    }
+    res.render("./pages/template-login", jsonResult)
+  } else {
+    try {
+      const { senha } = req.body
+      let hashSenha = bcrypt.hashSync(senha, salt);
+      var resultado = await clienteModel.updateUser({ SENHA_CLIENTE: hashSenha }, idUser)
+      console.log("-------- senha redefinida -----------")
+      console.log(resultado)
+      req.session.aviso = { msg: "Senha redefinida com sucesso!", type: "success", contagem: 0 }
+      res.redirect("/entrar")
+    } catch (error) {
+      console.log(error)
+      res.render("./partial/pg-erro")
+    }
+  }
+},
 
 
 

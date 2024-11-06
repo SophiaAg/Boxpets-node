@@ -26,9 +26,7 @@ router.get("/", function (req, res) {
     res.render("pages/template-lp", { pagina: "LandingPage", page: "../partial/landing-page/lp-inicial" });
 });
 
-router.get("/hm ", function (req, res) {
-    res.render('pages/template-hm', { page: 'partial/landing-home/home-page', nomeUsuario });
-});
+
 
 router.get("/pg-erro", function (req, res) {
     res.render("pages/template-lp", { page: "../partial/pg-erro" });
@@ -63,10 +61,10 @@ router.get("/entrar", function (req, res) {
     res.render("pages/template-login", jsonResult);
 });
 
-
-router.get("/ ", function (req, res) {
-    res.render('pages/template-hm', { page: 'partial/landing-home/home-page', nomeUsuario, dadosNotificacao: { type: "success",title: "Conta criada com sucesso!",msg: "Verifique sua caixa de email para ativar sua conta."} });
+router.get("/", function (req, res) {
+    res.render('pages/template-hm', { page: '..partial/landing-home/home-page', nomeUsuario, dadosNotificacao: { type: "success",title: "Conta criada com sucesso!",msg: "Verifique sua caixa de email para ativar sua conta."} });
 });
+
 // Cadastro de CLIENTES
 router.post("/cadastrarCliente", clienteController.regrasValidacaoCriarConta, function (req, res) {
     clienteController.cadastrar(req, res)
@@ -173,11 +171,11 @@ router.get("/dashboard", function (req, res) {
 });
 
 router.get("/agendamento", function (req, res) {
-    res.render("pages/template-dashboard", { page: "../partial/dashboard/agendamento", classePagina: 'agenda', });
+    res.render("pages/template-dashboard", { page: "../partial/dashboard/agendamento",  nomeempresa: 'nomeempresa', classePagina: 'agenda', });
 });
 
 router.get("/planos", function (req, res) {
-    res.render("pages/template-dashboard", { page: "../partial/dashboard/planos", classePagina: 'planos', });
+    res.render("pages/template-dashboard", { page: "../partial/dashboard/planos", classePagina: 'planos', nomeempresa: 'nomeempresa' });
 });
 
 
