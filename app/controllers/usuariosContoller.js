@@ -429,7 +429,7 @@ const usuariosController = {
 
     if (!error.isEmpty) {
       const jsonResult = {
-        page: "../partial/template-loginEmpresa/esqueceuSenha",
+        page: "../partial/cadastroEmpresa/esqueceuSenha",
         modal: "fechado",
         errors: error,
         modalAberto: false
@@ -477,7 +477,7 @@ const usuariosController = {
 
     if (!error.isEmpty) {
       const jsonResult = {
-        page: "../partial/template-loginEmpresa/esqueceuSenha",
+        page: "../partial/cadastroEmpresa/esqueceuSenha",
         token: null,
         errors: error,
         idUser: idUser,

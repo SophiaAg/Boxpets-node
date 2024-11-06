@@ -754,7 +754,7 @@ solicitarResetSenha: async (req, res) => {
 
   if (!error.isEmpty) {
     const jsonResult = {
-      page: "../partial/template-login/esqueceuSenha",
+      page: "../partial/login/esqueceuSenha",
       modal: "fechado",
       errors: error,
       modalAberto: false
@@ -802,7 +802,7 @@ redefinirSenha: async (req, res) => {
 
   if (!error.isEmpty) {
     const jsonResult = {
-      page: "../partial/template-login/esqueceuSenha",
+      page: "../partial/login/esqueceuSenha",
       token: null,
       errors: error,
       idUser: idUser,

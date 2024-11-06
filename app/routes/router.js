@@ -52,6 +52,7 @@ router.get("/cadastrar", function (req, res) {
 
 
 router.get("/entrar", function (req, res) {
+    
     const jsonResult = {
         form: "../partial/login/entrar",
         errors: null,
