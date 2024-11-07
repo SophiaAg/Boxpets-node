@@ -297,6 +297,12 @@ router.get("/bsEmpresa", async function (req, res) {
     res.render("pages/template-hm", { pagina: "Comentários", page: "../partial/cliente-empresa/bsEmpresa", comentarios: mensagens })
 })
 
+router.get("/criaPg", async function (req, res) {
+
+    res.render("pages/template-hm", { page: "../partial/dashboard/criaPg" })
+})
+
+
 // post para comentar
 
 router.post("/fazerComentario", function (req, res) {

@@ -571,6 +571,59 @@ const usuariosController = {
   },
 
 
-}
 
+
+  //pagina comercial
+
+  addFoto: async (req, res) => {
+    let errosMulter = req.session.erroMulter
+
+    if (errosMulter.length > 0) {
+      let listaErros = { formatter: null, errors: [] };
+
+      if (errosMulter.length > 0) {
+        listaErros.errors.push(...errosMulter)
+        if (req.file) removeImg(`./app/public/src/fotos-perfil/${req.file.filename}`)
+      }
+      console.log("-------erro-de-validação-foto--------")
+      console.log(listaErros)
+
+      res.render("./pages/template-hm", { page: "../partial/dashboard/criaPg", avisoErro: null, valores: campos, foto: results[0].img_perfil_pasta })
+
+      } else {
+        try {
+          var caminhoFoto = req.session.autenticado.foto
+          if (caminhoFoto != req.file.filename && caminhoFoto != "bannerImg.png") {
+            removeImg(`./app/public/src/fotos-perfil/${caminhoFoto}`)
+
+            res.render("./pages/template-hm", { page: "../partial/dashboard/criaPg", avisoErro: null, valores: campos, foto: results[0].img_perfil_pasta })
+          }
+          caminhoFoto = req.file.filename
+          let resultado = await usuariosModel.updateUsuario({ img_perfil_pasta: caminhoFoto }, req.session.autenticado.id)
+          let results = await usuariosModel.findUsuariosById(req.session.autenticado.id);
+          const data = new Date(results[0].DATA_NASC_CLIENTE);
+          const dataFormatada = data.toISOString().split('T')[0];
+
+          req.session.autenticado.foto = caminhoFoto
+          console.log(resultado)
+          let campos = {
+            nome: results[0].NOME_CLIENTE,
+            email: results[0].EMAIL_CLIENTE,
+            nasc: dataFormatada,
+            celular: results[0].CELULAR_CLIENTE,
+            cpf: results[0].CPF_CLIENTE,
+            senha: ""
+          }
+
+          res.render("./pages/template-hm", { page: "../partial/dashboard/criaPg", avisoErro: null, valores: campos, foto: results[0].img_perfil_pasta })
+
+        } catch (errors) {
+          console.log(errors)
+          res.render("pages/error-500")
+
+        }
+      }
+
+    }
+  }
 module.exports = usuariosController

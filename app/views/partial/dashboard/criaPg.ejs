@@ -1,0 +1,430 @@
+<!-- comentários -->
+
+<!--nome da empresa-->
+<section class="nomedaempresa">
+    <h1>Vet Pet</h1>
+  </section>
+  
+  
+  <!--carrosel-->
+  <section class="carroselEmpresaPremium">
+    <div class="container-empresaPremium">
+    
+      <section class="slidesrow">
+  
+        <form id="bannerImg" action="/addFoto" method="post" enctype="multipart/form-data">
+          <section class="slidesrow">
+            <img src="./src/fotos-perfil/<%= foto %>" alt="" class="foto__img">
+          </section>
+          <input type="file" name="bannerImg" id="bannerImg" class="input__control bannerImg <%= avisoErro.bannerImg %>"
+          placeholder="Selecione sua foto de perfil" data-inputFoto required>
+            
+          </form>
+ 
+  
+        </div>
+    </section>
+    </div>
+  </section>
+  
+  
+  <div class="service">
+  
+    <h2 class="title">Modos de Funcionamento</h2>
+  
+    <div class="service-container">
+  
+      <a href="#" class="service-item">
+  
+        <div class="service-icon">
+          <ion-icon name="rocket-outline"></ion-icon>
+        </div>
+  
+        <div class="service-content">
+  
+          <h3 class="service-title">Forma de pagamento</h3>
+          <p class="service-desc">Apenas presencial</p>
+  
+        </div>
+  
+      </a>
+  
+      <a href="#" class="service-item">
+  
+        <div class="service-icon">
+          <ion-icon name="call-outline"></ion-icon>
+        </div>
+  
+        <div class="service-content">
+  
+          <h3 class="service-title">Aberto das:</h3>
+          <p class="service-desc">8AM - 11PM</p>
+  
+        </div>
+  
+      </a>
+  
+      <a href="#" class="service-item">
+  
+        <div class="service-icon">
+          <ion-icon name="arrow-undo-outline"></ion-icon>
+        </div>
+  
+        <div class="service-content">
+  
+          <h3 class="service-title">LOCAL:</h3>
+          <p class="service-desc">Barueri - rua mirim 201</p>
+  
+        </div>
+  
+      </a>
+  
+    </div>
+  
+  </div>
+  
+  </div>
+  
+  </div>
+  
+  </div>
+  
+  
+  <!--trabalhamos com-->
+  <section class="category">
+    <section class="category-item-heading">
+      <h3>Trabalhamos com:</h3>
+    </section>
+    <section class="container">
+      <section class="category-item-container has-scrollbar">
+  
+  
+  
+        <section class="category-item">
+          <section class="category-img-box">
+            <img src=" /src/img-homepage/grooming.png" alt="icone banho tosa">
+          </section>
+  
+          <section class="category-content-box">
+            <section class="category-content-flex">
+              <h3 class="category-item-title">Banho&Tosa</h3>
+            </section>
+  
+          </section>
+        </section>
+  
+      </section>
+  
+    </section>
+  
+  </section>
+  
+  
+  
+  <!--
+            nossos serviços
+           -->
+  
+  <div class="product-main">
+  
+    <h2 class="title">Nossos Serviços</h2>
+  
+    <div class="product-grid">
+  
+      <div class="showcase">
+  
+        <div class="showcase-banner">
+  
+          <img src=" /src/img-homepage/washing-pet-dog-home.jpg" alt="Mens Winter Leathers Jackets" width="300"
+            class="product-img default">
+          <img src=" /src/img-homepage/washing-pet-dog-home (1).jpg" alt="Mens Winter Leathers Jackets" width="300"
+            class="product-img hover">
+  
+          <p class="showcase-badge">15%</p>
+  
+        </div>
+  
+        <div class="showcase-content">
+          <a href="/buySer" class="showcase-category">Banho basico</a>
+          <a href="/buySer">
+            <h3 class="showcase-title">Um banho comum</h3>
+          </a>
+  
+          <div class="price-box">
+            <p class="price">R$48.00</p>
+            <del>R$75.00</del>
+          </div>
+  
+        </div>
+  
+      </div>
+  
+      <div class="showcase">
+  
+        <div class="showcase-banner">
+  
+          <img src=" /src/img-homepage/washing-pet-dog-home.jpg" alt="Mens Winter Leathers Jackets" width="300"
+            class="product-img default">
+          <img src=" /src/img-homepage/washing-pet-dog-home (1).jpg" alt="Mens Winter Leathers Jackets" width="300"
+            class="product-img hover">
+  
+          <p class="showcase-badge angle black">sale</p>
+  
+  
+        </div>
+  
+        <div class="showcase-content">
+          <a href="#" class="showcase-category">Tosa</a>
+  
+          <h3>
+            <a href="#" class="showcase-title">Apenas a Tosa</a>
+          </h3>
+  
+          <div class="price-box">
+            <p class="price">R$45.00</p>
+            <del>R$56.00</del>
+          </div>
+  
+        </div>
+  
+      </div>
+  
+      <div class="showcase">
+  
+        <div class="showcase-banner">
+  
+          <img src=" /src/img-homepage/washing-pet-dog-home.jpg" alt="Mens Winter Leathers Jackets" width="300"
+            class="product-img default">
+          <img src=" /src/img-homepage/washing-pet-dog-home (1).jpg" alt="Mens Winter Leathers Jackets" width="300"
+            class="product-img hover">
+         
+        </div>
+  
+        <div class="showcase-content">
+          <a href="/buySer" class="showcase-category">Banho e Tosa</a>
+  
+          <h3>
+            <a href="/buySer" class="showcase-title">Os dois em um só</a>
+          </h3>
+          
+  
+          <div class="price-box">
+            <p class="price">R$58.00</p>
+            <del>R$65.00</del>
+          </div>
+  
+        </div>
+  
+      </div>
+  
+      <div class="showcase">
+  
+        <div class="showcase-banner">
+  
+          <img src="/src/img-homepage/washing-pet-dog-home.jpg" alt="Mens Winter Leathers Jackets" width="300"
+            class="product-img default">
+          <img src=" /src/img-homepage/washing-pet-dog-home (1).jpg" alt="Mens Winter Leathers Jackets" width="300"
+            class="product-img hover">
+  
+          <p class="showcase-badge angle pink">new</p>
+  
+  
+        <div class="showcase-content">
+          <a href="#" class="showcase-category">Banho premium</a>
+  
+          <h3>
+            <a href="#" class="showcase-title">O melhor para o seu pet</a>
+          </h3>
+  
+          
+  
+          <div class="price-box">
+            <p class="price">$85.00</p>
+            <del>$105.00</del>
+          </div>
+  
+        </div>
+  
+      </div>
+  
+  
+    </div>
+  
+  </div>
+  
+  </div>
+  
+  </div>
+  
+  </div>
+  
+  
+  <!--
+             - TESTIMONIALS
+           -->
+  
+  
+  <div>
+  
+    <div class="container">
+  
+      <div class="testimonials-box">
+  
+        <h2 class="title">Funcionarios</h2>
+  
+        <div class="testimonial">
+  
+  
+  
+          <div class="testimonial-card">
+  
+            <img src="img-pessoas/perf.jpeg" alt="alan doe" class="testimonial-banner" width="100" height="100">
+  
+            <p class="testimonial-name">Alan Doe</p>
+  
+            <p class="testimonial-title">CEO & Founder Invision</p>
+  
+  
+            <p class="testimonial-desc">
+              "Cuidamos com seu pet com carinho, 
+              assim proporcionamos o melhor serviço a ele"
+            </p>
+  
+          </div>
+  
+          <div class="testimonial-card">
+  
+            <img src="img-pessoas/perf.jpeg" alt="alan doe" class="testimonial-banner" width="100" height="100">
+  
+            <p class="testimonial-name">Alan Doe</p>
+  
+            <p class="testimonial-title">CEO & Founder Invision</p>
+  
+  
+            <p class="testimonial-desc">
+              "Cuidamos com seu pet com carinho, 
+              assim proporcionamos o melhor serviço a ele"
+            </p>
+  
+          </div>
+  
+        </div>
+  
+   <!-- 
+         - #sistemadecomentarios
+       -->
+  
+       
+       <!-- formulario, temporario, o que importa é a função -->
+  
+  <style>
+    /* Estilos do card de comentário */
+  
+  
+    
+    .comentarios .form{
+      margin: 2%;
+  
+      
+    }
+  
+    .comentarios .del-form{
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      
+    }
+  
+    .comentarios-container {
+      display: flex;
+      flex-direction: column !important;
+      gap: 0.8rem;
+      justify-content: center;
+      align-items: center;
+    }
+  .comment-card {
+      width: 90%;
+      border: 2px solid #ccc;
+      border-radius: 8px;
+      padding: 10px;
+      margin: 10px;
+      background-color: #f9f9f9;
+  }
+  
+  .comment-header {
+      padding-bottom: 5px;
+      border-bottom: 1px solid #ddd;
+  }
+  
+  .user-name {
+      font-size: 16px;
+      font-weight: bold;
+      color: #333;
+  }
+  
+  .comment-content {
+      padding: 10px 0;
+  }
+  
+  .comment-text {
+      font-size: 14px;
+      color: #555;
+      line-height: 1.4;
+  }
+  
+  .comment-actions {
+      text-align: right;
+      padding-top: 5px;
+  }
+  
+  .delete-btn {
+      background-color: orangered;
+      color: white;
+      border: none;
+      padding: 8px 12px;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+  }
+  
+  .delete-btn:hover {
+      background-color: #c82333;
+  }
+  
+  .input-comentario-text{
+    max-width: 500px;
+    width: 100%;
+    background-color: #f0f0f0;
+    margin: 10px 0;
+    height: 55px;
+    border-radius: 55px;
+    display: grid;
+    grid-template-columns: 15% 85%;
+    padding: 0 0.4rem;
+    position: relative;
+  }
+  
+  .input-comentario-btn{
+    display: inline-block;
+      margin-top: 1rem;
+      padding: .4rem 2rem;
+      border-radius: 5rem;
+      background:var(--cor-primaria);
+      font-size: .7rem;
+      color: var(--branco);
+      cursor: pointer;
+      box-shadow: 0 .5rem 1ren rgba(0,0,0,.1);
+      transition: all .3s linear;
+  }
+  @media (max-width: 620px){
+    .input-comentario-text .input-comentario-btn{
+      display: grid;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+  </style>
+  
+ 
+  
+      <script src="/js/carroselEmpresas.js"></script>
