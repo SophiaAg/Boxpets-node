@@ -1,26 +1,61 @@
 <style>
-    .btns__diaSemana{
+    .btns__diaSemana {
         display: flex;
-        flex-flow: row wrap ;
+        flex-flow: row wrap;
         gap: 1rem;
         align-items: center;
     }
-    .btn-dia{
+
+    .btn-dia {
         background: none;
         border: none;
         text-wrap: nowrap;
         padding: .2rem;
-        &.ativo{
+
+        &.ativo {
             background: #000;
             color: white;
         }
     }
-    .upcoming .events{
+
+    .upcoming .events {
         display: none;
     }
 
-    .upcoming .events.ativo{
+    .upcoming .events.ativo {
         display: flex;
+    }
+
+    .modal {
+        display: none;
+        position: absolute;
+        top: 0;
+        left: 0;
+        backdrop-filter: blur(10px);
+        z-index: 1000;
+        width: 100%;
+        height: 100%;
+        &.show {
+            display: flex;
+        }
+        & .modal-content{
+            padding: 1rem;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.473);
+            background: white;
+            width: 100%;
+            max-width: 768px;
+            border-radius: 10px;
+            margin: auto;
+        }
+        & .closeBtn{
+            position: absolute;
+            width: fit-content;
+            height: fit-content;
+            padding: 0.3rem;
+            top:0;
+            right:0;
+            margin: 10px;
+        }
     }
 </style>
 
@@ -30,34 +65,17 @@
     <h1>Configure sua Agenda</h1>
     <div class="upcoming-box">
 
-        <form action="/criarHorario" method="post">
-            <div class="inputs">
 
-                <select name="diaSemana" id="diaSemana">
-                    <option value="1">Domingo</option>
-                    <option value="2">Segunda-feira</option>
-                    <option value="3">Terça-feira</option>
-                    <option value="4">Quarta-feira</option>
-                    <option value="5">Quinta-feira</option>
-                    <option value="6">Sexta-feira</option>
-                    <option value="7">Sábado</option>
-                </select>
-                <input type="time" name="horario" id="horario" placeholder="Horario" required>
+        <div class="item-adicionar" data-openmodal="#modalCriarHorario">
+            <div>
+                <i class='bx bx-time'></i>
+                <div class="event-info">
+                    <a href="#">Adicionar Horário</a>
 
-                <button type="submit">Enviar</button>
-
-            </div>
-        </form>
-        <!-- <div class="item-adicionar">
-                <div>
-                    <i class='bx bx-time'></i>
-                    <div class="event-info">
-                        <a href="#">Adiconar Horário</a>
-
-                    </div>
                 </div>
-                <i class='bx bx-dots-horizontal-rounded'></i>
-            </div> -->
+            </div>
+            <i class='bx bx-dots-horizontal-rounded'></i>
+        </div>
 
         <div class="btns__diaSemana">
             <button data-btnSection="Domingo" class="btn-dia ativo">Domingo</button>
@@ -83,10 +101,34 @@
                     </button>
                 </form>
             </div>
-            
+
         </div>
 
     </div>
 </div>
+<div class="modal" id="modalCriarHorario">
+    <button class="closeBtn">x</button>
+    <div class="modal-content">
+        <form action="/criarHorario" method="post">
+            <div class="inputs">
+
+                <select name="diaSemana" id="diaSemana">
+                    <option value="1">Domingo</option>
+                    <option value="2">Segunda-feira</option>
+                    <option value="3">Terça-feira</option>
+                    <option value="4">Quarta-feira</option>
+                    <option value="5">Quinta-feira</option>
+                    <option value="6">Sexta-feira</option>
+                    <option value="7">Sábado</option>
+                </select>
+                <input type="time" name="horario" id="horario" placeholder="Horario" required>
+
+                <button type="submit">Enviar</button>
+
+            </div>
+        </form>
+    </div>
+</div>
 
 <script src="js/toggleSection.js"></script>
+<script src="js/abrirModal.js"></script>

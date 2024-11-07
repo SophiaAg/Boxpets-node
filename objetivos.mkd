@@ -7,3 +7,15 @@ mercado pago
 agendamento
 historico
 
+
+
+# Agendamento
+
+## Criar os horarios disponiveis 
+- Criar uma pagina pra selecionar a agenda de qual serviço a empresa quer gerenciar (Exemplo: 'A empresa tem servico 1 e 2. Apareceria o servico 1 e 2 na tela, ela selecionaria e iria pra agenda desse servico.')
+obs: 'Teria que ter uma verificação nessa pagina para ver se o servico no qual o usuario ta acessando é dele mesmo, verificando a partir do id da empresa'
+
+- Ajeitar o css da pagina de editar agenda.
+recomendaçao: 'Adicionar uma parte pra na pagina pra saber de qual serviço é aquela agenda'
+
+- fazer modal de criaçao de horario
