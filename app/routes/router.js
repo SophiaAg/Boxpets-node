@@ -138,8 +138,7 @@ router.post("/excluirFoto",
     });
 
 
-router.get("/dashboard", function (req, res) {
-    
+router.get("/dashboard", async function (req, res) {
 
     const params = new URLSearchParams(req.query);
 
@@ -158,20 +157,19 @@ router.get("/dashboard", function (req, res) {
     }
 
     // res.status(200).render("layouts/main.ejs", { router: "../pages/store/points.ejs", user: account[0][0], notifications: notifications[0], challenges: challenges[0], challengesForUser: challengesForUser[0][0], tokens: tokens[0], title: "Collectverse - Loja" });
-
+   
+    const userBd = await usuariosModel.findUsuariosById(req.session.autenticado.id)
+    const nomeempresa = userBd[0].NOMEEMPRESA_USUARIO; 
     const jsonResult = {
-        page: "../partial/dashboard/principal",
-        errors: null,
-        valores: null,
-        nomeempresa: 'nomeempresa',
-        classePagina: 'dashboard',
-
-
+      page: "../partial/dashboard/principal",
+      nomeempresa: nomeempresa, 
+      classePagina: 'dashboard'
     }
-    res.render("pages/template-dashboard", jsonResult);
+    res.render("pages/template-dashboard", jsonResult)
 });
 
 router.get("/agendamento", function (req, res) {
+    usuariosController.entrarEmpresa(req, res)
     res.render("pages/template-dashboard", { page: "../partial/dashboard/agendamento",  nomeempresa: 'nomeempresa', classePagina: 'agenda', });
 });
 

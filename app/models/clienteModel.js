@@ -34,14 +34,7 @@ const clienteModel = {
             return error
         }
     },
-    updateUsuario: async (dadosUsuario, id) => {
-        try {
-            const [resultados] = await pool.query("update CLIENTE set ? where ID_CLIENTE = ?", [dadosUsuario, id])
-            return resultados
-        } catch (error) {
-            throw error
-        }
-    },
+  
     findClienteById: async (id) => {
         try {
             const [resultados] = await pool.query('SELECT * FROM CLIENTE WHERE ID_CLIENTE = ?', [id])
@@ -81,7 +74,7 @@ const clienteModel = {
     },
         updateUser: async (dadosForm, id) => {
         try {
-            const [resultados] = await pool.query("UPDATE CLIENTE SET ? WHERE ID_CLIENTE = ?", [dadosForm,id])
+            const [resultados] = await pool.query("UPDATE CLIENTE SET ? WHERE ID_CLIENTE = ?", [dadosForm, id])
             return resultados
 
         } catch (error) {

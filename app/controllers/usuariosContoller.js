@@ -336,13 +336,7 @@ const usuariosController = {
             autenticado: userBd[0].EMAIL_USUARIOS,
             id: userBd[0].ID_USUARIOS
           }
-          const nomeempresa = userBd[0].NOMEEMPRESA_USUARIO; 
-          const jsonResult = {
-            page: "../partial/dashboard/principal",
-            nomeempresa: nomeempresa, 
-            classePagina: 'dashboard'
-          }
-          res.render("pages/template-dashboard", jsonResult)
+       return res.redirect("/dashboard")
 
         } else {
           const jsonResult = {
