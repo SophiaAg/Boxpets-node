@@ -1,3 +1,29 @@
+<style>
+    .btns__diaSemana{
+        display: flex;
+        flex-flow: row wrap ;
+        gap: 1rem;
+        align-items: center;
+    }
+    .btn-dia{
+        background: none;
+        border: none;
+        text-wrap: nowrap;
+        padding: .2rem;
+        &.ativo{
+            background: #000;
+            color: white;
+        }
+    }
+    .upcoming .events{
+        display: none;
+    }
+
+    .upcoming .events.ativo{
+        display: flex;
+    }
+</style>
+
 <div class="upcoming">
 
 
@@ -5,60 +31,24 @@
     <div class="upcoming-box">
 
         <form action="/criarHorario" method="post">
-
             <div class="inputs">
 
-                <input type="date" name="dataHorario" id="dataHorario" placeholder="" required>
-                <input type="time" name="horario" id="horario" placeholder="" required>
-                
-                <button type="submit"> Enviar</button>
+                <select name="diaSemana" id="diaSemana">
+                    <option value="1">Domingo</option>
+                    <option value="2">Segunda-feira</option>
+                    <option value="3">Terça-feira</option>
+                    <option value="4">Quarta-feira</option>
+                    <option value="5">Quinta-feira</option>
+                    <option value="6">Sexta-feira</option>
+                    <option value="7">Sábado</option>
+                </select>
+                <input type="time" name="horario" id="horario" placeholder="Horario" required>
+
+                <button type="submit">Enviar</button>
 
             </div>
         </form>
-
-        <div class="events">
-            <div class="item">
-                <div>
-                    <i class='bx bx-time'></i>
-                    <div class="event-info">
-                        <a href="#">Horário 1</a>
-                        <p>10:00-11:30</p>
-                    </div>
-                </div>
-                <i class='bx bx-dots-horizontal-rounded'></i>
-            </div>
-            <div class="item">
-                <div>
-                    <i class='bx bx-time'></i>
-                    <div class="event-info">
-                        <a href="#">Horário 2</a>
-                        <p>13:30-15:00</p>
-                    </div>
-                </div>
-                <i class='bx bx-dots-horizontal-rounded'></i>
-            </div>
-            <div class="item">
-                <div>
-                    <i class='bx bx-time'></i>
-                    <div class="event-info">
-                        <a href="#">Horário 3</a>
-                        <p>11:30-13:00</p>
-                    </div>
-                </div>
-                <i class='bx bx-dots-horizontal-rounded'></i>
-            </div>
-            <div class="item">
-                <div>
-                    <i class='bx bx-time'></i>
-                    <div class="event-info">
-                        <a href="#">Horário 4</a>
-                        <p>10:00-11:30</p>
-                    </div>
-                </div>
-                <i class='bx bx-dots-horizontal-rounded'></i>
-            </div>
-
-            <div class="item-adicionar">
+        <!-- <div class="item-adicionar">
                 <div>
                     <i class='bx bx-time'></i>
                     <div class="event-info">
@@ -67,8 +57,36 @@
                     </div>
                 </div>
                 <i class='bx bx-dots-horizontal-rounded'></i>
+            </div> -->
+
+        <div class="btns__diaSemana">
+            <button data-btnSection="Domingo" class="btn-dia ativo">Domingo</button>
+            <button data-btnSection="Segunda-feira" class="btn-dia">Segunda-feira</button>
+            <button data-btnSection="Terça-feira" class="btn-dia">Terça-feira</button>
+            <button data-btnSection="Quarta-feira" class="btn-dia">Quarta-feira</button>
+            <button data-btnSection="Quinta-feira" class="btn-dia">Quinta-feira</button>
+            <button data-btnSection="Sexta-feira" class="btn-dia">Sexta-feira</button>
+            <button data-btnSection="Sábado" class="btn-dia">Sábado</button>
+        </div>
+        <div class="events ativo" data-section="Domingo">
+            <div class="item">
+                <div>
+                    <i class='bx bx-time'></i>
+                    <div class="event-info">
+                        <a href="#">Horário 1</a>
+                        <p>10:00-11:30</p>
+                    </div>
+                </div>
+                <form action="/apagarHorario?idHorario=" method="post">
+                    <button class="material-symbols-outlined">
+                        close
+                    </button>
+                </form>
             </div>
+            
         </div>
 
     </div>
 </div>
+
+<script src="js/toggleSection.js"></script>

@@ -52,7 +52,7 @@ router.get("/cadastrar", function (req, res) {
 
 
 router.get("/entrar", function (req, res) {
-    
+
     const jsonResult = {
         form: "../partial/login/entrar",
         errors: null,
@@ -63,7 +63,7 @@ router.get("/entrar", function (req, res) {
 });
 
 router.get("/", function (req, res) {
-    res.render('pages/template-hm', { page: '..partial/landing-home/home-page', nomeUsuario, dadosNotificacao: { type: "success",title: "Conta criada com sucesso!",msg: "Verifique sua caixa de email para ativar sua conta."} });
+    res.render('pages/template-hm', { page: '..partial/landing-home/home-page', nomeUsuario, dadosNotificacao: { type: "success", title: "Conta criada com sucesso!", msg: "Verifique sua caixa de email para ativar sua conta." } });
 });
 
 // Cadastro de CLIENTES
@@ -137,49 +137,106 @@ router.post("/excluirFoto",
         clienteController.excluirFoto(req, res)
     });
 
+//EMPRESA ------------------------------
 
-router.get("/dashboard", async function (req, res) {
+router.get("/dashboard",
+    middleWares.verifyAutenticado,
+    middleWares.verifyAutorizado("pages/template-cadastroEmpresa", { page: "../partial/cadastroEmpresa/login", errors: null, valores: "", incorreto: null }, true),
+    async function (req, res) {
 
-    const params = new URLSearchParams(req.query);
+        const params = new URLSearchParams(req.query);
 
-    if (params.has('success')) {
-        middleWares.verifyAutenticado,
-        middleWares.verifyAutorizado("pages/template-login", { form: "../partial/login/entrar", errors: null, valores: "", incorreto: null })
+        if (params.has('success')) {
+            middleWares.verifyAutenticado,
+                middleWares.verifyAutorizado("pages/template-login", { form: "../partial/login/entrar", errors: null, valores: "", incorreto: null })
 
-        if (req.session.autenticado !== undefined) {
-            // Lógica para quando a ação foi bem-sucedida
-             const id = req.session.autenticado.id
-           
-            
+            if (req.session.autenticado !== undefined) {
+                // Lógica para quando a ação foi bem-sucedida
+                const id = req.session.autenticado.id
+
+
+            }
+        } else if (params.has('failure') || params.has('pending')) {
+            req.flash('error', `Erro em efetuar o pagamento. Não foram somados os tokens a sua conta.`)
         }
-    } else if (params.has('failure') || params.has('pending')) {
-        req.flash('error', `Erro em efetuar o pagamento. Não foram somados os tokens a sua conta.`)
-    }
 
-    // res.status(200).render("layouts/main.ejs", { router: "../pages/store/points.ejs", user: account[0][0], notifications: notifications[0], challenges: challenges[0], challengesForUser: challengesForUser[0][0], tokens: tokens[0], title: "Collectverse - Loja" });
-   
-    const userBd = await usuariosModel.findUsuariosById(req.session.autenticado.id)
-    const nomeempresa = userBd[0].NOMEEMPRESA_USUARIO; 
-    const jsonResult = {
-      page: "../partial/dashboard/principal",
-      nomeempresa: nomeempresa, 
-      classePagina: 'dashboard'
-    }
-    res.render("pages/template-dashboard", jsonResult)
-});
+        // res.status(200).render("layouts/main.ejs", { router: "../pages/store/points.ejs", user: account[0][0], notifications: notifications[0], challenges: challenges[0], challengesForUser: challengesForUser[0][0], tokens: tokens[0], title: "Collectverse - Loja" });
 
-router.get("/agendamento", function (req, res) {
-    usuariosController.entrarEmpresa(req, res)
-    res.render("pages/template-dashboard", { page: "../partial/dashboard/agendamento",  nomeempresa: 'nomeempresa', classePagina: 'agenda', });
-});
+        const userBd = await usuariosModel.findUsuariosById(req.session.autenticado.id)
+        const nomeempresa = userBd[0].NOMEEMPRESA_USUARIO;
+        const jsonResult = {
+            page: "../partial/dashboard/principal",
+            nomeempresa: nomeempresa,
+            classePagina: 'dashboard'
+        }
+        res.render("pages/template-dashboard", jsonResult)
+    });
+// AGENDA
+router.get("/agendamento",
+    middleWares.verifyAutenticado,
+    middleWares.verifyAutorizado("pages/template-cadastroEmpresa", { page: "../partial/cadastroEmpresa/login", errors: null, valores: "", incorreto: null }, true),
+    async function (req, res) {
+        // const horariosServico = await usuariosModel.findHorariosIdservico()
+        res.render("pages/template-dashboard",
+            {
+                page: "../partial/dashboard/agendamento",
+                nomeempresa: 'nomeempresa',
+                classePagina: 'agenda',
+                // horarios:horariosServico
+            }
+        );
 
-router.get("/planos", function (req, res) {
-    res.render("pages/template-dashboard", { page: "../partial/dashboard/planos", classePagina: 'planos', nomeempresa: 'nomeempresa' });
-});
+    });
 
+router.post("/criarHorario",
+    middleWares.verifyAutenticado,
+    middleWares.verifyAutorizado("pages/template-cadastroEmpresa", { page: "../partial/cadastroEmpresa/login", errors: null, valores: "", incorreto: null }, true),
+    async function (req, res) {
+        // usuariosController.agendamentoUsuario(req, res)
 
+        let errors = validationResult(req)
+        if (!errors.isEmpty()) {
+            return res.status(404).render("pages/error-404");
+        } else {
+            try {
+                const idServico = req.query.idServico;
+                if (!idServico) {
+                    console.log("Id de servico não encontrado")
+                    return res.status(404).render("pages/error-404");
+                }
 
-//EMPRESAAA
+                const { diaSemana, horario } = req.body
+
+                const dadosHorario = {
+                    DIA_SEMANA: diaSemana,
+                    HORARIO_SERVICO: horario,
+                    ID_SERVICO: idServico
+                }
+
+                const result = await usuariosModel.criarHorario(dadosHorario)
+                console.log(result)
+                res.redirect(`/editAgenda?idServico="${idServico}`)
+            } catch (error) {
+                console.log(error)
+                return res.status(404).render("pages/error-404");
+
+            }
+        }
+    });
+
+router.get("/planos",
+    middleWares.verifyAutenticado,
+    middleWares.verifyAutorizado("pages/template-cadastroEmpresa", { page: "../partial/cadastroEmpresa/login", errors: null, valores: "", incorreto: null }, true),
+    function (req, res) {
+        res.render("pages/template-dashboard", { page: "../partial/dashboard/planos", classePagina: 'planos', nomeempresa: 'nomeempresa' });
+    });
+
+router.get('/paginacomercial',
+    middleWares.verifyAutenticado,
+    middleWares.verifyAutorizado("pages/template-cadastroEmpresa", { page: "../partial/cadastroEmpresa/login", errors: null, valores: "", incorreto: null }, true),
+    MainController.first
+);
+
 
 // btncadastroEmpresa
 router.get("/cadastroEmpresa", async function (req, res) {
@@ -219,73 +276,7 @@ router.post("/logarEmpresa", usuariosController.regrasValidacaoLogarConta, funct
     usuariosController.entrarEmpresa(req, res)
 })
 
-router.get("/editAgenda",
-    middleWares.verifyAutenticado,
-    middleWares.verifyAutorizado("pages/template-cadastroEmpresa", { page: "../partial/cadastroEmpresa/login", errors: null, valores: "", incorreto: null }, true),
-    async function (req, res) {
-        const idServico = req.query.idServico;
-        const horarios = await usuariosModel.findHorariosIdservico(idServico);
-        const dia = req.query.dia
 
-
-        if (!idServico) {
-            return res.status(404).render("pages/error-404");
-        }
-
-        res.render("pages/editAgenda", {
-            idServico: idServico,
-            horarios: horarios,
-            dia: dia,
-            erros: null,
-            notify: null
-
-        })
-    });
-
-
-router.post("/criarHorario",
-    middleWares.verifyAutenticado,
-    middleWares.verifyAutorizado("pages/template-cadastroEmpresa", { page: "../partial/cadastroEmpresa/login", errors: null, valores: "", incorreto: null }, true),
-    async function (req, res) {
-        // usuariosController.agendamentoUsuario(req, res)
-
-        let errors = validationResult(req)
-        if (!errors.isEmpty()) {
-            return res.status(404).render("pages/error-404");
-        } else {
-            try {
-                const idServico = req.query.idServico;
-                if (!idServico) {
-                    console.log("Id de servico não encontrado")
-                    return res.status(404).render("pages/error-404");
-                }
-
-                const { dataHorario, horario } = req.body
-                const date = new Date(dataHorario);
-                const formattedDate = date.toISOString().split('T')[0];
-                const dadosHorario = {
-                    DATA_HORARIO: formattedDate,
-                    HORARIO_SERVICO: horario,
-                    ID_SERVICO: idServico
-                }
-
-                const result = await usuariosModel.criarHorario(dadosHorario)
-
-                res.redirect(`/editAgenda?idServico="${idServico}`)
-            } catch (error) {
-                console.log(error)
-                return res.status(404).render("pages/error-404");
-
-            }
-        }
-    });
-
-
-
-
-
-
-router.get('/paginacomercial', MainController.first);
 // Postar pagina empresa
 router.post('/share', uploadEmpresa.any(), MainController.sharePost)
 router.get('/share/:id', MainController.viewPost)
@@ -452,47 +443,57 @@ router.post("/PagarAssinatura", async function (req, res) {
                 },
             ],
             back_urls: {
-                success:`${ baseUrl }/dashboard?success`,
-                failure: `${ baseUrl } /store/points ? failure`,
-                pending: `${ baseUrl } /store/points ? failure`,
-                },
-    auto_return: 'all'
-}
-    } else if (id == 2) { // pacote mensal 
-    body = {
-        items: [
-            {
-                id: id,
-                title:  "Pagamento do mensal",
-                description:"Plano mensal para empresa da BoxPets",
-                quantity: 1,
-                currency_id: 'BRL',
-                unit_price: 32
+                success: `${baseUrl}/dashboard?success`,
+                failure: `${baseUrl} /store/points ? failure`,
+                pending: `${baseUrl} /store/points ? failure`,
             },
-        ],
-        back_urls: {
-        success: `${ baseUrl }/dashboard?success`,
-        failure: `${ baseUrl } /store/points ? failure`,
-        pending: `${ baseUrl } /store/points ? failure`,
-        },
-        auto_return: 'all'
-            }
+            auto_return: 'all'
         }
+    } else if (id == 2) { // pacote mensal 
+        body = {
+            items: [
+                {
+                    id: id,
+                    title: "Pagamento do mensal",
+                    description: "Plano mensal para empresa da BoxPets",
+                    quantity: 1,
+                    currency_id: 'BRL',
+                    unit_price: 32
+                },
+            ],
+            back_urls: {
+                success: `${baseUrl}/dashboard?success`,
+                failure: `${baseUrl} /store/points ? failure`,
+                pending: `${baseUrl} /store/points ? failure`,
+            },
+            auto_return: 'all'
+        }
+    }
 
-preference.create({ body })
-    .then(response => {
-        const initPoint = response.init_point;
-        res.status(200).redirect(initPoint)
-    })
-    .catch(error => {
-        console.log(error)
-        req.flash("error", errorMessages.INTERNAL_ERROR);
-        return res.status(500).redirect(`/store/points`)
-    });
+    preference.create({ body })
+        .then(response => {
+            const initPoint = response.init_point;
+            res.status(200).redirect(initPoint)
+        })
+        .catch(error => {
+            console.log(error)
+            req.flash("error", errorMessages.INTERNAL_ERROR);
+            return res.status(500).redirect(`/store/points`)
+        });
 
 
 
 })
 
+
+// ROTA DE AGENDAR HORARIO
+
+router.get("/detalhes-servico", async (req, res) => {
+    const idServico = req.query.idServico
+    if (!idServico) {
+        return
+    }
+    const horariosDisponiveis = await usuariosModel.findHorariosIdservico(idServico)
+})
 
 module.exports = router;
