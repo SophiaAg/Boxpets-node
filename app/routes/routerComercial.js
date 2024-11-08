@@ -11,6 +11,7 @@ const uploadClientePerfil = upload("./app/public/src/fotos-perfil/", 5, ['jpeg',
 const uploadPet = upload("./app/public/src/fotos-pet/", 5, ['jpeg', 'jpg', 'png', 'webp']);
 const storage = require("../util/storage.js")
 const uploadBanner = upload("./app/public/src/fotos-perfil/", 5, ['jpeg', 'jpg', 'png', 'webp']);;
+const uploadimgServico = upload("./app/public/src/imagens-servico/", 5, ['jpeg', 'jpg', 'png', 'webp']);;
 const MainController = require('../controllers/mainController.js');
 const crypto = require('crypto');
 const dotenv = require("dotenv");
@@ -33,8 +34,33 @@ router.post("/addFoto",
         next();
     },
     middleWares.verifyAutenticado,
-    middleWares.verifyAutorizado("pages/template-login", { form: "../partial/login/entrar", errors: null, valores: "", incorreto: null, foto: img_perfil_pasta }),
+    middleWares.verifyAutorizado("pages/template-login", { form: "../partial/login/entrar", errors: null, valores: "", incorreto: null, foto: null }),
     uploadBanner("bannerImg"),
     function (req, res) {
         usuariosController.addFoto(req, res)
     });
+
+
+
+router.get("/criar-servico", (req, res) => {
+    const jsonResult = {
+        page: "",
+        nomeempresa: 'nomeempresa',
+        classePagina: 'agenda',
+    }
+    res.render("partial/dashboard/form-criarServico", jsonResult)
+})
+
+router.post("/criarServico",
+    (req, res, next) => {
+        req.session.erroMulter = [];
+        next();
+    },
+    middleWares.verifyAutenticado,
+    middleWares.verifyAutorizado("pages/template-login", { form: "../partial/login/entrar", errors: null, valores: "", incorreto: null, foto: null }),
+    uploadimgServico("imagemServico"),
+    (req, res) => {
+        usuariosController.criarServico(req,res)
+    }
+)
+module.exports = router;

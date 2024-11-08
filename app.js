@@ -29,6 +29,8 @@ app.use(express.urlencoded({ extended: true }));
 
 var rotas = require("./app/routes/router");
 app.use("/", rotas);
+var rotasComercial = require("./app/routes/routerComercial");
+app.use("/", rotasComercial);
 
 app.listen(port, () => {
   console.log(`Servidor ouvindo na porta ${port}\nhttp://localhost:${port}`);

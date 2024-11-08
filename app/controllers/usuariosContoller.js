@@ -286,7 +286,7 @@ const usuariosController = {
           token,
           async () => {
             const userBd = await usuariosModel.findUserByIdInativo(usuarioCriado.insertId);
-            console.log(`------ Usuário ${userBd[0].NOME_USUARIOS} cadastrado! ------`) 
+            console.log(`------ Usuário ${userBd[0].NOME_USUARIOS} cadastrado! ------`)
             console.log(userBd[0])
             console.log(`------ Verificação enviada para ${userBd[0].EMAIL_USUARIOS} ------`)
             console.log(userBd[0])
@@ -330,13 +330,12 @@ const usuariosController = {
       const { email, senha } = req.body
       try {
         const userBd = await usuariosModel.findUsuariosByEmail(email)
-        if (userBd[0] && bcrypt.compareSync(senha, userBd[0].SENHA_USUARIOS))
-        {
+        if (userBd[0] && bcrypt.compareSync(senha, userBd[0].SENHA_USUARIOS)) {
           req.session.autenticado = {
             autenticado: userBd[0].EMAIL_USUARIOS,
             id: userBd[0].ID_USUARIOS
           }
-       return res.redirect("/dashboard")
+          return res.redirect("/dashboard")
 
         } else {
           const jsonResult = {
@@ -355,10 +354,6 @@ const usuariosController = {
 
     }
   },
-
-
-
-
   ativarConta: async (req, res) => {
     try {
       const token = req.query.token
@@ -374,7 +369,7 @@ const usuariosController = {
             return console.log("Usuário não encontrado")
           }
           const resultadoAtivarConta = await usuariosModel.updateUser({ USUARIOS_STATUS: 'ativo' }, decoded.userId);
-          console.log( resultadoAtivarConta )
+          console.log(resultadoAtivarConta)
           console.log("Conta ativada!")
           res.redirect("/loginEmpresa")
         }
@@ -384,7 +379,6 @@ const usuariosController = {
       res.render("./partial/pg-erro")
     }
   },
-  
   verificarTokenRedefinirSenha: async (req, res) => {
     try {
       const token = req.query.token
@@ -494,55 +488,55 @@ const usuariosController = {
     }
   },
 
-//   agendamentoUsuario: async (req, res) => {
-// console.log(res)
-//     let error = validationResult(req)
-   
+  //   agendamentoUsuario: async (req, res) => {
+  // console.log(res)
+  //     let error = validationResult(req)
 
-//     if (!error.isEmpty()) {
-//       console.log(error)
-  
-//       const jsonResult = {
-//         errors: error,
-//         valores: req.body,
-//         page: "../partial/dashboard/agendamento"
-//       }
-//       res.render("pages/template-dashboard", jsonResult);
 
-//     } else {
-//       const { cliente, servicocliente, horariocliente, diacliente, statuscliente, horarioAgendacliente, usercliente } = req.body
-//       const dadosUsuario = {
-        
-//         ID_CLIENTE: cliente,
-//         ID_SERVICO: servicocliente,
-//         ID_HORARIO_SERVICO: horariocliente,
-//         DIA_SEMANA: diacliente,
-//         ID_STATUS: statuscliente,
-//         HORARIO_AGENDA: horarioAgendacliente,
-//         ID_USUARIO: 
-//       }
-//       try {
-//         const agendaCriado = await usuariosModel.createAgendamento(dadosUsuario);
-//         console.log(agendaCriado)
+  //     if (!error.isEmpty()) {
+  //       console.log(error)
 
-        
+  //       const jsonResult = {
+  //         errors: error,
+  //         valores: req.body,
+  //         page: "../partial/dashboard/agendamento"
+  //       }
+  //       res.render("pages/template-dashboard", jsonResult);
 
-//  const jsonResult = {
-//    page: "../partial/dashboard/agendamento",
-//    classePagina: 'agendamento'
-//  }
-//  res.render("pages/template-dashboard", jsonResult)
+  //     } else {
+  //       const { cliente, servicocliente, horariocliente, diacliente, statuscliente, horarioAgendacliente, usercliente } = req.body
+  //       const dadosUsuario = {
+
+  //         ID_CLIENTE: cliente,
+  //         ID_SERVICO: servicocliente,
+  //         ID_HORARIO_SERVICO: horariocliente,
+  //         DIA_SEMANA: diacliente,
+  //         ID_STATUS: statuscliente,
+  //         HORARIO_AGENDA: horarioAgendacliente,
+  //         ID_USUARIO: 
+  //       }
+  //       try {
+  //         const agendaCriado = await usuariosModel.createAgendamento(dadosUsuario);
+  //         console.log(agendaCriado)
 
 
 
-//       } catch (errors) {
-//         console.log(errors)
-//         res.render("./partial/pg-erro")
+  //  const jsonResult = {
+  //    page: "../partial/dashboard/agendamento",
+  //    classePagina: 'agendamento'
+  //  }
+  //  res.render("pages/template-dashboard", jsonResult)
 
-//       }
 
-//     }
-//   },
+
+  //       } catch (errors) {
+  //         console.log(errors)
+  //         res.render("./partial/pg-erro")
+
+  //       }
+
+  //     }
+  //   },
 
 
 
@@ -569,12 +563,7 @@ const usuariosController = {
     res.redirect("/bsEmpresa");
 
   },
-
-
-
-
   //pagina comercial
-
   addFoto: async (req, res) => {
     let errosMulter = req.session.erroMulter
 
@@ -590,40 +579,70 @@ const usuariosController = {
 
       res.render("./pages/template-hm", { page: "../partial/dashboard/criaPg", avisoErro: null, valores: campos, foto: results[0].img_perfil_pasta })
 
-      } else {
-        try {
-          var caminhoFoto = req.session.autenticado.foto
-          if (caminhoFoto != req.file.filename && caminhoFoto != "bannerImg.png") {
-            removeImg(`./app/public/src/fotos-perfil/${caminhoFoto}`)
-
-            res.render("./pages/template-hm", { page: "../partial/dashboard/criaPg", avisoErro: null, valores: campos, foto: results[0].img_perfil_pasta })
-          }
-          caminhoFoto = req.file.filename
-          let resultado = await usuariosModel.updateUsuario({ img_perfil_pasta: caminhoFoto }, req.session.autenticado.id)
-          let results = await usuariosModel.findUsuariosById(req.session.autenticado.id);
-          const data = new Date(results[0].DATA_NASC_CLIENTE);
-          const dataFormatada = data.toISOString().split('T')[0];
-
-          req.session.autenticado.foto = caminhoFoto
-          console.log(resultado)
-          let campos = {
-            nome: results[0].NOME_CLIENTE,
-            email: results[0].EMAIL_CLIENTE,
-            nasc: dataFormatada,
-            celular: results[0].CELULAR_CLIENTE,
-            cpf: results[0].CPF_CLIENTE,
-            senha: ""
-          }
+    } else {
+      try {
+        var caminhoFoto = req.session.autenticado.foto
+        if (caminhoFoto != req.file.filename && caminhoFoto != "bannerImg.png") {
+          removeImg(`./app/public/src/fotos-perfil/${caminhoFoto}`)
 
           res.render("./pages/template-hm", { page: "../partial/dashboard/criaPg", avisoErro: null, valores: campos, foto: results[0].img_perfil_pasta })
-
-        } catch (errors) {
-          console.log(errors)
-          res.render("pages/error-500")
-
         }
-      }
+        caminhoFoto = req.file.filename
+        let resultado = await usuariosModel.updateUsuario({ img_perfil_pasta: caminhoFoto }, req.session.autenticado.id)
+        let results = await usuariosModel.findUsuariosById(req.session.autenticado.id);
+        const data = new Date(results[0].DATA_NASC_CLIENTE);
+        const dataFormatada = data.toISOString().split('T')[0];
 
+        req.session.autenticado.foto = caminhoFoto
+        console.log(resultado)
+        let campos = {
+          nome: results[0].NOME_CLIENTE,
+          email: results[0].EMAIL_CLIENTE,
+          nasc: dataFormatada,
+          celular: results[0].CELULAR_CLIENTE,
+          cpf: results[0].CPF_CLIENTE,
+          senha: ""
+        }
+
+        res.render("./pages/template-hm", { page: "../partial/dashboard/criaPg", avisoErro: null, valores: campos, foto: results[0].img_perfil_pasta })
+
+      } catch (errors) {
+        console.log(errors)
+        res.render("pages/error-500")
+
+      }
+    }
+
+  },
+  criarServico: async (req, res) => {
+    let errors = validationResult(req)
+    let errosMulter = req.session.erroMulter
+
+    if (!errors.isEmpty || errosMulter.length > 0) {
+
+    } else {
+      try {
+        const { nomeServico, descricaoServico, precoServico, portePequeno, porteMedio, porteGrande } = req.body
+        if (!req.file) {
+          console.log("Não foi possivel baixar imagem")
+          // renderizar pagina de erro
+          return res.redirect("/dashboard")
+        }
+        
+        const dadosServico = {
+          NOME_SERVICO: nomeServico,
+          DESCRICAO_SERVICO: descricaoServico,
+          ID_USUARIO: req.session.autenticado.id,
+          CAMINHO_IMAGEM_SERVICO: req.file.filename,
+          PRECO_SERVICO: precoServico,
+          PORTES_PERMITIDOS:[],
+        }
+      } catch (error) {
+        console.log(error)
+        // renderizar pagina de erro
+        res.redirect("/dashboard")
+      }
     }
   }
+}
 module.exports = usuariosController
