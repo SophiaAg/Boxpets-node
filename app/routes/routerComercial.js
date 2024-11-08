@@ -32,7 +32,7 @@ router.post("/addFoto",
         next();
     },
     middleWares.verifyAutenticado,
-    middleWares.verifyAutorizado("pages/template-login", { form: "../partial/login/entrar", errors: null, valores: "", incorreto: null, foto: BANNER_IMG }),
+    middleWares.verifyAutorizado("pages/template-login", { form: "../partial/login/entrar", errors: null, valores: "", incorreto: null, foto: undefined }),
     uploadBanner("bannerImg"),
     function (req, res) {
         usuariosController.addFoto(req, res)
