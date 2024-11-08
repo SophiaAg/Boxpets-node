@@ -237,6 +237,13 @@ router.get('/paginacomercial',
     MainController.first
 );
 
+router.get("/criaPg",
+    middleWares.verifyAutenticado,
+    middleWares.verifyAutorizado("pages/template-cadastroEmpresa", { page: "../partial/cadastroEmpresa/login", errors: null, valores: "", incorreto: null }, true),
+    function (req, res) {
+        res.render("pages/template-dashboard", {page: "../partial/dashboard/criaPg", classePagina: 'teste', nomeempresa: 'nomeempresa' });
+    });
+
 
 // btncadastroEmpresa
 router.get("/cadastroEmpresa", async function (req, res) {
@@ -297,10 +304,7 @@ router.get("/bsEmpresa", async function (req, res) {
     res.render("pages/template-hm", { pagina: "Comentários", page: "../partial/cliente-empresa/bsEmpresa", comentarios: mensagens })
 })
 
-router.get("/criaPg", async function (req, res) {
 
-    res.render("pages/template-hm", { page: "../partial/dashboard/criaPg" })
-})
 
 
 // post para comentar
