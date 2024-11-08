@@ -95,7 +95,7 @@ let avisoErro={
     <section class="input-field <%= avisoErro.celular %>">
 
       <i class="fas fa-user"></i>
-      <input id="celular" name="celular" value="<%= valores ? valores.celular : '' %>" required type="text" placeholder="Celular:" />
+      <input id="celular" name="celular" value="<%= valores ? valores.celular : '' %>" required type="text" placeholder="Celular" />
 
     </section>
     <section class="input-field <%= avisoErro.email %>">
@@ -114,7 +114,7 @@ let avisoErro={
     </section>
     
     <div class="aviso-senha">
-      <h1>Senha deve conter um número, uma letra maiúscula, uma letra minúscula e um dos símbolos </h1>
+      <h1>A senha deverá conter um número, uma letra maiúscula, uma letra minúscula, um dos símbolos (!, @, #, $, %, *) e ter pelo menos 8 ou mais caracteres.</h1>
     </div>
     
     <section id="messagesection"></section>

@@ -42,7 +42,7 @@ let avisoErro={
     <form action="/logarCliente" method="post" class="sign-in-form">
         <h2 class="title">Entrar</h2>
         <% if(incorreto) { %>
-            <h3 class="alert">usuário ou senha incorretos</h3>
+            <h3 class="alert">Usuário ou Senha Incorretos!</h3>
         <% } %>
         <section class="input-field">
             <i class="fas fa-user"></i>
@@ -63,14 +63,14 @@ let avisoErro={
         </section>
         
         <div class="aviso-senha">
-          <h1>Senha deve conter um número, uma letra maiúscula, uma letra minúscula e um dos símbolos </h1>
+          <h1>A senha deverá conter um número, uma letra maiúscula, uma letra minúscula, um dos símbolos (!, @, #, $, %, *) e ter pelo menos 8 ou mais caracteres.</h1>
         </div>
           <button class="btn solid" type="submit">Login</button>
 
           <div class="recupereSenha">
             <p class="text">
               Esqueceu sua senha?
-              <a href="/esqueceuSenha">Recupere a senha</a> para entrar
+              <a href="/esqueceuSenha">Recupere a senha</a> para entrar!
             </p>
             </div>
        
