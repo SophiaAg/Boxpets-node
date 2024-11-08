@@ -15,7 +15,7 @@
 <body>
     
 
-<div class="container">
+<div class="container-dashboard">
     <div class="top">
         <button id="menu-btn">
             <span class="material-symbols-outlined">  menu </span>
@@ -57,6 +57,12 @@
             <span class="material-symbols-outlined"> credit_card  </span>
             <h3>Planos</h3>
         </a>
+
+        <a class="item <%= classePagina == 'teste' ? 'active' : '' %> " href="/criaPg">
+            <span class="material-symbols-outlined"> credit_card  </span>
+            <h3>Planos</h3>
+        </a>
+
 
         <a class="item <%= classePagina == '' ? 'active' : '' %> " href="#"  >
             <span class="material-symbols-outlined">   logout  </span>

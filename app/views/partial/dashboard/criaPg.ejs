@@ -1,430 +1,260 @@
-<!-- comentários -->
+<article>
+<div class="logo-empresa">
 
-<!--nome da empresa-->
-<section class="nomedaempresa">
-    <h1>Vet Pet</h1>
-  </section>
-  
-  
-  <!--carrosel-->
-  <section class="carroselEmpresaPremium">
-    <div class="container-empresaPremium">
-    
-      <section class="slidesrow">
-  
-        <form id="bannerImg" action="/addFoto" method="post" enctype="multipart/form-data">
-          <section class="slidesrow">
-            <img src="./src/fotos-perfil/<%= foto %>" alt="" class="foto__img">
+  <form action="/logoEmpresa" method="post" enctype="multipart/form-data">
+  <div class="logo">
+    <img src="" alt="">
+  </div>
+  <input type="file" name="imgLogo" id="imgLogo" class="input__control"
+  placeholder="Selecione sua foto de Logo" data-inputFoto required>
+ </form>
+  <h1>nome Empresa</h1>
+</div>
+
+<form action="bannerEmpresa" method="post"  enctype="multipart/form-data">
+<section class="bannerForm">
+ <img src="" alt="">
+
+<input type="file" name="imgBanner" id="imgBanner" class="input__control imgBanner "
+            placeholder="Selecione sua foto de Banner" data-inputFoto required>
           </section>
-          <input type="file" name="bannerImg" id="bannerImg" class="input__control bannerImg <%= avisoErro.bannerImg %>"
-          placeholder="Selecione sua foto de perfil" data-inputFoto required>
-            
-          </form>
+</form>
+
+
+<section class="container">
+  <section class="category-item-container has-scrollbar">
+
+    <section class="category-item">
  
-  
-        </div>
-    </section>
-    </div>
-  </section>
-  
-  
-  <div class="service">
-  
-    <h2 class="title">Modos de Funcionamento</h2>
-  
-    <div class="service-container">
-  
-      <a href="#" class="service-item">
-  
-        <div class="service-icon">
-          <ion-icon name="rocket-outline"></ion-icon>
-        </div>
-  
-        <div class="service-content">
-  
-          <h3 class="service-title">Forma de pagamento</h3>
-          <p class="service-desc">Apenas presencial</p>
-  
-        </div>
-  
-      </a>
-  
-      <a href="#" class="service-item">
-  
-        <div class="service-icon">
-          <ion-icon name="call-outline"></ion-icon>
-        </div>
-  
-        <div class="service-content">
-  
-          <h3 class="service-title">Aberto das:</h3>
-          <p class="service-desc">8AM - 11PM</p>
-  
-        </div>
-  
-      </a>
-  
-      <a href="#" class="service-item">
-  
-        <div class="service-icon">
-          <ion-icon name="arrow-undo-outline"></ion-icon>
-        </div>
-  
-        <div class="service-content">
-  
-          <h3 class="service-title">LOCAL:</h3>
-          <p class="service-desc">Barueri - rua mirim 201</p>
-  
-        </div>
-  
-      </a>
-  
-    </div>
-  
-  </div>
-  
-  </div>
-  
-  </div>
-  
-  </div>
-  
-  
-  <!--trabalhamos com-->
-  <section class="category">
-    <section class="category-item-heading">
-      <h3>Trabalhamos com:</h3>
-    </section>
-    <section class="container">
-      <section class="category-item-container has-scrollbar">
-  
-  
-  
-        <section class="category-item">
-          <section class="category-img-box">
-            <img src=" /src/img-homepage/grooming.png" alt="icone banho tosa">
-          </section>
-  
-          <section class="category-content-box">
-            <section class="category-content-flex">
-              <h3 class="category-item-title">Banho&Tosa</h3>
-            </section>
-  
-          </section>
+          <h3 class="category-item-conteudo">horario</h3>
         </section>
-  
+
+
+        <section class="category-item">
+ 
+          <h3 class="category-item-conteudo">localização</h3>
+        </section>
+
+
+        <section class="category-item">
+ 
+          <h3 class="category-item-conteudo">whatsapp</h3>
+        </section>
       </section>
-  
     </section>
-  
-  </section>
-  
-  
-  
-  <!--
-            nossos serviços
-           -->
-  
-  <div class="product-main">
-  
-    <h2 class="title">Nossos Serviços</h2>
-  
-    <div class="product-grid">
-  
-      <div class="showcase">
-  
-        <div class="showcase-banner">
-  
-          <img src=" /src/img-homepage/washing-pet-dog-home.jpg" alt="Mens Winter Leathers Jackets" width="300"
-            class="product-img default">
-          <img src=" /src/img-homepage/washing-pet-dog-home (1).jpg" alt="Mens Winter Leathers Jackets" width="300"
-            class="product-img hover">
-  
-          <p class="showcase-badge">15%</p>
-  
-        </div>
-  
-        <div class="showcase-content">
-          <a href="/buySer" class="showcase-category">Banho basico</a>
-          <a href="/buySer">
-            <h3 class="showcase-title">Um banho comum</h3>
-          </a>
-  
-          <div class="price-box">
-            <p class="price">R$48.00</p>
-            <del>R$75.00</del>
-          </div>
-  
-        </div>
-  
-      </div>
-  
-      <div class="showcase">
-  
-        <div class="showcase-banner">
-  
-          <img src=" /src/img-homepage/washing-pet-dog-home.jpg" alt="Mens Winter Leathers Jackets" width="300"
-            class="product-img default">
-          <img src=" /src/img-homepage/washing-pet-dog-home (1).jpg" alt="Mens Winter Leathers Jackets" width="300"
-            class="product-img hover">
-  
-          <p class="showcase-badge angle black">sale</p>
-  
-  
-        </div>
-  
-        <div class="showcase-content">
-          <a href="#" class="showcase-category">Tosa</a>
-  
-          <h3>
-            <a href="#" class="showcase-title">Apenas a Tosa</a>
-          </h3>
-  
-          <div class="price-box">
-            <p class="price">R$45.00</p>
-            <del>R$56.00</del>
-          </div>
-  
-        </div>
-  
-      </div>
-  
-      <div class="showcase">
-  
-        <div class="showcase-banner">
-  
-          <img src=" /src/img-homepage/washing-pet-dog-home.jpg" alt="Mens Winter Leathers Jackets" width="300"
-            class="product-img default">
-          <img src=" /src/img-homepage/washing-pet-dog-home (1).jpg" alt="Mens Winter Leathers Jackets" width="300"
-            class="product-img hover">
-         
-        </div>
-  
-        <div class="showcase-content">
-          <a href="/buySer" class="showcase-category">Banho e Tosa</a>
-  
-          <h3>
-            <a href="/buySer" class="showcase-title">Os dois em um só</a>
-          </h3>
-          
-  
-          <div class="price-box">
-            <p class="price">R$58.00</p>
-            <del>R$65.00</del>
-          </div>
-  
-        </div>
-  
-      </div>
-  
-      <div class="showcase">
-  
-        <div class="showcase-banner">
-  
-          <img src="/src/img-homepage/washing-pet-dog-home.jpg" alt="Mens Winter Leathers Jackets" width="300"
-            class="product-img default">
-          <img src=" /src/img-homepage/washing-pet-dog-home (1).jpg" alt="Mens Winter Leathers Jackets" width="300"
-            class="product-img hover">
-  
-          <p class="showcase-badge angle pink">new</p>
-  
-  
-        <div class="showcase-content">
-          <a href="#" class="showcase-category">Banho premium</a>
-  
-          <h3>
-            <a href="#" class="showcase-title">O melhor para o seu pet</a>
-          </h3>
-  
-          
-  
-          <div class="price-box">
-            <p class="price">$85.00</p>
-            <del>$105.00</del>
-          </div>
-  
-        </div>
-  
-      </div>
-  
-  
-    </div>
-  
-  </div>
-  
-  </div>
-  
-  </div>
-  
-  </div>
-  
-  
-  <!--
-             - TESTIMONIALS
-           -->
-  
-  
-  <div>
-  
-    <div class="container">
-  
-      <div class="testimonials-box">
-  
-        <h2 class="title">Funcionarios</h2>
-  
-        <div class="testimonial">
-  
-  
-  
-          <div class="testimonial-card">
-  
-            <img src="img-pessoas/perf.jpeg" alt="alan doe" class="testimonial-banner" width="100" height="100">
-  
-            <p class="testimonial-name">Alan Doe</p>
-  
-            <p class="testimonial-title">CEO & Founder Invision</p>
-  
-  
-            <p class="testimonial-desc">
-              "Cuidamos com seu pet com carinho, 
-              assim proporcionamos o melhor serviço a ele"
-            </p>
-  
-          </div>
-  
-          <div class="testimonial-card">
-  
-            <img src="img-pessoas/perf.jpeg" alt="alan doe" class="testimonial-banner" width="100" height="100">
-  
-            <p class="testimonial-name">Alan Doe</p>
-  
-            <p class="testimonial-title">CEO & Founder Invision</p>
-  
-  
-            <p class="testimonial-desc">
-              "Cuidamos com seu pet com carinho, 
-              assim proporcionamos o melhor serviço a ele"
-            </p>
-  
-          </div>
-  
-        </div>
-  
-   <!-- 
-         - #sistemadecomentarios
-       -->
-  
-       
-       <!-- formulario, temporario, o que importa é a função -->
-  
-  <style>
-    /* Estilos do card de comentário */
-  
+
+<form action="/descEmpresa" method="post">
+  <textarea class="descricaoForm" id="descricao" name="descricao" rows="4" cols="50" placeholder="coloque a descrição do seu serviço aqui"></textarea>
+</form>
+
+
+<button class="btn-servico ">adicionar serviço</button>
+
+
+
+</article>
+
+
+
+
+<style>
+
+
+.category-item-container {
+  margin: 5%;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    overflow: auto hidden;
+    scroll-snap-type: inline mandatory;
+    /*scrol lateral*/
+    overscroll-behavior-inline: contain;
+}
+
+.category-item {
+    min-width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 15px;
+    border: .1rem solid rgba(0, 0, 0, 0.171);
+    border-radius: 20px;
+    scroll-snap-align: start;
+    width: 80%;
+}
+
+.category-item-conteudo {
+    color: var(--preto);
+    font-size: 16px;
+    font-weight: 500;
+    
+}
+
+@media (min-width: 600px) {
+    .category-item-container {
+        gap: 30px;
+    }
+
+    .category-item {
+        min-width: calc(50% - 15px);
+    }
+
+}
+
+@media (min-width: 1024px) {
+    .category-item {
+        min-width: calc(33.33% - 20px);
+    }
+
+    .category-img-box {
+        padding: 20px;
+    }
+
+}
+
+
+.btn-servico {
+  margin-left: 5%;
+  width: 100%;
+        display: inline-block;
+        margin-top: 1rem;
+        padding: .6rem 1.5rem;
+        border: none;
+        border-radius: 1.5rem;
+        background: var(--cor-segundaria);
+        font-size: 1rem;
+        color: var(--branco);
+        cursor: pointer;
+        box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .1);
+        transition: all .3s linear;
+      }
+
+    .bannerForm {
+      width: 100%;
+        padding-block: 4rem;
+        margin: 5%;
+        text-align: center;
+        background: var(--cor-primaria);
+        border-radius: 1.5rem;
+        border: 2px solid var(--branco);
+        color: var(--branco);
+        height: fit-content;
+      
+      }
+
+
+      .descricaoForm {
+      width: 100%;
+        padding-block: 4rem;
+        margin: 5%;
+        text-align: center;
+        background: var(--branco);
+        border-radius: 1.5rem;
+        border: 2px solid var(--cor-primaria);
+        color: var(--preto);
+        height: fit-content;
+      
+      }
+      
+      
+@media screen and (max-width: 992px){
+
+     .detalhes .item{
+         min-width: 120px;
+     }
+    }
+
+.detalhes{
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 20px;
+        margin-top: 20px;
+        width: 25%;
+    }
+     .detalhes .item{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        height: 140px;
+        min-width: 220px;
+        padding: 20px;
+        border-radius: 20px;
+        gap: 5%;
+        box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .1);
+        background-color: #000080;
+    }
+        .detalhes .item:hover{
+        box-shadow: none;
+    
+    }
+     .detalhes .item {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+     .detalhes .item  .info h5,p {
+        color: #fff;
+        font-size: 16px;
+        font-weight: bold;
+    }
+
+
+   
+.logo-empresa{
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-top: 10px;
+}
+  .logo-empresa .logo{
+    width: 100px;
+    height: 100px;
+    background: aqua;
+    border-radius: 50%;
+   
+  }
+  .carroselEmpresaPremium{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.container-empresaPremium{
+    
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    width: 75%;
+    overflow: hidden;
+   
+}
+
+.container-empresaPremium .slidesrow{
+    display: flex;
+    height: 100%;
+   margin: 5%;
+   align-items: center;
   
     
-    .comentarios .form{
-      margin: 2%;
-  
-      
-    }
-  
-    .comentarios .del-form{
-      display: flex;
-      align-items: center;
-      justify-content: flex-end;
-      
-    }
-  
-    .comentarios-container {
-      display: flex;
-      flex-direction: column !important;
-      gap: 0.8rem;
-      justify-content: center;
-      align-items: center;
-    }
-  .comment-card {
-      width: 90%;
-      border: 2px solid #ccc;
-      border-radius: 8px;
-      padding: 10px;
-      margin: 10px;
-      background-color: #f9f9f9;
-  }
-  
-  .comment-header {
-      padding-bottom: 5px;
-      border-bottom: 1px solid #ddd;
-  }
-  
-  .user-name {
-      font-size: 16px;
-      font-weight: bold;
-      color: #333;
-  }
-  
-  .comment-content {
-      padding: 10px 0;
-  }
-  
-  .comment-text {
-      font-size: 14px;
-      color: #555;
-      line-height: 1.4;
-  }
-  
-  .comment-actions {
-      text-align: right;
-      padding-top: 5px;
-  }
-  
-  .delete-btn {
-      background-color: orangered;
-      color: white;
-      border: none;
-      padding: 8px 12px;
-      border-radius: 5px;
-      cursor: pointer;
-      transition: background-color 0.3s ease;
-  }
-  
-  .delete-btn:hover {
-      background-color: #c82333;
-  }
-  
-  .input-comentario-text{
-    max-width: 500px;
-    width: 100%;
-    background-color: #f0f0f0;
-    margin: 10px 0;
-    height: 55px;
-    border-radius: 55px;
-    display: grid;
-    grid-template-columns: 15% 85%;
-    padding: 0 0.4rem;
+}
+
+
+.container-empresaPremium .slidesrow .slide-empresaP{
+    min-width: 100%;
     position: relative;
-  }
-  
-  .input-comentario-btn{
-    display: inline-block;
-      margin-top: 1rem;
-      padding: .4rem 2rem;
-      border-radius: 5rem;
-      background:var(--cor-primaria);
-      font-size: .7rem;
-      color: var(--branco);
-      cursor: pointer;
-      box-shadow: 0 .5rem 1ren rgba(0,0,0,.1);
-      transition: all .3s linear;
-  }
-  @media (max-width: 620px){
-    .input-comentario-text .input-comentario-btn{
-      display: grid;
-      align-items: center;
-      justify-content: center;
-    }
-  }
-  </style>
-  
- 
-  
-      <script src="/js/carroselEmpresas.js"></script>
+    display: flex;
+    width: 100%;
+    height: 350px;
+    border-radius: 30px;
+    background-color: #000080;
+    border: 3px solid white;
+    box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.2);
+   
+}
+
+.container-empresaPremium .slidesrow .slide-empresaP img{
+   width: 100%;
+   height: 100%;
+   object-fit: cover;
+   border-radius: 15px;
+}
+</style>

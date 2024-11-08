@@ -572,39 +572,26 @@ const usuariosController = {
 
       if (errosMulter.length > 0) {
         listaErros.errors.push(...errosMulter)
-        if (req.file) removeImg(`./app/public/src/fotos-perfil/${req.file.filename}`)
+        if (req.file) removeImg(`./app/public/src/dashboardImg/${req.file.filename}`)
       }
       console.log("-------erro-de-validação-foto--------")
       console.log(listaErros)
 
-      res.render("./pages/template-hm", { page: "../partial/dashboard/criaPg", avisoErro: null, valores: campos, foto: results[0].img_perfil_pasta })
+      res.render("./pages/template-dashboard", { page: "../partial/dashboard/criaPg", avisoErro: null, valores: campos, foto: results[0].BANNER_IMG })
 
     } else {
       try {
         var caminhoFoto = req.session.autenticado.foto
         if (caminhoFoto != req.file.filename && caminhoFoto != "bannerImg.png") {
-          removeImg(`./app/public/src/fotos-perfil/${caminhoFoto}`)
+          removeImg(`./app/public/src/dashboardImg/${caminhoFoto}`)
 
-          res.render("./pages/template-hm", { page: "../partial/dashboard/criaPg", avisoErro: null, valores: campos, foto: results[0].img_perfil_pasta })
+          res.render("./pages/template-dashboard", { page: "../partial/dashboard/criaPg", avisoErro: null, valores: campos, foto: results[0].BANNER_IMG })
         }
         caminhoFoto = req.file.filename
-        let resultado = await usuariosModel.updateUsuario({ img_perfil_pasta: caminhoFoto }, req.session.autenticado.id)
+        let resultado = await usuariosModel.updateUsuario({ BANNER_IMG: caminhoFoto }, req.session.autenticado.id)
         let results = await usuariosModel.findUsuariosById(req.session.autenticado.id);
-        const data = new Date(results[0].DATA_NASC_CLIENTE);
-        const dataFormatada = data.toISOString().split('T')[0];
 
-        req.session.autenticado.foto = caminhoFoto
-        console.log(resultado)
-        let campos = {
-          nome: results[0].NOME_CLIENTE,
-          email: results[0].EMAIL_CLIENTE,
-          nasc: dataFormatada,
-          celular: results[0].CELULAR_CLIENTE,
-          cpf: results[0].CPF_CLIENTE,
-          senha: ""
-        }
-
-        res.render("./pages/template-hm", { page: "../partial/dashboard/criaPg", avisoErro: null, valores: campos, foto: results[0].img_perfil_pasta })
+        res.render("./pages/template-dashboard", { page: "../partial/dashboard/criaPg", avisoErro: null, valores: campos, foto: results[0].BANNER_IMG })
 
       } catch (errors) {
         console.log(errors)
@@ -628,20 +615,41 @@ const usuariosController = {
           // renderizar pagina de erro
           return res.redirect("/dashboard")
         }
-        
+
         const dadosServico = {
           NOME_SERVICO: nomeServico,
           DESCRICAO_SERVICO: descricaoServico,
           ID_USUARIO: req.session.autenticado.id,
           CAMINHO_IMAGEM_SERVICO: req.file.filename,
           PRECO_SERVICO: precoServico,
-          PORTES_PERMITIDOS:[],
+          PORTES_PERMITIDOS: [],
         }
       } catch (error) {
         console.log(error)
         // renderizar pagina de erro
         res.redirect("/dashboard")
       }
+    }
+  },
+
+
+
+  visuPg: async (req, res) => {
+    try {
+      let results = await usuariosModel.findUsuariosById(req.session.autenticado.id);
+
+      // Acesse o nome da foto do banner no objeto results
+      const foto = results.foto_banner || 'default.jpg'; // Usar 'default.jpg' caso foto esteja vazio
+
+      res.render("./pages/template-dashboard", {
+        page: "../partial/dashboard/criaPg",
+        avisoErro: null,
+        valores: campos,
+        foto: foto // Envia o nome da foto correta
+      });
+    } catch (e) {
+      console.log(e);
+      res.redirect("/");
     }
   }
 }

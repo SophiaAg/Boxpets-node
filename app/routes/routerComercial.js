@@ -7,10 +7,8 @@ const usuariosModel = require("../models/usuariosModel");
 const middleWares = require("../middlewares/auth");
 const upload = require("../util/uploader");
 const { validationResult, body } = require("express-validator");
-const uploadClientePerfil = upload("./app/public/src/fotos-perfil/", 5, ['jpeg', 'jpg', 'png', 'webp']);
-const uploadPet = upload("./app/public/src/fotos-pet/", 5, ['jpeg', 'jpg', 'png', 'webp']);
 const storage = require("../util/storage.js")
-const uploadBanner = upload("./app/public/src/fotos-perfil/", 5, ['jpeg', 'jpg', 'png', 'webp']);;
+const uploadBanner = upload("./app/public/src/dashboardImg/", 5, ['jpeg', 'jpg', 'png', 'webp']);;
 const uploadimgServico = upload("./app/public/src/imagens-servico/", 5, ['jpeg', 'jpg', 'png', 'webp']);;
 const MainController = require('../controllers/mainController.js');
 const crypto = require('crypto');
@@ -22,10 +20,10 @@ var pool = require("../../config/pool-conexao");
 
 
 
-router.get("/criaPg", async function (req, res) {
+router.get("/criaPg", function (req, res) { 
 
-    res.render("pages/template-hm", { page: "../partial/dashboard/criaPg" })
-})
+    res.render("./pages/template-dashboard", { page: "../partial/dashboard/criaPg", avisoErro: null, valores: campos, foto: null })
+});
 
 
 router.post("/addFoto",
@@ -34,7 +32,7 @@ router.post("/addFoto",
         next();
     },
     middleWares.verifyAutenticado,
-    middleWares.verifyAutorizado("pages/template-login", { form: "../partial/login/entrar", errors: null, valores: "", incorreto: null, foto: null }),
+    middleWares.verifyAutorizado("pages/template-login", { form: "../partial/login/entrar", errors: null, valores: "", incorreto: null, foto: BANNER_IMG }),
     uploadBanner("bannerImg"),
     function (req, res) {
         usuariosController.addFoto(req, res)
