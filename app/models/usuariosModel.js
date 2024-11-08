@@ -105,7 +105,17 @@ const usuariosModel = {
             console.log("HORARIO CRIADO")
             return resultados
         } catch (error) {
-            console.log("erros do criar o horário")
+            console.log("erros ao criar o horário")
+            return error
+        }
+    },
+    createServico: async (dadosServico) => {
+        try {
+            const [resultados] = await pool.query('INSERT INTO SERVICO SET ?', [dadosServico])
+            console.log("---- Serviço criado ----")
+            return resultados
+        } catch (error) {
+            console.log("erros ao criar o serviço")
             return error
         }
     }

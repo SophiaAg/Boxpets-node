@@ -6,6 +6,7 @@ const moment = require("moment")
 const { invalid } = require("moment/moment")
 const jwt = require("jsonwebtoken")
 const { enviarEmail, enviarEmailAtivacao, enviarEmailRecuperarSenha } = require("../util/sendEmail")
+const { removeImg } = require("../util/removeImg")
 
 
 const usuariosController = {
@@ -604,17 +605,39 @@ const usuariosController = {
   criarServico: async (req, res) => {
     let errors = validationResult(req)
     let errosMulter = req.session.erroMulter
-
     if (!errors.isEmpty || errosMulter.length > 0) {
+      let listaErros = errors.isEmpty
+        ? { formatter: null, errors: [] }
+        : errors
+      errosMulter.length > 0 ? listaErros.errors.push(...errosMulter) : null
+      console.log(listaErros)
+      if (req.file) {
+        removeImg(`./app/public/src/imagens-servico/${req.file.filename}`)
+      }
+      const jsonResult = {
+        page: "",
+        nomeempresa: 'nomeempresa',
+        classePagina: 'agenda',
+        erros: listaErros,
+        valores: req.body
+      }
+      res.render("partial/dashboard/form-criarServico", jsonResult)
 
     } else {
       try {
         const { nomeServico, descricaoServico, precoServico, portePequeno, porteMedio, porteGrande } = req.body
         if (!req.file) {
           console.log("Não foi possivel baixar imagem")
-          // renderizar pagina de erro
+          // renderizar pagina de erro ou voltar pra pagina de criar e notificar
           return res.redirect("/dashboard")
         }
+
+        let portesPermitidos = []
+        portePequeno == 1 ? portesPermitidos.push("Pequeno") : null
+        porteMedio == 1 ? portesPermitidos.push("Médio") : null
+        porteGrande == 1 ? portesPermitidos.push("Grande") : null
+
+        console.log(portesPermitidos)
 
         const dadosServico = {
           NOME_SERVICO: nomeServico,
@@ -622,10 +645,17 @@ const usuariosController = {
           ID_USUARIO: req.session.autenticado.id,
           CAMINHO_IMAGEM_SERVICO: req.file.filename,
           PRECO_SERVICO: precoServico,
-          PORTES_PERMITIDOS: [],
+          PORTES_PERMITIDOS: portesPermitidos.toString(),
         }
+
+        const result = await usuariosModel.createServico(dadosServico)
+        console.log(result)
+        res.redirect("/dashboard")
       } catch (error) {
         console.log(error)
+        if (req.file) {
+          removeImg(`./app/public/src/imagens-servico/${req.file.filename}`)
+        }
         // renderizar pagina de erro
         res.redirect("/dashboard")
       }

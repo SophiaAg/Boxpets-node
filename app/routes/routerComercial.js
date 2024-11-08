@@ -9,7 +9,7 @@ const upload = require("../util/uploader");
 const { validationResult, body } = require("express-validator");
 const storage = require("../util/storage.js")
 const uploadBanner = upload("./app/public/src/dashboardImg/", 5, ['jpeg', 'jpg', 'png', 'webp']);;
-const uploadimgServico = upload("./app/public/src/imagens-servico/", 5, ['jpeg', 'jpg', 'png', 'webp']);;
+const uploadimgServico = upload("./app/public/src/imagens-servico/", 16, ['jpeg', 'jpg', 'png', 'webp']);;
 const MainController = require('../controllers/mainController.js');
 const crypto = require('crypto');
 const dotenv = require("dotenv");
@@ -45,6 +45,8 @@ router.get("/criar-servico", (req, res) => {
         page: "",
         nomeempresa: 'nomeempresa',
         classePagina: 'agenda',
+        erros:null,
+        valores:null
     }
     res.render("partial/dashboard/form-criarServico", jsonResult)
 })
