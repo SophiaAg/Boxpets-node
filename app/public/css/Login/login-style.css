@@ -122,6 +122,7 @@ form.sign-in-form {
   height: 55px;
   border-radius: 55px;
   display: grid;
+  gap: 12px;
   grid-template-columns: 15% 85%;
   padding: 0 0.4rem;
   position: relative;
@@ -150,6 +151,10 @@ form.sign-in-form {
 .input-field input::placeholder {
   color: #aaa;
   font-weight: 500;
+}
+
+.no-button {
+  width: 25px;
 }
 
 .social-text {
