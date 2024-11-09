@@ -78,10 +78,13 @@
 
 </div>
 
+<button class="btn-servico ">postar</button>
 <div class="modal"  id="modalCriarHorario">
   <button class="closeBtn"><span class="material-symbols-outlined">close</span></button>
   <div class="modal-content" >
     <h1>Adicionar Serviço</h1>
+    <div class="formServico">
+    <div class="imgServico">
     <form action="imgserviço" method="post"  enctype="multipart/form-data">
       <section class="bannerForm">
        <img src="" alt="">
@@ -89,12 +92,15 @@
       <input type="file" name="imgBanner" id="imgBanner" class="input__control imgBanner "
                   placeholder="Selecione sua foto de Banner" data-inputFoto required>
                 </section>
+              </div>
 
+              <div class="inputsServico">
                 <input class="input-servico" name="text" id="text" type="text" placeholder="Titulo do serviço"  />
                 <input class="input-servico" name="text" id="text" type="text" placeholder="Preço"  />
                 <input class="input-servico" name="text" id="text" type="text" placeholder="categorias"  />
                 <input class="input-servico" name="text" id="text" type="text" placeholder="Descrição"  />
-
+              </div>
+            </div>
 
       </form>
 
@@ -118,6 +124,21 @@
 
 <style>
 
+  .formServico{
+    display: flex;
+    width: 100%;
+  }
+
+  .inputsServico{
+    width: 100%;
+  }
+
+  @media (max-width: 600px) {
+    .formServico{
+    display: block;
+   
+  }
+  }
 .modal {
         display: none;
         position: absolute;
