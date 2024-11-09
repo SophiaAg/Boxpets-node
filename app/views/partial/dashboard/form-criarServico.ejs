@@ -1,32 +1,27 @@
-<form action="/criarServico" method="post" enctype="multipart/form-data">
-    <!-- Aqui vc faria a questão de aparecer a imagem após seleciona-la no explorador de arquivos -->
-    <input type="file" name="imagemServico" id="imagemServico">
-    <input type="text" name="nomeServico" id="nomeServico" placeholder="Nome do serviço">
-    <textarea type="text" name="descricaoServico" id="descricaoServico" placeholder="Descrição do serviço"></textarea>
-    <input type="text" name="precoServico" id="precoServico" placeholder="Preço do serviço: R$0,00">
-    <input type="checkbox" name="portePequeno" id="portePequeno" value="1" checked>
-    <label for="portePequeno">Porte pequeno</label>
-    <input type="checkbox" name="porteMedio" id="porteMedio" value="1" checked>
-    <label for="porteMedio">Porte médio</label>
-    <input type="checkbox" name="porteGrande" id="porteGrande" value="1" checked>
-    <label for="porteGrande">Porte Grande</label>
-    <button type="submit">Adicionar Servico</button>
-</form>
 
-<script>
-    const priceInput = document.getElementById("precoServico");
+    <div class="formServico">
 
-    priceInput.addEventListener("input", () => {
-        let value = priceInput.value;
-        value = value.replace(/\D/g, "");
+      <div class="imgServico">
+        <section class="bannerForm">
+          <% if(servico) {%>
+          <img src="./src/imagens-servico/servico.CAMINHO_IMAGEM_SERVICO" alt="imgServico">
+          <%}%>
+          <input type="file" name="imagemServico" id="imagemServico">
 
-        if (parseInt(value) > 500000) {
-            value = "500000";
-        }
-        value = (value / 100).toLocaleString("pt-BR", {
-            style: "currency",
-            currency: "BRL",
-        });
-        priceInput.value = value;
-    });
-</script>
+        </section>
+      </div>
+
+      <div class="inputsServico">
+        <input class="input-servico" type="text" name="nomeServico" id="nomeServico" placeholder="Nome do serviço">
+        <textarea class="input-servico" type="text" name="descricaoServico" id="descricaoServico"
+          placeholder="Descrição do serviço"></textarea>
+        <input class="input-servico" type="text" name="precoServico" id="precoServico"
+          placeholder="Preço do serviço: R$0,00">
+        <input type="checkbox" name="portePequeno" id="portePequeno" value="1" checked>
+        <label for="portePequeno">Porte pequeno</label>
+        <input type="checkbox" name="porteMedio" id="porteMedio" value="1" checked>
+        <label for="porteMedio">Porte médio</label>
+        <input type="checkbox" name="porteGrande" id="porteGrande" value="1" checked>
+        <label for="porteGrande">Porte Grande</label>
+      </div>
+    </div>

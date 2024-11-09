@@ -51,6 +51,14 @@ const usuariosModel = {
             return error
         }
     },
+    findServicosByIdEmpresa: async (id) => {
+        try {
+            const [resultados] = await pool.query("SELECT * FROM SERVICOS WHERE ID_USUARIO = ? AND USUARIOS_STATUS = 'ativo' LIMIT 1", [id])
+            return resultados
+        } catch (error) {
+            return error
+        }
+    },
     findUsuariosByEmailAtivo: async (email) => {
         try {
             const [resultados] = await pool.query("SELECT * FROM USUARIOS WHERE EMAIL_USUARIOS = ? AND USUARIOS_STATUS = 'ativo' LIMIT 1", [email])

@@ -141,7 +141,7 @@ router.post("/excluirFoto",
 
 router.get("/dashboard",
     middleWares.verifyAutenticado,
-    middleWares.verifyAutorizado("pages/template-cadastroEmpresa", { page: "../partial/cadastroEmpresa/login", errors: null, valores: "", incorreto: null }, true),
+    middleWares.verifyAutorizado("pages/template-loginEmpresa", { page: "../partial/cadastroEmpresa/login", errors: null, valores: "", incorreto: null }, true),
     async function (req, res) {
 
         const params = new URLSearchParams(req.query);
@@ -174,7 +174,7 @@ router.get("/dashboard",
 // AGENDA
 router.get("/agendamento",
     middleWares.verifyAutenticado,
-    middleWares.verifyAutorizado("pages/template-cadastroEmpresa", { page: "../partial/cadastroEmpresa/login", errors: null, valores: "", incorreto: null }, true),
+    middleWares.verifyAutorizado("pages/template-loginEmpresa", { page: "../partial/cadastroEmpresa/login", errors: null, valores: "", incorreto: null }, true),
     async function (req, res) {
         // const horariosServico = await usuariosModel.findHorariosIdservico()
         res.render("pages/template-dashboard",
@@ -190,7 +190,7 @@ router.get("/agendamento",
 
 router.post("/criarHorario",
     middleWares.verifyAutenticado,
-    middleWares.verifyAutorizado("pages/template-cadastroEmpresa", { page: "../partial/cadastroEmpresa/login", errors: null, valores: "", incorreto: null }, true),
+    middleWares.verifyAutorizado("pages/template-loginEmpresa", { page: "../partial/cadastroEmpresa/login", errors: null, valores: "", incorreto: null }, true),
     async function (req, res) {
         // usuariosController.agendamentoUsuario(req, res)
 
@@ -226,22 +226,18 @@ router.post("/criarHorario",
 
 router.get("/planos",
     middleWares.verifyAutenticado,
-    middleWares.verifyAutorizado("pages/template-cadastroEmpresa", { page: "../partial/cadastroEmpresa/login", errors: null, valores: "", incorreto: null }, true),
+    middleWares.verifyAutorizado("pages/template-loginEmpresa", { page: "../partial/cadastroEmpresa/login", errors: null, valores: "", incorreto: null }, true),
     function (req, res) {
         res.render("pages/template-dashboard", { page: "../partial/dashboard/planos", classePagina: 'planos', nomeempresa: 'nomeempresa' });
     });
 
-router.get('/paginacomercial',
-    middleWares.verifyAutenticado,
-    middleWares.verifyAutorizado("pages/template-cadastroEmpresa", { page: "../partial/cadastroEmpresa/login", errors: null, valores: "", incorreto: null }, true),
-    MainController.first
-);
+
 
 router.get("/criaPg",
     middleWares.verifyAutenticado,
-    middleWares.verifyAutorizado("pages/template-cadastroEmpresa", { page: "../partial/cadastroEmpresa/login", errors: null, valores: "", incorreto: null }, true),
+    middleWares.verifyAutorizado("pages/template-loginEmpresa", { page: "../partial/cadastroEmpresa/login", errors: null, valores: "", incorreto: null }, true),
     function (req, res) {
-        res.render("pages/template-dashboard", {page: "../partial/dashboard/criaPg", classePagina: 'teste', nomeempresa: 'nomeempresa' });
+        res.render("pages/template-dashboard", { page: "../partial/dashboard/criaPg", classePagina: 'teste', nomeempresa: 'nomeempresa' });
     });
 
 

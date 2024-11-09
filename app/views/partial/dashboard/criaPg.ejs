@@ -1,206 +1,78 @@
-<article>
-<div class="logo-empresa">
-
-  <form action="/logoEmpresa" method="post" enctype="multipart/form-data">
-  <div class="logo">
-    <img src="" alt="">
-  </div>
-  <input type="file" name="imgLogo" id="imgLogo" class="input__control"
-  placeholder="Selecione sua foto de Logo" data-inputFoto required>
- </form>
-  <h1>nome Empresa</h1>
-</div>
-
-<form action="bannerEmpresa" method="post"  enctype="multipart/form-data">
-<section class="bannerForm">
- <img src="" alt="">
-
-<input type="file" name="imgBanner" id="imgBanner" class="input__control imgBanner "
-            placeholder="Selecione sua foto de Banner" data-inputFoto required>
-          </section>
-</form>
-
-
-<section class="container">
-  <section class="category-item-container has-scrollbar">
-
-    <section class="category-item">
- 
-          <h3 class="category-item-conteudo">horario</h3>
-        </section>
-
-
-        <section class="category-item">
- 
-          <h3 class="category-item-conteudo">localização</h3>
-        </section>
-
-
-        <section class="category-item">
- 
-          <h3 class="category-item-conteudo">whatsapp</h3>
-        </section>
-      </section>
-    </section>
-
-<form action="/descEmpresa" method="post">
-  <textarea class="descricaoForm" id="descricao" name="descricao" rows="4" cols="50" placeholder="coloque a descrição do seu serviço aqui"></textarea>
-</form>
-
-<div class="abrir-modal"  data-openmodal="#modalCriarHorario">
-<a class="btn-servico">adicionar serviço</a>
-</div>
-<h2 style="margin: 5%;">Serviços</h2>
-
-<div class="showcase">
-
-  <div class="showcase-banner"  >
-
-    <img src=" /src/img-homepage/washing-pet-dog-home.jpg" alt="Mens Winter Leathers Jackets" width="300" style="border-radius: 20%;"
-      class="product-img default">
-   
-    <p class="showcase-badge">15%</p>
-
-  </div>
-
-  <div class="showcase-content">
-    <a href="/buySer" class="showcase-category">Banho basico</a>
-    <a href="/buySer">
-      <h3 class="showcase-title">Um banho comum</h3>
-    </a>
-
-    <div class="price-box">
-      <p class="price">R$48.00</p>
-      <del>R$75.00</del>
-    </div>
-
-  </div>
-
-</div>
-
-<button class="btn-servico ">postar</button>
-<div class="modal"  id="modalCriarHorario">
-  <button class="closeBtn"><span class="material-symbols-outlined">close</span></button>
-  <div class="modal-content" >
-    <h1>Adicionar Serviço</h1>
-    <div class="formServico">
-      
-    <div class="imgServico">
-
-
-<form action="/criarServico" method="post" enctype="multipart/form-data">
-
-      <section class="bannerForm">
-       <img src="" alt="">
-       <input type="file" name="imagemServico" id="imagemServico">
-                </section>
-              </div>
-
-              <div class="inputsServico">
-                <input class="input-servico" name="text" id="text" type="text" placeholder="Titulo do serviço"  />
-                <input class="input-servico" type="text" name="nomeServico" id="nomeServico" placeholder="Nome do serviço">
-                <textarea class="input-servico" type="text" name="descricaoServico" id="descricaoServico" placeholder="Descrição do serviço"></textarea>
-                <input class="input-servico" type="text" name="precoServico" id="precoServico" placeholder="Preço do serviço: R$0,00">
-                <input  type="checkbox" name="portePequeno" id="portePequeno" value="1" checked>
-                <label for="portePequeno">Porte pequeno</label>
-                <input  type="checkbox" name="porteMedio" id="porteMedio" value="1" checked>
-                <label for="porteMedio">Porte médio</label>
-                <input  type="checkbox" name="porteGrande" id="porteGrande" value="1" checked>
-                <label for="porteGrande">Porte Grande</label>
-              </div>
-            </div>
-
-      </form>
-
-     
-      
-        
-
-
-      <button class="btn-servico ">adicionar serviço</button>
-
-
-  </div>
-</div>
-
-
-
-</article>
-
-
-
-
 <style>
-
-  .formServico{
+  .formServico {
     display: flex;
     width: 100%;
   }
 
-  .inputsServico{
+  .inputsServico {
     width: 100%;
   }
-  .inputsServico textarea{
+
+  .inputsServico textarea {
     height: 70px;
     border-radius: 20px;
     justify-items: center;
   }
 
   @media (max-width: 600px) {
-    .formServico{
-    display: block;
-   
+    .formServico {
+      display: block;
+
+    }
   }
-  }
-.modal {
-        display: none;
-        position: absolute;
-        top: 0;
-        left: 0;
-        backdrop-filter: blur(10px);
-        z-index: 1000;
-        width: 100%;
-        height: 100%;
-        &.show {
-            display: flex;
-        }
-        & .modal-content{
-            padding: 3rem;
-            box-shadow: 0 0 5px rgba(0, 0, 0, 0.473);
-            background: white;
-            width: 100%;
-            max-width: 768px;
-            border-radius: 10px;
-            margin: auto;
-        }
-        & .closeBtn{
-            position: absolute;
-            width: fit-content;
-            height: fit-content;
-            padding: 0.3rem;
-            top:0;
-            right:0;
-            margin: 10px;
-        }
+
+  .modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    backdrop-filter: blur(10px);
+    z-index: 1000;
+    width: 100%;
+    height: 100%;
+
+    &.show {
+      display: flex;
     }
 
-.input-servico {
-  border: none;
-  min-width: 90%;
-  width: 100%;
-  background-color: #f0f0f0;
-  margin: 10px 0;
-  height: 55px;
-  border-radius: 55px;
-  display: grid;
-  gap: 12px;
-  grid-template-columns: 15% 85%;
-  padding: 0 0.4rem;
-  position: relative;
-} 
+    & .modal-content {
+      padding: 3rem;
+      box-shadow: 0 0 5px rgba(0, 0, 0, 0.473);
+      background: white;
+      width: 100%;
+      max-width: 768px;
+      border-radius: 10px;
+      margin: auto;
+    }
 
-.category-item-container {
-  margin: 5%;
+    & .closeBtn {
+      position: absolute;
+      width: fit-content;
+      height: fit-content;
+      padding: 0.3rem;
+      top: 0;
+      right: 0;
+      margin: 10px;
+    }
+  }
+
+  .input-servico {
+    border: none;
+    min-width: 90%;
+    width: 100%;
+    background-color: #f0f0f0;
+    margin: 10px 0;
+    height: 55px;
+    border-radius: 55px;
+    display: grid;
+    gap: 12px;
+    grid-template-columns: 15% 85%;
+    padding: 0 0.4rem;
+    position: relative;
+  }
+
+  .category-item-container {
+    margin: 5%;
     display: flex;
     align-items: center;
     gap: 10px;
@@ -208,9 +80,9 @@
     scroll-snap-type: inline mandatory;
     /*scrol lateral*/
     overscroll-behavior-inline: contain;
-}
+  }
 
-.category-item {
+  .category-item {
     min-width: 100%;
     display: flex;
     align-items: center;
@@ -220,164 +92,193 @@
     border-radius: 20px;
     scroll-snap-align: start;
     width: 80%;
-}
+  }
 
-.category-item-conteudo {
+  .category-item-conteudo {
     color: var(--preto);
     font-size: 16px;
     font-weight: 500;
-    
-}
 
-@media (min-width: 600px) {
+  }
+
+  @media (min-width: 600px) {
     .category-item-container {
-        gap: 30px;
+      gap: 30px;
     }
 
     .category-item {
-        min-width: calc(50% - 15px);
+      min-width: calc(50% - 15px);
     }
 
-}
+  }
 
-@media (min-width: 1024px) {
+  @media (min-width: 1024px) {
     .category-item {
-        min-width: calc(33.33% - 20px);
+      min-width: calc(33.33% - 20px);
     }
 
     .category-img-box {
-        padding: 20px;
+      padding: 20px;
     }
 
-}
+  }
 
 
-.btn-servico {
-  margin-left: 5%;
-  min-width: 90%;
-        display: inline-block;
-        margin-top: 1rem;
-        padding: .6rem 1.5rem;
-        border: none;
-        border-radius: 1.5rem;
-        background: var(--cor-segundaria);
-        font-size: 1rem;
-        color: var(--branco);
-        cursor: pointer;
-        box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .1);
-        transition: all .3s linear;
-      }
+  .btn-servico {
+    margin-left: 5%;
+    min-width: 90%;
+    display: inline-block;
+    margin-top: 1rem;
+    padding: .6rem 1.5rem;
+    border: none;
+    border-radius: 1.5rem;
+    background: var(--cor-segundaria);
+    font-size: 1rem;
+    color: var(--branco);
+    cursor: pointer;
+    box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .1);
+    transition: all .3s linear;
+  }
 
-    .bannerForm {
-      
-        padding-block: 4rem;
-        margin: 5%;
-        text-align: center;
-        background: var(--cor-primaria);
-        border-radius: 1.5rem;
-        border: 2px solid var(--branco);
-        color: var(--branco);
-        height: fit-content;
-      
-      }
+  .bannerForm {
+
+    padding-block: 4rem;
+    margin: 5%;
+    text-align: center;
+    background: var(--cor-primaria);
+    border-radius: 1.5rem;
+    border: 2px solid var(--branco);
+    color: var(--branco);
+    height: fit-content;
+
+  }
 
 
-      .descricaoForm {
-      width: 100%;
-        padding-block: 4rem;
-        margin: 5%;
-        text-align: center;
-        background: var(--branco);
-        border-radius: 1.5rem;
-        border: 2px solid var(--cor-primaria);
-        color: var(--preto);
-        height: fit-content;
-      
-      }
-      
-      
-@media screen and (max-width: 992px){
+  .descricaoForm {
+    width: 100%;
+    padding-block: 4rem;
+    margin: 5%;
+    text-align: center;
+    background: var(--branco);
+    border-radius: 1.5rem;
+    border: 2px solid var(--cor-primaria);
+    color: var(--preto);
+    height: fit-content;
 
-     .detalhes .item{
-         min-width: 120px;
-     }
+  }
+
+
+  @media screen and (max-width: 992px) {
+
+    .detalhes .item {
+      min-width: 120px;
     }
+  }
 
-.detalhes{
-        display: grid;
-        grid-template-columns: 1fr 1fr 1fr;
-        gap: 20px;
-        margin-top: 20px;
-        width: 25%;
-    }
-     .detalhes .item{
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        height: 140px;
-        min-width: 220px;
-        padding: 20px;
-        border-radius: 20px;
-        gap: 5%;
-        box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .1);
-        background-color: #000080;
-    }
-        .detalhes .item:hover{
-        box-shadow: none;
-    
-    }
-     .detalhes .item {
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-    }
-     .detalhes .item  .info h5,p {
-        color: #fff;
-        font-size: 16px;
-        font-weight: bold;
-    }
+  .detalhes {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 20px;
+    margin-top: 20px;
+    width: 25%;
+  }
+
+  .detalhes .item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 140px;
+    min-width: 220px;
+    padding: 20px;
+    border-radius: 20px;
+    gap: 5%;
+    box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .1);
+    background-color: #000080;
+  }
+
+  .detalhes .item:hover {
+    box-shadow: none;
+
+  }
+
+  .detalhes .item {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  .detalhes .item .info h5,
+  p {
+    color: #fff;
+    font-size: 16px;
+    font-weight: bold;
+  }
 
 
-   
-.logo-empresa{
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  margin-top: 10px;
-}
-  .logo-empresa .logo{
+
+  .logo-empresa {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin-top: 10px;
+  }
+
+  .logo-empresa .logo {
     width: 100px;
     height: 100px;
     background: aqua;
     border-radius: 50%;
-   
+    position: relative;
+
+    & img {
+      border-radius: 50%;
+      width: inherit;
+      height: inherit;
+      object-fit: cover;
+    }
+
+    & label {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      translate: -50% -50%;
+
+      & span {
+        margin: auto;
+      }
+    }
   }
-  .carroselEmpresaPremium{
+
+  .carroselEmpresaPremium {
     display: flex;
     justify-content: center;
     align-items: center;
-}
-.container-empresaPremium{
-    
+  }
+
+  .container-empresaPremium {
+
     justify-content: center;
     align-items: center;
     position: relative;
     width: 75%;
     overflow: hidden;
-   
-}
 
-.container-empresaPremium .slidesrow{
+  }
+
+  .container-empresaPremium .slidesrow {
     display: flex;
     height: 100%;
-   margin: 5%;
-   align-items: center;
-  
-    
-}
+    margin: 5%;
+    align-items: center;
 
 
-.container-empresaPremium .slidesrow .slide-empresaP{
+  }
+
+
+  .container-empresaPremium .slidesrow .slide-empresaP {
     min-width: 100%;
     position: relative;
     display: flex;
@@ -387,34 +288,155 @@
     background-color: #000080;
     border: 3px solid white;
     box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.2);
-   
-}
 
-.container-empresaPremium .slidesrow .slide-empresaP img{
-   width: 100%;
-   height: 100%;
-   object-fit: cover;
-   border-radius: 15px;
-}
+  }
+
+  .container-empresaPremium .slidesrow .slide-empresaP img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 15px;
+  }
+  .servicos-container{
+    display: flex;
+    gap: 1rem;
+  }
 </style>
 
+<article>
+  <div class="logo-empresa">
+
+    <form action="/attlogoEmpresa" method="post" enctype="multipart/form-data" data-formAuto>
+      <div class="logo">
+        <% if(empresa.LOGO_IMG){%>
+          <img src="./src/imagens-empresa/logo-empresa/<%= empresa.LOGO_IMG %>" alt="Logo da empresa">
+          <% } %>
+            <label for="imgLogo">
+              <span class="material-symbols-outlined">
+                download
+              </span>
+            </label>
+      </div>
+
+      <input type="file" name="imgLogo" id="imgLogo" class="input__control" placeholder="Selecione sua foto de Logo"
+        data-inputFoto data-inputAtiva required style="display:none;">
+    </form>
+    <h1>
+      <%= empresa.NOMEEMPRESA_USUARIO %>
+    </h1>
+  </div>
+
+  <form action="/attbannerEmpresa" method="post" enctype="multipart/form-data" data-formAuto>
+    <section class="bannerForm">
+
+      <% if(empresa.BANNER_IMG){%>
+        <img src="./src/imagens-empresa/banner-empresa/<%= empresa.BANNER_IMG %>" alt="Banner da empresa">
+        <% } %>
+
+          <input type="file" name="imgBanner" id="imgBanner" class="input__control imgBanner"
+            placeholder="Selecione sua foto de Banner" data-inputFoto data-inputAtiva required>
+    </section>
+  </form>
+
+  <form action="/alterarInfosGerais" method="post">
+    <section class="container">
+      <section class="category-item-container has-scrollbar">
+
+        <section class="category-item">
+          <input type="text" name="horarioInicio" id="horarioInicio" value="<%= empresa.INFO_GERAIS.horarioInicio %>"
+            placeholder="horario de inicio" required>
+        </section>
+        <section class="category-item">
+          <input type="text" name="horarioFim" id="horarioFim" value="<%= empresa.INFO_GERAIS.horarioFim %>"
+            placeholder="horario de fim" required>
+        </section>
+
+        <section class="category-item">
+          <input type="text" name="local" id="local" value="<%= empresa.INFO_GERAIS.localizacao %>"
+            placeholder="localização" required>
+        </section>
+
+        <section class="category-item">
+          <input type="text" name="whatsapp" id="whatsapp" value="<%= empresa.INFO_GERAIS.whatsapp %>"
+            placeholder="whatsapp" required>
+        </section>
+
+      </section>
+    </section>
+    <textarea class="descricaoForm" id="descricao" name="descricao" rows="4" cols="50"
+      placeholder="coloque a descrição do seu serviço aqui" required>
+        <%= empresa.INFO_GERAIS.descricao %>
+      </textarea>
+    <button class="btn-servico">Atualizar informações gerais</button>
+  </form>
+
+
+  <div class="btn-servico abrir-modal" data-openmodal="#modalCriarHorario">adicionar serviço</div>
+
+  <h2 style="margin: 5%;">Serviços</h2>
+<section class="servicos-container">
+  <% if(servicos && servicos.length >0){
+    servicos.forEach(servico =>{ %>
+      <div class="showcase">
+
+        <div class="showcase-banner">
+    
+          <img src="/src/imagens-servico/<%= servico.CAMINHO_IMAGEM_SERVICO %>" alt="Mens Winter Leathers Jackets" width="300"
+            style="border-radius: 20%;" class="product-img default">
+    
+          <p class="showcase-badge">15%</p>
+    
+        </div>
+    
+        <div class="showcase-content">
+          <a href="/buySer" class="showcase-category">Banho basico</a>
+          <a href="/buySer">
+            <h3 class="showcase-title">Um banho comum</h3>
+          </a>
+    
+          <div class="price-box">
+            <p class="price">R$48.00</p>
+            <del>R$75.00</del>
+          </div>
+    
+        </div>
+    
+      </div>
+   <% })
+  } %>
+  
+</section>
+
+
+  <div class="modal" id="modalCriarHorario">
+    <button class="closeBtn"><span class="material-symbols-outlined">close</span></button>
+    <div class="modal-content">
+      <h1>Adicionar Serviço</h1>
+      <form action="/criarServico" method="post" enctype="multipart/form-data">
+        <%- include('./form-criarServico.ejs') %>
+        <button class="btn-servico">Adicionar serviço</button>
+      </form>
+    </div>
+  </div>
+
+</article>
 
 <script src="js/abrirModal.js"></script>
+<script src="js/inputFormAtiva.js"></script>
 
 <script>
   const priceInput = document.getElementById("precoServico");
-
   priceInput.addEventListener("input", () => {
-      let value = priceInput.value;
-      value = value.replace(/\D/g, "");
+    let value = priceInput.value;
+    value = value.replace(/\D/g, "");
 
-      if (parseInt(value) > 500000) {
-          value = "500000";
-      }
-      value = (value / 100).toLocaleString("pt-BR", {
-          style: "currency",
-          currency: "BRL",
-      });
-      priceInput.value = value;
+    if (parseInt(value) > 500000) {
+      value = "500000";
+    }
+    value = (value / 100).toLocaleString("pt-BR", {
+      style: "currency",
+      currency: "BRL",
+    });
+    priceInput.value = value;
   });
 </script>

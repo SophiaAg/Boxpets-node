@@ -232,8 +232,6 @@ const usuariosController = {
       .matches(/[!@#$%^&*(),.?":{}|<>]/).withMessage('A senha deve conter pelo menos um caractere especial.')
       .bail(),
   ],
-
-
   //função de cadastrar
   cadastrarUsuario: async (req, res) => {
 
@@ -488,7 +486,6 @@ const usuariosController = {
       }
     }
   },
-
   //   agendamentoUsuario: async (req, res) => {
   // console.log(res)
   //     let error = validationResult(req)
@@ -544,7 +541,6 @@ const usuariosController = {
 
 
   // comentar
-
   FazerComentario: async (req, res) => {
 
     const id = req.session.Clienteid;
@@ -661,9 +657,6 @@ const usuariosController = {
       }
     }
   },
-
-
-
   visuPg: async (req, res) => {
     try {
       let results = await usuariosModel.findUsuariosById(req.session.autenticado.id);
@@ -681,6 +674,125 @@ const usuariosController = {
       console.log(e);
       res.redirect("/");
     }
-  }
+  },
+  alterarInfoGeral: async (req, res) => {
+    let error = validationResult(req)
+
+    if (!error.isEmpty()) {
+      console.log(error)
+
+      const usuario = await usuariosModel.findUsuariosById(req.session.autenticado.id)
+      const user = usuario[0].INFO_GERAIS
+        ? { ...usuario[0], INFO_GERAIS: JSON.parse(usuario[0].INFO_GERAIS) }
+        : { ...usuario[0], INFO_GERAIS: { horarioInicio: '', horarioFim: '', localizacao: '', whatsapp: '', descricao: '' } }
+      const jsonResult = {
+        page: "../partial/dashboard/criaPg",
+        erros: error,
+        classePagina: 'paginaComercial',
+        empresa: user
+      }
+      res.render("./pages/template-dashboard", jsonResult)
+
+    } else {
+      const { horarioInicio, horarioFim, local, whatsapp, descricao } = req.body
+      try {
+        const infogerais = { horarioInicio: horarioInicio, horarioFim: horarioFim, localizacao: local, whatsapp: whatsapp, descricao: descricao }
+        const result = await usuariosModel.updateUser({ INFO_GERAIS: JSON.stringify(infogerais) }, req.session.autenticado.id)
+        console.log(result)
+        res.redirect("/paginacomercial")
+      } catch (errors) {
+        console.log(errors)
+        res.render("./partial/pg-erro")
+      }
+    }
+  },
+  attLogo: async (req, res) => {
+    let errors = req.session.erroMulter
+
+    if (errors.length > 0) {
+      console.log(errors)
+      const usuario = await usuariosModel.findUsuariosById(req.session.autenticado.id)
+      const user = usuario[0].INFO_GERAIS
+        ? { ...usuario[0], INFO_GERAIS: JSON.parse(usuario[0].INFO_GERAIS) }
+        : { ...usuario[0], INFO_GERAIS: { horarioInicio: '', horarioFim: '', localizacao: '', whatsapp: '', descricao: '' } }
+
+      if (req.file) {
+        removeImg(`./app/public/src/imagens-empresa/logo-empresa/${req.file.filename}`)
+      }
+      const jsonResult = {
+        page: "../partial/dashboard/criaPg",
+        erros: errors,
+        classePagina: 'paginaComercial',
+        empresa: user
+      }
+      res.render("./pages/template-dashboard", jsonResult)
+
+    } else {
+      try {
+        if (!req.file) {
+          return res.redirect("/paginacomercial")
+        }
+        const usuario = await usuariosModel.findUsuariosById(req.session.autenticado.id)
+        if(usuario[0].LOGO_IMG){
+          removeImg(`./app/public/src/imagens-empresa/logo-empresa/${usuario[0].LOGO_IMG}`)
+        }
+        await usuariosModel.updateUser({ LOGO_IMG: req.file.filename }, req.session.autenticado.id)
+        console.log('Logo da empresa atualizada!')
+        res.redirect("/paginacomercial")
+      } catch (erros) {
+        console.log(erros)
+        if (req.file) {
+          removeImg(`./app/public/src/imagens-empresa/logo-empresa/${req.file.filename}`)
+        }
+        res.render("./partial/pg-erro")
+      }
+    }
+  },
+  attBanner: async (req, res) => {
+    let errors = req.session.erroMulter
+
+    if (errors.length > 0) {
+      console.log(errors)
+      const usuario = await usuariosModel.findUsuariosById(req.session.autenticado.id)
+      const user = usuario[0].INFO_GERAIS
+        ? { ...usuario[0], INFO_GERAIS: JSON.parse(usuario[0].INFO_GERAIS) }
+        : { ...usuario[0], INFO_GERAIS: { horarioInicio: '', horarioFim: '', localizacao: '', whatsapp: '', descricao: '' } }
+
+      if (req.file) {
+        removeImg(`./app/public/src/imagens-empresa/banner-empresa/${req.file.filename}`)
+      }
+      const jsonResult = {
+        page: "../partial/dashboard/criaPg",
+        erros: errors,
+        classePagina: 'paginaComercial',
+        empresa: user
+      }
+      res.render("./pages/template-dashboard", jsonResult)
+
+    } else {
+      try {
+        if (!req.file) {
+          return res.redirect("/paginacomercial")
+        }
+
+        const usuario = await usuariosModel.findUsuariosById(req.session.autenticado.id)
+        if(usuario[0].BANNER_IMG){
+          removeImg(`./app/public/src/imagens-empresa/banner-empresa/${usuario[0].BANNER_IMG}`)
+        }
+        await usuariosModel.updateUser({ BANNER_IMG: req.file.filename }, req.session.autenticado.id)
+        console.log('Banner da empresa atualizada!')
+        res.redirect("/paginacomercial")
+
+      } catch (erros) {
+
+        console.log(erros)
+        if (req.file) {
+          removeImg(`./app/public/src/imagens-empresa/banner-empresa/${req.file.filename}`)
+        }
+        res.render("./partial/pg-erro")
+        
+      }
+    }
+  },
 }
 module.exports = usuariosController
