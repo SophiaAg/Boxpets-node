@@ -74,11 +74,15 @@
       
     }
     
-    aside{
+    aside {
+
         height: 100vh;
-       
-    
+        background: var(--fundo);
+        transition: left 0.4s ease; /* Transição para suavizar */
     }
+
+
+    
     aside .top-left img{
         width: 90px;
      
@@ -324,7 +328,7 @@
       }
       
       .right-section{
-        margin-top: 10rem;
+        margin-top: 3rem;
     }
     
       .right-section .user-profile{

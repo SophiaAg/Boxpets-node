@@ -1,3 +1,134 @@
+<article>
+<div class="logo-empresa">
+
+  <form action="/logoEmpresa" method="post" enctype="multipart/form-data">
+  <div class="logo">
+    <img src="" alt="">
+  </div>
+  <input type="file" name="imgLogo" id="imgLogo" class="input__control"
+  placeholder="Selecione sua foto de Logo" data-inputFoto required>
+ </form>
+  <h1>nome Empresa</h1>
+</div>
+
+<form action="bannerEmpresa" method="post"  enctype="multipart/form-data">
+<section class="bannerForm">
+ <img src="" alt="">
+
+<input type="file" name="imgBanner" id="imgBanner" class="input__control imgBanner "
+            placeholder="Selecione sua foto de Banner" data-inputFoto required>
+          </section>
+</form>
+
+
+<section class="container">
+  <section class="category-item-container has-scrollbar">
+
+    <section class="category-item">
+ 
+          <h3 class="category-item-conteudo">horario</h3>
+        </section>
+
+
+        <section class="category-item">
+ 
+          <h3 class="category-item-conteudo">localização</h3>
+        </section>
+
+
+        <section class="category-item">
+ 
+          <h3 class="category-item-conteudo">whatsapp</h3>
+        </section>
+      </section>
+    </section>
+
+<form action="/descEmpresa" method="post">
+  <textarea class="descricaoForm" id="descricao" name="descricao" rows="4" cols="50" placeholder="coloque a descrição do seu serviço aqui"></textarea>
+</form>
+
+<div class="abrir-modal"  data-openmodal="#modalCriarHorario">
+<a class="btn-servico">adicionar serviço</a>
+</div>
+<h2 style="margin: 5%;">Serviços</h2>
+
+<div class="showcase">
+
+  <div class="showcase-banner"  >
+
+    <img src=" /src/img-homepage/washing-pet-dog-home.jpg" alt="Mens Winter Leathers Jackets" width="300" style="border-radius: 20%;"
+      class="product-img default">
+   
+    <p class="showcase-badge">15%</p>
+
+  </div>
+
+  <div class="showcase-content">
+    <a href="/buySer" class="showcase-category">Banho basico</a>
+    <a href="/buySer">
+      <h3 class="showcase-title">Um banho comum</h3>
+    </a>
+
+    <div class="price-box">
+      <p class="price">R$48.00</p>
+      <del>R$75.00</del>
+    </div>
+
+  </div>
+
+</div>
+
+<button class="btn-servico ">postar</button>
+<div class="modal"  id="modalCriarHorario">
+  <button class="closeBtn"><span class="material-symbols-outlined">close</span></button>
+  <div class="modal-content" >
+    <h1>Adicionar Serviço</h1>
+    <div class="formServico">
+      
+    <div class="imgServico">
+
+
+<form action="/criarServico" method="post" enctype="multipart/form-data">
+
+      <section class="bannerForm">
+       <img src="" alt="">
+       <input type="file" name="imagemServico" id="imagemServico">
+                </section>
+              </div>
+
+              <div class="inputsServico">
+                <input class="input-servico" type="text" name="nomeServico" id="nomeServico" placeholder="Nome do serviço">
+                <textarea class="input-servico" type="text" name="descricaoServico" id="descricaoServico" placeholder="Descrição do serviço"></textarea>
+                <input class="input-servico" type="text" name="precoServico" id="precoServico" placeholder="Preço do serviço: R$0,00">
+                <input  type="checkbox" name="portePequeno" id="portePequeno" value="1" checked>
+                <label for="portePequeno">Porte pequeno</label>
+                <input  type="checkbox" name="porteMedio" id="porteMedio" value="1" checked>
+                <label for="porteMedio">Porte médio</label>
+                <input  type="checkbox" name="porteGrande" id="porteGrande" value="1" checked>
+                <label for="porteGrande">Porte Grande</label>
+              </div>
+            </div>
+
+      </form>
+
+     
+      
+        
+
+
+      <button class="btn-servico ">adicionar serviço</button>
+
+
+  </div>
+</div>
+
+
+
+</article>
+
+
+
+
 <style>
   .formServico {
     display: flex;
