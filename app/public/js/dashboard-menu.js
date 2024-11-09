@@ -12,6 +12,16 @@ closeBtn.addEventListener('click', () => {
     sideMenu.style.display = 'none';
 });
 
+window.addEventListener('resize', () => {
+    if (window.innerWidth > 868) {
+        // Voltar o menu para a posição original na visualização desktop
+        sideMenu.style.display = 'block';
+    } else {
+        // Esconde o menu novamente na visualização mobile
+        sideMenu.style.display = 'none';
+    }
+});
+
 // Marcar item como ativo
 let activeItem = null; // Inicializa como null para garantir que não haja nenhum item ativo inicialmente
 
