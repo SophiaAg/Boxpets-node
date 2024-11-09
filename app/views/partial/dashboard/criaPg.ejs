@@ -84,21 +84,29 @@
   <div class="modal-content" >
     <h1>Adicionar Serviço</h1>
     <div class="formServico">
+      
     <div class="imgServico">
-    <form action="imgserviço" method="post"  enctype="multipart/form-data">
+
+
+<form action="/criarServico" method="post" enctype="multipart/form-data">
+
       <section class="bannerForm">
        <img src="" alt="">
-      
-      <input type="file" name="imgBanner" id="imgBanner" class="input__control imgBanner "
-                  placeholder="Selecione sua foto de Banner" data-inputFoto required>
+       <input type="file" name="imagemServico" id="imagemServico">
                 </section>
               </div>
 
               <div class="inputsServico">
                 <input class="input-servico" name="text" id="text" type="text" placeholder="Titulo do serviço"  />
-                <input class="input-servico" name="text" id="text" type="text" placeholder="Preço"  />
-                <input class="input-servico" name="text" id="text" type="text" placeholder="categorias"  />
-                <input class="input-servico" name="text" id="text" type="text" placeholder="Descrição"  />
+                <input class="input-servico" type="text" name="nomeServico" id="nomeServico" placeholder="Nome do serviço">
+                <textarea class="input-servico" type="text" name="descricaoServico" id="descricaoServico" placeholder="Descrição do serviço"></textarea>
+                <input class="input-servico" type="text" name="precoServico" id="precoServico" placeholder="Preço do serviço: R$0,00">
+                <input  type="checkbox" name="portePequeno" id="portePequeno" value="1" checked>
+                <label for="portePequeno">Porte pequeno</label>
+                <input  type="checkbox" name="porteMedio" id="porteMedio" value="1" checked>
+                <label for="porteMedio">Porte médio</label>
+                <input  type="checkbox" name="porteGrande" id="porteGrande" value="1" checked>
+                <label for="porteGrande">Porte Grande</label>
               </div>
             </div>
 
@@ -131,6 +139,11 @@
 
   .inputsServico{
     width: 100%;
+  }
+  .inputsServico textarea{
+    height: 70px;
+    border-radius: 20px;
+    justify-items: center;
   }
 
   @media (max-width: 600px) {
@@ -387,3 +400,21 @@
 
 
 <script src="js/abrirModal.js"></script>
+
+<script>
+  const priceInput = document.getElementById("precoServico");
+
+  priceInput.addEventListener("input", () => {
+      let value = priceInput.value;
+      value = value.replace(/\D/g, "");
+
+      if (parseInt(value) > 500000) {
+          value = "500000";
+      }
+      value = (value / 100).toLocaleString("pt-BR", {
+          style: "currency",
+          currency: "BRL",
+      });
+      priceInput.value = value;
+  });
+</script>

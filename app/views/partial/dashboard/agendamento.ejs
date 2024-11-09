@@ -65,97 +65,55 @@
     }
 </style>
 <article>
-<div class="servicos">
-<div class="showcase">
-
-    <div class="showcase-banner"  >
-  
-      <img src=" /src/img-homepage/washing-pet-dog-home.jpg" alt="Mens Winter Leathers Jackets" width="300" style="border-radius: 20%;"
-        class="product-img default">
-  
-    </div>
-  
-    <div class="showcase-content">
-      <a href="/buySer" class="showcase-category">Banho basico</a>
-      <a href="/buySer">
-        <h3 class="showcase-title">Um banho comum</h3>
-      </a>
-  
-      <div class="price-box">
-        <del>R$75.00</del>
-      </div>
-  
-    </div>
-  
-  </div>
-
-  <div class="showcase">
-
-    <div class="showcase-banner"  >
-  
-      <img src=" /src/img-homepage/washing-pet-dog-home.jpg" alt="Mens Winter Leathers Jackets" width="300" style="border-radius: 20%;"
-        class="product-img default">
-  
-    </div>
-  
-    <div class="showcase-content">
-      <a href="/buySer" class="showcase-category">Banho basico</a>
-      <a href="/buySer">
-        <h3 class="showcase-title">Um banho comum</h3>
-      </a>
-  
-      <div class="price-box">
-        <del>R$75.00</del>
-      </div>
-  
-    </div>
-  
-  </div>
-
-
-  <div class="showcase">
-
-    <div class="showcase-banner"  >
-  
-      <img src=" /src/img-homepage/washing-pet-dog-home.jpg" alt="Mens Winter Leathers Jackets" width="300" style="border-radius: 20%;"
-        class="product-img default">
-  
-    </div>
-  
-    <div class="showcase-content">
-      <a href="/buySer" class="showcase-category">Banho basico</a>
-      <a href="/buySer">
-        <h3 class="showcase-title">Um banho comum</h3>
-      </a>
-  
-      <div class="price-box">
-        <del>R$75.00</del>
-      </div>
-  
-    </div>
-  
-  </div>
-</div>
-
-<div class="upcoming">
-
-
-    <h1>Configure sua Agenda</h1>
-    <div class="upcoming-box">
-
-
-        <div class="item-adicionar" data-openmodal="#modalCriarHorario">
-            <div>
-                <i class='bx bx-time'></i>
-                <div class="event-info">
-                    <a href="#">Adicionar Horário</a>
-
-                </div>
+    <div class="servicos">
+        <div class="showcase" onclick="showContent('agenda')">
+          <div class="showcase-banner">
+            <img src="/src/img-homepage/washing-pet-dog-home.jpg" alt="Mens Winter Leathers Jackets" width="300" style="border-radius: 20%;" class="product-img default">
+          </div>
+      
+          <div class="showcase-content">
+            <a href="/buySer" class="showcase-category">Banho basico</a>
+            <a href="/">
+              <h3 class="showcase-title">Um banho comum</h3>
+            </a>
+      
+            <div class="price-box">
+              <del>R$75.00</del>
             </div>
-            <i class='bx bx-dots-horizontal-rounded'></i>
+          </div>
+          
+          <button class="btn-servico" onclick="showContent('agenda'); event.stopPropagation();">Ver Agenda</button>
         </div>
 
-        <div class="btns__diaSemana">
+        <div class="showcase" onclick="showContent('agenda')">
+            <div class="showcase-banner">
+              <img src="/src/img-homepage/washing-pet-dog-home.jpg" alt="Mens Winter Leathers Jackets" width="300" style="border-radius: 20%;" class="product-img default">
+            </div>
+        
+            <div class="showcase-content">
+              <a href="/buySer" class="showcase-category">Banho basico</a>
+              <a href="/">
+                <h3 class="showcase-title">Um banho comum</h3>
+              </a>
+        
+              <div class="price-box">
+                <del>R$75.00</del>
+              </div>
+            </div>
+            
+            <button class="btn-servico" onclick="showContent('agenda'); event.stopPropagation();">Ver Agenda</button>
+          </div>
+      </div>
+
+     
+      
+      <!-- conteudo que será exibido ao clicar no card -->
+      <div class="upcoming" id="content-agenda" style="display: none;">
+        <h1>Agenda do serviço Tals</h1>
+        <div class="upcoming-box">
+        
+      
+          <div class="btns__diaSemana">
             <button data-btnSection="Domingo" class="btn-dia ativo">Domingo</button>
             <button data-btnSection="Segunda-feira" class="btn-dia">Segunda-feira</button>
             <button data-btnSection="Terça-feira" class="btn-dia">Terça-feira</button>
@@ -163,27 +121,37 @@
             <button data-btnSection="Quinta-feira" class="btn-dia">Quinta-feira</button>
             <button data-btnSection="Sexta-feira" class="btn-dia">Sexta-feira</button>
             <button data-btnSection="Sábado" class="btn-dia">Sábado</button>
-        </div>
-        <div class="events ativo" data-section="Domingo">
+          </div>
+          
+          <div class="events ativo" data-section="Domingo">
             <div class="item">
-                <div>
-                    <i class='bx bx-time'></i>
-                    <div class="event-info">
-                        <a href="#">Horário 1</a>
-                        <p>10:00-11:30</p>
-                    </div>
+              <div>
+                <i class='bx bx-time'></i>
+                <div class="event-info">
+                  <a href="#">Horário 1</a>
+                  <p>10:00-11:30</p>
                 </div>
-                <form action="/apagarHorario?idHorario=" method="post">
-                    <button class="material-symbols-outlined">
-                        close
-                    </button>
-                </form>
+              </div>
+              <form action="/apagarHorario?idHorario=" method="post">
+                <button class="material-symbols-outlined">close</button>
+              </form>
             </div>
+          </div>
 
+          <div class="item-adicionar" data-openmodal="#modalCriarHorario">
+            <div>
+              <i class='bx bx-time'></i>
+              <div class="event-info">
+                <a href="#">Adicionar Horário</a>
+              </div>
+            </div>
+            <i class='bx bx-dots-horizontal-rounded'></i>
+          </div>
         </div>
+      </div>
+      
 
-    </div>
-</div>
+
 <div class="modal" id="modalCriarHorario">
     <button class="closeBtn"><span class="material-symbols-outlined">close</span></button>
     <div class="modal-content">
@@ -203,11 +171,31 @@
 
                 <button type="submit">Enviar</button>
 
+                <div class="events ativo">
+                    <div class="item">
+                            <div class="event-info">
+                                <a href="#">Horário 1</a>
+                                <p>10:00-11:30</p>
+                            </div>
+                        </div>
+                </div>
+
             </div>
         </form>
     </div>
 </div>
+
+
 </article>
 
 <script src="js/toggleSection.js"></script>
 <script src="js/abrirModal.js"></script>
+
+<script>
+function showContent(id) {
+  const content = document.getElementById(`content-${id}`);
+  content.style.display = content.style.display === "none" ? "block" : "none";
+}
+
+
+</script>
