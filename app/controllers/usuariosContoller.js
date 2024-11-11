@@ -329,6 +329,7 @@ const usuariosController = {
       const { email, senha } = req.body
       try {
         const userBd = await usuariosModel.findUsuariosByEmail(email)
+
         if (userBd[0] && bcrypt.compareSync(senha, userBd[0].SENHA_USUARIOS)) {
           req.session.autenticado = {
             autenticado: userBd[0].EMAIL_USUARIOS,
@@ -657,6 +658,66 @@ const usuariosController = {
       }
     }
   },
+  attServico: async (req, res) => {
+    let errors = validationResult(req)
+    let errosMulter = req.session.erroMulter
+    if (!errors.isEmpty || errosMulter.length > 0) {
+      let listaErros = errors.isEmpty
+        ? { formatter: null, errors: [] }
+        : errors
+      errosMulter.length > 0 ? listaErros.errors.push(...errosMulter) : null
+      console.log(listaErros)
+      if (req.file) {
+        removeImg(`./app/public/src/imagens-servico/${req.file.filename}`)
+      }
+      const jsonResult = {
+        page: "",
+        nomeempresa: 'nomeempresa',
+        classePagina: 'agenda',
+        erros: listaErros,
+        valores: req.body
+      }
+      res.render("partial/dashboard/form-criarServico", jsonResult)
+
+    } else {
+      try {
+        const idServico = req.query.idServico
+        if (!idServico) {
+          console.log("servico nao encontrado")
+          return res.redirect("/paginacomercial")
+        }
+        const { nomeServico, descricaoServico, precoServico, portePequeno, porteMedio, porteGrande } = req.body
+
+        let portesPermitidos = []
+        portePequeno == 1 ? portesPermitidos.push("Pequeno") : null
+        porteMedio == 1 ? portesPermitidos.push("Médio") : null
+        porteGrande == 1 ? portesPermitidos.push("Grande") : null
+        const servico = await usuariosModel.findServicoById(idServico)
+        if (req.file) {
+          removeImg(`./app/public/src/imagens-servico/${servico[0].CAMINHO_IMAGEM_SERVICO}`)
+        }
+
+        const dadosServico = {
+          NOME_SERVICO: nomeServico,
+          DESCRICAO_SERVICO: descricaoServico,
+          CAMINHO_IMAGEM_SERVICO: req.file.filename,
+          PRECO_SERVICO: precoServico,
+          PORTES_PERMITIDOS: portesPermitidos.toString(),
+        }
+
+        const result = await usuariosModel.updateServico(dadosServico, idServico)
+        console.log(result)
+        res.redirect("/dashboard")
+      } catch (error) {
+        console.log(error)
+        if (req.file) {
+          removeImg(`./app/public/src/imagens-servico/${req.file.filename}`)
+        }
+        // renderizar pagina de erro
+        res.redirect("/dashboard")
+      }
+    }
+  },
   visuPg: async (req, res) => {
     try {
       let results = await usuariosModel.findUsuariosById(req.session.autenticado.id);
@@ -733,7 +794,7 @@ const usuariosController = {
           return res.redirect("/paginacomercial")
         }
         const usuario = await usuariosModel.findUsuariosById(req.session.autenticado.id)
-        if(usuario[0].LOGO_IMG){
+        if (usuario[0].LOGO_IMG) {
           removeImg(`./app/public/src/imagens-empresa/logo-empresa/${usuario[0].LOGO_IMG}`)
         }
         await usuariosModel.updateUser({ LOGO_IMG: req.file.filename }, req.session.autenticado.id)
@@ -776,7 +837,7 @@ const usuariosController = {
         }
 
         const usuario = await usuariosModel.findUsuariosById(req.session.autenticado.id)
-        if(usuario[0].BANNER_IMG){
+        if (usuario[0].BANNER_IMG) {
           removeImg(`./app/public/src/imagens-empresa/banner-empresa/${usuario[0].BANNER_IMG}`)
         }
         await usuariosModel.updateUser({ BANNER_IMG: req.file.filename }, req.session.autenticado.id)
@@ -790,7 +851,7 @@ const usuariosController = {
           removeImg(`./app/public/src/imagens-empresa/banner-empresa/${req.file.filename}`)
         }
         res.render("./partial/pg-erro")
-        
+
       }
     }
   },
