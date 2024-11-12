@@ -196,9 +196,13 @@
                 <i class="fas fa-lock"></i>
                 <input id="senha" name="senha" required type="password" placeholder="<%= msgErro.senha ? msgErro.senha : 'Crie uma senha' %>"
                 value="<%= msgErro.senha ? '' : (valores.senha || '') %>" />
-                <button onclick="togglePassword('password')">
-                  <span class="fa-solid">&#128065;</span> <!-- Ícone de olhinho -->
+
+                <button onclick="togglePassword('senha')" style="border: none;">
+                  <span class="material-symbols-outlined">
+                    visibility_off
+                    </span> <!-- Ícone de olhinho -->
               </button>
+
              </section>
              <h4>Senha deve conter um número, uma letra maiúscula, uma letra minúscula e um dos símbolos </h>
 
@@ -220,34 +224,21 @@
 
  <script src="/js/notificacao.js"></script>
 
+    
  <script>
    function togglePassword(passwordFieldId) {
        const passwordInput = document.getElementById(passwordFieldId);
        const button = passwordInput.nextElementSibling;
-       const eyeIcon = button.querySelector(".eye-icon");
+       const eyeIcon = button.querySelector(".material-symbols-outlined");
 
        // Alterna entre "password" e "text"
-       const isPassword = passwordInput.type === 'password';
-       passwordInput.type = isPassword ? 'text' : 'password';
+       const isPassword = passwordInput.type === 'senha';
+       passwordInput.type = isPassword ? 'text' : 'senha';
 
        // Altera o ícone conforme o tipo de input
-       eyeIcon.innerHTML = isPassword ? '&#128064;' : '&#128065;';
+       eyeIcon.innerHTML = isPassword ? 'visibility' : 'visibility_off';
    }
 </script>
 
-<style>
-.input-field{
- display: flex;
-   align-items: center;
-   justify-content: center;
-}
- button {
-     background: none;
-     border: none;
-     cursor: pointer;
-     padding: 5px;
-     font-size: 18px;
- }
-</style>
 
  
