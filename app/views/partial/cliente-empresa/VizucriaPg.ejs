@@ -124,8 +124,8 @@
 
 
 
-</article>
- -->
+</article> -->
+
 
 
 
@@ -319,26 +319,18 @@
 
 
   .descricaoForm {
-    width: 90%;
-    padding: 2%;
+    width: 80%;
+   height: 150px;
+   padding: 2%;
     margin: 5%;
     background: var(--branco);
     border-radius: 1.5rem;
     border: 2px solid var(--cor-primaria);
     color: var(--preto);
-    display: inline-block; /* Ajusta a altura ao conteúdo */
-
-
-  } #descricao {
-  width: 90%;
-    resize: none;          /* Desativa o redimensionamento manual */
-    overflow: hidden;       /* Oculta a barra de rolagem */
-    min-height: 50px;       /* Define uma altura mínima */
-    font-size: 1rem;        /* Define um tamanho de fonte apropriado */
-    line-height: 1.5;       /* Define o espaçamento entre linhas */
-    border: none;           /* Remove a borda padrão */
+   
 
   }
+
 
   @media screen and (max-width: 992px) {
 
@@ -603,9 +595,9 @@
         <button class="btn-servico">Adicionar serviço</button>
       </form>
     </div>
-  </div>
+  </div> 
 
-</article>
+</article> 
 
 <script src="js/abrirModal.js"></script>
 <script src="js/inputFormAtiva.js"></script>
@@ -625,14 +617,4 @@
     });
     priceInput.value = value;
   });
-
-
-
-  const descricaoTextarea = document.getElementById('descricao');
-
-descricaoTextarea.addEventListener('input', function () {
-    this.style.height = 'auto';                     // Reseta a altura
-    this.style.height = `${this.scrollHeight}px`;   // Ajusta para o conteúdo
-});
-
 </script>

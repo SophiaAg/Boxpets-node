@@ -87,6 +87,14 @@ router.get("/historico-cli", function (req, res) {
     res.render("pages/template-hm", { page: "../partial/landing-home/historico-cli.ejs" });
 });
 
+router.get("/VizucriaPg", function (req, res) {
+  
+    const empresa =  usuariosModel.findUsuariosById(req.session.autenticado)
+
+        res.render("pages/template-hm", { page: "../partial/cliente-empresa/VizucriaPg.ejs",  empresa: empresa,});
+    });
+
+
 router.get("/carterinha-pet", function (req, res) {
     clienteController.mostrarPet(req, res);
 });
