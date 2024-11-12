@@ -124,8 +124,10 @@
 
 
 
-</article>
- -->
+</article> -->
+
+
+
 
 <style>
   .formServico {
@@ -141,7 +143,6 @@
     height: 70px;
     border-radius: 20px;
     justify-items: center;
-    resize: none;
   }
 
   @media (max-width: 600px) {
@@ -184,10 +185,6 @@
       right: 0;
       margin: 10px;
     }
-    & .cancelarBtn{
-      position: relative;
-
-    }
   }
 
   .input-servico {
@@ -226,20 +223,17 @@
     border-radius: 20px;
     scroll-snap-align: start;
     width: 80%;
-
     & input {
-      border: none;
-      font-size: 18px;
-      width: 100%;
-      outline: none;
+        border: none;
+        font-size: 18px;
+        width: 100%;
     }
-
+   
   }
 
-  .category-item:hover {
+  .category-item:hover{
     border: .1rem solid var(--cor-segundaria);
   }
-
   .category-item-conteudo {
     color: var(--preto);
     font-size: 16px;
@@ -292,7 +286,7 @@
     height: 300px;
     margin: 5%;
     text-align: center;
-
+  
     border-radius: 1.5rem;
     border: 2px solid var(--branco);
     color: var(--branco);
@@ -301,7 +295,7 @@
 
     & img {
       border-radius: 1.5rem;
-      width: 100%;
+      width: inherit;
       height: inherit;
       object-fit: cover;
     }
@@ -325,26 +319,18 @@
 
 
   .descricaoForm {
-    width: 90%;
-    padding: 2%;
+    width: 80%;
+   height: 150px;
+   padding: 2%;
     margin: 5%;
     background: var(--branco);
     border-radius: 1.5rem;
     border: 2px solid var(--cor-primaria);
     color: var(--preto);
-    display: inline-block; /* Ajusta a altura ao conteúdo */
-
-
-  } #descricao {
-  width: 90%;
-    resize: none;          /* Desativa o redimensionamento manual */
-    overflow: hidden;       /* Oculta a barra de rolagem */
-    min-height: 50px;       /* Define uma altura mínima */
-    font-size: 1rem;        /* Define um tamanho de fonte apropriado */
-    line-height: 1.5;       /* Define o espaçamento entre linhas */
-    border: none;           /* Remove a borda padrão */
+   
 
   }
+
 
   @media screen and (max-width: 992px) {
 
@@ -475,8 +461,7 @@
     object-fit: cover;
     border-radius: 15px;
   }
-
-  .servicos-container {
+  .servicos-container{
     display: flex;
     gap: 1rem;
   }
@@ -511,11 +496,11 @@
       <% if(empresa.BANNER_IMG){%>
         <img src="./src/imagens-empresa/banner-empresa/<%= empresa.BANNER_IMG %>" alt="Banner da empresa">
         <% } %>
-          <label for="imgBanner">
-            <span class="material-symbols-outlined">
-              download
-            </span>
-          </label>
+        <label for="imgBanner">
+          <span class="material-symbols-outlined">
+            download
+          </span>
+        </label>
 
           <input type="file" name="imgBanner" id="imgBanner" class="input__control imgBanner"
             placeholder="Selecione sua foto de Banner" data-inputFoto data-inputAtiva required style="display:none;">
@@ -530,10 +515,10 @@
         <section class="category-item">
           <span class="material-symbols-outlined">
             schedule
-          </span>
+            </span>
           <input type="text" name="horarioInicio" id="horarioInicio" value="<%= empresa.INFO_GERAIS.horarioInicio %>"
             placeholder="horario de inicio" required>
-
+       
           <input type="text" name="horarioFim" id="horarioFim" value="<%= empresa.INFO_GERAIS.horarioFim %>"
             placeholder="horario de fim" required>
         </section>
@@ -541,7 +526,7 @@
         <section class="category-item">
           <span class="material-symbols-outlined">
             home_pin
-          </span>
+            </span>
           <input type="text" name="local" id="local" value="<%= empresa.INFO_GERAIS.localizacao %>"
             placeholder="localização" required>
         </section>
@@ -549,7 +534,7 @@
         <section class="category-item">
           <span class="material-symbols-outlined">
             maps_ugc
-          </span>
+            </span>
           <input type="text" name="whatsapp" id="whatsapp" value="<%= empresa.INFO_GERAIS.whatsapp %>"
             placeholder="whatsapp" required>
         </section>
@@ -557,100 +542,71 @@
       </section>
     </section>
     <textarea class="descricaoForm" id="descricao" name="descricao" rows="4" cols="50"
-      placeholder="coloque a descrição do seu serviço aqui" required
-      style="resize: none;"><%= empresa.INFO_GERAIS.descricao %></textarea>
+      placeholder="coloque a descrição do seu serviço aqui" required style="resize: none;">
+        <%= empresa.INFO_GERAIS.descricao %>
+      </textarea>
     <button class="btn-servico">Atualizar informações gerais</button>
   </form>
 
 
-  <div class="btn-servico abrir-modal" data-openmodal="#modalCriarServico">Adicionar serviço</div>
+  <div class="btn-servico abrir-modal" data-openmodal="#modalCriarHorario">adicionar serviço</div>
 
   <h2 style="margin: 5%;">Serviços</h2>
-  <section class="servicos-container" style="margin: 5%;">
-    <% if(servicos && servicos.length>0){
-      servicos.forEach(servico =>{ %>
+<section class="servicos-container">
+  <% if(servicos && servicos.length >0){
+    servicos.forEach(servico =>{ %>
       <div class="showcase">
-        <a href="/editar-servico?idServico=<%=servico.ID_SERVICO%>" title="Editar serviço"><span
-            class="material-symbols-outlined">edit</span></a>
-        <a data-openmodal="#modalServico<%=servico.ID_SERVICO %>" style="cursor:pointer" title="Deletar serviço"><span
-            class="material-symbols-outlined">delete</span></a>
+
         <div class="showcase-banner">
-
-          <img src="/src/imagens-servico/<%= servico.CAMINHO_IMAGEM_SERVICO %>" alt="Imagem do servico"
-            width="300" style="border-radius: 20%;" class="product-img default">
-
+    
+          <img src="/src/imagens-servico/<%= servico.CAMINHO_IMAGEM_SERVICO %>" alt="Mens Winter Leathers Jackets" width="300"
+            style="border-radius: 20%;" class="product-img default">
+    
+          <p class="showcase-badge">15%</p>
+    
         </div>
-
+    
         <div class="showcase-content">
-          <a href="/buySer" class="showcase-category">
-            <%= servico.NOME_SERVICO %>
-          </a>
+          <a href="/buySer" class="showcase-category">Banho basico</a>
           <a href="/buySer">
-            <h3 class="showcase-title">
-              <%= servico.DESCRICAO_SERVICO %>
-            </h3>
+            <h3 class="showcase-title">Um banho comum</h3>
           </a>
-
+    
           <div class="price-box">
-            <p class="price" style="color: black;">
-              <%= servico.PRECO_SERVICO %>
-            </p>
+            <p class="price">R$48.00</p>
+            <del>R$75.00</del>
           </div>
-
+    
         </div>
-
+    
       </div>
-      <div class="modal" id="modalServico<%=servico.ID_SERVICO %>">
-        <div class="modal-content">
-          <h1>Excluir serviço?</h1>
-          <h2>A exclusão do serviço é permanente e irreversivel!<br> Deseja prosseguir?</h3>
-          <form action="/deletarServico?idServico=<%=servico.ID_SERVICO %>" method="post">
-              <button class="submit">Confirmar</button>
-              <div class="closeBtn cancelarBtn">Cancelar</div>
-            </form>
-        </div>
-      </div>
-      <% }) } else{ %>
-        <h4>Você não possui serviços</h4>
-        <%}%>
-
-  </section>
+   <% })
+  } %>
+  
+</section>
 
 
-  <div class="modal" id="modalCriarServico">
+  <div class="modal" id="modalCriarHorario">
     <button class="closeBtn"><span class="material-symbols-outlined">close</span></button>
     <div class="modal-content">
       <h1>Adicionar Serviço</h1>
       <form action="/criarServico" method="post" enctype="multipart/form-data">
         <%- include('./form-criarServico.ejs') %>
-          <button class="btn-servico">Adicionar serviço</button>
+        <button class="btn-servico">Adicionar serviço</button>
       </form>
     </div>
-  </div>
-  <% if(servico){%>
-    <div class="modal show" id="modalEditarServico">
-      <button class="closeBtn"><span class="material-symbols-outlined">close</span></button>
-      <div class="modal-content">
-        <h1>Editar Serviço</h1>
-        <form action="/editarServico?idServico=<%= servico.ID_SERVICO %>" method="post" enctype="multipart/form-data">
-          <%- include('./form-criarServico.ejs') %>
-            <button class="btn-servico">Editar serviço</button>
-        </form>
-      </div>
-    </div>
-    <%}%>
+  </div> 
 
-</article>
+</article> 
 
 <script src="js/abrirModal.js"></script>
 <script src="js/inputFormAtiva.js"></script>
 
 <script>
-  const priceInputs = document.querySelectorAll(".precoServico");
-  priceInputs.forEach(priceInput => {
-    priceInput.addEventListener("input", () => {
-      let value = priceInput.value;
-      value = value.replace(/\D/g, "");
+  const priceInput = document.getElementById("precoServico");
+  priceInput.addEventListener("input", () => {
+    let value = priceInput.value;
+    value = value.replace(/\D/g, "");
 
     if (parseInt(value) > 500000) {
       value = "500000";
@@ -661,14 +617,4 @@
     });
     priceInput.value = value;
   });
-});
-
-const textarea = document.getElementById("descricao");
-
-textarea.addEventListener("input", function () {
-    this.style.height = "auto"; // Reseta a altura para recalcular
-    this.style.height = `${this.scrollHeight}px`; // Define a altura conforme o conteúdo
-});
-
-
 </script>

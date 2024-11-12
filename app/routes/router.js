@@ -87,6 +87,27 @@ router.get("/historico-cli", function (req, res) {
     res.render("pages/template-hm", { page: "../partial/landing-home/historico-cli.ejs" });
 });
 
+
+//Dando erro no caminho, não sei fazer esse caminho para o cliente vizualizar a pagina comercial.
+
+// router.get("/VizucriaPg", function (req, res) {
+  
+//     async (req, res) => {
+//         try {
+//             const usuario = await usuariosModel.findUsuariosById(req.session.autenticado.id)
+//             const user = usuario[0].INFO_GERAIS
+//                 ? { ...usuario[0], INFO_GERAIS: JSON.parse(usuario[0].INFO_GERAIS) }
+//                 : { ...usuario[0], INFO_GERAIS: { horarioInicio: '', horarioFim: '', localizacao: '', whatsapp: '', descricao: '' } }
+
+//         res.render("pages/template-hm", { page: "../partial/cliente-empresa/VizucriaPg.ejs",  empresa: empresa });
+//     } catch (error) {
+//         console.log(error)
+//         // RETORNAR PAGINA ERRO
+//         res.redirect("/pg-erro")
+//     }}
+// });
+
+
 router.get("/carterinha-pet", function (req, res) {
     clienteController.mostrarPet(req, res);
 });
