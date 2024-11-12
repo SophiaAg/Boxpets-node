@@ -209,6 +209,24 @@ router.get("/agendamento",
 
     });
 
+    router.get("/historico",
+        middleWares.verifyAutenticado,
+        middleWares.verifyAutorizado("pages/template-loginEmpresa", { page: "../partial/cadastroEmpresa/login", errors: null, valores: "", incorreto: null }, true),
+        async function (req, res) {
+            // const horariosServico = await usuariosModel.findHorariosIdservico()
+            res.render("pages/template-dashboard",
+                {
+                    page: "../partial/dashboard/historico",
+                    nomeempresa: 'nomeempresa',
+                    classePagina: 'historico',
+                    // horarios:horariosServico
+                }
+            );
+    
+        });
+    
+
+
 router.post("/criarHorario",
     middleWares.verifyAutenticado,
     middleWares.verifyAutorizado("pages/template-loginEmpresa", { page: "../partial/cadastroEmpresa/login", errors: null, valores: "", incorreto: null }, true),
@@ -437,10 +455,6 @@ router.post("/redefinirSenha-cli", clienteController.regrasValidacaoRedefinirSen
     clienteController.redefinirSenha(req, res)
 })
 
-
-// router.post("/agendamento", usuariosController.regrasValidacaoAgendamento, async function (req, res){
-//         usuariosController.agendamentoUsuario(req, res)
-//     })
 
 //mercadoPago
 const { MercadoPagoConfig, Preference } = require('mercadopago');

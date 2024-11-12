@@ -6,7 +6,7 @@
 }
 
 .main-content {
-    margin-left: 165px;
+    margin-left: 15px;
     width: calc(100% - 165px);
     transition: margin-left 300ms;
 }
@@ -16,8 +16,9 @@ main {
 }
 
 .table-responsive {
-    width: 100%;
-    overflow: auto;
+    width: 90%;
+    overflow: hidden;
+ 
 }
 
 table {

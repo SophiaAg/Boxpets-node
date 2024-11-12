@@ -67,7 +67,7 @@
     .container-dashboard{
         display: grid;
         gap: 1.8rem;
-        grid-template-columns: 14rem auto auto;
+        grid-template-columns: 14rem auto;
         width: 96%;
         margin: 0 auto;
       

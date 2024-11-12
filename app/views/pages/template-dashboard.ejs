@@ -44,7 +44,7 @@
         </a>
 
         <a class="item <%= classePagina == 'agenda' ? 'active' : '' %> " href="/agendamento">
-            <span class="material-symbols-outlined">view_agenda </span>
+            <span class="material-symbols-outlined"> calendar_today </span>
             <h3>Agendamentos</h3>
         </a>
 
@@ -52,6 +52,12 @@
             <span class="material-symbols-outlined">  store </span>
             <h3>Pagina Comercial</h3>
         </a>
+
+        <a class="item <%= classePagina == 'historico' ? 'active' : '' %> " href="/historico" >
+            <span class="material-symbols-outlined">  history </span>
+            <h3>Historico</h3>
+        </a>
+
 
         <a class="item <%= classePagina == 'planos' ? 'active' : '' %> " href="/planos">
             <span class="material-symbols-outlined"> credit_card  </span>
