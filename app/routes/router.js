@@ -91,7 +91,7 @@ router.get("/historico-cli", function (req, res) {
 //Dando erro no caminho, não sei fazer esse caminho para o cliente vizualizar a pagina comercial.
 
 // router.get("/VizucriaPg", function (req, res) {
-  
+
 //     async (req, res) => {
 //         try {
 //             const usuario = await usuariosModel.findUsuariosById(req.session.autenticado.id)
@@ -160,115 +160,6 @@ router.post("/excluirFoto",
 
 //EMPRESA ------------------------------
 
-router.get("/dashboard",
-    middleWares.verifyAutenticado,
-    middleWares.verifyAutorizado("pages/template-loginEmpresa", { page: "../partial/cadastroEmpresa/login", errors: null, valores: "", incorreto: null }, true),
-    async function (req, res) {
-
-        const params = new URLSearchParams(req.query);
-
-        if (params.has('success')) {
-            middleWares.verifyAutenticado,
-                middleWares.verifyAutorizado("pages/template-login", { form: "../partial/login/entrar", errors: null, valores: "", incorreto: null })
-
-            if (req.session.autenticado !== undefined) {
-                // Lógica para quando a ação foi bem-sucedida
-                const id = req.session.autenticado.id
-
-
-            }
-        } else if (params.has('failure') || params.has('pending')) {
-            req.flash('error', `Erro em efetuar o pagamento. Não foram somados os tokens a sua conta.`)
-        }
-
-        // res.status(200).render("layouts/main.ejs", { router: "../pages/store/points.ejs", user: account[0][0], notifications: notifications[0], challenges: challenges[0], challengesForUser: challengesForUser[0][0], tokens: tokens[0], title: "Collectverse - Loja" });
-
-        const userBd = await usuariosModel.findUsuariosById(req.session.autenticado.id)
-        const nomeempresa = userBd[0].NOMEEMPRESA_USUARIO;
-        const jsonResult = {
-            page: "../partial/dashboard/principal",
-            nomeempresa: nomeempresa,
-            classePagina: 'dashboard'
-        }
-        res.render("pages/template-dashboard", jsonResult)
-    });
-// AGENDA
-router.get("/agendamento",
-    middleWares.verifyAutenticado,
-    middleWares.verifyAutorizado("pages/template-loginEmpresa", { page: "../partial/cadastroEmpresa/login", errors: null, valores: "", incorreto: null }, true),
-    async function (req, res) {
-        // const horariosServico = await usuariosModel.findHorariosIdservico()
-        res.render("pages/template-dashboard",
-            {
-                page: "../partial/dashboard/agendamento",
-                nomeempresa: 'nomeempresa',
-                classePagina: 'agenda',
-                // horarios:horariosServico
-            }
-        );
-
-    });
-
-    router.get("/historico",
-        middleWares.verifyAutenticado,
-        middleWares.verifyAutorizado("pages/template-loginEmpresa", { page: "../partial/cadastroEmpresa/login", errors: null, valores: "", incorreto: null }, true),
-        async function (req, res) {
-            // const horariosServico = await usuariosModel.findHorariosIdservico()
-            res.render("pages/template-dashboard",
-                {
-                    page: "../partial/dashboard/historico",
-                    nomeempresa: 'nomeempresa',
-                    classePagina: 'historico',
-                    // horarios:horariosServico
-                }
-            );
-    
-        });
-    
-
-
-router.post("/criarHorario",
-    middleWares.verifyAutenticado,
-    middleWares.verifyAutorizado("pages/template-loginEmpresa", { page: "../partial/cadastroEmpresa/login", errors: null, valores: "", incorreto: null }, true),
-    async function (req, res) {
-        // usuariosController.agendamentoUsuario(req, res)
-
-        let errors = validationResult(req)
-        if (!errors.isEmpty()) {
-            return res.status(404).render("pages/error-404");
-        } else {
-            try {
-                const idServico = req.query.idServico;
-                if (!idServico) {
-                    console.log("Id de servico não encontrado")
-                    return res.status(404).render("pages/error-404");
-                }
-
-                const { diaSemana, horario } = req.body
-
-                const dadosHorario = {
-                    DIA_SEMANA: diaSemana,
-                    HORARIO_SERVICO: horario,
-                    ID_SERVICO: idServico
-                }
-
-                const result = await usuariosModel.criarHorario(dadosHorario)
-                console.log(result)
-                res.redirect(`/editAgenda?idServico="${idServico}`)
-            } catch (error) {
-                console.log(error)
-                return res.status(404).render("pages/error-404");
-
-            }
-        }
-    });
-
-router.get("/planos",
-    middleWares.verifyAutenticado,
-    middleWares.verifyAutorizado("pages/template-loginEmpresa", { page: "../partial/cadastroEmpresa/login", errors: null, valores: "", incorreto: null }, true),
-    function (req, res) {
-        res.render("pages/template-dashboard", { page: "../partial/dashboard/planos", classePagina: 'planos', nomeempresa: 'nomeempresa' });
-    });
 
 
 

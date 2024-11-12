@@ -75,6 +75,14 @@ const usuariosModel = {
             return error
         }
     },
+    findHorariosByIdServico: async (id) => {
+        try {
+            const [resultados] = await pool.query("SELECT * FROM SERVICO WHERE ID_USUARIO = ?", [id])
+            return resultados
+        } catch (error) {
+            return error
+        }
+    },
     findServicoById: async (id) => {
         try {
             const [resultados] = await pool.query("SELECT * FROM SERVICO WHERE ID_SERVICO = ?", [id])

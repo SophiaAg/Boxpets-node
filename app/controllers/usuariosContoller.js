@@ -562,43 +562,43 @@ const usuariosController = {
 
   },
   //pagina comercial
-  addFoto: async (req, res) => {
-    let errosMulter = req.session.erroMulter
+  // addFoto: async (req, res) => {
+  //   let errosMulter = req.session.erroMulter
 
-    if (errosMulter.length > 0) {
-      let listaErros = { formatter: null, errors: [] };
+  //   if (errosMulter.length > 0) {
+  //     let listaErros = { formatter: null, errors: [] };
 
-      if (errosMulter.length > 0) {
-        listaErros.errors.push(...errosMulter)
-        if (req.file) removeImg(`./app/public/src/dashboardImg/${req.file.filename}`)
-      }
-      console.log("-------erro-de-validação-foto--------")
-      console.log(listaErros)
+  //     if (errosMulter.length > 0) {
+  //       listaErros.errors.push(...errosMulter)
+  //       if (req.file) removeImg(`./app/public/src/dashboardImg/${req.file.filename}`)
+  //     }
+  //     console.log("-------erro-de-validação-foto--------")
+  //     console.log(listaErros)
 
-      res.render("./pages/template-dashboard", { page: "../partial/dashboard/criaPg", avisoErro: null, valores: campos, foto: results[0].BANNER_IMG })
+  //     res.render("./pages/template-dashboard", { page: "../partial/dashboard/criaPg", avisoErro: null, valores: campos, foto: results[0].BANNER_IMG })
 
-    } else {
-      try {
-        var caminhoFoto = req.session.autenticado.foto
-        if (caminhoFoto != req.file.filename && caminhoFoto != "bannerImg.png") {
-          removeImg(`./app/public/src/dashboardImg/${caminhoFoto}`)
+  //   } else {
+  //     try {
+  //       var caminhoFoto = req.session.autenticado.foto
+  //       if (caminhoFoto != req.file.filename && caminhoFoto != "bannerImg.png") {
+  //         removeImg(`./app/public/src/dashboardImg/${caminhoFoto}`)
 
-          res.render("./pages/template-dashboard", { page: "../partial/dashboard/criaPg", avisoErro: null, valores: campos, foto: results[0].BANNER_IMG })
-        }
-        caminhoFoto = req.file.filename
-        let resultado = await usuariosModel.updateUsuario({ BANNER_IMG: caminhoFoto }, req.session.autenticado.id)
-        let results = await usuariosModel.findUsuariosById(req.session.autenticado.id);
+  //         res.render("./pages/template-dashboard", { page: "../partial/dashboard/criaPg", avisoErro: null, valores: campos, foto: results[0].BANNER_IMG })
+  //       }
+  //       caminhoFoto = req.file.filename
+  //       let resultado = await usuariosModel.updateUsuario({ BANNER_IMG: caminhoFoto }, req.session.autenticado.id)
+  //       let results = await usuariosModel.findUsuariosById(req.session.autenticado.id);
 
-        res.render("./pages/template-dashboard", { page: "../partial/dashboard/criaPg", avisoErro: null, valores: campos, foto: results[0].BANNER_IMG })
+  //       res.render("./pages/template-dashboard", { page: "../partial/dashboard/criaPg", avisoErro: null, valores: campos, foto: results[0].BANNER_IMG })
 
-      } catch (errors) {
-        console.log(errors)
-        res.render("pages/error-500")
+  //     } catch (errors) {
+  //       console.log(errors)
+  //       res.render("pages/error-500")
 
-      }
-    }
+  //     }
+  //   }
 
-  },
+  // },
   criarServico: async (req, res) => {
     let errors = validationResult(req)
     let errosMulter = req.session.erroMulter
@@ -677,7 +677,7 @@ const usuariosController = {
         erros: listaErros,
         valores: req.body
       }
-      res.render("partial/dashboard/form-criarServico", jsonResult)
+      return res.render("partial/dashboard/form-criarServico", jsonResult)
 
     } else {
       try {
@@ -687,9 +687,9 @@ const usuariosController = {
           return res.redirect("/paginacomercial")
         }
         const servico = await usuariosModel.findServicoById(idServico)
-        if(servico[0].ID_USUARIO != req.session.autenticado.id){
-            console.log("Esse servico não pertence a sua empresa!")
-            return res.redirect("/paginacomercial")
+        if (servico[0].ID_USUARIO != req.session.autenticado.id) {
+          console.log("Esse servico não pertence a sua empresa!")
+          return res.redirect("/paginacomercial")
         }
         const { nomeServico, descricaoServico, precoServico, portePequeno, porteMedio, porteGrande } = req.body
         let portesPermitidos = []
@@ -700,7 +700,7 @@ const usuariosController = {
         if (req.file) {
           removeImg(`./app/public/src/imagens-servico/${servico[0].CAMINHO_IMAGEM_SERVICO}`)
         }
-        
+
         const dadosServico = {
           NOME_SERVICO: nomeServico,
           DESCRICAO_SERVICO: descricaoServico,
@@ -711,14 +711,14 @@ const usuariosController = {
 
         const result = await usuariosModel.updateServico(dadosServico, idServico)
         console.log("Servico atualizado com sucesso")
-        res.redirect("/paginacomercial")
+        return res.redirect("/paginacomercial")
       } catch (error) {
         console.log(error)
         if (req.file) {
           removeImg(`./app/public/src/imagens-servico/${req.file.filename}`)
         }
         // renderizar pagina de erro
-        res.redirect("/dashboard")
+        return res.redirect("/dashboard")
       }
     }
   },
