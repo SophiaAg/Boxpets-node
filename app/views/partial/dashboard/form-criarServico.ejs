@@ -4,24 +4,43 @@
       <div class="imgServico">
         <section class="bannerForm">
           <% if(servico) {%>
-          <img src="./src/imagens-servico/servico.CAMINHO_IMAGEM_SERVICO" alt="imgServico">
-          <%}%>
+          <img src="./src/imagens-servico/<%= servico.CAMINHO_IMAGEM_SERVICO %>" alt="imgServico">
           <input type="file" name="imagemServico" id="imagemServico">
+          <%}else {%>
+            <input type="file" name="imagemServico" id="imagemServico" required>
+          <%}%>
 
         </section>
       </div>
 
       <div class="inputsServico">
-        <input class="input-servico" type="text" name="nomeServico" id="nomeServico" placeholder="Nome do serviço">
+        <input class="input-servico" type="text" name="nomeServico" id="nomeServico" placeholder="Nome do serviço" value="<%= servico ? servico.NOME_SERVICO : '' %>">
         <textarea class="input-servico" type="text" name="descricaoServico" id="descricaoServico"
-          placeholder="Descrição do serviço"></textarea>
-        <input class="input-servico" type="text" name="precoServico" id="precoServico"
-          placeholder="Preço do serviço: R$0,00">
-        <input type="checkbox" name="portePequeno" id="portePequeno" value="1" checked>
-        <label for="portePequeno">Porte pequeno</label>
-        <input type="checkbox" name="porteMedio" id="porteMedio" value="1" checked>
-        <label for="porteMedio">Porte médio</label>
-        <input type="checkbox" name="porteGrande" id="porteGrande" value="1" checked>
-        <label for="porteGrande">Porte Grande</label>
-      </div>
+          placeholder="Descrição do serviço"><%= servico ? servico.DESCRICAO_SERVICO : '' %></textarea>
+        <input class="input-servico precoServico" type="text" name="precoServico" id="precoServico"
+          placeholder="Preço do serviço: R$0,00" value="<%= servico ? servico.PRECO_SERVICO : '' %>">
+
+<% if(servico) {%>
+          <input type="checkbox" name="portePequeno" id="portePequeno" value="pequeno" 
+          <%= servico.PORTES_PERMITIDOS.includes("Pequeno") ? "checked" : "" %> >
+      <label for="portePequeno">Porte pequeno</label>
+      
+      <input type="checkbox" name="porteMedio" id="porteMedio" value="medio" 
+          <%= servico.PORTES_PERMITIDOS.includes("Médio") ? "checked" : "" %> >
+      <label for="porteMedio">Porte médio</label>
+      
+      <input type="checkbox" name="porteGrande" id="porteGrande" value="grande" 
+          <%= servico.PORTES_PERMITIDOS.includes("Grande") ? "checked" : "" %> >
+      <label for="porteGrande">Porte Grande</label>
+       <%}else {%>
+        <input type="checkbox" name="portePequeno" id="portePequeno" value="pequeno" checked >
+      <label for="portePequeno">Porte pequeno</label>
+      
+      <input type="checkbox" name="porteMedio" id="porteMedio" value="medio" checked >
+      <label for="porteMedio">Porte médio</label>
+      
+      <input type="checkbox" name="porteGrande" id="porteGrande" value="grande" checked >
+      <label for="porteGrande">Porte Grande</label>
+     <%}%>
+    </div>
     </div>
