@@ -34,6 +34,14 @@ const usuariosModel = {
             throw error
         }
     },
+    deleteServico: async (id) => {
+        try {
+            const [resultados] = await pool.query("delete from SERVICO where ID_SERVICO = ?", [id])
+            return resultados
+        } catch (error) {
+            throw error
+        }
+    },
     findUsuariosByCelular: async (celular) => {
         try {
             const [resultados] = await pool.query('SELECT * FROM USUARIOS WHERE CELULAR_USUARIOS = ?', [celular])

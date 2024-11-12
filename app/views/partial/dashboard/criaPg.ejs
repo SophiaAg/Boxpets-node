@@ -127,8 +127,6 @@
 </article>
  -->
 
-
-
 <style>
   .formServico {
     display: flex;
@@ -185,6 +183,10 @@
       top: 0;
       right: 0;
       margin: 10px;
+    }
+    & .cancelarBtn{
+      position: relative;
+
     }
   }
 
@@ -562,11 +564,11 @@
       <div class="showcase">
         <a href="/editar-servico?idServico=<%=servico.ID_SERVICO%>" title="Editar serviço"><span
             class="material-symbols-outlined">edit</span></a>
-        <a href="/deletarServico?idServico=<%=servico.ID_SERVICO %>" title="Deletar serviço"><span
+        <a data-openmodal="#modalServico<%=servico.ID_SERVICO %>" style="cursor:pointer" title="Deletar serviço"><span
             class="material-symbols-outlined">delete</span></a>
         <div class="showcase-banner">
 
-          <img src="/src/imagens-servico/<%= servico.CAMINHO_IMAGEM_SERVICO %>" alt="Mens Winter Leathers Jackets"
+          <img src="/src/imagens-servico/<%= servico.CAMINHO_IMAGEM_SERVICO %>" alt="Imagem do servico"
             width="300" style="border-radius: 20%;" class="product-img default">
 
         </div>
@@ -590,6 +592,16 @@
         </div>
 
       </div>
+      <div class="modal" id="modalServico<%=servico.ID_SERVICO %>">
+        <div class="modal-content">
+          <h1>Excluir serviço?</h1>
+          <h2>A exclusão do serviço é permanente e irreversivel!<br> Deseja prosseguir?</h3>
+          <form action="/deletarServico?idServico=<%=servico.ID_SERVICO %>" method="post">
+              <button class="submit">Confirmar</button>
+              <div class="closeBtn cancelarBtn">Cancelar</div>
+            </form>
+        </div>
+      </div>
       <% }) } else{ %>
         <h4>Você não possui serviços</h4>
         <%}%>
@@ -612,7 +624,7 @@
       <button class="closeBtn"><span class="material-symbols-outlined">close</span></button>
       <div class="modal-content">
         <h1>Editar Serviço</h1>
-        <form action="/editarServico" method="post" enctype="multipart/form-data">
+        <form action="/editarServico?idServico=<%= servico.ID_SERVICO %>" method="post" enctype="multipart/form-data">
           <%- include('./form-criarServico.ejs') %>
             <button class="btn-servico">Editar serviço</button>
         </form>
