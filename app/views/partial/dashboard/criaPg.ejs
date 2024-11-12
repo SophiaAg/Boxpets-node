@@ -649,14 +649,14 @@
     });
     priceInput.value = value;
   });
-
-
-
-  const descricaoTextarea = document.getElementById('descricao');
-
-descricaoTextarea.addEventListener('input', function () {
-    this.style.height = 'auto';                     // Reseta a altura
-    this.style.height = `${this.scrollHeight}px`;   // Ajusta para o conteúdo
 });
+
+const textarea = document.getElementById("descricao");
+
+textarea.addEventListener("input", function () {
+    this.style.height = "auto"; // Reseta a altura para recalcular
+    this.style.height = `${this.scrollHeight}px`; // Define a altura conforme o conteúdo
+});
+
 
 </script>
