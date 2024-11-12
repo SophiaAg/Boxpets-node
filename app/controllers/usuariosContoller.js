@@ -647,7 +647,7 @@ const usuariosController = {
 
         const result = await usuariosModel.createServico(dadosServico)
         console.log(result)
-        res.redirect("/dashboard")
+        res.redirect("/paginacomercial")
       } catch (error) {
         console.log(error)
         if (req.file) {
@@ -686,28 +686,32 @@ const usuariosController = {
           console.log("servico nao encontrado")
           return res.redirect("/paginacomercial")
         }
-        const { nomeServico, descricaoServico, precoServico, portePequeno, porteMedio, porteGrande } = req.body
-
-        let portesPermitidos = []
-        portePequeno == 1 ? portesPermitidos.push("Pequeno") : null
-        porteMedio == 1 ? portesPermitidos.push("Médio") : null
-        porteGrande == 1 ? portesPermitidos.push("Grande") : null
         const servico = await usuariosModel.findServicoById(idServico)
+        if(servico[0].ID_USUARIO != req.session.autenticado.id){
+            console.log("Esse servico não pertence a sua empresa!")
+            return res.redirect("/paginacomercial")
+        }
+        const { nomeServico, descricaoServico, precoServico, portePequeno, porteMedio, porteGrande } = req.body
+        let portesPermitidos = []
+        portePequeno == 1 ? portesPermitidos.push("Pequeno") : null;
+        porteMedio == 1 ? portesPermitidos.push("Médio") : null;
+        porteGrande == 1 ? portesPermitidos.push("Grande") : null;
+
         if (req.file) {
           removeImg(`./app/public/src/imagens-servico/${servico[0].CAMINHO_IMAGEM_SERVICO}`)
         }
-
+        
         const dadosServico = {
           NOME_SERVICO: nomeServico,
           DESCRICAO_SERVICO: descricaoServico,
-          CAMINHO_IMAGEM_SERVICO: req.file.filename,
+          CAMINHO_IMAGEM_SERVICO: req.file ? req.file.filename : servico[0].CAMINHO_IMAGEM_SERVICO,
           PRECO_SERVICO: precoServico,
           PORTES_PERMITIDOS: portesPermitidos.toString(),
         }
 
         const result = await usuariosModel.updateServico(dadosServico, idServico)
-        console.log(result)
-        res.redirect("/dashboard")
+        console.log("Servico atualizado com sucesso")
+        res.redirect("/paginacomercial")
       } catch (error) {
         console.log(error)
         if (req.file) {

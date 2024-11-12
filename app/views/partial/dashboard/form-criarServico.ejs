@@ -21,25 +21,25 @@
           placeholder="Preço do serviço: R$0,00" value="<%= servico ? servico.PRECO_SERVICO : '' %>">
 
 <% if(servico) {%>
-          <input type="checkbox" name="portePequeno" id="portePequeno" value="pequeno" 
+          <input type="checkbox" name="portePequeno" id="portePequeno" value="1" 
           <%= servico.PORTES_PERMITIDOS.includes("Pequeno") ? "checked" : "" %> >
       <label for="portePequeno">Porte pequeno</label>
       
-      <input type="checkbox" name="porteMedio" id="porteMedio" value="medio" 
+      <input type="checkbox" name="porteMedio" id="porteMedio" value="1" 
           <%= servico.PORTES_PERMITIDOS.includes("Médio") ? "checked" : "" %> >
       <label for="porteMedio">Porte médio</label>
       
-      <input type="checkbox" name="porteGrande" id="porteGrande" value="grande" 
+      <input type="checkbox" name="porteGrande" id="porteGrande" value="1" 
           <%= servico.PORTES_PERMITIDOS.includes("Grande") ? "checked" : "" %> >
       <label for="porteGrande">Porte Grande</label>
        <%}else {%>
-        <input type="checkbox" name="portePequeno" id="portePequeno" value="pequeno" checked >
+        <input type="checkbox" name="portePequeno" id="portePequeno" value="1" checked >
       <label for="portePequeno">Porte pequeno</label>
       
-      <input type="checkbox" name="porteMedio" id="porteMedio" value="medio" checked >
+      <input type="checkbox" name="porteMedio" id="porteMedio" value="1" checked >
       <label for="porteMedio">Porte médio</label>
       
-      <input type="checkbox" name="porteGrande" id="porteGrande" value="grande" checked >
+      <input type="checkbox" name="porteGrande" id="porteGrande" value="1" checked >
       <label for="porteGrande">Porte Grande</label>
      <%}%>
     </div>
