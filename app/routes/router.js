@@ -62,8 +62,8 @@ router.get("/entrar", function (req, res) {
     res.render("pages/template-login", jsonResult);
 });
 
-router.get("/", function (req, res) {
-    res.render('pages/template-hm', { page: '..partial/landing-home/home-page', nomeUsuario, dadosNotificacao: { type: "success", title: "Conta criada com sucesso!", msg: "Verifique sua caixa de email para ativar sua conta." } });
+router.get("/home", function (req, res) {
+    res.render('pages/template-hm', { page: '../partial/landing-home/home-page', nome:"", dadosNotificacao: { type: "success", title: "Conta criada com sucesso!", msg: "Verifique sua caixa de email para ativar sua conta." } });
 });
 
 // Cadastro de CLIENTES
@@ -219,8 +219,23 @@ router.post('/share/edit', uploadEmpresa.any(), MainController.makeEdit)
 // rota para comentário da empresa?
 
 router.get("/buySer", async function (req, res) {
-
-    res.render("pages/template-hm", { page: "../partial/cliente-empresa/buySer" })
+    // Deve chamar um servico a partir do id passado na query
+    // ex: <a href="/buySer?idServico=<%= variavelResRender.ColunaDoBanco %>">
+    // Você irá verificar primeiramente se esse idServico existe, senao vc ira redirecionar para uma pagina de erro ou apenas a home, porque n tem como renderizar a pagina de servico, sem saber qual servico
+    const idServico = req.query.idServico
+    if (!idServico) {
+        console.log("Servico nao encontrado")
+        return res.redirect("/home")
+    }
+    const servico = await usuariosModel.findServicoById(idServico)
+    if (servico.length == 0) {
+        console.log("Servico não encontrado")
+        return res.redirect("/home")
+    }
+    res.render("pages/template-hm", {
+        page: "../partial/cliente-empresa/buySer",
+        servico: servico[0]
+    })
 })
 
 router.get("/bsEmpresa", async function (req, res) {
