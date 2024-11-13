@@ -62,7 +62,7 @@ router.get("/entrar", function (req, res) {
     res.render("pages/template-login", jsonResult);
 });
 
-router.get("/", function (req, res) {
+router.get("/home", function (req, res) {
     res.render('pages/template-hm', { page: '..partial/landing-home/home-page', nomeUsuario, dadosNotificacao: { type: "success", title: "Conta criada com sucesso!", msg: "Verifique sua caixa de email para ativar sua conta." } });
 });
 
@@ -219,8 +219,19 @@ router.post('/share/edit', uploadEmpresa.any(), MainController.makeEdit)
 // rota para comentário da empresa?
 
 router.get("/buySer", async function (req, res) {
+    const idServico = req.query.idServico
+    if (!idServico) {
+        console.log("servico nao encontrado")
+        return res.redirect("/home")
+    }
+    const servico = await usuariosModel.findServicoById(idServico)
+    if (servico[0]) {
+        res.render("pages/template-hm", { page: "../partial/cliente-empresa/buySer", servico: servico[0] })
+    }else{
+        console.log("servico nao encontrado")
+        return res.redirect("/home")
+    }
 
-    res.render("pages/template-hm", { page: "../partial/cliente-empresa/buySer" })
 })
 
 router.get("/bsEmpresa", async function (req, res) {
