@@ -232,6 +232,7 @@ router.get("/buySer", async function (req, res) {
         console.log("Servico não encontrado")
         return res.redirect("/home")
     }
+    servico[0].PORTES_PERMITIDOS = servico[0].PORTES_PERMITIDOS.split(",")
     res.render("pages/template-hm", {
         page: "../partial/cliente-empresa/buySer",
         servico: servico[0]

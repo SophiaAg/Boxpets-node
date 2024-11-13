@@ -3,7 +3,7 @@
     <div class="container-card flex">
       <div class="left">
         <div class="main_image">
-          <img src="src/agendar/agendar1.jpg" class="slide">
+          <img src="src/imagens-servico/<%= servico.CAMINHO_IMAGEM_SERVICO %>" class="slide">
         </div>
         <div class="option flex">
           <img src="src/agendar/agendar1.jpg" onclick="img('image/p1.jpg')">
@@ -13,14 +13,15 @@
         </div>
       </div>
       <div class="right">
-        <h3>Um banho comum</h3>
+        <h3><%= servico.NOME_SERVICO %></h3>
         <h4> <small>$</small>999.99 </h4>
         <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. </p>
         <h5>Portes aceitos</h5>
         <div class="portes">
-          <span><img src="src/cliente-empresa/porte1.png" alt=""><p>P</p></span>
-          <span><img src="src/cliente-empresa/porte2.png" alt=""><p>M</p></span>
-          <span><img src="src/cliente-empresa/porte3.png" alt=""><p>G</p></span>
+
+          <% if(servico.PORTES_PERMITIDOS.includes("Pequeno")){%><span><img src="src/cliente-empresa/porte1.png" alt=""><p>P</p></span><%} %>
+          <% if(servico.PORTES_PERMITIDOS.includes("Médio")){%><span><img src="src/cliente-empresa/porte2.png" alt=""><p>M</p></span><%} %>
+          <% if(servico.PORTES_PERMITIDOS.includes("Grande")){%><span><img src="src/cliente-empresa/porte3.png" alt=""><p>G</p></span><%} %>
          
         </div>
         <h5>Number</h5>
