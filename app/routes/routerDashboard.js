@@ -256,20 +256,18 @@ router.get('/agendamento',
             const servicos = servicosResult.length > 0 ? servicosResult : [];
             const idServico = req.query.idServico
             const servico = idServico ? await usuariosModel.findServicoById(idServico) : null
-            if(servico && servico[0]){
-                console.log("esse servico nao existe")
-                res.redirect("/agendamento")
-            }
-            if(servico[0].ID_USUARIO != req.session.autenticado.id){
+            console.log(servico)
+            if (servico && servico[0].ID_USUARIO != req.session.autenticado.id) {
                 console.log("Esse servico não pertence a você")
-                res.redirect("/agendamento")
+                return res.redirect("/agendamento")
             }
-            
+            const horarios = servico ? await usuariosModel.findHorariosByIdServico(idServico) : null
             const jsonResult = {
                 page: "../partial/dashboard/agendamento",
                 classePagina: 'agenda',
                 servico: servico ? servico[0] : null,
-                servicos: servicos
+                servicos: servicos,
+                horarios: horarios
             }
             res.render("./pages/template-dashboard", jsonResult)
         } catch (error) {
@@ -289,7 +287,7 @@ router.post("/criarHorario",
 
         let errors = validationResult(req)
         if (!errors.isEmpty()) {
-            
+
         } else {
             try {
                 const idServico = req.query.idServico;
@@ -298,7 +296,7 @@ router.post("/criarHorario",
                     return res.redirect("/agendamento")
                 }
                 const servico = await usuariosModel.findServicoById(idServico)
-                if(servico[0].ID_USUARIO  != req.session.autenticado.id){
+                if (servico[0].ID_USUARIO != req.session.autenticado.id) {
                     console.log("Esse servico não pertence a você")
                     res.redirect("/agendamento")
                 }
@@ -307,20 +305,47 @@ router.post("/criarHorario",
 
                 const dadosHorario = {
                     DIA_SEMANA: diaSemana,
-                    HORARIO_SERVICO: horario,
+                    HORARIO_SERVICO: horario.slice(0, 5),
                     ID_SERVICO: idServico
                 }
 
                 const result = await usuariosModel.criarHorario(dadosHorario)
                 console.log("Horario incluido na agenda")
                 console.log(result)
-                res.redirect(`/agendamento?idServico="${idServico}`)
+                res.redirect(`/agendamento?idServico=${idServico}`)
             } catch (error) {
                 console.log(error)
                 return res.status(404).render("pages/error-404");
 
             }
         }
+    });
+router.post("/apagarHorario",
+    middleWares.verifyAutenticado,
+    middleWares.verifyAutorizado("pages/template-loginEmpresa", { page: "../partial/cadastroEmpresa/login", errors: null, valores: "", incorreto: null }, true),
+    async function (req, res) {
+        try {
+            const {idHorario, idServico} = req.query
+                if (!idServico) {
+                    console.log("servico não encontrado")
+                    return res.redirect("/agendamento")
+                }
+                const servico = await usuariosModel.findServicoById(idServico)
+
+                if (servico[0].ID_USUARIO != req.session.autenticado.id) {
+                    console.log("Esse servico não pertence a você")
+                    return res.redirect("/agendamento")
+                }
+            const result = await usuariosModel.apagarHorario(idHorario)
+            console.log("Horario excluido da agenda")
+            console.log(result)
+            res.redirect(`/agendamento?idServico=${idServico}`)
+        } catch (error) {
+            console.log(error)
+            return res.status(404).render("pages/error-404");
+
+        }
+
     });
 
 module.exports = router;

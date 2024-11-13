@@ -42,6 +42,14 @@ const usuariosModel = {
             throw error
         }
     },
+    apagarHorario: async (id) => {
+        try {
+            const [resultados] = await pool.query("delete from HORARIOS_SERVICO where ID_HORARIO_SERVICO = ?", [id])
+            return resultados
+        } catch (error) {
+            throw error
+        }
+    },
     findUsuariosByCelular: async (celular) => {
         try {
             const [resultados] = await pool.query('SELECT * FROM USUARIOS WHERE CELULAR_USUARIOS = ?', [celular])
@@ -77,7 +85,7 @@ const usuariosModel = {
     },
     findHorariosByIdServico: async (id) => {
         try {
-            const [resultados] = await pool.query("SELECT * FROM SERVICO WHERE ID_USUARIO = ?", [id])
+            const [resultados] = await pool.query("SELECT * FROM HORARIOS_SERVICO WHERE ID_SERVICO = ?", [id])
             return resultados
         } catch (error) {
             return error
