@@ -9,255 +9,51 @@
             <section class="coluna1">
                 <a href="/VizucriaPg">
           
-        <section class="category-item">
-            <section class="category-img-box">
-                <img src="/src/logo-empresas/petsrio.jpeg" alt="logo petsrio" >
-            </section>
 
-            <section class="category-content-box">
-                <section class="category-content-flex">
-                    <h3 class="category-item-title">PetsRio</h3>
-                </section>
-                    <section class="category-item-des">
+                    <div class="notification">
 
-                    <P class="category-item-amount"><i class="fa-solid fa-star" ></i>(12)</P>
-                    <P class="category-item-text" >Banho-tosa</P>
-
-                </section>
-                
-            </section>
-        </section></a>
-
-            
-       
-        <section class="category-item">
-            <section class="category-img-box">
-                <img src="/src/logo-empresas/petsrio.jpeg" alt="logo petsrio" >
-            </section>
-
-            <section class="category-content-box">
-                <section class="category-content-flex">
-                    <h3 class="category-item-title">PetRio</h3>
-                </section>
-                    <section class="category-item-des">
-
-                    <P class="category-item-amount"><i class="fa-solid fa-star" ></i>(12)</P>
-                    <P class="category-item-text" >Banho-tosa</P>
-
-                </section>
-                
-            
-        </section>
-        </section>
-
-    
-
-            
-        <section class="category-item">
-            <section class="category-img-box">
-                <img src="/src/logo-empresas/petsrio.jpeg" alt="logo petsrio" >
-            </section>
-
-            <section class="category-content-box">
-                <section class="category-content-flex">
-                    <h3 class="category-item-title">PetRio</h3>
-                </section>
-                    <section class="category-item-des">
-
-                    <P class="category-item-amount"><i class="fa-solid fa-star" ></i>(12)</P>
-                    <P class="category-item-text" >Banho-tosa</P>
-
-                </section>
-                
-            </section>
-        </section>
-        
-           
-        <section class="category-item">
-            <section class="category-img-box">
-                <img src="/src/logo-empresas/petsrio.jpeg" alt="logo petsrio" >
-            </section>
-
-            <section class="category-content-box">
-                <section class="category-content-flex">
-                    <h3 class="category-item-title">PetRio</h3>
-                </section>
-                    <section class="category-item-des">
-
-                    <P class="category-item-amount"><i class="fa-solid fa-star" ></i>(12)</P>
-                    <P class="category-item-text" >Banho-tosa</P>
-
-                </section>
-                
-            </section>
-        </section>
+                        <% empresas.forEach(element => { %>
+                        <a href="Vizucriapg/<%= element.ID_USUARIOS %>">
+                            <div class="icon">
+                                <% if(element.LOGO_IMG && element.LOGO_IMG !== null && element.LOGO_IMG !== undefined) { %>
+                                    <img src="./src/imagens-empresa/logo-empresa/<%= element.LOGO_IMG %>" alt="Logo da empresa">
+                                <% } else { %>
+                                    <img src="./src/imagens-empresa/logo-empresa/default-logo.png" alt="Logo da empresa">
+                                <% } %>
+                            </div>
+                            
+                            <div class="content">
+                                <div class="info">
+                                    <h3> 
+                                        <%= element.NOMEEMPRESA_USUARIO || "" %> 
+                                    </h3>
+                                    <small class="text_muted">
+                                        <%= (element.INFO_GERAIS && element.INFO_GERAIS.horarioInicio) || "" %> 
+                                        <%= (element.INFO_GERAIS && element.INFO_GERAIS.horarioFim) || "" %>
+                                    </small>
+                                </div>
+                                <span class="material-symbols-outlined">
+                                    chevron_right
+                                </span>
+                            </div>
+                        </a>
+                        <% }) %>
+                          
+                      </div>
+          
             </section>
 
             
         <section class="coluna2">
-
-           
-        <section class="category-item">
-            <section class="category-img-box">
-                <img src="/src/logo-empresas/petsrio.jpeg" alt="logo petsrio" >
-            </section>
-
-            <section class="category-content-box">
-                <section class="category-content-flex">
-                    <h3 class="category-item-title">PetRio</h3>
-                </section>
-                    <section class="category-item-des">
-
-                    <P class="category-item-amount"><i class="fa-solid fa-star" ></i>(12)</P>
-                    <P class="category-item-text" >Banho-tosa</P>
-
-                </section>
-                
-            </section>
-        </section>
-
             
-        <section class="category-item">
-            <section class="category-img-box">
-                <img src="/src/logo-empresas/petsrio.jpeg" alt="logo petsrio" >
-            </section>
-
-            <section class="category-content-box">
-                <section class="category-content-flex">
-                    <h3 class="category-item-title">PetRio</h3>
-                </section>
-                    <section class="category-item-des">
-
-                    <P class="category-item-amount"><i class="fa-solid fa-star" ></i>(12)</P>
-                    <P class="category-item-text" >Banho-tosa</P>
-
-                </section>
-                
-            </section>
-        </section>
-            
-        <section class="category-item">
-            <section class="category-img-box">
-                <img src="/src/logo-empresas/petsrio.jpeg" alt="logo petsrio" >
-            </section>
-
-            <section class="category-content-box">
-                <section class="category-content-flex">
-                    <h3 class="category-item-title">PetRio</h3>
-                </section>
-                    <section class="category-item-des">
-
-                    <P class="category-item-amount"><i class="fa-solid fa-star" ></i>(12)</P>
-                    <P class="category-item-text" >Banho-tosa</P>
-
-                </section>
-                
-            </section>
-        </section>
-            
-        <section class="category-item">
-            <section class="category-img-box">
-                <img src="/src/logo-empresas/petsrio.jpeg" alt="logo petsrio" >
-            </section>
-
-            <section class="category-content-box">
-                <section class="category-content-flex">
-                    <h3 class="category-item-title">PetRio</h3>
-                </section>
-                    <section class="category-item-des">
-
-                    <P class="category-item-amount"><i class="fa-solid fa-star" ></i>(12)</P>
-                    <P class="category-item-text" >Banho-tosa</P>
-
-                </section>
-                
-            </section>
-        </section>
-            
+  
             
 
         </section>
 
         <section class="coluna3">
 
-            
-        <section class="category-item">
-            <section class="category-img-box">
-                <img src="/src/logo-empresas/petsrio.jpeg" alt="logo petsrio" >
-            </section>
-
-            <section class="category-content-box">
-                <section class="category-content-flex">
-                    <h3 class="category-item-title">PetRio</h3>
-                </section>
-                    <section class="category-item-des">
-
-                    <P class="category-item-amount"><i class="fa-solid fa-star" ></i>(12)</P>
-                    <P class="category-item-text" >Banho-tosa</P>
-
-                </section>
-                
-            </section>
-        </section>
-
-           
-        <section class="category-item">
-            <section class="category-img-box">
-                <img src="/src/logo-empresas/petsrio.jpeg" alt="logo petsrio" >
-            </section>
-
-            <section class="category-content-box">
-                <section class="category-content-flex">
-                    <h3 class="category-item-title">PetRio</h3>
-                </section>
-                    <section class="category-item-des">
-
-                    <P class="category-item-amount"><i class="fa-solid fa-star" ></i>(12)</P>
-                    <P class="category-item-text" >Banho-tosa</P>
-
-                </section>
-                
-            </section>
-        </section>
-
-        <section class="category-item">
-            <section class="category-img-box">
-                <img src="/src/logo-empresas/petsrio.jpeg" alt="logo petsrio" >
-            </section>
-
-            <section class="category-content-box">
-                <section class="category-content-flex">
-                    <h3 class="category-item-title">PetRio</h3>
-                </section>
-                    <section class="category-item-des">
-
-                    <P class="category-item-amount"><i class="fa-solid fa-star" ></i>(12)</P>
-                    <P class="category-item-text" >Banho-tosa</P>
-
-                </section>
-                
-            </section>
-            </section>
-
-            <section class="category-item">
-                <section class="category-img-box">
-                    <img src="/src/logo-empresas/petsrio.jpeg" alt="logo petsrio" >
-                </section>
     
-                <section class="category-content-box">
-                    <section class="category-content-flex">
-                        <h3 class="category-item-title">PetRio</h3>
-                    </section>
-                        <section class="category-item-des">
-    
-                        <P class="category-item-amount"><i class="fa-solid fa-star" ></i>(12)</P>
-                        <P class="category-item-text" >Banho-tosa</P>
-    
-                    </section>
-                    
-                </section>
-            </section>
-
            
 
         </section>
@@ -267,3 +63,19 @@
         </section>
     </section>
 </section>
+ <style>
+        .notification .icon {
+        width: 100px;
+        height: 100px;
+        background: aqua;
+        border-radius: 50%;
+        position: relative;
+    
+        & img {
+          border-radius: 50%;
+          width: inherit;
+          height: inherit;
+          object-fit: cover;
+        }
+    }
+ </style>

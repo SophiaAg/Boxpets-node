@@ -45,7 +45,10 @@ router.get("/dashboard",
             alerta = { msg: "Erro ao efetuar pagamento!Tente novamente ou contate-nos", type: "success" }
         }
 
-        // res.status(200).render("layouts/main.ejs", { router: "../pages/store/points.ejs", user: account[0][0], notifications: notifications[0], challenges: challenges[0], challengesForUser: challengesForUser[0][0], tokens: tokens[0], title: "Collectverse - Loja" });
+        const usuario = await usuariosModel.findUsuariosById(req.session.autenticado.id)
+        const user = usuario[0].INFO_GERAIS
+            ? { ...usuario[0], INFO_GERAIS: JSON.parse(usuario[0].INFO_GERAIS) }
+            : { ...usuario[0], INFO_GERAIS: { horarioInicio: '', horarioFim: '', localizacao: '', whatsapp: '', descricao: '' } }
 
         const userBd = await usuariosModel.findUsuariosById(req.session.autenticado.id)
         const nomeempresa = userBd[0].NOMEEMPRESA_USUARIO;
@@ -53,6 +56,7 @@ router.get("/dashboard",
             alert: alerta,
             page: "../partial/dashboard/principal",
             nomeempresa: nomeempresa,
+            empresa: user,
             classePagina: 'dashboard'
         }
         res.render("pages/template-dashboard", jsonResult)

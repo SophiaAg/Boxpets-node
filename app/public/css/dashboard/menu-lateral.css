@@ -410,6 +410,21 @@
         border-radius: 20%;
         display: flex;
     }
+
+    .notification .icon {
+        width: 100px;
+        height: 100px;
+        background: aqua;
+        border-radius: 50%;
+        position: relative;
+    
+        & img {
+          border-radius: 50%;
+          width: inherit;
+          height: inherit;
+          object-fit: cover;
+        }
+    }
     
     .right-section .reminders .notification.deactive .icon{
         background-color: var(--color-danger);
