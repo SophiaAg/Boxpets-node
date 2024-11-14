@@ -81,14 +81,16 @@
         </div>
 
         <div class="showcase-content">
-          <a href="/buySer" class="showcase-category">
+          <a href="/" class="showcase-category">
             <%= servico.NOME_SERVICO %>
           </a>
-          <a href="/agendamento?idServico=<%=servico.ID_SERVICO%>" class="showcase-category">
+        </div>
+
+          <a href="/agendamento?idServico=<%=servico.ID_SERVICO%>" class="btn-servico">
             Ver agenda do serviço
           </a>
 
-        </div>
+        
 
       </div>
       <% }) } else{ %>

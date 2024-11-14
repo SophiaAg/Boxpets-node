@@ -21,10 +21,15 @@
     display: flex;
   }
   
-  .main_image {
-    width: auto;
-    height: auto;
-  }
+  .main_image img {
+    width: 100%;
+    height: 500px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    object-fit: cover;
+}
+  
   
   .option img {
     width: 75px;
