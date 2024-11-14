@@ -36,6 +36,12 @@
     font-size: 20px;
 }
 
+.sugestao-item-heading {
+    color: var(--cor-primaria);
+    margin: 2% 2% 2% 6.8%;
+    font-size: 20px;
+}
+
 .bemavaliados-item-container {
     display: flex;
     align-items: center;
