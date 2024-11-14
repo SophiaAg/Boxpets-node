@@ -332,8 +332,9 @@ form.sign-in-form {
 
 @media (max-width: 870px) {
   .container {
-    min-height: 800px;
-    height: 100vh;
+    min-height: 1000px;
+    max-height: 0;
+    height: auto;
   }
 
   .signin-signup {
@@ -361,7 +362,17 @@ form.sign-in-form {
   }
 
   .right-panel {
+    margin: 0 auto;
     grid-row: 3 / 4;
+  }
+
+  .right-panel {
+    pointer-events: none;
+    padding: 3rem;
+  }
+
+  .right-panel img {
+    display: none;
   }
 
   .left-panel {
@@ -375,7 +386,7 @@ form.sign-in-form {
   }
 
   .panel .content {
-    padding-right: 15%;
+    padding-right: 0;
     transition: transform 0.9s ease-in-out;
     transition-delay: 0.8s;
   }
