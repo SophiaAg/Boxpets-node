@@ -24,21 +24,25 @@ router.get("/dashboard",
     middleWares.verifyAutenticado,
     middleWares.verifyAutorizado("pages/template-loginEmpresa", { page: "../partial/cadastroEmpresa/login", errors: null, valores: "", incorreto: null }, true),
     async function (req, res) {
-
+        let alerta;
         const params = new URLSearchParams(req.query);
 
         if (params.has('success')) {
-            middleWares.verifyAutenticado,
-                middleWares.verifyAutorizado("pages/template-login", { form: "../partial/login/entrar", errors: null, valores: "", incorreto: null })
-
-            if (req.session.autenticado !== undefined) {
-                // Lógica para quando a ação foi bem-sucedida
-                const id = req.session.autenticado.id
-
-
+            try {
+                let plano;
+                if(params.has('mensal')){
+                    plano = 1
+                }
+                if(params.has('anual')){
+                    plano = 2
+                }
+                const result = await usuariosModel.updateUser({ PLANOS: plano }, req.session.autenticado.id)
+                console.log(result)
+            } catch (error) {
+                console.log(error)
             }
         } else if (params.has('failure') || params.has('pending')) {
-            req.flash('error', `Erro em efetuar o pagamento. Não foram somados os tokens a sua conta.`)
+            alerta = { msg: "Erro ao efetuar pagamento!Tente novamente ou contate-nos", type: "success" }
         }
 
         // res.status(200).render("layouts/main.ejs", { router: "../pages/store/points.ejs", user: account[0][0], notifications: notifications[0], challenges: challenges[0], challengesForUser: challengesForUser[0][0], tokens: tokens[0], title: "Collectverse - Loja" });
@@ -46,6 +50,7 @@ router.get("/dashboard",
         const userBd = await usuariosModel.findUsuariosById(req.session.autenticado.id)
         const nomeempresa = userBd[0].NOMEEMPRESA_USUARIO;
         const jsonResult = {
+            alert: alerta,
             page: "../partial/dashboard/principal",
             nomeempresa: nomeempresa,
             classePagina: 'dashboard'
@@ -61,6 +66,7 @@ router.get("/historico",
         // const horariosServico = await usuariosModel.findHorariosIdservico()
         res.render("pages/template-dashboard",
             {
+                alert: null,
                 page: "../partial/dashboard/historico",
                 nomeempresa: 'nomeempresa',
                 classePagina: 'historico',
@@ -74,8 +80,13 @@ router.get("/historico",
 router.get("/planos",
     middleWares.verifyAutenticado,
     middleWares.verifyAutorizado("pages/template-loginEmpresa", { page: "../partial/cadastroEmpresa/login", errors: null, valores: "", incorreto: null }, true),
-    function (req, res) {
-        res.render("pages/template-dashboard", { page: "../partial/dashboard/planos", classePagina: 'planos', nomeempresa: 'nomeempresa' });
+    async function (req, res) {
+        let isAssinante = false
+        const userBd = await usuariosModel.findUsuariosById(req.session.autenticado.id)
+        if(userBd[0].PLANOS == 1){
+            isAssinante = true
+        }
+        res.render("pages/template-dashboard", { page: "../partial/dashboard/planos", classePagina: 'planos', alert: null, isAssinante:isAssinante });
     });
 
 
@@ -83,6 +94,7 @@ router.get("/planos",
 router.get('/paginacomercial',
     middleWares.verifyAutenticado,
     middleWares.verifyAutorizado("pages/template-loginEmpresa", { page: "../partial/cadastroEmpresa/login", errors: null, valores: "", incorreto: null }, true),
+    middleWares.verifyAssinante,
     async (req, res) => {
         try {
             const usuario = await usuariosModel.findUsuariosById(req.session.autenticado.id)
@@ -98,7 +110,8 @@ router.get('/paginacomercial',
                 classePagina: 'paginaComercial',
                 empresa: user,
                 servico: null,
-                servicos: servicos
+                servicos: servicos,
+                alert: null 
             }
             res.render("./pages/template-dashboard", jsonResult)
         } catch (error) {
@@ -155,8 +168,8 @@ router.get('/editar-servico',
                 classePagina: 'paginaComercial',
                 empresa: user,
                 servico: servico[0],
-                servicos: servicos
-            }
+                servicos: servicos,
+                alert: null             }
             res.render("./pages/template-dashboard", jsonResult)
         } catch (error) {
             console.log(error)
@@ -267,7 +280,8 @@ router.get('/agendamento',
                 classePagina: 'agenda',
                 servico: servico ? servico[0] : null,
                 servicos: servicos,
-                horarios: horarios
+                horarios: horarios,
+                alert: null 
             }
             res.render("./pages/template-dashboard", jsonResult)
         } catch (error) {
@@ -325,17 +339,17 @@ router.post("/apagarHorario",
     middleWares.verifyAutorizado("pages/template-loginEmpresa", { page: "../partial/cadastroEmpresa/login", errors: null, valores: "", incorreto: null }, true),
     async function (req, res) {
         try {
-            const {idHorario, idServico} = req.query
-                if (!idServico) {
-                    console.log("servico não encontrado")
-                    return res.redirect("/agendamento")
-                }
-                const servico = await usuariosModel.findServicoById(idServico)
+            const { idHorario, idServico } = req.query
+            if (!idServico) {
+                console.log("servico não encontrado")
+                return res.redirect("/agendamento")
+            }
+            const servico = await usuariosModel.findServicoById(idServico)
 
-                if (servico[0].ID_USUARIO != req.session.autenticado.id) {
-                    console.log("Esse servico não pertence a você")
-                    return res.redirect("/agendamento")
-                }
+            if (servico[0].ID_USUARIO != req.session.autenticado.id) {
+                console.log("Esse servico não pertence a você")
+                return res.redirect("/agendamento")
+            }
             const result = await usuariosModel.apagarHorario(idHorario)
             console.log("Horario excluido da agenda")
             console.log(result)

@@ -63,8 +63,7 @@ router.get("/entrar", function (req, res) {
 });
 
 router.get("/home", function (req, res) {
-    clienteController.entrar(req, res)
-    res.render('pages/template-hm', { page: '../partial/landing-home/home-page', nome:"", dadosNotificacao: { type: "success", title: "Conta criada com sucesso!", msg: "Verifique sua caixa de email para ativar sua conta." } });
+    res.render('pages/template-hm', { page: '..partial/landing-home/home-page', nomeUsuario, dadosNotificacao: { type: "success", title: "Conta criada com sucesso!", msg: "Verifique sua caixa de email para ativar sua conta." } });
 });
 
 // Cadastro de CLIENTES
@@ -284,8 +283,6 @@ router.get("/sair", function (req, res) {
 // });
 
 router.get("/ativar-conta",
-    middleWares.verifyAutenticado,
-    middleWares.verifyAutorizado("pages/template-loginEmpresa", { page: "../partial/cadastroEmpresa/login", errors: null, valores: "", incorreto: null }, true),
     async function (req, res) {
         usuariosController.ativarConta(req, res);
     }
@@ -392,9 +389,9 @@ router.post("/PagarAssinatura", async function (req, res) {
                 },
             ],
             back_urls: {
-                success: `${baseUrl}/dashboard?success`,
-                failure: `${baseUrl} /store/points ? failure`,
-                pending: `${baseUrl} /store/points ? failure`,
+                success: `${baseUrl}/dashboard?success&mensal`,
+                failure: `${baseUrl} /dashboard?failure`,
+                pending: `${baseUrl} /dashboard?failure`,
             },
             auto_return: 'all'
         }
@@ -411,9 +408,9 @@ router.post("/PagarAssinatura", async function (req, res) {
                 },
             ],
             back_urls: {
-                success: `${baseUrl}/dashboard?success`,
-                failure: `${baseUrl} /store/points ? failure`,
-                pending: `${baseUrl} /store/points ? failure`,
+                success: `${baseUrl}/dashboard?success&anual`,
+                failure: `${baseUrl} /dashboard?failure`,
+                pending: `${baseUrl} /dashboard?failure`,
             },
             auto_return: 'all'
         }

@@ -13,7 +13,7 @@ const middleWares = {
 
         } else {
             var aut = {
-                autenticado: null, id: null, foto: "imgUser.png" 
+                autenticado: null, id: null, foto: "imgUser.png"
             }
 
         }
@@ -32,7 +32,7 @@ const middleWares = {
                 if (isForEmpresa) {
                     const empresaBd = await usuariosModel.findUsuariosById(req.session.autenticado.id)
                     if (empresaBd[0]) {
-                       return next();
+                        return next();
                     } else {
                         res.redirect("/")
                     }
@@ -42,6 +42,14 @@ const middleWares = {
                 res.render(destinoFalha, objetoResRender)
             }
         };
+    },
+    verifyAssinante: async (req, res, next)=>{
+        const userBd = await usuariosModel.findUsuariosById(req.session.autenticado.id)
+        console.log(userBd)
+        if(userBd[0].PLANOS != 1){
+            return res.redirect("/nao-permitido")
+        }
+        return next()
     },
     // ele verifica se tem erros nos inputs da pagina, se tiver ele retorna o objeto como null, senao ele prossegue, buscando um usuario que tenha o nome digitado no formulario no campo name='usuario'. Caso tiver apenas 1 usuário, ele compara o hash da senha do input name="senha" com o hash da senha do banco de dados, caso for diferente de 1, ele retorna também tudo como null
     gravarAutenticacaoEmpresa: async (req, res, next) => {
@@ -55,16 +63,16 @@ const middleWares = {
                 if (Object.keys(userBd).length == 1) {
                     if (bcrypt.compareSync(req.body.senha, userBd[0].SENHA_USUARIOS)) {
                         var aut = {
-                            autenticado: userBd[0].EMAIL_USUARIOS, id: userBd[0].ID_USUARIOS, foto: userBd[0].img_perfil_pasta   
+                            autenticado: userBd[0].EMAIL_USUARIOS, id: userBd[0].ID_USUARIOS, foto: userBd[0].img_perfil_pasta
                         }
                     } else {
                         var aut = {
-                            autenticado: null, id: null , foto: "imgUser.png" 
+                            autenticado: null, id: null, foto: "imgUser.png"
                         }
                     }
                 } else {
                     var aut = {
-                        autenticado: null, id: null , foto: "imgUser.png"
+                        autenticado: null, id: null, foto: "imgUser.png"
                     }
                 }
 
@@ -74,7 +82,7 @@ const middleWares = {
 
         } else {
             var aut = {
-                autenticado: null, id: null , foto: "imgUser.png" 
+                autenticado: null, id: null, foto: "imgUser.png"
             }
         }
         req.session.autenticado = aut
@@ -91,17 +99,17 @@ const middleWares = {
                 if (Object.keys(clienteBd).length == 1) {
                     if (bcrypt.compareSync(req.body.password, clienteBd[0].SENHA_CLIENTE)) {
                         var aut = {
-                            autenticado: clienteBd[0].EMAIL_CLIENTE, id: clienteBd[0].ID_CLIENTE , foto: clienteBd[0].img_perfil_pasta   
+                            autenticado: clienteBd[0].EMAIL_CLIENTE, id: clienteBd[0].ID_CLIENTE, foto: clienteBd[0].img_perfil_pasta
                         }
                     } else {
                         var aut = {
-                            autenticado: null, id: null , foto: "imgUser.png" 
+                            autenticado: null, id: null, foto: "imgUser.png"
                         }
 
                     }
                 } else {
                     var aut = {
-                        autenticado: null, id: null , foto: "imgUser.png" 
+                        autenticado: null, id: null, foto: "imgUser.png"
                     }
                 }
             }
@@ -109,7 +117,7 @@ const middleWares = {
 
         } else {
             var aut = {
-                autenticado: null, id: null , foto: "imgUser.png" 
+                autenticado: null, id: null, foto: "imgUser.png"
             }
         }
         req.session.autenticado = aut

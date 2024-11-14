@@ -356,19 +356,22 @@ const usuariosController = {
   },
   ativarConta: async (req, res) => {
     try {
+      console.log("----- ativar conta -------")
       const token = req.query.token
-      console.log(token)
       jwt.verify(token, process.env.SECRET_KEY, async (err, decoded) => {
         console.log(decoded)
         if (err) {
           console.log("Token inválido ou expirado")
+          return res.redirect("/loginEmpresa")
         } else {
           const userBd = await usuariosModel.findUserByIdInativo(decoded.userId)
           console.log(userBd[0])
           if (!userBd[0]) {
-            return console.log("Usuário não encontrado")
+            console.log("Usuário não encontrada")
+            return res.redirect("/loginEmpresa")
           }
-          const resultadoAtivarConta = await usuariosModel.findUsuariosById({ USUARIOS_STATUS: 'ativo' }, decoded.userId);
+          console.log(await usuariosModel.findUsuariosById(decoded.userId))
+          const resultadoAtivarConta = await usuariosModel.updateUser({ USUARIOS_STATUS: 'ativo' }, decoded.userId);
           console.log(resultadoAtivarConta)
           console.log("Conta ativada!")
           res.redirect("/loginEmpresa")
