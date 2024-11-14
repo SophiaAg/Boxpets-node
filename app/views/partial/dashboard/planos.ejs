@@ -7,6 +7,7 @@
 
 
 <div class="planos">
+    <h1 class="heading-planos"> Nossos Planos</h1>
     <section class="box-container-planos">
         <section class="box-planos">
             <section class="icon-plan"> <i class="fa-solid fa-icons"></i> </section>
@@ -20,10 +21,10 @@
                  <p>Acesso as Carteiras Pets<i class="fa-solid fa-check"></i></p>
     
              </section>
-             <% if(!isAssinante){ %>
+           <% if(!isAssinante){ %>
                 <form action="/PagarAssinatura" method="post">
-                    <input type="hidden" value="1" name="id" >
-                    <button type="submit" >Selecionar</button>
+                    <input type="hidden" value="2" name="id" >
+                    <button type="submit">Selecionar</button>
                 </form>
             <% }else{%>
                 <h2>Você já é assinante</h2>
@@ -32,7 +33,7 @@
     
          <section class="box-planos">
             <section class="icon-plan"> <i class="fa-solid fa-icons"></i> </section>
-            <h3>Plano </h3>
+            <h3>Plano Anual</h3>
             <section class="price"><span>R$</span>345,6<span>/ano</span></section>
             <section class="list-plan">
                 <p>Anúncio de Vendas<i class="fa-solid fa-check"></i></p>
@@ -43,8 +44,8 @@
             </section>
             <% if(!isAssinante){ %>
                 <form action="/PagarAssinatura" method="post">
-                    <input type="hidden" value="2" name="id" >
-                    <button type="submit">Selecionar</button>
+                    <input type="hidden" value="1" name="id" >
+                    <button type="submit" >Selecionar</button>
                 </form>
             <% }else{%>
                 <h2>Você já é assinante</h2>
