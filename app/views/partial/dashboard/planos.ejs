@@ -1,60 +1,56 @@
 <div class="container-planos">
 <div class="aviso">
     <div class="box">
-        <h1>Planos para sua empresa</h1>
-        <p>hjfhjsah ashjfhu
-            jaikfheh
-            jfieijfep
-            jefofjeojf
-        </p>
         <img src="img_empresas/planos.png" alt="">
     </div>
 </div>
 
 
-<div class="price-row">
-<div class="price-col">
-    <p>Anual</p>
-    <h3>R$345,6</h3>
-    <ul>
-        <li><i class="material-symbols-outlined">close </i> agenda </li>
-        <li><i class="material-symbols-outlined">close </i> agenda </li>
-        <li><i class="material-symbols-outlined">close </i> agenda </li>
-        <li><i class="material-symbols-outlined">close </i> agenda </li>
-        <li><i class="material-symbols-outlined">close </i> agenda </li>
-<% if(!isAssinante){ %>
-    <form action="/PagarAssinatura" method="post">
-        <input type="hidden" value="1" name="id" >
-        <button type="submit" >Selecionar</button>
-    </form>
-<% }else{%>
-    <h2>Você já é assinante</h2>
-<% }%>
-        
-       
-       
-    </ul>
+<div class="planos">
+    <h1 class="heading-planos"> Nossos Planos</h1>
+    <section class="box-container-planos">
+        <section class="box-planos">
+            <section class="icon-plan"> <i class="fa-solid fa-icons"></i> </section>
+             <h3>Plano Mensal</h3>
+             <section class="price"><span>R$</span>32<span>/mês</span></section>
+             <section class="list-plan">
+                 <p>Anúncio de Vendas<i class="fa-solid fa-check"></i></p>
+                 <p>Aumento de Clientes<i class="fa-solid fa-check"></i></p>
+                 <p>Aumento da Visibilidade<i class="fa-solid fa-check"></i></p>
+                 <p>Agenda Exclusiva<i class="fa-solid fa-check"></i></p>
+                 <p>Acesso as Carteiras Pets<i class="fa-solid fa-check"></i></p>
     
-</div>
-
-<div class="price-col">
-    <p>Mensal</p>
-    <h3>R$32</h3>
-    <ul>
-        <li> <i class="material-symbols-outlined">check </i> agenda </li>
-        <li> <i class="material-symbols-outlined">check </i> agenda </li>
-        <li> <i class="material-symbols-outlined">check </i> agenda </li>
-        <li> <i class="material-symbols-outlined">check </i> agenda </li>
-        <li> <i class="material-symbols-outlined">check </i> agenda </li>
-    </ul>
-    <% if(!isAssinante){ %>
-        <form action="/PagarAssinatura" method="post">
-            <input type="hidden" value="2" name="id" >
-            <button type="submit">Selecionar</button>
-        </form>
-    <% }else{%>
-        <h2>Você já é assinante</h2>
-    <% }%>
-</div>
+             </section>
+           <% if(!isAssinante){ %>
+                <form action="/PagarAssinatura" method="post">
+                    <input type="hidden" value="2" name="id" >
+                    <button type="submit">Selecionar</button>
+                </form>
+            <% }else{%>
+                <h2>Você já é assinante</h2>
+            <% }%>
+         </section>
+    
+         <section class="box-planos">
+            <section class="icon-plan"> <i class="fa-solid fa-icons"></i> </section>
+            <h3>Plano Anual</h3>
+            <section class="price"><span>R$</span>345,6<span>/ano</span></section>
+            <section class="list-plan">
+                <p>Anúncio de Vendas<i class="fa-solid fa-check"></i></p>
+                <p>Aumento de Clientes<i class="fa-solid fa-check"></i></p>
+                <p>Aumento da Visibilidade<i class="fa-solid fa-check"></i></p>
+                <p>Agenda Exclusiva<i class="fa-solid fa-check"></i></p>
+                <p>Acesso as Carteiras Pets<i class="fa-solid fa-check"></i></p>
+            </section>
+            <% if(!isAssinante){ %>
+                <form action="/PagarAssinatura" method="post">
+                    <input type="hidden" value="1" name="id" >
+                    <button type="submit" >Selecionar</button>
+                </form>
+            <% }else{%>
+                <h2>Você já é assinante</h2>
+            <% }%>
+        </section>
+    </section>
 </div>
 </div>
