@@ -60,7 +60,7 @@ const usuariosModel = {
     },
     findUsuariosByEmail: async (email) => {
         try {
-            const [resultados] = await pool.query('SELECT * FROM USUARIOS WHERE EMAIL_USUARIOS = ?', [email])
+            const [resultados] = await pool.query("SELECT * FROM USUARIOS WHERE EMAIL_USUARIOS = ? AND USUARIOS_STATUS = 'ativo'", [email])
             return resultados
         } catch (error) {
             return error
