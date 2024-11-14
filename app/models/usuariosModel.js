@@ -75,6 +75,20 @@ const usuariosModel = {
             return error
         }
     },
+    findAllUsuarios: async (id) => {
+        try {
+            if(id != undefined) {
+                const [resultados] = await pool.query("SELECT * FROM USUARIOS WHERE USUARIOS_STATUS = 'ativo' AND ESPECIALIDADES_ID_ESPECIALIDADES = ?", [id])
+                return resultados
+            }else{
+                const [resultados] = await pool.query("SELECT * FROM USUARIOS WHERE USUARIOS_STATUS = 'ativo'")
+                return resultados
+            }
+            
+        } catch (error) {
+            return error
+        }
+    },
     findServicosByIdEmpresa: async (id) => {
         try {
             const [resultados] = await pool.query("SELECT * FROM SERVICO WHERE ID_USUARIO = ?", [id])

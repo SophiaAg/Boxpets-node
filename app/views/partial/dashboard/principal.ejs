@@ -39,16 +39,19 @@
           </div>
 
           <div class="notification">
+
+            
+
               <div class="icon">
-                  <span class="material-symbols-outlined">
-                      add_circle
-                      </span>
+                    <% if(empresa.LOGO_IMG){%>
+                        <img src="./src/imagens-empresa/logo-empresa/<%= empresa.LOGO_IMG %>" alt="Logo da empresa">
+                        <% } %>
               </div>
               <div class="content">
                   <div class="info">
-                      <h3>Nome da Empresa</h3>
+                      <h3> <%= empresa.NOMEEMPRESA_USUARIO %></h3>
                       <small class="text_muted">
-                         Horários Disponíveis
+                        <%= empresa.INFO_GERAIS.horarioInicio %> <%= empresa.INFO_GERAIS.horarioFim %>
                       </small>
                   </div>
                   <span class="material-symbols-outlined">
@@ -58,7 +61,7 @@
           </div>
 
 
-          <div class="notification add-reminder">
+          <!-- <div class="notification add-reminder">
               <div>
                   <span class="material-icons-sharp">
                       Clique
@@ -89,7 +92,7 @@
             </div>
            
         <a href="#">View All</a>
-    </div>
+    </div> -->
 
 
   

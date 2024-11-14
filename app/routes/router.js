@@ -79,8 +79,33 @@ router.get("/servicos-gerais", function (req, res) {
     res.render("pages/template-hm", { pagina: "Servicogerais", page: "../partial/servicosgerais/servicos-gerais" });
 });
 
-router.get("/veterinarios", function (req, res) {
-    res.render("pages/template-hm", { pagina: "LandingPage", page: "../partial/servicosgerais/veterinarios" });
+router.get("/veterinarios", async function (req, res) {
+    const params = req.query.id;
+    console.log(params)
+    const usuario = await usuariosModel.findAllUsuarios(params)
+    let user = [];
+    usuario.forEach((element, index) => {
+        let infoGeralParsed = {};
+        
+        try {
+            infoGeralParsed = JSON.parse(element.INFO_GERAIS);
+        } catch (e) {
+            infoGeralParsed = {
+                horarioInicio: '',
+                horarioFim: '',
+                localizacao: '',
+                whatsapp: '',
+                descricao: ''
+            };
+        }
+
+        let moment = {
+            ...element,
+            INFO_GERAIS: infoGeralParsed
+        };
+        user.push(moment);
+    });
+    res.render("pages/template-hm", { pagina: "LandingPage", page: "../partial/servicosgerais/veterinarios", empresas: user });
 });
 
 router.get("/historico-cli", function (req, res) {
@@ -88,24 +113,22 @@ router.get("/historico-cli", function (req, res) {
 });
 
 
-//Dando erro no caminho, não sei fazer esse caminho para o cliente vizualizar a pagina comercial.
+router.get("/VizucriaPg/:id", async function (req, res) {
+    const params = req.params.id;
+    console.log(params)
+    const vizupg = await usuariosModel.findUsuariosById(params)
 
-// router.get("/VizucriaPg", function (req, res) {
+    
+    const usuario = await usuariosModel.findUsuariosById(req.session.autenticado.id)
+    const user = usuario[0].INFO_GERAIS
+        ? { ...usuario[0], INFO_GERAIS: JSON.parse(usuario[0].INFO_GERAIS) }
+        : { ...usuario[0], INFO_GERAIS: { horarioInicio: '', horarioFim: '', localizacao: '', whatsapp: '', descricao: '' } }
 
-//     async (req, res) => {
-//         try {
-//             const usuario = await usuariosModel.findUsuariosById(req.session.autenticado.id)
-//             const user = usuario[0].INFO_GERAIS
-//                 ? { ...usuario[0], INFO_GERAIS: JSON.parse(usuario[0].INFO_GERAIS) }
-//                 : { ...usuario[0], INFO_GERAIS: { horarioInicio: '', horarioFim: '', localizacao: '', whatsapp: '', descricao: '' } }
+        const userBd = await usuariosModel.findUsuariosById(req.session.autenticado.id)
+        const nomeempresa = userBd[0].NOMEEMPRESA_USUARIO;
 
-//         res.render("pages/template-hm", { page: "../partial/cliente-empresa/VizucriaPg.ejs",  empresa: empresa });
-//     } catch (error) {
-//         console.log(error)
-//         // RETORNAR PAGINA ERRO
-//         res.redirect("/pg-erro")
-//     }}
-// });
+    res.render("pages/template-hm", { pagina: "LandingPage", page: "../partial/cliente-empresa/VizucriaPg", vizupg: vizupg, empresa: user });
+});
 
 
 router.get("/carterinha-pet", function (req, res) {
