@@ -23,44 +23,7 @@
     }
   }
 
-  .modal {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    backdrop-filter: blur(10px);
-    z-index: 1000;
-    width: 100%;
-    height: 100%;
-
-    &.show {
-      display: flex;
-    }
-
-    & .modal-content {
-      padding: 3rem;
-      box-shadow: 0 0 5px rgba(0, 0, 0, 0.473);
-      background: white;
-      width: 100%;
-      max-width: 768px;
-      border-radius: 10px;
-      margin: auto;
-    }
-
-    & .closeBtn {
-      position: absolute;
-      width: fit-content;
-      height: fit-content;
-      padding: 0.3rem;
-      top: 0;
-      right: 0;
-      margin: 10px;
-    }
-    & .cancelarBtn{
-      position: relative;
-
-    }
-  }
+  
 
   .input-servico {
     border: none;

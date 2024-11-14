@@ -91,6 +91,14 @@ const usuariosModel = {
             return error
         }
     },
+    findHorariosByIdServico: async (id, day) => {
+        try {
+            const [resultados] = await pool.query("SELECT * FROM HORARIOS_SERVICO WHERE ID_SERVICO = ? AND WHERE DIA_SEMANA = ?", [id,day])
+            return resultados
+        } catch (error) {
+            return error
+        }
+    },
     findServicoById: async (id) => {
         try {
             const [resultados] = await pool.query("SELECT * FROM SERVICO WHERE ID_SERVICO = ?", [id])

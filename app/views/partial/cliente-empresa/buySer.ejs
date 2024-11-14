@@ -41,18 +41,22 @@
         <p>Adicionar Carterinha</p>
       </div>
 
-      <button id="openModalBtn">Agendar</button>
+      <button data-openModal="#scheduleModal">Agendar</button>
     </div>
   </div>
 </section>
 
-<div id="scheduleModal" class="modal-card">
-  <div class="modal-content-card">
+<div id="scheduleModal" class="modal <%= openModal ? 'show': '' %>">
+  <div class="modal-content">
     <div class="modal-header">
       <h2>Agendar Horário</h2>
-      <span class="close">&times;</span>
-      <label for="date">Escolha o dia:</label>
-      <input type="date" id="date" name="date" required>
+      <span class="close closeBtn">&times;</span>
+      <form action="/findHorariosByData?idServico=<%=servico.ID_SERVICO%>" method="post">
+        <label for="date">Escolha o dia:</label>
+        <input type="date" id="data" name="data" required class="<%= erroData ? 'invalid' : ''%>">
+        <span><%= erroData ? erroData.msg : '' %></span>
+        <button>Buscar</button>
+      </form>
     </div>
 
     <div class="modal-body">
@@ -91,7 +95,7 @@
         </div>
 
         <button class="btn-cadbuy" type="submit">Agendar</button>
-        
+
       </form>
     </div>
   </div>
@@ -217,4 +221,18 @@
   </div>
 
 </div>
+<script>
+  function setTodayIfEmpty() {
+    const dateInput = document.getElementById("data");
 
+    if (!dateInput.value) {
+      const today = new Date();
+      const year = today.getFullYear();
+      const month = String(today.getMonth() + 1).padStart(2, '0'); 
+      const day = String(today.getDate()).padStart(2, '0'); 
+      dateInput.value = `${year}-${month}-${day}`;
+    }
+  }
+  window.onload = setTodayIfEmpty;
+</script>
+<script src="js/abrirModal.js"></script>

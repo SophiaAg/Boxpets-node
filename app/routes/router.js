@@ -235,7 +235,9 @@ router.get("/buySer", async function (req, res) {
     servico[0].PORTES_PERMITIDOS = servico[0].PORTES_PERMITIDOS.split(",")
     res.render("pages/template-hm", {
         page: "../partial/cliente-empresa/buySer",
-        servico: servico[0]
+        servico: servico[0],
+        openModal: false,
+        erroData: null
     })
 })
 
@@ -434,12 +436,44 @@ router.post("/PagarAssinatura", async function (req, res) {
 
 // ROTA DE AGENDAR HORARIO
 
-router.get("/detalhes-servico", async (req, res) => {
+router.post("/findHorariosByData", async (req, res) => {
+    const { data } = req.body
     const idServico = req.query.idServico
-    if (!idServico) {
-        return
+    try {
+        if (!idServico) {
+            console.log("Servico nao encontrado")
+            return res.redirect("/home")
+        }
+        const servico = await usuariosModel.findServicoById(idServico)
+        if (servico.length == 0) {
+            console.log("Servico não encontrado")
+            return res.redirect("/home")
+        }
+
+        const dataSelect = new Date(data)
+        const today = new Date()
+        today.setHours(0, 0, 0, 0)
+        console.log(dataSelect)
+        console.log(today)
+        if (dataSelect < today) {
+            servico[0].PORTES_PERMITIDOS = servico[0].PORTES_PERMITIDOS.split(",")
+            return res.render("pages/template-hm", {
+                page: "../partial/cliente-empresa/buySer",
+                servico: servico[0],
+                openModal: true,
+                erroData: { msg: "Data anterior ao dia de hoje!" }
+            })
+        }
+        const dayOfWeek = selectedDate.getDay();
+        const horarios = await usuariosModel.findHorariosServicoByDayWeek(dayOfWeek, idServico)
+
+    } catch (error) {
+        console.log(error)
+        res.redirect(`/buySer?idServico=${idServico}`)
     }
-    const horariosDisponiveis = await usuariosModel.findHorariosIdservico(idServico)
 })
+
+
+
 
 module.exports = router;
