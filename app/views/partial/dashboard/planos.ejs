@@ -22,11 +22,15 @@
         <li><i class="material-symbols-outlined">close </i> agenda </li>
         <li><i class="material-symbols-outlined">close </i> agenda </li>
         <li><i class="material-symbols-outlined">close </i> agenda </li>
-
-        <form action="/PagarAssinatura" method="post">
-            <input type="hidden" value="1" name="id" >
-            <button type="submit" >Selecionar</button>
-        </form>
+<% if(!isAssinante){ %>
+    <form action="/PagarAssinatura" method="post">
+        <input type="hidden" value="1" name="id" >
+        <button type="submit" >Selecionar</button>
+    </form>
+<% }else{%>
+    <h2>Você já é assinante</h2>
+<% }%>
+        
        
        
     </ul>
@@ -43,10 +47,14 @@
         <li> <i class="material-symbols-outlined">check </i> agenda </li>
         <li> <i class="material-symbols-outlined">check </i> agenda </li>
     </ul>
-    <form action="/PagarAssinatura" method="post">
-        <input type="hidden" value="2" name="id" >
-        <button type="submit" >Selecionar</button>
-    </form>
+    <% if(!isAssinante){ %>
+        <form action="/PagarAssinatura" method="post">
+            <input type="hidden" value="2" name="id" >
+            <button type="submit">Selecionar</button>
+        </form>
+    <% }else{%>
+        <h2>Você já é assinante</h2>
+    <% }%>
 </div>
 </div>
 </div>

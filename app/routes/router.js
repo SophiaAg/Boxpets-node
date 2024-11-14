@@ -389,9 +389,9 @@ router.post("/PagarAssinatura", async function (req, res) {
                 },
             ],
             back_urls: {
-                success: `${baseUrl}/dashboard?success`,
-                failure: `${baseUrl} /store/points ? failure`,
-                pending: `${baseUrl} /store/points ? failure`,
+                success: `${baseUrl}/dashboard?success&mensal`,
+                failure: `${baseUrl} /dashboard?failure`,
+                pending: `${baseUrl} /dashboard?failure`,
             },
             auto_return: 'all'
         }
@@ -408,9 +408,9 @@ router.post("/PagarAssinatura", async function (req, res) {
                 },
             ],
             back_urls: {
-                success: `${baseUrl}/dashboard?success`,
-                failure: `${baseUrl} /store/points ? failure`,
-                pending: `${baseUrl} /store/points ? failure`,
+                success: `${baseUrl}/dashboard?success&anual`,
+                failure: `${baseUrl} /dashboard?failure`,
+                pending: `${baseUrl} /dashboard?failure`,
             },
             auto_return: 'all'
         }
