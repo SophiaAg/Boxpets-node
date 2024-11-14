@@ -81,14 +81,16 @@
         </div>
 
         <div class="showcase-content">
-          <a href="/buySer" class="showcase-category">
+          <a href="/" class="showcase-category">
             <%= servico.NOME_SERVICO %>
           </a>
-          <a href="/agendamento?idServico=<%=servico.ID_SERVICO%>" class="showcase-category">
+        </div>
+
+          <a href="/agendamento?idServico=<%=servico.ID_SERVICO%>" class="btn-servico">
             Ver agenda do serviço
           </a>
 
-        </div>
+        
 
       </div>
       <% }) } else{ %>
@@ -106,28 +108,34 @@
 
         <div class="btns__diaSemana">
           <button data-btnSection="Domingo" class="btn-dia ativo">Domingo</button>
-          <button data-btnSection="Segunda-feira" class="btn-dia">Segunda-feira</button>
-          <button data-btnSection="Terça-feira" class="btn-dia">Terça-feira</button>
-          <button data-btnSection="Quarta-feira" class="btn-dia">Quarta-feira</button>
-          <button data-btnSection="Quinta-feira" class="btn-dia">Quinta-feira</button>
-          <button data-btnSection="Sexta-feira" class="btn-dia">Sexta-feira</button>
+          <button data-btnSection="Segunda" class="btn-dia">Segunda-feira</button>
+          <button data-btnSection="Terça" class="btn-dia">Terça-feira</button>
+          <button data-btnSection="Quarta" class="btn-dia">Quarta-feira</button>
+          <button data-btnSection="Quinta" class="btn-dia">Quinta-feira</button>
+          <button data-btnSection="Sexta" class="btn-dia">Sexta-feira</button>
           <button data-btnSection="Sábado" class="btn-dia">Sábado</button>
         </div>
 
         <div class="events ativo" data-section="Domingo">
-          
-          <div class="item">
-            <div>
-              <i class='bx bx-time'></i>
-              <div class="event-info">
-                <a href="#">Horário 1</a>
-                <p>10:00-11:30</p>
-              </div>
-            </div>
-            <form action="/apagarHorario?idHorario=" method="post">
-              <button class="material-symbols-outlined">close</button>
-            </form>
-          </div>
+            <%- include("./horariosItems",{diaSemana:1}) %>
+        </div>
+        <div class="events" data-section="Segunda">
+            <%- include("./horariosItems",{diaSemana:2}) %>
+        </div>
+        <div class="events" data-section="Terça">
+            <%- include("./horariosItems",{diaSemana:3}) %>
+        </div>
+        <div class="events" data-section="Quarta">
+            <%- include("./horariosItems",{diaSemana:4}) %>
+        </div>
+        <div class="events" data-section="Quinta">
+            <%- include("./horariosItems",{diaSemana:5}) %>
+        </div>
+        <div class="events" data-section="Sexta">
+            <%- include("./horariosItems",{diaSemana:6}) %>
+        </div>
+        <div class="events" data-section="Sábado">
+            <%- include("./horariosItems",{diaSemana:7}) %>
         </div>
 
         <div class="item-adicionar" data-openmodal="#modalCriarHorario">
@@ -139,6 +147,7 @@
           </div>
           <i class='bx bx-dots-horizontal-rounded'></i>
         </div>
+
       </div>
     </div>
 

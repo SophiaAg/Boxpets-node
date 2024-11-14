@@ -3,6 +3,9 @@
 @import url("../dashboard/planos.css");
 @import url("../dashboard/agendamento.css");
 @import url("../dashboard/historico.css");
-
+@import url("../dashboard/criaPg.css");
 /*page erro*/
 @import url("../pg-erro.css");
+
+/* card */
+@import url("../cliente-empresa/servicoempresa.css");

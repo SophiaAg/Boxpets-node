@@ -219,19 +219,24 @@ router.post('/share/edit', uploadEmpresa.any(), MainController.makeEdit)
 // rota para comentário da empresa?
 
 router.get("/buySer", async function (req, res) {
+    // Deve chamar um servico a partir do id passado na query
+    // ex: <a href="/buySer?idServico=<%= variavelResRender.ColunaDoBanco %>">
+    // Você irá verificar primeiramente se esse idServico existe, senao vc ira redirecionar para uma pagina de erro ou apenas a home, porque n tem como renderizar a pagina de servico, sem saber qual servico
     const idServico = req.query.idServico
     if (!idServico) {
-        console.log("servico nao encontrado")
+        console.log("Servico nao encontrado")
         return res.redirect("/home")
     }
     const servico = await usuariosModel.findServicoById(idServico)
-    if (servico[0]) {
-        res.render("pages/template-hm", { page: "../partial/cliente-empresa/buySer", servico: servico[0] })
-    }else{
-        console.log("servico nao encontrado")
+    if (servico.length == 0) {
+        console.log("Servico não encontrado")
         return res.redirect("/home")
     }
-
+    servico[0].PORTES_PERMITIDOS = servico[0].PORTES_PERMITIDOS.split(",")
+    res.render("pages/template-hm", {
+        page: "../partial/cliente-empresa/buySer",
+        servico: servico[0]
+    })
 })
 
 router.get("/bsEmpresa", async function (req, res) {
