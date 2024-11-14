@@ -120,3 +120,97 @@
 }
 
 }
+
+.heading-planos{
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    font-size: 1.7rem;
+    font-family: poppins;
+    color: var(--cor-segundaria);
+  }
+   
+  .btn_planos {
+    display: inline-block;
+    margin-top: 1rem;
+    padding: .8rem 3rem;
+    border-radius: 5rem;
+    background:var(--cor-segundaria);
+    font-size: 1.3rem;
+    color: var(--branco);
+    cursor: pointer;
+    box-shadow: 0 .5rem 1rem rgba(0,0,0,.1);
+    transition: all .3s linear;
+  }
+   
+  .planos .box-container-planos{
+    display: flex;
+   align-items: center;
+   justify-content: center;
+   flex-wrap: wrap;
+   margin: 5%;
+  }
+   
+  .planos .box-container-planos .box-planos {
+   
+    margin: 2%;
+    padding: 4rem;
+    background: var(--branco);
+    border: 0.5rem solid var(--cor-primaria);
+    box-shadow: 0 .5rem 1rem rgba(0,0,0,.1);
+    border-radius: .5rem;
+    text-align: center;
+    padding-bottom: 2rem;
+  }
+   
+  .planos .box-container-planos .box-planos .icon-plan {
+    font-size: 3rem;
+    height: 7rem;
+    width: 7rem;
+    line-height: 7rem;
+    border-radius: 50%;
+    margin-bottom: 1rem;
+    color: var(--branco);
+    background: var(--cor-segundaria);
+    display: inline-block;
+  }
+   
+  .planos .box-container-planos .box-planos h3 {
+    font-size: 1.7rem;
+    color: var(--cor-primaria);
+  }
+   
+  .planos .box-container-planos .box-planos .price {
+    font-size: 3rem;
+    padding: 1rem 0;
+    color: var(--preto)
+  }
+   
+  .planos .box-container-planos .box-planos .price span {
+    font-size: 1rem;
+    color: var(--preto);
+   
+  }
+   
+  .planos .box-container-planos .box-planos .list-plan{
+    padding: 1rem 0;
+    text-align: left;
+    list-style: none;
+  }
+   
+  .planos .box-container-planos .box-planos .list-plan p {
+    padding: 0.5rem 0;
+    font-size: 1.3rem;
+    color: var(--preto);
+  }
+   
+  .planos .box-container-planos .box-planos .list-plan p .fa-check{
+    color: lightgreen;
+  }
+   
+  .planos .planos_container .box-planos .list-plan p .fa-times{
+    color: red;
+  }
+   
+  
+     
