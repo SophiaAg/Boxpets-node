@@ -117,25 +117,25 @@
         </div>
 
         <div class="events ativo" data-section="Domingo">
-            <%- include("./horariosItems",{diaSemana:1}) %>
+            <%- include("./horariosItems",{diaSemana:0}) %>
         </div>
         <div class="events" data-section="Segunda">
-            <%- include("./horariosItems",{diaSemana:2}) %>
+            <%- include("./horariosItems",{diaSemana:1}) %>
         </div>
         <div class="events" data-section="Terça">
-            <%- include("./horariosItems",{diaSemana:3}) %>
+            <%- include("./horariosItems",{diaSemana:2}) %>
         </div>
         <div class="events" data-section="Quarta">
-            <%- include("./horariosItems",{diaSemana:4}) %>
+            <%- include("./horariosItems",{diaSemana:3}) %>
         </div>
         <div class="events" data-section="Quinta">
-            <%- include("./horariosItems",{diaSemana:5}) %>
+            <%- include("./horariosItems",{diaSemana:4}) %>
         </div>
         <div class="events" data-section="Sexta">
-            <%- include("./horariosItems",{diaSemana:6}) %>
+            <%- include("./horariosItems",{diaSemana:5}) %>
         </div>
         <div class="events" data-section="Sábado">
-            <%- include("./horariosItems",{diaSemana:7}) %>
+            <%- include("./horariosItems",{diaSemana:6}) %>
         </div>
 
         <div class="item-adicionar" data-openmodal="#modalCriarHorario">
@@ -160,26 +160,26 @@
           <div class="inputs">
 
             <select name="diaSemana" id="diaSemana">
-              <option value="1">Domingo</option>
-              <option value="2">Segunda-feira</option>
-              <option value="3">Terça-feira</option>
-              <option value="4">Quarta-feira</option>
-              <option value="5">Quinta-feira</option>
-              <option value="6">Sexta-feira</option>
-              <option value="7">Sábado</option>
+              <option value="0">Domingo</option>
+              <option value="1">Segunda-feira</option>
+              <option value="2">Terça-feira</option>
+              <option value="3">Quarta-feira</option>
+              <option value="4">Quinta-feira</option>
+              <option value="5">Sexta-feira</option>
+              <option value="6">Sábado</option>
             </select>
             <input type="time" name="horario" id="horario" placeholder="Horario" required>
 
             <button type="submit">Enviar</button>
 
-            <div class="events ativo">
+            <!-- <div class="events ativo">
               <div class="item">
                 <div class="event-info">
                   <a href="#">Horário 1</a>
                   <p>10:00-11:30</p>
                 </div>
               </div>
-            </div>
+            </div> -->
 
           </div>
         </form>

@@ -86,7 +86,7 @@ router.get("/veterinarios", async function (req, res) {
     let user = [];
     usuario.forEach((element, index) => {
         let infoGeralParsed = {};
-        
+
         try {
             infoGeralParsed = JSON.parse(element.INFO_GERAIS);
         } catch (e) {
@@ -118,14 +118,14 @@ router.get("/VizucriaPg/:id", async function (req, res) {
     console.log(params)
     const vizupg = await usuariosModel.findUsuariosById(params)
 
-    
+
     const usuario = await usuariosModel.findUsuariosById(req.session.autenticado.id)
     const user = usuario[0].INFO_GERAIS
         ? { ...usuario[0], INFO_GERAIS: JSON.parse(usuario[0].INFO_GERAIS) }
         : { ...usuario[0], INFO_GERAIS: { horarioInicio: '', horarioFim: '', localizacao: '', whatsapp: '', descricao: '' } }
 
-        const userBd = await usuariosModel.findUsuariosById(req.session.autenticado.id)
-        const nomeempresa = userBd[0].NOMEEMPRESA_USUARIO;
+    const userBd = await usuariosModel.findUsuariosById(req.session.autenticado.id)
+    const nomeempresa = userBd[0].NOMEEMPRESA_USUARIO;
 
     res.render("pages/template-hm", { pagina: "LandingPage", page: "../partial/cliente-empresa/VizucriaPg", vizupg: vizupg, empresa: user });
 });
@@ -260,7 +260,9 @@ router.get("/buySer", async function (req, res) {
         page: "../partial/cliente-empresa/buySer",
         servico: servico[0],
         openModal: false,
-        erroData: null
+        dataSelecionada: null,
+        erroData: null,
+        horarios: null
     })
 })
 
@@ -388,6 +390,7 @@ router.post("/redefinirSenha-cli", clienteController.regrasValidacaoRedefinirSen
 
 //mercadoPago
 const { MercadoPagoConfig, Preference } = require('mercadopago');
+const agendaModel = require("../models/agendaModel.js");
 
 const usuario = new MercadoPagoConfig({
     accessToken: process.env.MERCADO_PAGO_ACCESS_TOKEN,
@@ -463,6 +466,7 @@ router.post("/findHorariosByData", async (req, res) => {
     const { data } = req.body
     const idServico = req.query.idServico
     try {
+        console.log(data)
         if (!idServico) {
             console.log("Servico nao encontrado")
             return res.redirect("/home")
@@ -472,30 +476,106 @@ router.post("/findHorariosByData", async (req, res) => {
             console.log("Servico não encontrado")
             return res.redirect("/home")
         }
+        servico[0].PORTES_PERMITIDOS = servico[0].PORTES_PERMITIDOS.split(",")
+        const dataSelect = new Date(data);
+        dataSelect.setUTCHours(0, 0, 0, 0); 
+        const today = new Date();
+        today.setUTCHours(0, 0, 0, 0); 
 
-        const dataSelect = new Date(data)
-        const today = new Date()
-        today.setHours(0, 0, 0, 0)
-        console.log(dataSelect)
-        console.log(today)
         if (dataSelect < today) {
-            servico[0].PORTES_PERMITIDOS = servico[0].PORTES_PERMITIDOS.split(",")
             return res.render("pages/template-hm", {
                 page: "../partial/cliente-empresa/buySer",
                 servico: servico[0],
                 openModal: true,
-                erroData: { msg: "Data anterior ao dia de hoje!" }
+                dataSelecionada: data,
+                erroData: { msg: "Data anterior ao dia de hoje!" },
+                horarios: null
+            });
+        }
+
+        const dayOfWeek = dataSelect.getUTCDay();
+        const horarios = await agendaModel.findHrByDay(idServico, dayOfWeek)
+        if (!horarios || horarios.length == 0) {
+            return res.render("pages/template-hm", {
+                page: "../partial/cliente-empresa/buySer",
+                servico: servico[0],
+                openModal: true,
+                erroData: { msg: "Nenhuma agenda nesse dia!" },
+                horarios: null,
+                dataSelecionada: data
+
+
             })
         }
-        const dayOfWeek = selectedDate.getDay();
-        const horarios = await usuariosModel.findHorariosServicoByDayWeek(dayOfWeek, idServico)
+        const agendamentos = await agendaModel.findAgendaServicoByData(idServico, data)
+        const horariosAgendados = agendamentos.map(agendamento => agendamento.HORARIO_AGENDAMENTO)
+        console.log(agendamentos)
+        console.log(horariosAgendados)
+        // const currentTime = new Date().getHours() + ":" + new Date().getMinutes()
+
+        const horariosDisponiveis = horarios.filter(horario => {
+            const [hora, minuto] = horario.HORARIO_SERVICO.slice(0, 5).split(":").map(Number)
+            console.log(horario)
+            const isAgendado = horariosAgendados.includes(horario.HORARIO_SERVICO)
+            const isPast = dataSelect.getTime() === today.getTime() && (hora < new Date().getHours() || (hora === new Date().getHours() && minuto <= new Date().getMinutes()));
+            return !isAgendado && !isPast
+        })
+
+        res.render("pages/template-hm", {
+            page: "../partial/cliente-empresa/buySer",
+            servico: servico[0],
+            openModal: true,
+            erroData: null,
+            horarios: horariosDisponiveis,
+            dataSelecionada: data
+        })
 
     } catch (error) {
         console.log(error)
         res.redirect(`/buySer?idServico=${idServico}`)
     }
 })
+router.post("/agendarHorario",
+    middleWares.verifyAutenticado,
+    middleWares.verifyAutorizado("pages/template-login", { form: "../partial/login/entrar", errors: null, valores: null, incorreto: false }, false),
+    async (req, res) => {
+        const { dataAgenda, horarioAgenda } = req.body
+        const idServico = req.query.idServico
+        try {
+            if (!idServico) {
+                console.log("Servico nao encontrado")
+                return res.redirect("/home")
+            }
+            const servico = await usuariosModel.findServicoById(idServico)
+            if (servico.length == 0) {
+                console.log("Servico não encontrado")
+                return res.redirect("/home")
+            }
+            const horario = await agendaModel.findHorariosByIdHorario(horarioAgenda)
+            if (!horario[0]) {
+                console.log("Horário não encontrado")
+                return res.redirect(`/buySer?idServico=${idServico}`)
 
+            }
+            servico[0].PORTES_PERMITIDOS = servico[0].PORTES_PERMITIDOS.split(",")
+            const dadosAgendamento = {
+                ID_CLIENTE: req.session.autenticado.id,
+                ID_SERVICO: idServico,
+                ID_HORARIO_SERVICO: horario[0].ID_HORARIO_SERVICO,
+                DATA_AGENDAMENTO: dataAgenda,
+                ID_STATUS: 1,
+                HORARIO_AGENDAMENTO: horario[0].HORARIO_SERVICO,
+                ID_USUARIO: servico[0].ID_USUARIO,
+            }
+            const resultInsert = await agendaModel.agendarHorario(dadosAgendamento)
+            console.log(resultInsert)
+            res.redirect(`/buySer?idServico=${idServico}`)
+        } catch (error) {
+            console.log(error)
+            res.redirect("/pg-erro")
+        }
+
+    })
 
 
 

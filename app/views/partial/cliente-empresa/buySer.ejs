@@ -53,51 +53,44 @@
       <span class="close closeBtn">&times;</span>
       <form action="/findHorariosByData?idServico=<%=servico.ID_SERVICO%>" method="post">
         <label for="date">Escolha o dia:</label>
-        <input type="date" id="data" name="data" required class="<%= erroData ? 'invalid' : ''%>">
-        <span><%= erroData ? erroData.msg : '' %></span>
+        <input type="date" id="data" name="data" required class="<%= erroData ? 'invalid' : ''%>"
+          value="<%= dataSelecionada ? dataSelecionada : '' %>">
+        <span>
+          <%= erroData ? erroData.msg : '' %>
+        </span>
         <button>Buscar</button>
       </form>
     </div>
-
     <div class="modal-body">
-      <form id="scheduleForm">
-        <div class="item">
-          <div>
-            <i class='bx bx-time'></i>
-            <div class="event-info">
-              <a href="#">Horário 2</a>
-              <p>13:30-15:00</p>
+      <% if(horarios){%>
+        <form action="/agendarHorario?idServico=<%= servico.ID_SERVICO %>" method="post">
+          <input type="hidden" name="dataAgenda" value="<%= dataSelecionada %>">
+          <% if(horarios.length> 0 ){ 
+            horarios.forEach(horario=>{ %>
+            <div class="item">
+              <div>
+                <i class='bx bx-time'></i>
+                <div class="event-info">
+                  <label for="horario<%= horario.ID_HORARIO_SERVICO %>">
+                    <%= horario.HORARIO_SERVICO %>
+                  </label>
+                  <input type="radio" name="horarioAgenda" id="horario<%=horario.ID_HORARIO_SERVICO %>"
+                    value="<%= horario.ID_HORARIO_SERVICO %>">
+                </div>
+              </div>
+              <i class='bx bx-dots-horizontal-rounded'></i>
             </div>
-          </div>
-          <i class='bx bx-dots-horizontal-rounded'></i>
-        </div>
-
-        <div class="item">
-          <div>
-            <i class='bx bx-time'></i>
-            <div class="event-info">
-              <a href="#">Horário 2</a>
-              <p>13:30-15:00</p>
-            </div>
-          </div>
-          <i class='bx bx-dots-horizontal-rounded'></i>
-        </div>
-
-        <div class="item">
-          <div>
-            <i class='bx bx-time'></i>
-            <div class="event-info">
-              <a href="#">Horário 2</a>
-              <p>13:30-15:00</p>
-            </div>
-          </div>
-          <i class='bx bx-dots-horizontal-rounded'></i>
-        </div>
-
-        <button class="btn-cadbuy" type="submit">Agendar</button>
-
-      </form>
+            
+            <% }) %>
+            <button class="btn-cadbuy" type="submit">Agendar</button>
+         <% }else {%>
+            <h2>Não há horarios para essa data!</h2>
+           <% }%>
+              
+        </form>
+        <%}%>
     </div>
+
   </div>
 </div>
 
@@ -228,8 +221,8 @@
     if (!dateInput.value) {
       const today = new Date();
       const year = today.getFullYear();
-      const month = String(today.getMonth() + 1).padStart(2, '0'); 
-      const day = String(today.getDate()).padStart(2, '0'); 
+      const month = String(today.getMonth() + 1).padStart(2, '0');
+      const day = String(today.getDate()).padStart(2, '0');
       dateInput.value = `${year}-${month}-${day}`;
     }
   }

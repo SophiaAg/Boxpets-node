@@ -18,6 +18,7 @@ dotenv.config();
 const jwt = require("jsonwebtoken");
 const { enviarEmail, enviarEmailAtivacao, enviarEmailRecuperarSenha } = require("../util/sendEmail.js");
 var pool = require("../../config/pool-conexao.js");
+const agendaModel = require("../models/agendaModel.js");
 
 // DASHBOARD
 router.get("/dashboard",
@@ -278,7 +279,7 @@ router.get('/agendamento',
                 console.log("Esse servico não pertence a você")
                 return res.redirect("/agendamento")
             }
-            const horarios = servico ? await usuariosModel.findHorariosByIdServico(idServico) : null
+            const horarios = servico ? await agendaModel.findHorariosByIdServico(idServico) : null
             const jsonResult = {
                 page: "../partial/dashboard/agendamento",
                 classePagina: 'agenda',
@@ -327,7 +328,7 @@ router.post("/criarHorario",
                     ID_SERVICO: idServico
                 }
 
-                const result = await usuariosModel.criarHorario(dadosHorario)
+                const result = await agendaModel.criarHorario(dadosHorario)
                 console.log("Horario incluido na agenda")
                 console.log(result)
                 res.redirect(`/agendamento?idServico=${idServico}`)
@@ -354,7 +355,7 @@ router.post("/apagarHorario",
                 console.log("Esse servico não pertence a você")
                 return res.redirect("/agendamento")
             }
-            const result = await usuariosModel.apagarHorario(idHorario)
+            const result = await agendaModel.apagarHorario(idHorario)
             console.log("Horario excluido da agenda")
             console.log(result)
             res.redirect(`/agendamento?idServico=${idServico}`)

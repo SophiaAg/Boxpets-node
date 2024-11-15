@@ -42,14 +42,6 @@ const usuariosModel = {
             throw error
         }
     },
-    apagarHorario: async (id) => {
-        try {
-            const [resultados] = await pool.query("delete from HORARIOS_SERVICO where ID_HORARIO_SERVICO = ?", [id])
-            return resultados
-        } catch (error) {
-            throw error
-        }
-    },
     findUsuariosByCelular: async (celular) => {
         try {
             const [resultados] = await pool.query('SELECT * FROM USUARIOS WHERE CELULAR_USUARIOS = ?', [celular])
@@ -66,7 +58,6 @@ const usuariosModel = {
             return error
         }
     },
-
     findUsuariosById: async (id) => {
         try {
             const [resultados] = await pool.query("SELECT * FROM USUARIOS WHERE ID_USUARIOS = ? AND USUARIOS_STATUS = 'ativo' LIMIT 1", [id])
@@ -97,22 +88,6 @@ const usuariosModel = {
             return error
         }
     },
-    findHorariosByIdServico: async (id) => {
-        try {
-            const [resultados] = await pool.query("SELECT * FROM HORARIOS_SERVICO WHERE ID_SERVICO = ?", [id])
-            return resultados
-        } catch (error) {
-            return error
-        }
-    },
-    findHorariosByIdServico: async (id, day) => {
-        try {
-            const [resultados] = await pool.query("SELECT * FROM HORARIOS_SERVICO WHERE ID_SERVICO = ? AND WHERE DIA_SEMANA = ?", [id,day])
-            return resultados
-        } catch (error) {
-            return error
-        }
-    },
     findServicoById: async (id) => {
         try {
             const [resultados] = await pool.query("SELECT * FROM SERVICO WHERE ID_SERVICO = ?", [id])
@@ -129,7 +104,6 @@ const usuariosModel = {
             return error
         }
     },
-
     findUserByIdInativo: async (id) => {
         try {
             const [resultados] = await pool.query("SELECT * FROM USUARIOS WHERE ID_USUARIOS = ? AND USUARIOS_STATUS = 'inativo' LIMIT 1", [id])
@@ -140,7 +114,6 @@ const usuariosModel = {
             throw error;
         }
     },
-
     updateUser: async (dadosForm, id) => {
         try {
             const [resultados] = await pool.query("UPDATE USUARIOS SET ? WHERE ID_USUARIOS = ? ", [dadosForm, id])
@@ -151,31 +124,11 @@ const usuariosModel = {
             throw error;
         }
     },
-
     findAllEspeci: async () => {
         try {
             const [resultados] = await pool.query('SELECT * FROM ESPECIALIDADES')
             return resultados
         } catch (error) {
-            return error
-        }
-    },
-
-    findHorariosIdservico: async (id) => {
-        try {
-            const [resultados] = await pool.query('SELECT * FROM HORARIOS_SERVICO WHERE ID_SERVICO = ?', [id])
-            return resultados
-        } catch (error) {
-            return error
-        }
-    },
-    criarHorario: async (dadosHorario) => {
-        try {
-            const [resultados] = await pool.query('INSERT INTO HORARIOS_SERVICO SET ?', [dadosHorario])
-            console.log("HORARIO CRIADO")
-            return resultados
-        } catch (error) {
-            console.log("erros ao criar o horário")
             return error
         }
     },
