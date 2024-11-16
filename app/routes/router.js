@@ -75,8 +75,33 @@ router.post("/logarCliente", clienteController.regrasValidacaoLogarConta, middle
     clienteController.entrar(req, res)
 })
 
-router.get("/servicos-gerais", function (req, res) {
-    res.render("pages/template-hm", { pagina: "Servicogerais", page: "../partial/servicosgerais/servicos-gerais" });
+router.get("/servicos-gerais", async function (req, res) {
+    const params = req.query.id;
+    console.log(params)
+    const usuario = await usuariosModel.findAllUsuarios(params)
+    let user = [];
+    usuario.forEach((element, index) => {
+        let infoGeralParsed = {};
+
+        try {
+            infoGeralParsed = JSON.parse(element.INFO_GERAIS);
+        } catch (e) {
+            infoGeralParsed = {
+                horarioInicio: '',
+                horarioFim: '',
+                localizacao: '',
+                whatsapp: '',
+                descricao: ''
+            };
+        }
+
+        let moment = {
+            ...element,
+            INFO_GERAIS: infoGeralParsed
+        };
+        user.push(moment);
+    });
+    res.render("pages/template-hm", { pagina: "Servicogerais", page: "../partial/servicosgerais/servicos-gerais",  empresas: user });
 });
 
 router.get("/veterinarios", async function (req, res) {
