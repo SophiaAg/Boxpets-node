@@ -14,7 +14,7 @@
 
                         <% empresas.forEach(element => { %>
                          
-                        <a href="Vizucriapg/<%= element.ID_USUARIOS %>">
+                        <a  class="card-empresa" href="Vizucriapg/<%= element.ID_USUARIOS %>">
                             <div class="icon">
                                 <% if(element.LOGO_IMG && element.LOGO_IMG !== null && element.LOGO_IMG !== undefined) { %>
                                     <img src="./src/imagens-empresa/logo-empresa/<%= element.LOGO_IMG %>" alt="Logo da empresa">
@@ -37,11 +37,11 @@
                                     chevron_right
                                 </span>
                             </div>
-                        </a>
+                        
                         <% }) %>
                           
                       </div>
-          
+                    </a>
             </section>
 
             
@@ -65,6 +65,25 @@
     </section>
 </section>
  <style>
+
+.card-empresa{
+    display: flex;
+    gap: 10%;
+    padding: 40px;
+    border-radius: 20px;
+    margin: 5%;
+    box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .1);
+    cursor: pointer;
+}
+    
+  .notification .content{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin: 0;
+        width: 100%;
+    }
+    
         .notification .icon {
         width: 100px;
         height: 100px;

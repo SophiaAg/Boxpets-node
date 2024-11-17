@@ -151,8 +151,15 @@ router.get("/VizucriaPg/:id", async function (req, res) {
 
     const userBd = await usuariosModel.findUsuariosById(req.session.autenticado.id)
     const nomeempresa = userBd[0].NOMEEMPRESA_USUARIO;
+    const servicos = servicosResult.length > 0 ? servicosResult : []
 
-    res.render("pages/template-hm", { pagina: "LandingPage", page: "../partial/cliente-empresa/VizucriaPg", vizupg: vizupg, empresa: user });
+    res.render("pages/template-hm", { 
+        pagina: "LandingPage", 
+        page: "../partial/cliente-empresa/VizucriaPg",
+        vizupg: vizupg,
+         empresa: user, 
+          servicos: servicos,
+         nomeempresa:nomeempresa });
 });
 
 
