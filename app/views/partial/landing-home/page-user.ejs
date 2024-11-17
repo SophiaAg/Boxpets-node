@@ -67,8 +67,13 @@ if (msgErro != "") { %>
             <article data-fotoContainer >
               <img src="./src/fotos-perfil/<%= foto %>" alt="" class="foto__img">
             </article>
+            <label for="imgPerfil">
+              <span class="material-symbols-outlined">
+                download
+              </span>
+            </label>
             <input type="file" name="imgPerfil" id="imgPerfil" class="input__control imgPerfil <%= avisoErro.imgPerfil %>"
-            placeholder="Selecione sua foto de perfil" data-inputFoto required>
+            placeholder="Selecione sua foto de perfil" data-inputFoto required style="display:none;">
               
             </form>
             <script>
@@ -112,27 +117,20 @@ if (msgErro != "") { %>
 
       <section class="input-field <%= avisoErro.email %>">
         <i class="fas fa-envelope"></i>
-        <input name="email_cli" id="email_cli" value="<%= valores ? valores.email_cli : '' %>" required type="email" placeholder="Email" readonly />
+        <input name="email_cli" id="email_cli" value="<%= valores ? valores.email_cli : '' %>" required type="email" placeholder="Email" />
       </section>
-<!-- 
-     <section class="input-field <%= avisoErro.senha %>">
-        <i class="fas fa-envelope"></i>
-        <input name="senha_cli" id="senha" value="<%= valores ? valores.senha_cli : '' %>" type="password" placeholder="Mudar Senha" />
-        <button onclick="togglePassword('password')">
-          <span class="fa-solid">&#128065;</span> <!-- Ícone de olhinho -->
-      <!-- </button>
-      </section> --> 
+
 
 
       <section class="input-field <%= avisoErro.senha %>">
         <i class="fas fa-lock"></i>
         <input name="senha_cli" id="password" type="password" placeholder="Mudar Senha"
             pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%&*]).{8,}" />
-            <button onclick="togglePassword('password')">
+            <a onclick="togglePassword('password')">
               <span class="material-symbols-outlined">
                 visibility_off
                 </span> <!-- Ícone de olhinho -->
-          </button>
+          </a>
     </section>
 
 

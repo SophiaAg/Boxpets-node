@@ -46,9 +46,9 @@ const middleWares = {
     verifyAssinante: async (req, res, next)=>{
         const userBd = await usuariosModel.findUsuariosById(req.session.autenticado.id)
         console.log(userBd)
-        if(userBd[0].PLANOS != 1){
+        if(userBd[0].PLANOS != 1 & 2) {
             return res.redirect("/nao-permitido")
-        }
+        } 
         return next()
     },
     // ele verifica se tem erros nos inputs da pagina, se tiver ele retorna o objeto como null, senao ele prossegue, buscando um usuario que tenha o nome digitado no formulario no campo name='usuario'. Caso tiver apenas 1 usuário, ele compara o hash da senha do input name="senha" com o hash da senha do banco de dados, caso for diferente de 1, ele retorna também tudo como null

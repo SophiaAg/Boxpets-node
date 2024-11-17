@@ -142,7 +142,7 @@
           <div>
             <i class='bx bx-time'></i>
             <div class="event-info">
-              <a href="#">Adicionar Horário</a>
+              <a href="#" class="btn-servico">Adicionar Horário</a>
             </div>
           </div>
           <i class='bx bx-dots-horizontal-rounded'></i>
@@ -159,7 +159,7 @@
         <form action="/criarHorario?idServico=<%= servico.ID_SERVICO %>" method="post">
           <div class="inputs">
 
-            <select name="diaSemana" id="diaSemana">
+            <select class="inputagenda" name="diaSemana" id="diaSemana">
               <option value="0">Domingo</option>
               <option value="1">Segunda-feira</option>
               <option value="2">Terça-feira</option>
@@ -168,9 +168,9 @@
               <option value="5">Sexta-feira</option>
               <option value="6">Sábado</option>
             </select>
-            <input type="time" name="horario" id="horario" placeholder="Horario" required>
+            <input class="inputagenda" type="time" name="horario" id="horario" placeholder="Horario" required>
 
-            <button type="submit">Enviar</button>
+            <button class="btnhorario" type="submit">Enviar</button>
 
             <!-- <div class="events ativo">
               <div class="item">

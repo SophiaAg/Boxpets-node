@@ -149,7 +149,8 @@ body.color{
     position: relative;
     align-items: center;
   
-    &.invalido {
+    & readonly:hover  {
+      cursor: pointer;
       border: 1.5px solid #ff8686;
     }
   }

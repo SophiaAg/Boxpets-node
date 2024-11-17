@@ -421,6 +421,10 @@ router.post("/redefinirSenha-cli", clienteController.regrasValidacaoRedefinirSen
 
 
 //mercadoPago
+router.get("/nao-permitido", function (req, res) {
+    res.render("pages/template-dashboard", { page: "../partial/nao-permitido",  classePagina: '',  alert: ''});
+});
+
 const { MercadoPagoConfig, Preference } = require('mercadopago');
 const agendaModel = require("../models/agendaModel.js");
 

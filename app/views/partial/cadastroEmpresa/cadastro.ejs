@@ -197,12 +197,11 @@
                 <input id="senha" name="senha" required type="password" placeholder="<%= msgErro.senha ? msgErro.senha : 'Crie uma senha' %>"
                 value="<%= msgErro.senha ? '' : (valores.senha || '') %>" />
 
-                <button onclick="togglePassword('senha')" style="border: none;">
+                <a onclick="togglePassword('password')">
                   <span class="material-symbols-outlined">
                     visibility_off
                     </span> <!-- Ícone de olhinho -->
-              </button>
-
+              </a>
              </section>
              <h4>Senha deve conter um número, uma letra maiúscula, uma letra minúscula e um dos símbolos </h>
 

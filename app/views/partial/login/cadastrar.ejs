@@ -108,11 +108,11 @@ let avisoErro={
 
       <i class="fas fa-lock"></i>
       <input id="password" name="password" value="<%= valores ? valores.password : '' %>" required type="password" placeholder="Senha" title="Deve conter pelo menos um número, uma letra maiúscula, uma letra minúscula e um dos símbolos (!, @, #, $, %, *) e ter pelo menos 8 ou mais caracteres" />
-      <button onclick="togglePassword('password')">
+      <a onclick="togglePassword('password')">
         <span class="material-symbols-outlined">
           visibility_off
           </span> <!-- Ícone de olhinho -->
-    </button>
+    </a>
     </section>
     
     <div class="aviso-senha">

@@ -94,10 +94,8 @@
         <a data-openmodal="#modalServico<%=servico.ID_SERVICO %>" style="cursor:pointer" title="Deletar serviço"><span
             class="material-symbols-outlined">delete</span></a>
         <div class="showcase-banner">
-
           <img src="/src/imagens-servico/<%= servico.CAMINHO_IMAGEM_SERVICO %>" alt="Imagem do servico"
             width="300" style="border-radius: 20%;" class="product-img default">
-
         </div>
 
         <div class="showcase-content">
@@ -119,7 +117,7 @@
         </div>
 
       </div>
-      <div class="modal" id="modalServico<%=servico.ID_SERVICO %>">
+      <div class="modal" id="modalServico<%=servico.ID_SERVICO %>" style="display:none;" >
         <div class="modal-content">
           <h1>Excluir serviço?</h1>
           <h2>A exclusão do serviço é permanente e irreversivel!<br> Deseja prosseguir?</h3>
@@ -146,6 +144,7 @@
       </form>
     </div>
   </div>
+  
   <% if(servico){%>
     <div class="modal show" id="modalEditarServico">
       <button class="closeBtn"><span class="material-symbols-outlined">close</span></button>
@@ -161,6 +160,7 @@
 
 </article>
 
+<script src="js/toggleSection.js"></script>
 <script src="js/abrirModal.js"></script>
 <script src="js/inputFormAtiva.js"></script>
 
@@ -193,6 +193,7 @@ textarea.addEventListener("input", function () {
 </script>
 
 <style>
+
 
 .servicos-container {
   display: grid;

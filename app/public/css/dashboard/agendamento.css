@@ -2,8 +2,48 @@
     width: 80%;
     margin: 10%;
 }
-.upcoming .inputs{
-    margin: 5%;
+ .inputs{
+    margin: 2%;
+    gap: 5%;
+    display: flex;
+}
+.inputagenda {
+   
+    border: none;
+    width: 30%;
+    background-color: #f0f0f0;
+    margin: 10px 0;
+    height: 55px;
+    border-radius: 55px;
+    padding: 0 1rem;
+    position: relative;
+}
+
+.btnhorario {
+
+    display: inline-block;
+    margin-top: 1rem;
+    padding: .6rem 1.5rem;
+    border: none;
+    border-radius: 1.5rem;
+    background: var(--cor-segundaria);
+    font-size: 1rem;
+    color: var(--branco);
+    cursor: pointer;
+    box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .1);
+    transition: all .3s linear;
+}
+
+@media screen and (max-width: 545px){
+    .inputagenda{
+        width: 100%;
+    }
+
+    .inputs{
+     width: 80%;
+        display: grid;
+    }
+
 }
 .upcoming .upcoming-box{
     margin: 5%;

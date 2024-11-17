@@ -67,6 +67,7 @@ router.get("/dashboard",
 router.get("/historico",
     middleWares.verifyAutenticado,
     middleWares.verifyAutorizado("pages/template-loginEmpresa", { page: "../partial/cadastroEmpresa/login", errors: null, valores: "", incorreto: null }, true),
+    middleWares.verifyAssinante,
     async function (req, res) {
         // const horariosServico = await usuariosModel.findHorariosIdservico()
         res.render("pages/template-dashboard",
@@ -89,6 +90,9 @@ router.get("/planos",
         let isAssinante = false
         const userBd = await usuariosModel.findUsuariosById(req.session.autenticado.id)
         if(userBd[0].PLANOS == 1){
+            isAssinante = true
+        }
+        if(userBd[0].PLANOS == 2){
             isAssinante = true
         }
         res.render("pages/template-dashboard", { page: "../partial/dashboard/planos", classePagina: 'planos', alert: null, isAssinante:isAssinante });
@@ -268,6 +272,7 @@ router.post("/attBannerEmpresa",
 router.get('/agendamento',
     middleWares.verifyAutenticado,
     middleWares.verifyAutorizado("pages/template-loginEmpresa", { page: "../partial/cadastroEmpresa/login", errors: null, valores: "", incorreto: null }, true),
+   
     async (req, res) => {
         try {
             const servicosResult = await usuariosModel.findServicosByIdEmpresa(req.session.autenticado.id)
