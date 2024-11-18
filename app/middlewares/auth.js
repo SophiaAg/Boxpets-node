@@ -46,7 +46,7 @@ const middleWares = {
     verifyAssinante: async (req, res, next)=>{
         const userBd = await usuariosModel.findUsuariosById(req.session.autenticado.id)
         console.log(userBd)
-        if(userBd[0].PLANOS != 1 & 2) {
+        if(userBd[0].PLANOS != 1) {
             return res.redirect("/nao-permitido")
         } 
         return next()
