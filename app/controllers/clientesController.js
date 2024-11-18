@@ -6,7 +6,7 @@ const { removeImg } = require("../util/removeImg")
 const moment = require("moment")
 const { invalid } = require("moment/moment")
 const jwt = require("jsonwebtoken")
-const { enviarEmail, enviarEmailAtivacao, enviarEmailRecuperarSenha } = require("../util/sendEmail")
+const { enviarEmail, enviarEmailAtivacao, enviarEmailRecuperarSenha, enviarEmailAtivacaoCli } = require("../util/sendEmail")
 
 const clienteController = {
 
@@ -196,43 +196,43 @@ const clienteController = {
   ],
   regrasValidacaoPet: [
     body("nome_pet")
-    .matches(/^[A-Za-zÀ-ÿ\s]+$/)
-    .withMessage("O nome do pet deve conter apenas letras!"),
-  body("idade_pet")
-    .isInt({ min: 0 })
-    .withMessage("Não é uma idade válida!"),
-  body("raca_pet")
-    .isLength({ min: 3, max: 45 })
-    .withMessage("O nome da raça deve ter entre 3 e 45 letras!")
-    .matches(/^[A-Za-zÀ-ÿ\s]+$/)
-    .withMessage("O nome da raça deve conter apenas letras!")
-],
-regrasValidacaoRecuperarSenha: [
-  body('email')
-  .isEmail().withMessage('Deve ser um email válido')
-  .bail()
-  .custom(async (email) => {
-      const emailExistente = await usuariosModel.findUsuariosByEmail(email)
-      if (emailExistente.length > 0) {
+      .matches(/^[A-Za-zÀ-ÿ\s]+$/)
+      .withMessage("O nome do pet deve conter apenas letras!"),
+    body("idade_pet")
+      .isInt({ min: 0 })
+      .withMessage("Não é uma idade válida!"),
+    body("raca_pet")
+      .isLength({ min: 3, max: 45 })
+      .withMessage("O nome da raça deve ter entre 3 e 45 letras!")
+      .matches(/^[A-Za-zÀ-ÿ\s]+$/)
+      .withMessage("O nome da raça deve conter apenas letras!")
+  ],
+  regrasValidacaoRecuperarSenha: [
+    body('email')
+      .isEmail().withMessage('Deve ser um email válido')
+      .bail()
+      .custom(async (email) => {
+        const emailExistente = await usuariosModel.findUsuariosByEmail(email)
+        if (emailExistente.length > 0) {
           return true
-      }
-      throw new Error("Nenhum e-mail encontrado");
-  })
-],
-regrasValidacaoRedefinirSenha: [
-  body('senha')
-  .isLength({ min: 8, max: 30 })
-  .withMessage('A senha deve ter pelo menos 8 e no máximo 30 caracteres!')
-  .bail()
-  .matches(/[A-Z]/).withMessage('A senha deve conter pelo menos uma letra maiúscula.')
-  .bail()
-  .matches(/[a-z]/).withMessage('A senha deve conter pelo menos uma letra minúscula.')
-  .bail()
-  .matches(/[0-9]/).withMessage('A senha deve conter pelo menos um número inteiro.')
-  .bail()
-  .matches(/[!@#$%^&*(),.?":{}|<>]/).withMessage('A senha deve conter pelo menos um caractere especial.')
-  .bail(),
-],
+        }
+        throw new Error("Nenhum e-mail encontrado");
+      })
+  ],
+  regrasValidacaoRedefinirSenha: [
+    body('senha')
+      .isLength({ min: 8, max: 30 })
+      .withMessage('A senha deve ter pelo menos 8 e no máximo 30 caracteres!')
+      .bail()
+      .matches(/[A-Z]/).withMessage('A senha deve conter pelo menos uma letra maiúscula.')
+      .bail()
+      .matches(/[a-z]/).withMessage('A senha deve conter pelo menos uma letra minúscula.')
+      .bail()
+      .matches(/[0-9]/).withMessage('A senha deve conter pelo menos um número inteiro.')
+      .bail()
+      .matches(/[!@#$%^&*(),.?":{}|<>]/).withMessage('A senha deve conter pelo menos um caractere especial.')
+      .bail(),
+  ],
 
   cadastrar: async (req, res) => {
     let errors = validationResult(req)
@@ -259,21 +259,34 @@ regrasValidacaoRedefinirSenha: [
       }
       try {
         const clienteCriado = await clienteModel.createCliente(dadosCliente);
-        req.session.Clienteid = clienteCriado.insertId
-        const jsonResult = {
-          page: "../partial/landing-home/home-page" ,
-          nome: dadosCliente.NOME_CLIENTE,
-          dadosNotificacao: {
-            type: "success",
-            title: "Conta criada com sucesso!",
-            msg: "Verifique sua caixa de email para ativar sua conta."
-          }
-        }
+        const token = jwt.sign(
+          {
+            userId: clienteCriado.insertId
+          },
+          process.env.SECRET_KEY
+        )
 
 
-        req.session.save(() => {
-          res.render("pages/template-hm", jsonResult)
-        })
+        enviarEmailAtivacaoCli(
+          dadosUsuario.EMAIL_USUARIOS,
+          "Cadastro realizado na BoxPets",
+          process.env.URL_BASE,
+          token,
+          async () => {
+            const clienteBd = await clienteModel.findClienteByIdInativo(clienteCriado.insertId);
+            console.log(`------ Cliente ${clienteBd[0].NOME_USUARIOS} cadastrado! ------`)
+            console.log(`------ Verificação enviada para ${clienteBd[0].EMAIL_USUARIOS} ------`)
+            req.session.alert = {
+              type: "success",
+              title: "Conta criada com sucesso!",
+              msg: "Verifique sua caixa de email para ativar sua conta.",
+              count: 0
+            }
+            req.session.save(() => {
+              res.redirect("/entrar")
+            })
+          })
+
 
       } catch (erros) {
         console.log(erros)
@@ -299,18 +312,13 @@ regrasValidacaoRedefinirSenha: [
       const { email, password } = req.body
       try {
         const clienteBd = await clienteModel.findClienteByEmail(email)
-        if (clienteBd[0] && bcrypt.compareSync(password, clienteBd[0].SENHA_CLIENTE))
-           {
+        if (clienteBd[0] && bcrypt.compareSync(password, clienteBd[0].SENHA_CLIENTE)) {
 
           req.session.autenticado = {
             autenticado: clienteBd[0].EMAIL_CLIENTE,
             id: clienteBd[0].ID_CLIENTE
           }
-          const jsonResult = {
-            page: "../partial/landing-home/home-page", 
-            nome: clienteBd[0].NOME_CLIENTE,
-          }
-          res.render("pages/template-hm", jsonResult)
+          res.redirect("/home")
 
         } else {
           const jsonResult = {
@@ -318,7 +326,7 @@ regrasValidacaoRedefinirSenha: [
             errors: null,
             valores: req.body,
             incorreto: true,
-  
+
           }
           res.render("pages/template-login", jsonResult);
         }
@@ -390,7 +398,7 @@ regrasValidacaoRedefinirSenha: [
           console.log(req.body.senha_cli)
           dadosForm.SENHA_CLIENTE = bcrypt.hashSync(req.body.senha_cli, salt);
         }
-        console.log( dadosForm.SENHA_CLIENTE)
+        console.log(dadosForm.SENHA_CLIENTE)
 
 
         let resultUpdate = await clienteModel.updateUser(dadosForm, req.session.autenticado.id);
@@ -406,7 +414,7 @@ regrasValidacaoRedefinirSenha: [
             nasc_cli: dataFormatada,
             senha_cli: ""
           }
-        
+
           if (resultUpdate.changedRows == 1) {
             console.log("ATUALIZADO--------------------")
 
@@ -566,7 +574,7 @@ regrasValidacaoRedefinirSenha: [
     let errorsMulter = req.session.erroMulter
     if (!errors.isEmpty() && errorsMulter.length > 0) {
 
-      let listaErros = errors.isEmpty ? { formatter: null, errors: [] }: errors;
+      let listaErros = errors.isEmpty ? { formatter: null, errors: [] } : errors;
       if (errorsMulter.length > 0) {
         listaErros.errors.push(...errorsMulter)
         if (req.file) removeImg(`./app/public/src/fotos-pet/${req.file.filename}`)
@@ -615,222 +623,220 @@ regrasValidacaoRedefinirSenha: [
   // ativar conta
   ativarConta: async (req, res) => {
     try {
-        const token = req.query.token
-        console.log(token)
-        jwt.verify(token, process.env.SECRET_KEY, async (err, decoded) => {
-            console.log(decoded)
-            if (err) {
-                console.log("Token inválido ou expirado")
-            } else {
-                const userBd = await clienteModel.findClienteByIdInativo(decoded.userId)
-                if (!userBd[0]) {
-                    return console.log("Usuário não encontrado")
-                }
+      const token = req.query.token
+      console.log(token)
+      jwt.verify(token, process.env.SECRET_KEY, async (err, decoded) => {
+        console.log(decoded)
+        if (err) {
+          console.log("Token inválido ou expirado")
+        } else {
+          const clienteBd = await clienteModel.findClienteByIdInativo(decoded.userId)
+          if (!clienteBd[0]) {
+            return console.log("Cliente não encontrado")
+          }
 
-                const resultadoAtivarConta =  await clienteModel.updateUser({ CLIENTE_STATUS: 'ativo' }, decoded.userId);
-                console.log( resultadoAtivarConta )
-                console.log("Conta ativada!")
-                res.redirect("/login")
-            }
-        })
+          const resultadoAtivarConta = await clienteModel.updateUser({ STATUS_CLIENTE: 'ativo' }, decoded.userId);
+          console.log(resultadoAtivarConta)
+          req.session.alert = {
+            type: "success",
+            title: "Conta ativada com sucesso!",
+            msg: "Utilize seus dados para acessar a plataforma!",
+            count: 0
+          }
+          res.redirect("/entrar")
+        }
+      })
     } catch (error) {
-        console.log(error)
-        res.render("/pg-erro")
+      console.log(error)
+      res.render("/pg-erro")
     }
-},
+  },
 
-//redefinir senha
-verificarTokenRedefinirSenha: async (req, res) => {
-  try {
+  //redefinir senha
+  verificarTokenRedefinirSenha: async (req, res) => {
+    try {
       const token = req.query.token
       if (!token) {
-          let alert = req.session.token ? req.session.token : null;
-          if (alert && alert.contagem < 1) {
-              req.session.token.contagem++;
-          } else {
-              req.session.token = null;
-          }
-          return res.render("/pg-erro");
+        let alert = req.session.token ? req.session.token : null;
+        if (alert && alert.contagem < 1) {
+          req.session.token.contagem++;
+        } else {
+          req.session.token = null;
+        }
+        return res.render("/pg-erro");
       }
 
       jwt.verify(token, process.env.SECRET_KEY, async (err, decoded) => {
-          if (err) {
-              req.session.token = { msg: "Link expirado!", type: "danger", contagem: 0 }
-              res.redirect("/esqueceuSenha-cli")
-          } else {
-              const jsonResult = {
-                  page: "../partial/login/esqueceuSenha",
-                  erros: null,
-                  idUser: decoded.userId,
-                  modalAberto: true
-              }
-              res.render("./pages/template-login", jsonResult)
+        if (err) {
+          req.session.token = { msg: "Link expirado!", type: "danger", contagem: 0 }
+          res.redirect("/esqueceuSenha-cli")
+        } else {
+          const jsonResult = {
+            page: "../partial/login/esqueceuSenha",
+            erros: null,
+            idUser: decoded.userId,
+            modalAberto: true
           }
+          res.render("./pages/template-login", jsonResult)
+        }
       })
-  } catch (error) {
+    } catch (error) {
       console.log(error)
       res.render("/pg-erro")
 
-  }
-},
-solicitarResetSenha: async (req, res) => {
-  let error = validationResult(req)
+    }
+  },
+  solicitarResetSenha: async (req, res) => {
+    let error = validationResult(req)
 
-  if (!error.isEmpty) {
-    const jsonResult = {
-      page: "../partial/login/esqueceuSenha",
-      erros: null,
-      idUser: decoded.userId,
-      modalAberto: true
-  }
-  res.render("./pages/template-login", jsonResult);
-  } else {
+    if (!error.isEmpty) {
+      const jsonResult = {
+        page: "../partial/login/esqueceuSenha",
+        erros: null,
+        idUser: decoded.userId,
+        modalAberto: true
+      }
+      res.render("./pages/template-login", jsonResult);
+    } else {
       try {
-          const { email } = req.body
-          const user = await clienteModel.findClienteByEmailAtivo(email)
+        const { email } = req.body
+        const user = await clienteModel.findClienteByEmailAtivo(email)
 
-          const token = jwt.sign(
-              {
-                  userId: user[0].ID_CLIENTE,
-                  expiresIn: "40m"
-              },
-              process.env.SECRET_KEY
-          )
+        const token = jwt.sign(
+          {
+            userId: user[0].ID_CLIENTE,
+            expiresIn: "40m"
+          },
+          process.env.SECRET_KEY
+        )
 
-          enviarEmailRecuperarSenha(
-              user[0].EMAIL_CLIENTE,
-              "Recuperar de senha",
-              process.env.URL_BASE,
-              token,
-              async () => {
-                  req.session.aviso = { msg: "E-mail enviado com sucesso", type: "success", contagem: 0 }
-                  res.redirect("/esqueceuSenha-cli")
-              })
+        enviarEmailRecuperarSenha(
+          user[0].EMAIL_CLIENTE,
+          "Recuperar de senha",
+          process.env.URL_BASE,
+          token,
+          async () => {
+            req.session.aviso = { msg: "E-mail enviado com sucesso", type: "success", contagem: 0 }
+            res.redirect("/esqueceuSenha-cli")
+          })
 
 
       } catch (error) {
-          console.log(error)
-          res.render("/pg-erro")
+        console.log(error)
+        res.render("/pg-erro")
 
       }
-  }
-},
-
-verificarTokenRedefinirSenha: async (req, res) => {
-  try {
-    const token = req.query.token
-    if (!token) {
-      let alert = req.session.token ? req.session.token : null;
-      if (alert && alert.contagem < 1) {
-        req.session.token.contagem++;
-      } else {
-        req.session.token = null;
-      }
-      return res.render("./partial/pg-erro");
     }
+  },
 
-    jwt.verify(token, process.env.SECRET_KEY, async (err, decoded) => {
-      if (err) {
-        req.session.token = { msg: "Link expirado!", type: "danger", contagem: 0 }
-        res.redirect("/esqueceuSenha-cli")
-      } else {
-        const jsonResult = {
-          page: "../partial/login/esqueceuSenha",
-          erros: null,
-          idUser: decoded.userId,
-          modalAberto: true
-      }
-      res.render("./pages/template-login", jsonResult);
-      }
-    })
-  } catch (error) {
-    console.log(error)
-    res.render("./partial/pg-erro")
-
-  }
-},
-solicitarResetSenha: async (req, res) => {
-  let error = validationResult(req)
-
-  if (!error.isEmpty) {
-    const jsonResult = {
-      page: "../partial/login/esqueceuSenha",
-      modal: "fechado",
-      errors: error,
-      modalAberto: false
-    }
-    res.render("pages/template-login", jsonResult);
-  } else {
+  verificarTokenRedefinirSenha: async (req, res) => {
     try {
-      const { email } = req.body
-      const user = await clienteModel.findClienteByEmail(email)
+      const token = req.query.token
+      if (!token) {
+        let alert = req.session.token ? req.session.token : null;
+        if (alert && alert.contagem < 1) {
+          req.session.token.contagem++;
+        } else {
+          req.session.token = null;
+        }
+        return res.render("./partial/pg-erro");
+      }
 
-      const token = jwt.sign(
-        {
-          userId: user[0].ID_CLIENTE,
-          expiresIn: "40m"
-        },
-        process.env.SECRET_KEY
-      )
-
-      enviarEmailRecuperarSenha(
-        user[0].EMAIL_CLIENTE,
-        "Recuperar de senha",
-        process.env.URL_BASE,
-        token,
-        async () => {
-          req.session.aviso = { msg: "E-mail enviado com sucesso", type: "success", contagem: 0 }
+      jwt.verify(token, process.env.SECRET_KEY, async (err, decoded) => {
+        if (err) {
+          req.session.token = { msg: "Link expirado!", type: "danger", contagem: 0 }
           res.redirect("/esqueceuSenha-cli")
-        })
-
-
+        } else {
+          const jsonResult = {
+            page: "../partial/login/esqueceuSenha",
+            erros: null,
+            idUser: decoded.userId,
+            modalAberto: true
+          }
+          res.render("./pages/template-login", jsonResult);
+        }
+      })
     } catch (error) {
       console.log(error)
       res.render("./partial/pg-erro")
 
     }
-  }
-},
-redefinirSenha: async (req, res) => {
-  let idUser = req.query.idUser
-  if (!idUser) {
-    console.log("usuario não achado")
-    req.session.token = { msg: "Usuário não encontrado", type: "danger", contagem: 0 }
-    return res.render("./partial/pg-erro")
-  }
-  let error = validationResult(req)
+  },
+  solicitarResetSenha: async (req, res) => {
+    let error = validationResult(req)
 
-  if (!error.isEmpty) {
-    const jsonResult = {
-      page: "../partial/login/esqueceuSenha",
-      token: null,
-      errors: error,
-      idUser: idUser,
-      modalAberto: true
+    if (!error.isEmpty) {
+      const jsonResult = {
+        page: "../partial/login/esqueceuSenha",
+        modal: "fechado",
+        errors: error,
+        modalAberto: false
+      }
+      res.render("pages/template-login", jsonResult);
+    } else {
+      try {
+        const { email } = req.body
+        const user = await clienteModel.findClienteByEmail(email)
+
+        const token = jwt.sign(
+          {
+            userId: user[0].ID_CLIENTE,
+            expiresIn: "40m"
+          },
+          process.env.SECRET_KEY
+        )
+
+        enviarEmailRecuperarSenha(
+          user[0].EMAIL_CLIENTE,
+          "Recuperar de senha",
+          process.env.URL_BASE,
+          token,
+          async () => {
+            req.session.aviso = { msg: "E-mail enviado com sucesso", type: "success", contagem: 0 }
+            res.redirect("/esqueceuSenha-cli")
+          })
+
+
+      } catch (error) {
+        console.log(error)
+        res.render("./partial/pg-erro")
+
+      }
     }
-    res.render("./pages/template-login", jsonResult)
-  } else {
-    try {
-      const { senha } = req.body
-      let hashSenha = bcrypt.hashSync(senha, salt);
-      var resultado = await clienteModel.updateUser({ SENHA_CLIENTE: hashSenha }, idUser)
-      console.log("-------- senha redefinida -----------")
-      console.log(resultado)
-      req.session.aviso = { msg: "Senha redefinida com sucesso!", type: "success", contagem: 0 }
-      res.redirect("/entrar")
-    } catch (error) {
-      console.log(error)
-      res.render("./partial/pg-erro")
+  },
+  redefinirSenha: async (req, res) => {
+    let idUser = req.query.idUser
+    if (!idUser) {
+      console.log("usuario não achado")
+      req.session.token = { msg: "Usuário não encontrado", type: "danger", contagem: 0 }
+      return res.render("./partial/pg-erro")
     }
-  }
-},
+    let error = validationResult(req)
 
-
-
-
-
-
-
+    if (!error.isEmpty) {
+      const jsonResult = {
+        page: "../partial/login/esqueceuSenha",
+        token: null,
+        errors: error,
+        idUser: idUser,
+        modalAberto: true
+      }
+      res.render("./pages/template-login", jsonResult)
+    } else {
+      try {
+        const { senha } = req.body
+        let hashSenha = bcrypt.hashSync(senha, salt);
+        var resultado = await clienteModel.updateUser({ SENHA_CLIENTE: hashSenha }, idUser)
+        console.log("-------- senha redefinida -----------")
+        console.log(resultado)
+        req.session.aviso = { msg: "Senha redefinida com sucesso!", type: "success", contagem: 0 }
+        res.redirect("/entrar")
+      } catch (error) {
+        console.log(error)
+        res.render("./partial/pg-erro")
+      }
+    }
+  },
 
 
   // comentar

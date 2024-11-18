@@ -1,6 +1,7 @@
 const nodemailer = require('nodemailer');
 require('dotenv').config();
 const ativarContaTemplate = require('./emails/ativar-conta');
+const ativarContaCliTemplate = require('./emails/ativar-conta-cli');
 const recuperarSenhaTemplate = require('./emails/recuperarSenha');
 
 const transporter = nodemailer.createTransport({
@@ -23,6 +24,27 @@ const enviarEmailAtivacao = async (emailDestino, assunto, urlBase, token, callba
         to: emailDestino,
         subject: assunto,
         html: ativarContaTemplate(urlBase, token)
+    };
+
+    transporter.sendMail(mailOptions, (error, info) => {
+        if (error) {
+            console.log(error)
+        } else {
+            console.log('E-mail enviado');
+            if (callback && typeof callback === 'function') {
+                callback();
+            }
+        }
+    });
+
+};
+const enviarEmailAtivacaoCli = async (emailDestino, assunto, urlBase, token, callback) => {
+
+    const mailOptions = {
+        from: process.env.EMAIL_USER,
+        to: emailDestino,
+        subject: assunto,
+        html: ativarContaCliTemplate(urlBase, token)
     };
 
     transporter.sendMail(mailOptions, (error, info) => {
@@ -84,4 +106,4 @@ const enviarEmailRecuperarSenha = async (emailDestino, assunto, urlBase, token, 
 
 
 
-module.exports = { enviarEmail, enviarEmailAtivacao, enviarEmailRecuperarSenha }
+module.exports = { enviarEmail, enviarEmailAtivacao, enviarEmailAtivacaoCli, enviarEmailRecuperarSenha }
