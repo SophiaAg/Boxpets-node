@@ -59,6 +59,14 @@ const agendaModel = {
             throw error
         }
     },
+    findAgendaByIdEmpresa: async (id) => {
+        try {
+            const [resultados] = await pool.query('SELECT * FROM AGENDAMENTOS WHERE ID_USUARIO = ?', [id])
+            return resultados
+        } catch (error) {
+            throw error
+        }
+    },
     agendarHorario:async (dados)=>{
         try {
             const [resultados] = await pool.query('INSERT INTO AGENDAMENTOS SET ?', [dados])

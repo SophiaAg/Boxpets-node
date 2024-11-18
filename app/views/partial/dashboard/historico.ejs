@@ -1,175 +1,82 @@
 <div class="main-content">
-        
-      
-        
-        
     <main>
-        
-   
-        
         <div class="page-content">
-        
+
             <div class="records table-responsive">
                 <div>
                     <table width="100%">
                         <thead>
                             <tr>
-                                <th>#</th>
-                                <th><span class="las la-sort"></span> CLIENT</th>
+                                <th>ID</th>
+                                <th><span class="las la-sort"></span> CLIENTE</th>
                                 <th><span class="las la-sort"></span> SERVIÇO</th>
                                 <th><span class="las la-sort"></span> DATA</th>
                                 <th><span class="las la-sort"></span> HORÁRIO</th>
                                 <th><span class="las la-sort"></span> STATUS</th>
+                                <th><span class="las la-sort"></span> Ações</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>#5033</td>
-                                <td>
-                                    <div class="client">
-                                       <div class="client-img bg-img" style="background-image: url(img/3.jpeg)"></div>
-                                        <div class="client-info">
-                                            <h4>Andrew Bruno</h4>
+                            <% if(agendamentos){
+                                agendamentos.forEach(agenda =>{ %>
+                                    <tr>
+                                        <td><%= agenda.cliente.ID_CLIENTE %></td>
+                                        <td>
+                                            <div class="client">
+                                                <div class="client-img bg-img" style="background-image: url('./src/fotos-perfil/<%=agenda.cliente.img_perfil_pasta%>')"></div>
+                                                <div class="client-info">
+                                                    <h4><%= agenda.cliente.NOME_CLIENTE %></h4>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <%= agenda.servico.NOME_SERVICO %>
+                                        </td>
+                                        <td>
+                                            <% 
+                                                const date = new Date(agenda.DATA_AGENDAMENTO); 
+                                                const dia = String(date.getDate()).padStart(2, '0');
+                                                const mes = String(date.getMonth() + 1).padStart(2, '0');
+                                                const ano = date.getFullYear();
+                                            %>
+                                             <%= `${dia}/${mes}/${ano}` %> %>
+                                        </td>
+                                        <td>
+                                            <%= agenda.HORARIO_AGENDAMENTO %>
+                                        </td>
+                                        <td>
+                                            <% if(agenda.ID_STATUS == 1) {%>
+                                                <span class="paid-aguarde">Marcado</span> 
+                                            <%}else if(agenda.ID_STATUS == 2){%>
+                                                <span class="paid-concluido">Concluido</span>           
+                                            <%}else if(agenda.ID_STATUS == 3){%>
+                                                <span class="paid-cancelado">Cancelado</span>           
+                                            <%}%>  
+                                        </td>
+                                        <td>
+                                            <button data-openModal="#cancelarAgenda<%=agenda.ID_AGENDAMENTO%>" title="Cancelar agendamento">Cancelar</button>
+                                        </td>
+                                    </tr>
+
+                                    <div class="modal" id="cancelarAgenda<%=agenda.ID_AGENDAMENTO%>">
+                                        <button class="closeBtn"><span class="material-symbols-outlined">close</span></button>
+                                        <div class="modal-content">
+                                          <h1>Cancelar agendamento?</h1>
+                                          <form action="/cancelarAgenda?idAgendamento=<%= agenda.ID_AGENDAMENTO %>" method="post" enctype="multipart/form-data">
+                                              <button class="btn-servico">Editar serviço</button>
+                                          </form>
                                         </div>
-                                    </div>
-                                </td>
-                                <td>
-                                   5
-                                </td>
-                                <td>
-                                    02/11/24
-                                </td>
-                                <td>
-                                   09h00
-                                </td>
-                                <td> 
-                                    <span class="paid-aguarde">Aguarde</span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>#5033</td>
-                                <td>
-                                    <div class="client">
-                                       <div class="client-img bg-img" style="background-image: url(img/1.jpeg)"></div>
-                                        <div class="client-info">
-                                            <h4>Exty Bruno</h4>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td>
-                                    3
-                                </td>
-                                <td>
-                                     30/10/24
-                                </td>
-                                <td>
-                                   16h00
-                                </td>
-                                <td>
-                                    <span class="paid-cancelado">Cancelado</span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>#5033</td>
-                                <td>
-                                    <div class="client">
-                                       <div class="client-img bg-img" style="background-image: url(img/1.jpeg)"></div>
-                                        <div class="client-info">
-                                            <h4>Exty Bruno</h4>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td>
-                                   2
-                                </td>
-                                <td>
-                                   17/09/24
-                                </td>
-                                <td>
-                                   17h00
-                                </td>
-                                <td>
-                                    <span class="paid-concluido">Concluido</span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>#5033</td>
-                                <td>
-                                    <div class="client">
-                                       <div class="client-img bg-img" style="background-image: url(img/3.jpeg)"></div>
-                                        <div class="client-info">
-                                            <h4>Andrew Bruno</h4>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td>
-                                    1
-                                </td>
-                                <td>
-                                   10/12/24
-                                </td>
-                                <td>
-                                    07h30
-                                </td>
-                                <td>
-                                    <span class="paid-aguarde">Aguarde</span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>#5033</td>
-                                <td>
-                                    <div class="client">
-                                       <div class="client-img bg-img" style="background-image: url(img/1.jpeg)"></div>
-                                        <div class="client-info">
-                                            <h4>Exty Bruno</h4>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td>
-                                    7
-                                </td>
-                                <td>
-                                    22/08/24
-                                </td>
-                                <td>
-                                  18h00
-                                </td>
-                                <td>
-                                    <span class="paid-concluido">Concluido</span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>#5033</td>
-                                <td>
-                                    <div class="client">
-                                       <div class="client-img bg-img" style="background-image: url(img/1.jpeg)"></div>
-                                        <div class="client-info">
-                                            <h4>Exty Bruno</h4>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td>
-                                    1
-                                </td>
-                                <td>
-                                    29/03/24
-                                </td>
-                                <td>
-                                    13h20
-                                </td>
-                                <td>
-                                    <span class="paid-concluido">Concluido</span>
-                                </td>
-                            </tr>
-                           
+                                      </div>
+                                <%})
+                            }%>
                             
                         </tbody>
                     </table>
                 </div>
 
             </div>
-        
         </div>
-        
     </main>
 </div>
+
+<script src="js/abrirModal.js"></script>

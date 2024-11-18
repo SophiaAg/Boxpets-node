@@ -43,6 +43,15 @@ const clienteModel = {
             return error
         }
     },
+    findClientesByIds: async (ids) => {
+        try {
+            const [resultados] = await pool.query("SELECT * FROM CLIENTE WHERE ID_CLIENTE IN (?) ", [ids]);
+            return resultados;
+        } catch (error) {
+            console.error("Erro ao buscar clientes", error);
+            throw error;
+        }
+    },
     findClienteByEmailAtivo: async (email) => {
         try {
             const [resultados] = await pool.query("SELECT * FROM CLIENTE WHERE EMAIL_USUARIOS = ? AND CLIENTE_STATUS = 'ativo' LIMIT 1", [email])

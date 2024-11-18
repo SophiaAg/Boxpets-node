@@ -290,7 +290,7 @@ const clienteController = {
 
       } catch (erros) {
         console.log(erros)
-        res.json(errors)
+        res.redirect("/pg-erro")
       }
 
     }
