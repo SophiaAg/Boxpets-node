@@ -49,11 +49,11 @@ if(errors){
                   <input id="senha" name="senha" required type="password" placeholder="<%= msgErro.senha ? msgErro.senha : 'Insira sua senha' %>"
                   value="<%= msgErro.senha ? '' : (valores.senha || '') %>"  />
 
-                  <button onclick="togglePassword('senha')" style="border: none;">
+                  <a onclick="togglePassword('senha')" style="border: none;">
                     <span class="material-symbols-outlined">
                       visibility_off
                       </span> <!-- Ícone de olhinho -->
-                </button>
+                    </a>
 
                </section>
                <h6>Senha deve conter um número, uma letra maiúscula, uma letra minúscula e um dos símbolos </h6>
