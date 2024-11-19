@@ -41,7 +41,7 @@
                                             dia=String(date.getDate()).padStart(2, '0' ); const
                                             mes=String(date.getMonth() + 1).padStart(2, '0' ); const
                                             ano=date.getFullYear(); %>
-                                            <%= `${dia}/${mes}/${ano}` %> %>
+                                            <%= `${dia}/${mes}/${ano}` %>
                                     </td>
                                     <td>
                                         <%= agenda.HORARIO_AGENDAMENTO %>
@@ -56,19 +56,24 @@
                                                     <%}%>
                                     </td>
                                     <td>
-                                        <button data-openModal="#cancelarAgenda<%=agenda.ID_AGENDAMENTO%>"
+                                        <button data-openModal="#cancelarAgenda<%=agenda.ID_AGENDAMENTOS %>"
                                             title="Cancelar agendamento">Cancelar</button>
+                                            <% if(agenda.ID_STATUS==1) {%>
+
+                                            <% } %>
                                     </td>
                                 </tr>
 
-                                <div class="modal" id="cancelarAgenda<%=agenda.ID_AGENDAMENTO%>">
+                                <div class="modal" id="cancelarAgenda<%=agenda.ID_AGENDAMENTOS %>">
                                     <button class="closeBtn"><span
                                             class="material-symbols-outlined">close</span></button>
                                     <div class="modal-content">
                                         <h1>Cancelar agendamento?</h1>
-                                        <form action="/cancelarAgenda?idAgendamento=<%= agenda.ID_AGENDAMENTO %>"
+                                        <p style="color: black;">Essa ação é irreversível e será notificada ao cliente.</p>
+                                        <form action="/cancelarAgenda?idAgendamento=<%= agenda.ID_AGENDAMENTOS %>"
                                             method="post" enctype="multipart/form-data">
-                                            <button class="btn-servico">Editar serviço</button>
+                                            <button class="btn-servico">Confirmar</button>
+                                            <button class="btn-servico cancelarBtn">Voltar</button>
                                         </form>
                                     </div>
                                 </div>

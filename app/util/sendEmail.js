@@ -2,6 +2,7 @@ const nodemailer = require('nodemailer');
 require('dotenv').config();
 const ativarContaTemplate = require('./emails/ativar-conta');
 const ativarContaCliTemplate = require('./emails/ativar-conta-cli');
+const emailCancelAgenda = require('./emails/cancel-agenda');
 const recuperarSenhaTemplate = require('./emails/recuperarSenha');
 
 const transporter = nodemailer.createTransport({
@@ -59,6 +60,28 @@ const enviarEmailAtivacaoCli = async (emailDestino, assunto, urlBase, token, cal
     });
 
 };
+const enviarEmailCancelAgenda = async (emailDestino, assunto, urlBase, infos, callback) => {
+
+    const mailOptions = {
+        from: process.env.EMAIL_USER,
+        to: emailDestino,
+        subject: assunto,
+        html: emailCancelAgenda(urlBase, infos)
+    };
+
+    transporter.sendMail(mailOptions, (error, info) => {
+        if (error) {
+            console.log(error)
+            throw error
+        } else {
+            console.log('E-mail enviado');
+            if (callback && typeof callback === 'function') {
+                callback();
+            }
+        }
+    });
+
+};
 
 const enviarEmail = async (emailDestino, assunto, html, callback) => {
 
@@ -106,4 +129,4 @@ const enviarEmailRecuperarSenha = async (emailDestino, assunto, urlBase, token, 
 
 
 
-module.exports = { enviarEmail, enviarEmailAtivacao, enviarEmailAtivacaoCli, enviarEmailRecuperarSenha }
+module.exports = { enviarEmail, enviarEmailAtivacao, enviarEmailAtivacaoCli, enviarEmailRecuperarSenha, enviarEmailCancelAgenda }

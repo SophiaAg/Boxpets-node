@@ -16,7 +16,7 @@ const crypto = require('crypto');
 const dotenv = require("dotenv");
 dotenv.config();
 const jwt = require("jsonwebtoken");
-const { enviarEmail, enviarEmailAtivacao, enviarEmailRecuperarSenha } = require("../util/sendEmail.js");
+const { enviarEmailCancelAgenda } = require("../util/sendEmail.js");
 var pool = require("../../config/pool-conexao.js");
 const agendaModel = require("../models/agendaModel.js");
 
@@ -92,7 +92,7 @@ router.get("/historico",
         const mapClientes = Object.fromEntries(clientes.map(cliente => [cliente.ID_CLIENTE, cliente]));
         const mapServicos = Object.fromEntries(servicos.map(servico => [servico.ID_SERVICO, servico]));
 
-        const agendamentos = agenda.map(a =>({
+        const agendamentos = agenda.map(a => ({
             ...a,
             cliente: mapClientes[a.ID_CLIENTE],
             servico: mapServicos[a.ID_SERVICO]
@@ -109,7 +109,69 @@ router.get("/historico",
 
     });
 
+router.post("/cancelarAgenda",
+    middleWares.verifyAutenticado,
+    middleWares.verifyAutorizado("pages/template-loginEmpresa", { page: "../partial/cadastroEmpresa/login", errors: null, valores: "", incorreto: null }, true),
+    middleWares.verifyAssinante,
+    async function (req, res) {
+        const idAgendamento = req.query.idAgendamento
+        if (!idAgendamento) {
+            req.session.alert = {
+                type: "danger",
+                title: "Agendamento não encontrado!",
+                msg: "Ocorreu um erro ao tentar encontrar o agendamento!.",
+                count: 0
+            }
+            return res.redirect("/historico")
+        }
+        try {
+            const agendamento = await agendaModel.findAgendaById(idAgendamento)
+            if (!agendamento[0]) {
+                req.session.alert = {
+                    type: "danger",
+                    title: "Agendamento não encontrado!",
+                    msg: "Ocorreu um erro ao tentar encontrar o agendamento!.",
+                    count: 0
+                }
+                return res.redirect("/historico")
+            }
 
+            const resultUpdate = await agendaModel.updateAgenda(idAgendamento, { ID_STATUS: 3 })
+            console.log(resultUpdate)
+            const servico = await usuariosModel.findServicoById(agendamento[0].ID_SERVICO)
+            console.log(servico)
+            const userBd = await usuariosModel.findUsuariosById(agendamento[0].ID_USUARIO)
+            console.log(userBd)
+            const clienteBd = await clienteModel.findClienteById(agendamento[0].ID_CLIENTE)
+            console.log(clienteBd)
+
+            let infosAgenda = {
+                ...agendamento[0],
+                servico: servico[0],
+                empresa: userBd[0]
+            }
+            enviarEmailCancelAgenda(
+                clienteBd[0].EMAIL_CLIENTE,
+                "Cancelamento do serviço.",
+                process.env.URL_BASE,
+                infosAgenda,
+                async () => {
+                    console.log(`------ Email enviado para ${clienteBd[0].EMAIL_CLIENTE} ------`)
+                    req.session.alert = {
+                        type: "success",
+                        title: "Agendamento cancelado com sucesso!",
+                        msg: "O cliente foi notificado sobre o cancelamento.",
+                        count: 0
+                    }
+                    req.session.save(() => {
+                        res.redirect("/historico")
+                    })
+                })
+        } catch (error) {
+            console.log(error)
+            res.redirect("/pg-erro")
+        }
+    });
 
 // PLANOS 
 router.get("/planos",
