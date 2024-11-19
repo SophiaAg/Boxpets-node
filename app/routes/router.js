@@ -416,8 +416,6 @@ router.post("/redefinirSenha", usuariosController.regrasValidacaoRedefinirSenha,
 //cliente
 
 router.get("/ativar-conta-cli",
-    middleWares.verifyAutenticado,
-    middleWares.verifyAutorizado("pages/template-login", { page: "../partial/login/login", errors: null, valores: "", incorreto: null }, true),
     async function (req, res) {
         clienteController.ativarConta(req, res);
     });
