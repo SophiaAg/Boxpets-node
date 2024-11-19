@@ -6,7 +6,7 @@ const usuariosController = require("../controllers/usuariosContoller");
 const usuariosModel = require("../models/usuariosModel");
 const middleWares = require("../middlewares/auth");
 const upload = require("../util/uploader");
-const { validationResult, body } = require("express-validator");
+const { validationResult, body, param } = require("express-validator");
 const uploadClientePerfil = upload("./app/public/src/fotos-perfil/", 5, ['jpeg', 'jpg', 'png', 'webp']);
 const uploadPet = upload("./app/public/src/fotos-pet/", 5, ['jpeg', 'jpg', 'png', 'webp']);
 const storage = require("../util/storage.js")
@@ -52,19 +52,38 @@ router.get("/cadastrar", function (req, res) {
 
 
 router.get("/entrar", function (req, res) {
-
+    let alert = undefined
+    if (req.session.alert && req.session.alert.count == 0) {
+        alert = req.session.alert
+        req.session.alert.count++
+    }
     const jsonResult = {
         form: "../partial/login/entrar",
         errors: null,
         valores: null,
-        incorreto: false
+        incorreto: false,
+        dadosNotificacao: alert
     }
     res.render("pages/template-login", jsonResult);
 });
 
-router.get("/home", function (req, res) {
-    res.render('pages/template-hm', { page: '..partial/landing-home/home-page', nomeUsuario, dadosNotificacao: { type: "success", title: "Conta criada com sucesso!", msg: "Verifique sua caixa de email para ativar sua conta." } });
-});
+router.get("/home",
+    middleWares.verifyAutenticado,
+    middleWares.verifyAutorizado(
+        "pages/template-login",
+        { form: "../partial/login/entrar", errors: null, valores: null, incorreto: false },
+        false
+    ),
+    async function (req, res) {
+
+        let alert = undefined
+        if (req.session.alert && req.session.alert.count == 0) {
+            alert = req.session.alert
+            req.session.alert.count++
+        }
+        const clienteBd = await clienteModel.findClienteById(req.session.autenticado.id)
+        res.render('pages/template-hm', { page: '../partial/landing-home/home-page', dadosNotificacao: alert, nome: clienteBd[0].NOME_CLIENTE });
+    });
 
 // Cadastro de CLIENTES
 router.post("/cadastrarCliente", clienteController.regrasValidacaoCriarConta, function (req, res) {
@@ -75,91 +94,102 @@ router.post("/logarCliente", clienteController.regrasValidacaoLogarConta, middle
     clienteController.entrar(req, res)
 })
 
-router.get("/servicos-gerais", async function (req, res) {
-    const params = req.query.id;
-    console.log(params)
-    const usuario = await usuariosModel.findAllUsuarios(params)
-    let user = [];
-    usuario.forEach((element, index) => {
-        let infoGeralParsed = {};
+router.get("/servicos-gerais",
+    middleWares.verifyAutenticado,
+    middleWares.verifyAutorizado(
+        "pages/template-login",
+        { form: "../partial/login/entrar", errors: null, valores: null, incorreto: false },
+        false
+    ),
+    async function (req, res) {
+        const params = req.query.id;
+        console.log(params)
+        const usuario = await usuariosModel.findAllUsuarios(params)
+        let user = [];
+        usuario.forEach((element, index) => {
+            let infoGeralParsed = {};
 
-        try {
-            infoGeralParsed = JSON.parse(element.INFO_GERAIS);
-        } catch (e) {
-            infoGeralParsed = {
-                horarioInicio: '',
-                horarioFim: '',
-                localizacao: '',
-                whatsapp: '',
-                descricao: ''
+            try {
+                infoGeralParsed = JSON.parse(element.INFO_GERAIS);
+            } catch (e) {
+                infoGeralParsed = {
+                    horarioInicio: '',
+                    horarioFim: '',
+                    localizacao: '',
+                    whatsapp: '',
+                    descricao: ''
+                };
+            }
+
+            let moment = {
+                ...element,
+                INFO_GERAIS: infoGeralParsed
             };
-        }
-
-        let moment = {
-            ...element,
-            INFO_GERAIS: infoGeralParsed
-        };
-        user.push(moment);
+            user.push(moment);
+        });
+        res.render("pages/template-hm", { pagina: "Servicogerais", page: "../partial/servicosgerais/servicos-gerais", empresas: user });
     });
-    res.render("pages/template-hm", { pagina: "Servicogerais", page: "../partial/servicosgerais/servicos-gerais",  empresas: user });
-});
 
-router.get("/veterinarios", async function (req, res) {
-    const params = req.query.id;
-    console.log(params)
-    const usuario = await usuariosModel.findAllUsuarios(params)
-    let user = [];
-    usuario.forEach((element, index) => {
-        let infoGeralParsed = {};
+router.get("/veterinarios",
+    middleWares.verifyAutenticado,
+    middleWares.verifyAutorizado(
+        "pages/template-login",
+        { form: "../partial/login/entrar", errors: null, valores: null, incorreto: false },
+        false
+    ),
+    async function (req, res) {
+        const params = req.query.id;
+        console.log(params)
+        const usuario = await usuariosModel.findAllUsuarios(params)
+        let user = [];
+        usuario.forEach((element, index) => {
+            let infoGeralParsed = {};
 
-        try {
-            infoGeralParsed = JSON.parse(element.INFO_GERAIS);
-        } catch (e) {
-            infoGeralParsed = {
-                horarioInicio: '',
-                horarioFim: '',
-                localizacao: '',
-                whatsapp: '',
-                descricao: ''
+            try {
+                infoGeralParsed = JSON.parse(element.INFO_GERAIS);
+            } catch (e) {
+                infoGeralParsed = {
+                    horarioInicio: '',
+                    horarioFim: '',
+                    localizacao: '',
+                    whatsapp: '',
+                    descricao: ''
+                };
+            }
+
+            let moment = {
+                ...element,
+                INFO_GERAIS: infoGeralParsed
             };
-        }
-
-        let moment = {
-            ...element,
-            INFO_GERAIS: infoGeralParsed
-        };
-        user.push(moment);
+            user.push(moment);
+        });
+        res.render("pages/template-hm", { pagina: "LandingPage", page: "../partial/servicosgerais/veterinarios", empresas: user });
     });
-    res.render("pages/template-hm", { pagina: "LandingPage", page: "../partial/servicosgerais/veterinarios", empresas: user });
-});
 
 router.get("/historico-cli", function (req, res) {
     res.render("pages/template-hm", { page: "../partial/landing-home/historico-cli.ejs" });
 });
 
 
-router.get("/VizucriaPg/:id", async function (req, res) {
-    const params = req.params.id;
-    console.log(params)
-    const vizupg = await usuariosModel.findUsuariosById(params)
+router.get("/VizucriaPg", async function (req, res) {
+    const idEmpresa = req.query.id;
+    console.log(idEmpresa)
+    const usuario = await usuariosModel.findUsuariosById(idEmpresa)
 
-
-    const usuario = await usuariosModel.findUsuariosById(req.session.autenticado.id)
     const user = usuario[0].INFO_GERAIS
         ? { ...usuario[0], INFO_GERAIS: JSON.parse(usuario[0].INFO_GERAIS) }
         : { ...usuario[0], INFO_GERAIS: { horarioInicio: '', horarioFim: '', localizacao: '', whatsapp: '', descricao: '' } }
 
-    const userBd = await usuariosModel.findUsuariosById(req.session.autenticado.id)
-    const nomeempresa = userBd[0].NOMEEMPRESA_USUARIO;
+    const servicosResult = await usuariosModel.findServicosByIdEmpresa(idEmpresa)
     const servicos = servicosResult.length > 0 ? servicosResult : []
 
-    res.render("pages/template-hm", { 
-        pagina: "LandingPage", 
+    res.render("pages/template-hm", {
+        pagina: "LandingPage",
         page: "../partial/cliente-empresa/VizucriaPg",
-        vizupg: vizupg,
-         empresa: user, 
-          servicos: servicos,
-         nomeempresa:nomeempresa });
+        empresa: user,
+        servicos:servicos
+
+    });
 });
 
 
@@ -382,8 +412,6 @@ router.post("/redefinirSenha", usuariosController.regrasValidacaoRedefinirSenha,
 //cliente
 
 router.get("/ativar-conta-cli",
-    middleWares.verifyAutenticado,
-    middleWares.verifyAutorizado("pages/template-login", { page: "../partial/login/login", errors: null, valores: "", incorreto: null }, true),
     async function (req, res) {
         clienteController.ativarConta(req, res);
     });
@@ -422,7 +450,7 @@ router.post("/redefinirSenha-cli", clienteController.regrasValidacaoRedefinirSen
 
 //mercadoPago
 router.get("/nao-permitido", function (req, res) {
-    res.render("pages/template-dashboard", { page: "../partial/nao-permitido",  classePagina: '',  alert: ''});
+    res.render("pages/template-dashboard", { page: "../partial/nao-permitido", classePagina: '', alert: '' });
 });
 
 const { MercadoPagoConfig, Preference } = require('mercadopago');
@@ -514,9 +542,9 @@ router.post("/findHorariosByData", async (req, res) => {
         }
         servico[0].PORTES_PERMITIDOS = servico[0].PORTES_PERMITIDOS.split(",")
         const dataSelect = new Date(data);
-        dataSelect.setUTCHours(0, 0, 0, 0); 
+        dataSelect.setUTCHours(0, 0, 0, 0);
         const today = new Date();
-        today.setUTCHours(0, 0, 0, 0); 
+        today.setUTCHours(0, 0, 0, 0);
 
         if (dataSelect < today) {
             return res.render("pages/template-hm", {

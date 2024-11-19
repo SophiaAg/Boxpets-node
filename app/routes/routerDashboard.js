@@ -31,10 +31,10 @@ router.get("/dashboard",
         if (params.has('success')) {
             try {
                 let plano;
-                if(params.has('mensal')){
+                if (params.has('mensal')) {
                     plano = 1
                 }
-                if(params.has('anual')){
+                if (params.has('anual')) {
                     plano = 2
                 }
                 const result = await usuariosModel.updateUser({ PLANOS: plano }, req.session.autenticado.id)
@@ -70,17 +70,46 @@ router.get("/historico",
     middleWares.verifyAssinante,
     async function (req, res) {
         // const horariosServico = await usuariosModel.findHorariosIdservico()
+        let alert = undefined
+        if (req.session.alert && req.session.alert.count == 0) {
+            alert = req.session.alert
+            req.session.alert.count++
+        }
+        const agenda = await agendaModel.findAgendaByIdEmpresa(req.session.autenticado.id)
+        const idsClientes = []
+        const idsServicos = []
+        for (const a of [...agenda]) {
+            if (!idsClientes.includes(a.ID_CLIENTE)) {
+                idsClientes.push(a.ID_CLIENTE)
+            }
+            if (!idsServicos.includes(a.ID_SERVICO)) {
+                idsServicos.push(a.ID_SERVICO)
+            }
+        }
+
+        const clientes = idsClientes.length > 0 ? await clienteModel.findClientesByIds(idsClientes) : []
+        const servicos = idsServicos.length > 0 ? await usuariosModel.findServicosInIds(idsServicos) : []
+        const mapClientes = Object.fromEntries(clientes.map(cliente => [cliente.ID_CLIENTE, cliente]));
+        const mapServicos = Object.fromEntries(servicos.map(servico => [servico.ID_SERVICO, servico]));
+
+        const agendamentos = agenda.map(a =>({
+            ...a,
+            cliente: mapClientes[a.ID_CLIENTE],
+            servico: mapServicos[a.ID_SERVICO]
+        }))
         res.render("pages/template-dashboard",
             {
-                alert: null,
+                alert: alert,
                 page: "../partial/dashboard/historico",
                 nomeempresa: 'nomeempresa',
                 classePagina: 'historico',
-                // horarios:horariosServico
+                agendamentos: agenda.length > 0 ? agendamentos : null
             }
         );
 
     });
+
+
 
 // PLANOS 
 router.get("/planos",
@@ -89,13 +118,13 @@ router.get("/planos",
     async function (req, res) {
         let isAssinante = false
         const userBd = await usuariosModel.findUsuariosById(req.session.autenticado.id)
-        if(userBd[0].PLANOS == 1){
+        if (userBd[0].PLANOS == 1) {
             isAssinante = true
         }
-        if(userBd[0].PLANOS == 2){
+        if (userBd[0].PLANOS == 2) {
             isAssinante = true
         }
-        res.render("pages/template-dashboard", { page: "../partial/dashboard/planos", classePagina: 'planos', alert: null, isAssinante:isAssinante });
+        res.render("pages/template-dashboard", { page: "../partial/dashboard/planos", classePagina: 'planos', alert: null, isAssinante: isAssinante });
     });
 
 
@@ -120,7 +149,7 @@ router.get('/paginacomercial',
                 empresa: user,
                 servico: null,
                 servicos: servicos,
-                alert: null 
+                alert: null
             }
             res.render("./pages/template-dashboard", jsonResult)
         } catch (error) {
@@ -178,7 +207,8 @@ router.get('/editar-servico',
                 empresa: user,
                 servico: servico[0],
                 servicos: servicos,
-                alert: null             }
+                alert: null
+            }
             res.render("./pages/template-dashboard", jsonResult)
         } catch (error) {
             console.log(error)
@@ -272,7 +302,7 @@ router.post("/attBannerEmpresa",
 router.get('/agendamento',
     middleWares.verifyAutenticado,
     middleWares.verifyAutorizado("pages/template-loginEmpresa", { page: "../partial/cadastroEmpresa/login", errors: null, valores: "", incorreto: null }, true),
-   
+
     async (req, res) => {
         try {
             const servicosResult = await usuariosModel.findServicosByIdEmpresa(req.session.autenticado.id)
@@ -291,7 +321,7 @@ router.get('/agendamento',
                 servico: servico ? servico[0] : null,
                 servicos: servicos,
                 horarios: horarios,
-                alert: null 
+                alert: null
             }
             res.render("./pages/template-dashboard", jsonResult)
         } catch (error) {

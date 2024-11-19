@@ -39,6 +39,14 @@ let avisoErro={
     <% }
   } %>
 
+
+  <% if (typeof dadosNotificacao !== "undefined") { %>
+    <script>
+        newNotify("<%= dadosNotificacao.title %>", "<%= dadosNotificacao.msg %>", "<%= dadosNotificacao.type %>");
+    </script>
+<% } %>
+
+
     <form action="/logarCliente" method="post" class="sign-in-form">
         <h2 class="title">Entrar</h2>
         <% if(incorreto) { %>

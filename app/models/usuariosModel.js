@@ -141,7 +141,16 @@ const usuariosModel = {
             console.log("erros ao criar o serviço")
             return error
         }
-    }
+    },
+    findServicosInIds: async (ids) => {
+        try {
+            const [resultados] = await pool.query("SELECT * FROM SERVICO WHERE ID_SERVICO IN (?) ", [ids]);
+            return resultados;
+        } catch (error) {
+            console.error("Erro ao buscar clientes", error);
+            throw error;
+        }
+    },
 }
 
 
