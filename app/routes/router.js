@@ -6,7 +6,7 @@ const usuariosController = require("../controllers/usuariosContoller");
 const usuariosModel = require("../models/usuariosModel");
 const middleWares = require("../middlewares/auth");
 const upload = require("../util/uploader");
-const { validationResult, body } = require("express-validator");
+const { validationResult, body, param } = require("express-validator");
 const uploadClientePerfil = upload("./app/public/src/fotos-perfil/", 5, ['jpeg', 'jpg', 'png', 'webp']);
 const uploadPet = upload("./app/public/src/fotos-pet/", 5, ['jpeg', 'jpg', 'png', 'webp']);
 const storage = require("../util/storage.js")
@@ -171,28 +171,24 @@ router.get("/historico-cli", function (req, res) {
 });
 
 
-router.get("/VizucriaPg/:id", async function (req, res) {
-    const params = req.params.id;
-    console.log(params)
-    const vizupg = await usuariosModel.findUsuariosById(params)
+router.get("/VizucriaPg", async function (req, res) {
+    const idEmpresa = req.query.id;
+    console.log(idEmpresa)
+    const usuario = await usuariosModel.findUsuariosById(idEmpresa)
 
-
-    const usuario = await usuariosModel.findUsuariosById(req.session.autenticado.id)
     const user = usuario[0].INFO_GERAIS
         ? { ...usuario[0], INFO_GERAIS: JSON.parse(usuario[0].INFO_GERAIS) }
         : { ...usuario[0], INFO_GERAIS: { horarioInicio: '', horarioFim: '', localizacao: '', whatsapp: '', descricao: '' } }
 
-    const userBd = await usuariosModel.findUsuariosById(req.session.autenticado.id)
-    const nomeempresa = userBd[0].NOMEEMPRESA_USUARIO;
+    const servicosResult = await usuariosModel.findServicosByIdEmpresa(idEmpresa)
     const servicos = servicosResult.length > 0 ? servicosResult : []
 
     res.render("pages/template-hm", {
         pagina: "LandingPage",
         page: "../partial/cliente-empresa/VizucriaPg",
-        vizupg: vizupg,
         empresa: user,
-        servicos: servicos,
-        nomeempresa: nomeempresa
+        servicos:servicos
+
     });
 });
 
