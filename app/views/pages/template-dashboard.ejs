@@ -1,123 +1,129 @@
-
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/x-icon" href="/src/img-landing/logo.png">
-    
+
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
     <link rel="stylesheet" href="./css/dashboard/dashboard.css">
     <link rel="stylesheet" href="/css/styles.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/simple-notify@1.0.4/dist/simple-notify.css" />
+    <script src="https://cdn.jsdelivr.net/npm/simple-notify@1.0.4/dist/simple-notify.min.js"></script>
+    <script src="./js/notificacao.js"></script>
 
 </head>
+
 <body>
-    <style>
-        .alert{}
-    </style>
-<% if(alert) {%>
-    <h2 class="alert <%=alert.type%>"><%=alert.msg %></h2>
-<%}%>
-<div class="container-dashboard">
-    <div class="top">
-        <button id="menu-btn">
-            <span class="material-symbols-outlined">  menu </span>
-        </button>
-        <article class="fa-regular fa-moon" id="darkmode"> </article>
+    
+    <% if(typeof alert !=="undefined" && alert !== null) {%>
+        <script>
+            newNotify("<%= alert.title %>", "<%= alert.msg %>", "<%= alert.type %>");
+        </script>
+        <%}%>
+            <div class="container-dashboard">
+                <div class="top">
+                    <button id="menu-btn">
+                        <span class="material-symbols-outlined"> menu </span>
+                    </button>
+                    <article class="fa-regular fa-moon" id="darkmode"> </article>
 
-    </div>
-<aside>
-    <!--Menu lateral-->
-    <div class="menulateral">
-    <div class="top-left">
-        <div class="logo">
-            <img src="/src/img-homepage/logo.png" alt="">
-            <h2>Box Pets</h2>
-        </div>
-        <div class="close" id="close-btn">
-            <span class="material-symbols-outlined">  close </span>
-    </div>
-    </div>
-
-
-    <div class="slidebar">
-        <a class="item <%= classePagina == 'dashboard' ? 'active' : '' %> " href="/dashboard">
-            <span class="material-symbols-outlined">dashboard </span>
-            <h3>Dashboard</h3>
-        </a>
-
-        <a class="item <%= classePagina == 'agenda' ? 'active' : '' %> " href="/agendamento">
-            <span class="material-symbols-outlined"> calendar_today </span>
-            <h3>Agendamentos</h3>
-        </a>
-
-        <a class="item <%= classePagina == 'paginaComercial' ? 'active' : '' %> " href="/paginacomercial" >
-            <span class="material-symbols-outlined">  store </span>
-            <h3>Pagina Comercial</h3>
-        </a>
-
-        <a class="item <%= classePagina == 'historico' ? 'active' : '' %> " href="/historico" >
-            <span class="material-symbols-outlined">  history </span>
-            <h3>Historico</h3>
-        </a>
+                </div>
+                <aside>
+                    <!--Menu lateral-->
+                    <div class="menulateral">
+                        <div class="top-left">
+                            <div class="logo">
+                                <img src="/src/img-homepage/logo.png" alt="">
+                                <h2>Box Pets</h2>
+                            </div>
+                            <div class="close" id="close-btn">
+                                <span class="material-symbols-outlined"> close </span>
+                            </div>
+                        </div>
 
 
-        <a class="item <%= classePagina == 'planos' ? 'active' : '' %> " href="/planos">
-            <span class="material-symbols-outlined"> credit_card  </span>
-            <h3>Planos</h3>
-        </a>
+                        <div class="slidebar">
+                            <a class="item <%= classePagina == 'dashboard' ? 'active' : '' %> " href="/dashboard">
+                                <span class="material-symbols-outlined">dashboard </span>
+                                <h3>Dashboard</h3>
+                            </a>
 
-        <a class="item <%= classePagina == '' ? 'active' : '' %> " href="/sair"  >
-            <span class="material-symbols-outlined">   logout  </span>
-            <h3>Sair</h3>
-        </a>
+                            <a class="item <%= classePagina == 'agenda' ? 'active' : '' %> " href="/agendamento">
+                                <span class="material-symbols-outlined"> calendar_today </span>
+                                <h3>Agendamentos</h3>
+                            </a>
 
-    </div>
-</div>
-</aside>
+                            <a class="item <%= classePagina == 'paginaComercial' ? 'active' : '' %> "
+                                href="/paginacomercial">
+                                <span class="material-symbols-outlined"> store </span>
+                                <h3>Pagina Comercial</h3>
+                            </a>
+
+                            <a class="item <%= classePagina == 'historico' ? 'active' : '' %> " href="/historico">
+                                <span class="material-symbols-outlined"> history </span>
+                                <h3>Historico</h3>
+                            </a>
+
+
+                            <a class="item <%= classePagina == 'planos' ? 'active' : '' %> " href="/planos">
+                                <span class="material-symbols-outlined"> credit_card </span>
+                                <h3>Planos</h3>
+                            </a>
+
+                            <a class="item <%= classePagina == '' ? 'active' : '' %> " href="/sair">
+                                <span class="material-symbols-outlined"> logout </span>
+                                <h3>Sair</h3>
+                            </a>
+
+                        </div>
+                    </div>
+                </aside>
 
 
 
-<%- include(page) %>
-</div>
+                <%- include(page) %>
+            </div>
 
 
-<!--rodapé-->
-<footer>
-    <section class="row">
-        <section class="col">
-            <a href="" class="logo"><img src="/src/img-homepage/logo.png" width="80"></a>
+            <!--rodapé-->
+            <footer>
+                <section class="row">
+                    <section class="col">
+                        <a href="" class="logo"><img src="/src/img-homepage/logo.png" width="80"></a>
 
-            <p>Um lugar prático e de confiança para agendamentos de serviços de bem-estar para o seu pet!</p>
-        </section>
-        <section class="col">
-            <h3>Página Inicial<section class="underline"><span></span></section>
-            </h3>
-            <ul>
-                <li><a href="LandingPage1.html">Home</a></li>
-                <li><a href="#servicos">Serviços</a></li>
-                <li><a href="#sobre-nós">Sobre Nós</a></li>
-                <li><a href="#sou-empresa">Sou Empresa</a></li>
-            </ul>
-        </section>
-        <section class="col">
-            <h3>Login e Cadastro<section class="underline"><span></span></section>
-            </h3>
-            <ul>
-                <li><a href="/entrar">Sou Cliente</a></li>
-                <li><a href="/cadastroEmpresa">Sou Empresa</a></li>
-            </ul>
-        </section>
-    </section>
-    <hr>
-    <p class="copyright">Easy Tutorials 2024 - All Rights Reserved</p>
-</footer>
+                        <p>Um lugar prático e de confiança para agendamentos de serviços de bem-estar para o seu pet!
+                        </p>
+                    </section>
+                    <section class="col">
+                        <h3>Página Inicial<section class="underline"><span></span></section>
+                        </h3>
+                        <ul>
+                            <li><a href="LandingPage1.html">Home</a></li>
+                            <li><a href="#servicos">Serviços</a></li>
+                            <li><a href="#sobre-nós">Sobre Nós</a></li>
+                            <li><a href="#sou-empresa">Sou Empresa</a></li>
+                        </ul>
+                    </section>
+                    <section class="col">
+                        <h3>Login e Cadastro<section class="underline"><span></span></section>
+                        </h3>
+                        <ul>
+                            <li><a href="/entrar">Sou Cliente</a></li>
+                            <li><a href="/cadastroEmpresa">Sou Empresa</a></li>
+                        </ul>
+                    </section>
+                </section>
+                <hr>
+                <p class="copyright">Easy Tutorials 2024 - All Rights Reserved</p>
+            </footer>
 
-<script src="js/dashboard-menu.js"></script>
-<script src="js/modoescuro.js"></script>
-<script src="js/app.js"></script>
+            <script src="js/dashboard-menu.js"></script>
+            <script src="js/modoescuro.js"></script>
+            <script src="js/app.js"></script>
 </body>
 
 </html>

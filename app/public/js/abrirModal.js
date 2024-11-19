@@ -14,7 +14,12 @@ btnsOpenModal.forEach(btn => {
 
 modals.forEach(modal => {
   const closeBtn = modal.querySelector(".closeBtn");
+  const cancelarBtn = modal.querySelector(".cancelarBtn");
   closeBtn?.addEventListener("click", () => {
+    modal.classList.remove("show");
+  });
+  cancelarBtn?.addEventListener("click", (e) => {
+    e.preventDefault();
     modal.classList.remove("show");
   });
 });

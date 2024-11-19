@@ -67,6 +67,14 @@ const agendaModel = {
             throw error
         }
     },
+    findAgendaById: async (id) => {
+        try {
+            const [resultados] = await pool.query('SELECT * FROM AGENDAMENTOS WHERE ID_AGENDAMENTOS = ?', [id])
+            return resultados
+        } catch (error) {
+            throw error
+        }
+    },
     agendarHorario:async (dados)=>{
         try {
             const [resultados] = await pool.query('INSERT INTO AGENDAMENTOS SET ?', [dados])
@@ -76,7 +84,17 @@ const agendaModel = {
             console.log("erros ao agendar")
             throw error
         }
-    }
+    },
+    updateAgenda:async (id,dados)=>{
+        try {
+            const [resultados] = await pool.query('UPDATE AGENDAMENTOS SET ? WHERE ID_AGENDAMENTOS = ?', [dados, id])
+            console.log("Horário agendado!")
+            return resultados
+        } catch (error) {
+            console.log("erros ao agendar")
+            throw error
+        }
+    },
 }
 
 
