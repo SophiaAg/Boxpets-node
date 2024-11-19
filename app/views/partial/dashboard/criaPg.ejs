@@ -1,6 +1,58 @@
+<style>
+  .modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    backdrop-filter: blur(10px);
+    z-index: 1000;
+    width: 100%;
+    height: 100%;
 
+    &.show {
+      display: flex;
+    }
 
+    & .modal-content {
+      padding: 3rem;
+      box-shadow: 0 0 5px rgba(0, 0, 0, 0.473);
+      background: white;
+      width: 100%;
+      max-width: 768px;
+      border-radius: 10px;
+      margin: auto;
+    }
 
+    & .closeBtn {
+      position: absolute;
+      width: fit-content;
+      height: fit-content;
+      padding: 0.3rem;
+      top: 0;
+      right: 0;
+      margin: 10px;
+    }
+  }
+
+  .servicos-container {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 25px;
+
+  }
+
+  @media (min-width: 500px) {
+    .servicos-container {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (min-width: 800px) {
+    .servicos-container {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+</style>
 <article>
   <div class="logo-empresa">
 
@@ -94,15 +146,15 @@
         <a data-openmodal="#modalServico<%=servico.ID_SERVICO %>" style="cursor:pointer" title="Deletar serviço"><span
             class="material-symbols-outlined">delete</span></a>
         <div class="showcase-banner">
-          <img src="/src/imagens-servico/<%= servico.CAMINHO_IMAGEM_SERVICO %>" alt="Imagem do servico"
-            width="300" style="border-radius: 20%;" class="product-img default">
+          <img src="/src/imagens-servico/<%= servico.CAMINHO_IMAGEM_SERVICO %>" alt="Imagem do servico" width="300"
+            style="border-radius: 20%;" class="product-img default">
         </div>
 
         <div class="showcase-content">
-          <a href="/buySer" class="showcase-category">
+          <a href="/buySer?idServico=<%= servico.ID_SERVICO %>" class="showcase-category">
             <%= servico.NOME_SERVICO %>
           </a>
-          <a href="/buySer">
+          <a href="/buySer?idServico=<%= servico.ID_SERVICO %>">
             <h3 class="showcase-title">
               <%= servico.DESCRICAO_SERVICO %>
             </h3>
@@ -117,11 +169,11 @@
         </div>
 
       </div>
-      <div class="modal" id="modalServico<%=servico.ID_SERVICO %>" style="display:none;" >
+      <div class="modal" id="modalServico<%=servico.ID_SERVICO %>" >
         <div class="modal-content">
           <h1>Excluir serviço?</h1>
           <h2>A exclusão do serviço é permanente e irreversivel!<br> Deseja prosseguir?</h3>
-          <form action="/deletarServico?idServico=<%=servico.ID_SERVICO %>" method="post">
+            <form action="/deletarServico?idServico=<%=servico.ID_SERVICO %>" method="post">
               <button class="submit">Confirmar</button>
               <div class="closeBtn cancelarBtn">Cancelar</div>
             </form>
@@ -144,7 +196,7 @@
       </form>
     </div>
   </div>
-  
+
   <% if(servico){%>
     <div class="modal show" id="modalEditarServico">
       <button class="closeBtn"><span class="material-symbols-outlined">close</span></button>
@@ -171,36 +223,24 @@
       let value = priceInput.value;
       value = value.replace(/\D/g, "");
 
-    if (parseInt(value) > 500000) {
-      value = "500000";
-    }
-    value = (value / 100).toLocaleString("pt-BR", {
-      style: "currency",
-      currency: "BRL",
+      if (parseInt(value) > 500000) {
+        value = "500000";
+      }
+      value = (value / 100).toLocaleString("pt-BR", {
+        style: "currency",
+        currency: "BRL",
+      });
+      priceInput.value = value;
     });
-    priceInput.value = value;
   });
-});
 
-const textarea = document.getElementById("descricao");
+  const textarea = document.getElementById("descricao");
 
-textarea.addEventListener("input", function () {
+  textarea.addEventListener("input", function () {
     this.style.height = "auto"; // Reseta a altura para recalcular
     this.style.height = `${this.scrollHeight}px`; // Define a altura conforme o conteúdo
-});
+  });
 
 
 </script>
 
-<style>
-
-
-.servicos-container {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 25px;
- 
-}
-  @media (min-width: 500px) { .servicos-container { grid-template-columns: repeat(2, 1fr);  } }
-@media (min-width: 800px) { .servicos-container{ grid-template-columns: repeat(3, 1fr);  } }
-</style>

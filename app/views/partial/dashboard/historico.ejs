@@ -1,3 +1,5 @@
+
+
 <div class="main-content">
     <main>
         <div class="page-content">
@@ -17,59 +19,64 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <% if(agendamentos){
-                                agendamentos.forEach(agenda =>{ %>
-                                    <tr>
-                                        <td><%= agenda.cliente.ID_CLIENTE %></td>
-                                        <td>
-                                            <div class="client">
-                                                <div class="client-img bg-img" style="background-image: url('./src/fotos-perfil/<%=agenda.cliente.img_perfil_pasta%>')"></div>
-                                                <div class="client-info">
-                                                    <h4><%= agenda.cliente.NOME_CLIENTE %></h4>
-                                                </div>
+                            <% if(agendamentos){ agendamentos.forEach(agenda=>{ %>
+                                <tr>
+                                    <td>
+                                        <%= agenda.cliente.ID_CLIENTE %>
+                                    </td>
+                                    <td>
+                                        <div class="client">
+                                            <div class="client-img bg-img"
+                                                style="background-image: url('./src/fotos-perfil/<%=agenda.cliente.img_perfil_pasta%>')">
                                             </div>
-                                        </td>
-                                        <td>
-                                            <%= agenda.servico.NOME_SERVICO %>
-                                        </td>
-                                        <td>
-                                            <% 
-                                                const date = new Date(agenda.DATA_AGENDAMENTO); 
-                                                const dia = String(date.getDate()).padStart(2, '0');
-                                                const mes = String(date.getMonth() + 1).padStart(2, '0');
-                                                const ano = date.getFullYear();
-                                            %>
-                                             <%= `${dia}/${mes}/${ano}` %> %>
-                                        </td>
-                                        <td>
-                                            <%= agenda.HORARIO_AGENDAMENTO %>
-                                        </td>
-                                        <td>
-                                            <% if(agenda.ID_STATUS == 1) {%>
-                                                <span class="paid-aguarde">Marcado</span> 
-                                            <%}else if(agenda.ID_STATUS == 2){%>
-                                                <span class="paid-concluido">Concluido</span>           
-                                            <%}else if(agenda.ID_STATUS == 3){%>
-                                                <span class="paid-cancelado">Cancelado</span>           
-                                            <%}%>  
-                                        </td>
-                                        <td>
-                                            <button data-openModal="#cancelarAgenda<%=agenda.ID_AGENDAMENTO%>" title="Cancelar agendamento">Cancelar</button>
-                                        </td>
-                                    </tr>
-
-                                    <div class="modal" id="cancelarAgenda<%=agenda.ID_AGENDAMENTO%>">
-                                        <button class="closeBtn"><span class="material-symbols-outlined">close</span></button>
-                                        <div class="modal-content">
-                                          <h1>Cancelar agendamento?</h1>
-                                          <form action="/cancelarAgenda?idAgendamento=<%= agenda.ID_AGENDAMENTO %>" method="post" enctype="multipart/form-data">
-                                              <button class="btn-servico">Editar serviço</button>
-                                          </form>
+                                            <div class="client-info">
+                                                <h4>
+                                                    <%= agenda.cliente.NOME_CLIENTE %>
+                                                </h4>
+                                            </div>
                                         </div>
-                                      </div>
-                                <%})
-                            }%>
-                            
+                                    </td>
+                                    <td>
+                                        <%= agenda.servico.NOME_SERVICO %>
+                                    </td>
+                                    <td>
+                                        <% const date=new Date(agenda.DATA_AGENDAMENTO); const
+                                            dia=String(date.getDate()).padStart(2, '0' ); const
+                                            mes=String(date.getMonth() + 1).padStart(2, '0' ); const
+                                            ano=date.getFullYear(); %>
+                                            <%= `${dia}/${mes}/${ano}` %> %>
+                                    </td>
+                                    <td>
+                                        <%= agenda.HORARIO_AGENDAMENTO %>
+                                    </td>
+                                    <td>
+                                        <% if(agenda.ID_STATUS==1) {%>
+                                            <span class="paid-aguarde">Marcado</span>
+                                            <%}else if(agenda.ID_STATUS==2){%>
+                                                <span class="paid-concluido">Concluido</span>
+                                                <%}else if(agenda.ID_STATUS==3){%>
+                                                    <span class="paid-cancelado">Cancelado</span>
+                                                    <%}%>
+                                    </td>
+                                    <td>
+                                        <button data-openModal="#cancelarAgenda<%=agenda.ID_AGENDAMENTO%>"
+                                            title="Cancelar agendamento">Cancelar</button>
+                                    </td>
+                                </tr>
+
+                                <div class="modal" id="cancelarAgenda<%=agenda.ID_AGENDAMENTO%>">
+                                    <button class="closeBtn"><span
+                                            class="material-symbols-outlined">close</span></button>
+                                    <div class="modal-content">
+                                        <h1>Cancelar agendamento?</h1>
+                                        <form action="/cancelarAgenda?idAgendamento=<%= agenda.ID_AGENDAMENTO %>"
+                                            method="post" enctype="multipart/form-data">
+                                            <button class="btn-servico">Editar serviço</button>
+                                        </form>
+                                    </div>
+                                </div>
+                                <%}) }%>
+
                         </tbody>
                     </table>
                 </div>
