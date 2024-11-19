@@ -7,21 +7,22 @@
     
     <div class="inner-box-esqueceuSenha">
         <div class="logo">
-            <img src="src/dashboard/logo.png" alt="logo" />
+            <img src="src/dashboard/logo.png" alt="logo" style="width: 10%;" />
+            <h2>Redefinir Senha</h2>
           </div>
-    <h2>Redefinir Senha</h2>
+    
         <h3>Em poucos passa você terá uma senha nova</h3>
-    <h6>Digite o seu e-mail no campo abaixo e lhe enviaremos
-        um código de ativação para a redefinição de senha.</h6>
+    <p>Digite o seu e-mail no campo abaixo e lhe enviaremos
+        um código de ativação para a redefinição de senha.</p>
     <form class="esqueceuSenha" action="/solicitarResetSenha-cli" method="post">
        <section class="input-field">
     <i class="fas fa-envelope"></i>
     <input name="email" id="email"  type="text"   placeholder="Email" value= "" />
  </section>
         
-        <a href="/redefinir-senha-cli"><button class="sign-btn" type="submit">Enviar</button></a>
+        <a href="/redefinir-senha-cli" style="text-decoration: none; width:100%;" ><button class="enviarbtn" type="submit">Enviar</button></a>
         <article class="links">
-            <a href="/entrar" class="link">Cancelar</a>
+            <a href="/entrar" class="link"  style="text-decoration: none;">Cancelar</a>
         </article>
     </form>
     </div>

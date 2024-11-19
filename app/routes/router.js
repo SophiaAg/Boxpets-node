@@ -424,7 +424,7 @@ router.get("/esqueceuSenha-cli", function (req, res) {
         req.session.aviso = null;
     }
     const jsonResult = {
-        page: "../partial/login/esqueceuSenha",
+        form: "../partial/login/esqueceuSenha",
         modal: "fechado",
         erros: null,
         token: alert,

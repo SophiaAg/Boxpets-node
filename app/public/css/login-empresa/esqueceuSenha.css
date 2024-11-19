@@ -27,6 +27,24 @@ body.color{
   --preto-fixo: #000;
 
 }
+.enviarbtn {
+  width: 100%;
+  height: 40px;
+  border: none;
+  background: var(--cor-segundaria);
+  border-radius: 20px;
+  color: var(--branco);
+  cursor: pointer;
+  font-size: 18px;
+  font-weight: 500;
+  letter-spacing: 1px;
+  display: flex
+;
+  align-items: center;
+  justify-content: center;
+  text-transform: uppercase;
+  transition: 0.5s ease;
+}
 
 .box-esqueceuSenha {
     position: relative;
@@ -139,6 +157,10 @@ body.color{
 
     }
 }
+.logo {
+  display: flex;
+  align-items: center;
+}
 
 
 
@@ -151,6 +173,10 @@ body.color{
 }
 
 @media (max-width: 530px) {
+  .logo {
+    display: grid;
+    align-items: center;
+}
     main {
       padding: 1rem;
     }
