@@ -72,7 +72,7 @@
                 <i class='bx bx-time'></i>
                 <div class="event-info">
                   <label for="horario<%= horario.ID_HORARIO_SERVICO %>">
-                    <%= horario.HORARIO_SERVICO %>
+                    <%= horario.HORARIO_SERVICO.slice(0, 5) %>
                   </label>
                   <input type="radio" name="horarioAgenda" id="horario<%=horario.ID_HORARIO_SERVICO %>"
                     value="<%= horario.ID_HORARIO_SERVICO %>" required  >

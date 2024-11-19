@@ -268,14 +268,14 @@ const clienteController = {
 
 
         enviarEmailAtivacaoCli(
-          dadosUsuario.EMAIL_USUARIOS,
+          dadosCliente.EMAIL_CLIENTE,
           "Cadastro realizado na BoxPets",
           process.env.URL_BASE,
           token,
           async () => {
             const clienteBd = await clienteModel.findClienteByIdInativo(clienteCriado.insertId);
-            console.log(`------ Cliente ${clienteBd[0].NOME_USUARIOS} cadastrado! ------`)
-            console.log(`------ Verificação enviada para ${clienteBd[0].EMAIL_USUARIOS} ------`)
+            console.log(`------ Cliente ${clienteBd[0].NOME_CLIENTE} cadastrado! ------`)
+            console.log(`------ Verificação enviada para ${clienteBd[0].EMAIL_CLIENTE} ------`)
             req.session.alert = {
               type: "success",
               title: "Conta criada com sucesso!",
