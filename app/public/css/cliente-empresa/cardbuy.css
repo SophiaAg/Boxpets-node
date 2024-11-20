@@ -3,7 +3,7 @@
     margin: auto;
    
     margin-top: 5%;
-    background: white;
+    background: var(--branco);
     box-shadow: 5px 5px 10px 3px rgba(0, 0, 0, 0.3);
   }
   
@@ -15,6 +15,8 @@
   .flex {
     display: flex;
     justify-content: space-between;
+    border-radius: 20px;
+
   }
   
   .flex1 {
@@ -28,6 +30,7 @@
     align-items: center;
     justify-content: center;
     object-fit: cover;
+    border-radius: 20px;
 }
   
   
@@ -58,7 +61,7 @@
   }
   
   .container-card  h3 {
-    color: #af827d;
+    color:var(--cor-primaria);
     margin: 20px 0 20px 0;
     font-size: 25px;
   }
@@ -66,11 +69,11 @@
   .container-card  h5,
   p,
   small {
-    color: #837D7C;
+    color:var(--preto);
   }
   
  .right h4 {
-    color: red;
+    color:  var(--cor-segundaria);
     font-size: 28px;
   }
   
@@ -92,8 +95,8 @@
   }
   .add span {
     background: none;
-    border: 1px solid #C1908B;
-    color: #C1908B;
+    border: 1px solid  var(--cor-segundaria);
+    color:  var(--cor-segundaria);
     text-align: center;
     width: 20px;
     border-radius: 50%;
@@ -103,17 +106,31 @@
   
   
     .btn-cadbuy{
-    width: 100%;
-    padding: 10px;
-    border: none;
-    outline: none;
-    background: #C1908B;
-    color: white;
-    margin-top: 20%;
-    border-radius: 30px;
+      margin-left: 5%;
+      min-width: 80%;
+      display: inline-block;
+      margin-top: 1rem;
+      padding: .6rem 1.5rem;
+      border: none;
+      border-radius: 1.5rem;
+      background: var(--cor-segundaria);
+      font-size: 1rem;
+      color: var(--branco);
+      cursor: pointer;
+      box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .1);
+      transition: all .3s linear;
   }
   
   @media only screen and (max-width:768px) {
+    .main_image img {
+      width: 100%; 
+      height: auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      object-fit: cover;
+      padding: 30px;
+    }
     .container-card  {
       max-width: 90%;
       margin: auto;
@@ -247,12 +264,12 @@ box-shadow: 0 0 10px hsla(0, 0%, 0%, 0.1);
 
 
 button[type="submit"] {
-    width: 100%;
+    width: 90%;
     padding: 10px;
     border: none;
     outline: none;
-    background: #C1908B;
-    color: white;
+    background:  var(--cor-segundaria);
+    color: var(--branco);
     margin-top: 20%;
     border-radius: 30px;
 }
