@@ -139,17 +139,21 @@ router.post("/cancelarAgenda",
             const resultUpdate = await agendaModel.updateAgenda(idAgendamento, { ID_STATUS: 3 })
             console.log(resultUpdate)
             const servico = await usuariosModel.findServicoById(agendamento[0].ID_SERVICO)
-            console.log(servico)
             const userBd = await usuariosModel.findUsuariosById(agendamento[0].ID_USUARIO)
-            console.log(userBd)
             const clienteBd = await clienteModel.findClienteById(agendamento[0].ID_CLIENTE)
-            console.log(clienteBd)
 
             let infosAgenda = {
                 ...agendamento[0],
                 servico: servico[0],
                 empresa: userBd[0]
             }
+            const date = new Date(infosAgenda.DATA_AGENDAMENTO);
+            const dia = String(date.getDate()).padStart(2, '0');
+            const mes = String(date.getMonth() + 1).padStart(2, '0');
+            const ano = date.getFullYear();
+
+            infosAgenda.DATA_AGENDAMENTO = `${dia}/${mes}/${ano}`
+
             enviarEmailCancelAgenda(
                 clienteBd[0].EMAIL_CLIENTE,
                 "Cancelamento do serviço.",
@@ -167,6 +171,51 @@ router.post("/cancelarAgenda",
                         res.redirect("/historico")
                     })
                 })
+        } catch (error) {
+            console.log(error)
+            res.redirect("/pg-erro")
+        }
+    });
+router.post("/concluirAgenda",
+    middleWares.verifyAutenticado,
+    middleWares.verifyAutorizado("pages/template-loginEmpresa", { page: "../partial/cadastroEmpresa/login", errors: null, valores: "", incorreto: null }, true),
+    middleWares.verifyAssinante,
+    async function (req, res) {
+        const idAgendamento = req.query.idAgendamento
+        if (!idAgendamento) {
+            req.session.alert = {
+                type: "danger",
+                title: "Agendamento não encontrado!",
+                msg: "Ocorreu um erro ao tentar encontrar o agendamento!.",
+                count: 0
+            }
+            return res.redirect("/historico")
+        }
+        try {
+            const agendamento = await agendaModel.findAgendaById(idAgendamento)
+            if (!agendamento[0]) {
+                req.session.alert = {
+                    type: "danger",
+                    title: "Agendamento não encontrado!",
+                    msg: "Ocorreu um erro ao tentar encontrar o agendamento!.",
+                    count: 0
+                }
+                return res.redirect("/historico")
+            }
+
+            const resultUpdate = await agendaModel.updateAgenda(idAgendamento, { ID_STATUS: 2 })
+            console.log(resultUpdate)
+
+            req.session.alert = {
+                type: "success",
+                title: "Agendamento concluido!",
+                msg: "O atendimento foi concluido.",
+                count: 0
+            }
+            req.session.save(() => {
+                res.redirect("/historico")
+            })
+
         } catch (error) {
             console.log(error)
             res.redirect("/pg-erro")
