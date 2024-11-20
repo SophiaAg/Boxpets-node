@@ -196,7 +196,6 @@
 
   .descricaoForm {
     width: 80%;
-    height: 150px;
     padding: 2%;
     margin: 5%;
     background: var(--branco);
@@ -341,7 +340,18 @@
   .servicos-container {
     display: flex;
     gap: 1rem;
+    flex-wrap: wrap;
+    margin-bottom: 10%;
+    align-items: center;
+    justify-content: center;
   }
+  .price-box p {
+    display: flex;
+    gap: 10px;
+    font-size: 18px;
+    color: var(--preto);
+    margin-bottom: 10px;
+}
 </style>
 
 <article>
@@ -395,15 +405,15 @@
         </section>
 
       </section>
-    </section>
-    <p class="descricaoForm" >
+      <p class="descricaoForm" >
         <%= empresa.INFO_GERAIS.descricao %>
       </p>
+    </section>
   
 
 
 
-  <h2 style="margin: 5%;">Serviços</h2>
+  <h2 style="margin: 2%;">Serviços  <%= empresa.NOMEEMPRESA_USUARIO %> </h2>
   <section class="servicos-container">
     <% if(servicos && servicos.length>0){
       servicos.forEach(servico =>{ %>
@@ -425,7 +435,7 @@
           </a>
 
           <div class="price-box">
-            <p class="price"> <%= servico.PRECO_SERVICO %></p>
+          <p><%= servico.PRECO_SERVICO %></p>
           </div>
 
         </div>

@@ -14,12 +14,21 @@
   border-radius: 20px;
   overflow: hidden;
   transition: 0.4s;
+  display: grid
+  ;
+      align-items: center;
+      justify-content: center;
  
 }
 
  .showcase:hover { box-shadow: 0 0 10px hsla(0, 0%, 0%, 0.1); }
 
- .showcase-banner { position: relative; }
+ .showcase-banner { 
+  position: relative;
+  display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 5%; }
 
  .showcase-banner img{
   width: 200px;
@@ -111,7 +120,7 @@
   display: flex;
   gap: 10px;
   font-size: 18px;
-  color: var(--branco);
+  color: var(--preto);
   margin-bottom: 10px;
 }
 
