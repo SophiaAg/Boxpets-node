@@ -303,7 +303,14 @@ router.post('/share/edit', uploadEmpresa.any(), MainController.makeEdit)
 
 // rota para comentário da empresa?
 
-router.get("/buySer", async function (req, res) {
+router.get("/buySer",
+    middleWares.verifyAutenticado,
+    middleWares.verifyAutorizado(
+        "pages/template-login",
+        { form: "../partial/login/entrar", errors: null, valores: null, incorreto: false },
+        false
+    ),
+    async function (req, res) {
     // Deve chamar um servico a partir do id passado na query
     // ex: <a href="/buySer?idServico=<%= variavelResRender.ColunaDoBanco %>">
     // Você irá verificar primeiramente se esse idServico existe, senao vc ira redirecionar para uma pagina de erro ou apenas a home, porque n tem como renderizar a pagina de servico, sem saber qual servico

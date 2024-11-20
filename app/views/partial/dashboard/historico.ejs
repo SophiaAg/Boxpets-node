@@ -56,11 +56,14 @@
                                                     <%}%>
                                     </td>
                                     <td>
-                                        <button data-openModal="#cancelarAgenda<%=agenda.ID_AGENDAMENTOS %>"
-                                            title="Cancelar agendamento">Cancelar</button>
-                                            <% if(agenda.ID_STATUS==1) {%>
 
-                                            <% } %>
+                                        <% if(agenda.ID_STATUS==1) {%>
+                                            <button data-openModal="#cancelarAgenda<%=agenda.ID_AGENDAMENTOS %>"
+                                                title="Cancelar agendamento">Cancelar</button>
+                                            <form action="/concluirAgenda?idAgendamento=<%= agenda.ID_AGENDAMENTOS %>" method="post">
+                                                <button class="btn-servico">Concluir atendimento</button>
+                                            </form>
+                                        <% } %>
                                     </td>
                                 </tr>
 
@@ -69,7 +72,8 @@
                                             class="material-symbols-outlined">close</span></button>
                                     <div class="modal-content">
                                         <h1>Cancelar agendamento?</h1>
-                                        <p style="color: black;">Essa ação é irreversível e será notificada ao cliente.</p>
+                                        <p style="color: black;">Essa ação é irreversível e será notificada ao cliente.
+                                        </p>
                                         <form action="/cancelarAgenda?idAgendamento=<%= agenda.ID_AGENDAMENTOS %>"
                                             method="post" enctype="multipart/form-data">
                                             <button class="btn-servico">Confirmar</button>
