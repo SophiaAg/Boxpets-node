@@ -290,9 +290,10 @@ form .page .btns button.next {
   height: 55px;
   border-radius: 55px;
   display: grid;
-  grid-template-columns: 15% 85%;
+  grid-template-columns: 15% 70% 15%;
   padding: 0 0.4rem;
   position: relative;
+  align-items: center;
 
   &.invalido {
     border: 1.5px solid #ff8686;
