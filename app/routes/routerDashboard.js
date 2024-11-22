@@ -25,6 +25,8 @@ router.get("/dashboard",
     middleWares.verifyAutenticado,
     middleWares.verifyAutorizado("pages/template-loginEmpresa", { page: "../partial/cadastroEmpresa/login", errors: null, valores: "", incorreto: null }, true),
     async function (req, res) {
+
+    
         let alerta;
         const params = new URLSearchParams(req.query);
 
