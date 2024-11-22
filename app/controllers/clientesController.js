@@ -1,3 +1,4 @@
+const favoritoModel = require("../models/favoritoModel")
 const clienteModel = require("../models/clienteModel")
 const { body, validationResult } = require("express-validator")
 var bcrypt = require("bcryptjs")
@@ -859,8 +860,45 @@ const clienteController = {
 
     res.redirect("/bsEmpresa");
 
+  },
+
+  //favoritar
+
+  listar: async (req, res) => {
+    results = await favoritoModel.findAll(req.session.autenticado.id);
+    res.render("", {
+      listaServico: results
+    });
+  },
+
+  favoritar: async (req, res) => {
+ 
+    try {
+      let results = await clienteModel.findClienteById(req.session.autenticado.id);
+
+  let favoritos = await favoritoModel.favoritar({
+    
+    idServico: req.query.id,
+    situacao: req.query.sit
+   });
+    
+      res.render("./pages/template-hm", { page: "../partial/cliente-empresa/favoritos", avisoErro: null, valores: campos, favoritos: favoritos })
+    } catch (e) {
+      console.log(e);
+      res.redirect("/pg-erro")
+    }
+
+  //  await favoritoModel.favoritar({
+  //   idCliente: results,
+  //   idServico: req.query.id,
+  //   situacao: req.query.sit
+    
+  //  });
+  //  res.redirect("/")
+    }
   }
-}
+
+  
 
 
 module.exports = clienteController

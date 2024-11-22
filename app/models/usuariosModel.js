@@ -151,6 +151,7 @@ const usuariosModel = {
             throw error;
         }
     },
+
 }
 
 

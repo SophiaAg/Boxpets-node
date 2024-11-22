@@ -648,6 +648,27 @@ router.post("/agendarHorario",
 
     })
 
+   // favoritar
+    router.get("/",  middleWares.verifyAutenticado,
+         function(req, res){
+        clienteController.listar(req, res);
+    });
+
+     router.get ("/favoritar", middleWares.verifyAutenticado,
+        middleWares.verifyAutorizado , async function (req, res) {
+        
+    try {
+        let favoritos = await favoritoModel.favoritar({ 
+          idServico: req.query.id,
+          situacao: req.query.sit
+         });
+            res.render("./pages/template-hm", { page: "../partial/cliente-empresa/favoritos", avisoErro: null, valores: campos, favoritos: favoritos })
+          } catch (e) {
+            console.log(e);
+            res.redirect("/pg-erro")
+          }
+     });
+
 
 
 module.exports = router;
