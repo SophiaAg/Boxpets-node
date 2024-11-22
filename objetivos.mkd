@@ -34,6 +34,4 @@ recomendaçao: 'Adicionar uma parte pra na pagina pra saber de qual serviço é 
 
 - Validação da carteirinha pet
 - arrumar front dos cards da carteirinha pet
-- alerts para editar,excluir e criar carteirinha
 - pagina de pesquisa
-- excluir carteirinha
