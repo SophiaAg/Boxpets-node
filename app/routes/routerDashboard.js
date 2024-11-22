@@ -26,6 +26,11 @@ router.get("/dashboard",
     middleWares.verifyAutorizado("pages/template-loginEmpresa", { page: "../partial/cadastroEmpresa/login", errors: null, valores: "", incorreto: null }, true),
     async function (req, res) {
 
+        let alert = undefined
+        if (req.session.alert && req.session.alert.count == 0) {
+            alert = req.session.alert
+            req.session.alert.count++
+        }
     
         let alerta;
         const params = new URLSearchParams(req.query);
@@ -60,7 +65,8 @@ router.get("/dashboard",
             page: "../partial/dashboard/principal",
             nomeempresa: nomeempresa,
             empresa: user,
-            classePagina: 'dashboard'
+            classePagina: 'dashboard',
+            alert: alert,
         }
         res.render("pages/template-dashboard", jsonResult)
     });
@@ -260,6 +266,13 @@ router.get('/paginacomercial',
     middleWares.verifyAutorizado("pages/template-loginEmpresa", { page: "../partial/cadastroEmpresa/login", errors: null, valores: "", incorreto: null }, true),
     middleWares.verifyAssinante,
     async (req, res) => {
+
+        let alert = undefined
+    if (req.session.alert && req.session.alert.count == 0) {
+        alert = req.session.alert
+        req.session.alert.count++
+    }
+
         try {
             const usuario = await usuariosModel.findUsuariosById(req.session.autenticado.id)
             const user = usuario[0].INFO_GERAIS
@@ -275,7 +288,7 @@ router.get('/paginacomercial',
                 empresa: user,
                 servico: null,
                 servicos: servicos,
-                alert: null
+                alert: alert
             }
             res.render("./pages/template-dashboard", jsonResult)
         } catch (error) {
@@ -371,6 +384,13 @@ router.post("/deletarServico",
                 console.log("Esse servico não pertence a sua empresa!")
                 return res.redirect("/paginacomercial")
             }
+            
+        req.session.alert = {
+            type: "success",
+            title: "Delete concluido!",
+            msg: "O serviço foi com sucesso.",
+            count: 0
+        }
             const result = await usuariosModel.deleteServico(idServico)
             console.log(result)
             console.log('Servico deletado com sucesso!')
@@ -397,7 +417,15 @@ router.post("/alterarInfosGerais",
     middleWares.verifyAutenticado,
     middleWares.verifyAutorizado("pages/template-loginEmpresa", { page: "../partial/cadastroEmpresa/login", errors: null, valores: "", incorreto: null }, true),
     (req, res) => {
+   
         usuariosController.alterarInfoGeral(req, res)
+
+        req.session.alert = {
+            type: "success",
+            title: "Atualização concluido!",
+            msg: "As informações foram concluidas.",
+            count: 0
+        }
     }
 )
 router.post("/attLogoEmpresa",
