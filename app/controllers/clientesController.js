@@ -8,6 +8,7 @@ const moment = require("moment")
 const { invalid } = require("moment/moment")
 const jwt = require("jsonwebtoken")
 const { enviarEmail, enviarEmailAtivacao, enviarEmailRecuperarSenha, enviarEmailAtivacaoCli, enviarEmailRecuperarSenhaCli } = require("../util/sendEmail")
+const agendaModel = require("../models/agendaModel")
 
 const clienteController = {
 
@@ -359,8 +360,8 @@ const clienteController = {
       if (req.session.alert && req.session.alert.count == 0) {
         alert = req.session.alert
         req.session.alert.count++
-    }
-  
+      }
+
 
       res.render("./pages/template-hm", { page: "../partial/landing-home/page-user", dadosNotificacao: alert, valores: campos, foto: results[0].img_perfil_pasta })
     } catch (e) {
@@ -378,7 +379,7 @@ const clienteController = {
       if (req.session.alert && req.session.alert.count == 0) {
         alert = req.session.alert
         req.session.alert.count++
-    }
+      }
 
 
       let result = await clienteModel.findClienteById(req.session.autenticado.id);
@@ -443,12 +444,12 @@ const clienteController = {
             if (req.session.alert && req.session.alert.count == 0) {
               alert = req.session.alert
               req.session.alert.count++
-          }
+            }
             req.session.autenticado = autenticado;
-            res.render("./pages/template-hm", { page: "../partial/landing-home/page-user",  alert: alert, avisoErro: null, valores: campos, foto: req.session.autenticado.foto })
+            res.render("./pages/template-hm", { page: "../partial/landing-home/page-user", alert: alert, avisoErro: null, valores: campos, foto: req.session.autenticado.foto })
           } else {
             console.log("Sem alterações")
-            res.render("./pages/template-hm", { page: "../partial/landing-home/page-user",   avisoErro: null, valores: campos, foto: result[0].img_perfil_pasta })
+            res.render("./pages/template-hm", { page: "../partial/landing-home/page-user", avisoErro: null, valores: campos, foto: result[0].img_perfil_pasta })
           }
         }
       } catch (erros) {
@@ -567,31 +568,49 @@ const clienteController = {
 
     }
   },
-  mostrarPet: async (req, res) => {
+  excluirPet: async (req, res) => {
     try {
-      let pets = await clienteModel.findPetById(req.session.autenticado.id);
+      const idPet = req.query.idPet
+      if (!idPet) {
+        console.log("pet nao encontrado")
+        return res.redirect("/carterinha-pet")
+      }
+      const pet = await clienteModel.findPetByIdPet(idPet)
+      if (pet[0].ID_CLIENTE != req.session.autenticado.id) {
+        console.log("Esse pet não pertence a você!")
+        return res.redirect("/carterinha-pet")
+      }
+      const resultDelete = await agendaModel.cancelAllAgendaByIdPet(idPet)
+      console.log(resultDelete)
+      const result = await clienteModel.deletePet(idPet)
+      console.log(result)
+      req.session.alert = {
+        type: "success",
+        title: "Carteirinha deletada!",
+        msg: "Todos os agendamentos dessa carteirinha foram apagados!",
+        count: 0
+      }
+      res.redirect("/carterinha-pet")
+    } catch (errors) {
+      console.log(errors)
+      res.redirect("/pg-erro")
 
-
-      // const data = new Date(results[0].DATA_NASC_CLIENTE);
-      // const dataFormatada = data.toISOString().split('T')[0];
-
-      // let campos = {
-      //   nome_pet: results[0].NOME_PET,
-      //   idade_pet: dataFormatada,
-      //   sexo_pet: results[0].SEXO_PET,
-      //   porte_pet: results[0].PORTE_PET,
-      //   raca_pet: results[0].RACA_PET,
-      // }
-
-      res.render("./pages/template-hm", { page: "../partial/landing-home/carterinha-pet", avisoErro: null, pets: pets, modalAberto: false })
-    } catch (e) {
-      console.log(e);
-      res.redirect("/")
     }
   },
-  cadastrarPet: async (req, res) => {
+  editarPet: async (req, res) => {
     let errors = validationResult(req)
     let errorsMulter = req.session.erroMulter
+    const idPet = req.query.idPet
+    if (!idPet) {
+      console.log("pet nao encontrado")
+      return res.redirect("/carterinha-pet")
+    }
+    const pet = await clienteModel.findPetByIdPet(idPet)
+    if (pet[0].ID_CLIENTE != req.session.autenticado.id) {
+      console.log("Esse pet não pertence a você!")
+      return res.redirect("/carterinha-pet")
+    }
+    let pets = await clienteModel.findPetById(req.session.autenticado.id);
     if (!errors.isEmpty() && errorsMulter.length > 0) {
 
       let listaErros = errors.isEmpty ? { formatter: null, errors: [] } : errors;
@@ -601,10 +620,57 @@ const clienteController = {
       }
       console.log(listaErros)
       const jsonResult = {
-        page: "../partial/landing-home/carterinha-pet",
-        errors: errors,
-        valores: req.body,
-        modalAberto: true
+        avisoErro: null,
+        pets: pets,
+        modalAberto: false,
+        pet: pet[0]
+      }
+      res.render("pages/template-hm", jsonResult);
+    } else {
+      const { nome_pet, idade_pet, sexo_pet, porte_pet, raca_pet } = req.body
+      const dadosPet = {
+        NOME_PET: nome_pet,
+        IDADE_PET: idade_pet,
+        SEXO_PET: sexo_pet,
+        PORTE_PET: porte_pet,
+        RACA_PET: raca_pet,
+        ID_CLIENTE: req.session.autenticado.id,
+      }
+      if (req.file) dadosPet.img_pet = req.file.filename
+      try {
+        const petCriado = await clienteModel.updatePet(dadosPet, idPet);
+        req.session.alert = {
+          type: "success",
+          title: "Carteirinha atualizada!",
+          msg: "Sua carteirinha pet foi atualizada com sucesso!",
+          count: 0
+        }
+        console.log(petCriado)
+        res.redirect("/carterinha-pet")
+      } catch (erros) {
+        console.log(erros)
+        res.json(errors)
+      }
+
+    }
+  },
+  cadastrarPet: async (req, res) => {
+    let errors = validationResult(req)
+    let errorsMulter = req.session.erroMulter
+    if (!errors.isEmpty() && errorsMulter.length > 0) {
+
+
+      let listaErros = errors.isEmpty ? { formatter: null, errors: [] } : errors;
+      if (errorsMulter.length > 0) {
+        listaErros.errors.push(...errorsMulter)
+        if (req.file) removeImg(`./app/public/src/fotos-pet/${req.file.filename}`)
+      }
+      console.log(listaErros)
+      const jsonResult = {
+        avisoErro: null,
+        pets: pets,
+        modalAberto: true,
+        pet: null
       }
       res.render("pages/template-hm", jsonResult);
     } else {
@@ -639,7 +705,6 @@ const clienteController = {
 
     }
   },
-
   // ativar conta
   ativarConta: async (req, res) => {
     try {
@@ -671,7 +736,6 @@ const clienteController = {
       res.render("/pg-erro")
     }
   },
-
   //redefinir senha
   verificarTokenRedefinirSenha: async (req, res) => {
     try {
@@ -748,7 +812,6 @@ const clienteController = {
       }
     }
   },
-
   verificarTokenRedefinirSenha: async (req, res) => {
     try {
       const token = req.query.token
@@ -891,33 +954,33 @@ const clienteController = {
   },
 
   favoritar: async (req, res) => {
- 
+
     try {
       let results = await clienteModel.findClienteById(req.session.autenticado.id);
 
-  let favoritos = await favoritoModel.favoritar({
-    
-    idServico: req.query.id,
-    situacao: req.query.sit
-   });
-    
+      let favoritos = await favoritoModel.favoritar({
+
+        idServico: req.query.id,
+        situacao: req.query.sit
+      });
+
       res.render("./pages/template-hm", { page: "../partial/cliente-empresa/favoritos", avisoErro: null, valores: campos, favoritos: favoritos })
     } catch (e) {
       console.log(e);
       res.redirect("/pg-erro")
     }
 
-  //  await favoritoModel.favoritar({
-  //   idCliente: results,
-  //   idServico: req.query.id,
-  //   situacao: req.query.sit
-    
-  //  });
-  //  res.redirect("/")
-    }
-  }
+    //  await favoritoModel.favoritar({
+    //   idCliente: results,
+    //   idServico: req.query.id,
+    //   situacao: req.query.sit
 
-  
+    //  });
+    //  res.redirect("/")
+  }
+}
+
+
 
 
 module.exports = clienteController

@@ -56,8 +56,6 @@ router.get("/cadastrar", function (req, res) {
     }
     res.render("pages/template-login", jsonResult);
 });
-
-
 router.get("/entrar", function (req, res) {
 
     let alert = undefined
@@ -76,7 +74,6 @@ router.get("/entrar", function (req, res) {
     }
     res.render("pages/template-login", jsonResult);
 });
-
 router.get("/home",
     middleWares.verifyAutenticado,
     middleWares.verifyAutorizado(
@@ -94,7 +91,6 @@ router.get("/home",
         const clienteBd = await clienteModel.findClienteById(req.session.autenticado.id)
         res.render('pages/template-hm', { page: '../partial/landing-home/home-page', dadosNotificacao: alert, nome: clienteBd[0].NOME_CLIENTE });
     });
-
 // Cadastro de CLIENTES
 router.post("/cadastrarCliente", clienteController.regrasValidacaoCriarConta, function (req, res) {
     clienteController.cadastrar(req, res)
@@ -117,7 +113,6 @@ router.post("/logarCliente", clienteController.regrasValidacaoLogarConta, middle
         count: 0
     }
 })
-
 router.get("/servicos-gerais",
     middleWares.verifyAutenticado,
     middleWares.verifyAutorizado(
@@ -153,7 +148,6 @@ router.get("/servicos-gerais",
         });
         res.render("pages/template-hm", { pagina: "Servicogerais", page: "../partial/servicosgerais/servicos-gerais", empresas: user });
     });
-
 router.get("/veterinarios",
     middleWares.verifyAutenticado,
     middleWares.verifyAutorizado(
@@ -189,15 +183,12 @@ router.get("/veterinarios",
         });
         res.render("pages/template-hm", { pagina: "LandingPage", page: "../partial/servicosgerais/veterinarios", empresas: user });
     });
-
-router.get("/historico-cli",  
+router.get("/historico-cli",
     middleWares.verifyAutenticado,
     middleWares.verifyAutorizado("pages/template-login", { form: "../partial/login/entrar", errors: null, valores: null, incorreto: false }, false),
     function (req, res) {
-    res.render("pages/template-hm", { page: "../partial/landing-home/historico-cli.ejs" });
-});
-
-
+        res.render("pages/template-hm", { page: "../partial/landing-home/historico-cli.ejs" });
+    });
 router.get("/VizucriaPg", async function (req, res) {
     const idEmpresa = req.query.id;
     console.log(idEmpresa)
@@ -218,15 +209,62 @@ router.get("/VizucriaPg", async function (req, res) {
 
     });
 });
-
-
-router.get("/carterinha-pet", 
+router.get("/carterinha-pet",
     middleWares.verifyAutenticado,
-    middleWares.verifyAutorizado("pages/template-login", { form: "../partial/login/entrar", errors: null, valores: null, incorreto: false }, false), 
-    function (req, res) {
-        clienteController.mostrarPet(req, res);
+    middleWares.verifyAutorizado("pages/template-login", { form: "../partial/login/entrar", errors: null, valores: null, incorreto: false }, false),
+    async function (req, res) {
+        try {
+            let alert = undefined
+            if (req.session.alert && req.session.alert.count == 0) {
+                alert = req.session.alert
+                req.session.alert.count++
+            }
+            let pets = await clienteModel.findPetById(req.session.autenticado.id);
+            res.render("./pages/template-hm", { page: "../partial/landing-home/carterinha-pet", avisoErro: null, pets: pets, modalAberto: false, pet: null, alert:alert })
+        } catch (e) {
+            console.log(e);
+            res.redirect("/")
+        }
     });
+router.get("/criar-carterinha",
+    middleWares.verifyAutenticado,
+    middleWares.verifyAutorizado("pages/template-login", { form: "../partial/login/entrar", errors: null, valores: null, incorreto: false }, false),
+    async function (req, res) {
+        try {
+            let pets = await clienteModel.findPetById(req.session.autenticado.id);
+            res.render("./pages/template-hm", { page: "../partial/landing-home/carterinha-pet", avisoErro: null, pets: pets, modalAberto: true, pet: null })
+        } catch (e) {
+            console.log(e);
+            res.redirect("/")
+        }
+    });
+router.get('/edit-carteirinha',
+    middleWares.verifyAutenticado,
+    middleWares.verifyAutorizado("pages/template-login", { form: "../partial/login/entrar", errors: null, valores: null, incorreto: false }, false),
+    async (req, res) => {
+        try {
+            const idPet = req.query.idPet
+            if (!idPet) {
+                console.log("pet nao encontrado")
+                return res.redirect("/carterinha-pet")
+            }
+            const pet = await clienteModel.findPetByIdPet(idPet)
+            if (pet[0].ID_CLIENTE != req.session.autenticado.id) {
+                console.log("Esse pet não pertence a você!")
+                return res.redirect("/carterinha-pet")
+            }
 
+            let pets = await clienteModel.findPetById(req.session.autenticado.id);
+
+            res.render("./pages/template-hm", { page: "../partial/landing-home/carterinha-pet", avisoErro: null, pets: pets, modalAberto: false, pet: pet[0] })
+        } catch (error) {
+            console.log(error)
+            // RETORNAR PAGINA ERRO
+            res.redirect("/pg-erro")
+        }
+
+    }
+);
 router.post("/criarCarterinhaPet",
     middleWares.verifyAutenticado,
     middleWares.verifyAutorizado("pages/template-login", { form: "../partial/login/entrar", errors: null, valores: null, incorreto: false }, false),
@@ -235,8 +273,20 @@ router.post("/criarCarterinhaPet",
     function (req, res) {
         clienteController.cadastrarPet(req, res);
     });
-
-
+router.post("/editarCarterinhaPet",
+    middleWares.verifyAutenticado,
+    middleWares.verifyAutorizado("pages/template-login", { form: "../partial/login/entrar", errors: null, valores: null, incorreto: false }, false),
+    clienteController.regrasValidacaoPet,
+    uploadPet("imgPet"),
+    function (req, res) {
+        clienteController.editarPet(req, res);
+    });
+router.post("/excluirPet", 
+    middleWares.verifyAutenticado,
+    middleWares.verifyAutorizado("pages/template-login", { form: "../partial/login/entrar", errors: null, valores: null, incorreto: false }, false),
+    function (req, res) {
+    clienteController.excluirPet(req, res)
+})
 router.get("/page-user",
     middleWares.verifyAutenticado,
     middleWares.verifyAutorizado("pages/template-login", { form: "../partial/login/entrar", errors: null, valores: null, incorreto: false, }, false),
@@ -246,7 +296,6 @@ router.get("/page-user",
 
 
     });
-
 router.post("/info-atualizar",
     middleWares.verifyAutenticado,
     middleWares.verifyAutorizado("pages/template-login", { form: "../partial/login/entrar", errors: null, valores: null, incorreto: false }, false),
@@ -261,11 +310,7 @@ router.post("/info-atualizar",
             count: 0
         }
 
-
-
     });
-
-
 router.post("/atualizarFoto",
     (req, res, next) => {
         req.session.erroMulter = [];
@@ -277,7 +322,6 @@ router.post("/atualizarFoto",
     function (req, res) {
         clienteController.atualizarFoto(req, res)
     });
-
 router.post("/excluirFoto",
     middleWares.verifyAutenticado,
     middleWares.verifyAutorizado("pages/template-login", { form: "../partial/login/entrar", errors: null, valores: "", incorreto: null }),

@@ -222,7 +222,12 @@ button {
     flex-direction: column;
     align-items: center;
 }
-
+.closeBtn .close{
+  position: relative;
+  top: 0;
+  right: 0;
+  
+}
 .close {
     position: absolute;
     right: 20px;
@@ -270,7 +275,7 @@ button[type="submit"] {
     outline: none;
     background:  var(--cor-segundaria);
     color: var(--branco);
-    margin-top: 20%;
+    /* margin-top: 20%; */
     border-radius: 30px;
 }
 

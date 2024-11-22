@@ -1,133 +1,98 @@
-<% 
-
-let msgErro = "";
-let avisoErro = {  nome_pet: "", idade_pet: "", sexo_pet: "", porte_pet: "", raca_pet: "", imagem: "" };
-
-if (avisoErro && avisoErro.errors) {
-  avisoErro.errors.forEach(function(itemErro) {
-
-    if (itemErro.path == "nome_pet") {
-      avisoErro.nome_pet = "erro";
-      msgErro += `* ${itemErro.msg} <br>`;
+<style>
+  .header_top{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 3rem;
+    & .btn-criar{
+      margin-top: 10px;
     }
-    if (itemErro.path == "idade_pet") {
-      avisoErro.idade_pet = "erro";
-      msgErro += `* ${itemErro.msg} <br>`;
-    }
+  }
+</style>
 
-    if (itemErro.path == "sexo_pet") {
-      avisoErro.sexo_pet = "erro";
-      msgErro += `* ${itemErro.msg} <br>`;
-    }
-
-    if (itemErro.path == "porte_pet") {
-      avisoErro.porte_pet = "erro";
-      msgErro += `* ${itemErro.msg} <br>`;
-    }
-
-    if (itemErro.path == "raca_pet") {
-      avisoErro.raca_pet = "erro";
-      msgErro += `* ${itemErro.msg} <br>`;
-    }
-  });
-}
-
-if (msgErro != "") { %>
-  <script>
-    let msgErro = "<%= msgErro %>";
-    notify("Erro no preenchimento", "Verifique o(s) campo(s): <br>" + msgErro.replace(/&lt;/g, "<").replace(/&gt;/g, ">"), "error", "center", 5000);
-  </script>
-<% }  %>
-
-    <h2>Crie sua Carteirinha</h2>
-    <button id="createCardBtn">Criar Carteirinha</button>
-
-    <div id="cardContainer" class="card-container">
-      
- <% if (pets) {
-  pets.forEach(pet => {%>
-    <div class="card">
-      <button class="delete-btn" >!</button>
-     
-      <img src="./src/fotos-pet/<%= pet.img_pet %>" alt="foto do pet">
-      <div class="info-pets">
-      <h3><%= pet.NOME_PET %></h3>
-      <p><%=pet.IDADE_PET %></p>
-      <p><%=pet.SEXO_PET %></p>
-      <p><%=pet.PORTE_PET%></p>
-      <p><%=pet.RACA_PET%></p>
-    </div>
-  </div>
-  
- <% }) 
- } %>   <!-- As carteirinhas serão adicionadas aqui -->
-    </div>
- 
-
-
- <!-- Estrutura do modal-pet -->
- <div id="petOptionsModal" class="modal">
-  <div class="modal-content">
-    <span class="close">&times;</span>
-    <h2>Opções da Carteirinha Pet</h2>
-    <button class="btn-att" onclick="editPet()">Editar</button>
-    <button class="btn-att" onclick="deletePet()">Excluir</button>
-  </div>
+<div class="header_top">
+  <h2>Crie sua Carteirinha</h2>
+  <a class="btn-criar" href="/criar-carterinha" >Criar Carteirinha</a>
 </div>
 
-    <!-- Modal -->
-    <div id="cardModal" class="modal" style="<%= modalAberto ? 'display: flex;' : '' %>"  >
+<div id="cardContainer" class="card-container" >
 
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <h2>Preencha os dados da Carteirinha</h2>
-            <form id="cardForm" action="/criarCarterinhaPet" method="post" enctype="multipart/form-data">
+  <% if (pets) { pets.forEach(pet=> {%>
+    <div class="card">
+      <a href="/edit-carteirinha?idPet=<%=pet.ID_PET %>" class="">Editar</a>
+      <button data-openModal="#verCarteira<%=pet.ID_PET %>" class="">Excluir</button>
 
-              <section  class="input-field ">
-                <i class="fas fa-user"></i>
-                <input for="" id="nome" name="nome_pet" required type="text" placeholder="Nome do Pet" />
-              </section>
-
-              <section  class="input-field ">
-                <i class="fas fa-user"></i>
-                <input for="" id="idade" name="idade_pet" required type="text" placeholder="Idade" />
-              </section>
-
-              <section  class="input-field ">
-                <i class="fas fa-user"></i>
-                <select id="sexo" name="sexo_pet" required type="text" placeholder="Sexo" >
-                    <option value="Macho">Macho</option>
-                    <option value="Femea">Femêa</option>
-                </select>
-              </section>
-
-              <section  class="input-field ">
-                <i class="fas fa-user"></i>
-                <select for="" id="porte" name="porte_pet" required type="text" placeholder="Porte" >
-                  <option value="Pequeno">Pequeno</option>
-                  <option value="Médio">Médio</option>
-                  <option value="Grande">Grande </option>
-                </select>
-              </section>
-
-              <section  class="input-field ">
-                <i class="fas fa-user"></i>
-                <input for="" id="raca" name="raca_pet" required type="text" placeholder="Raça" />
-              </section>
-
-              <article data-fotoContainer >
-                <img src="" alt="" class="foto__img">
-              </article>
-              <input type="file" name="imgPet" id="imgPet" class="input__control imgPet <%= avisoErro.imgPet %>"
-              placeholder="Selecione a foto do seu Pet" data-inputFoto required>
-
-                <button type="submit">Salvar</button>
-            </form>
-        </div>
+      <img src="./src/fotos-pet/<%= pet.img_pet %>" alt="foto do pet">
+      <div class="info-pets">
+        <h3>
+          <%= pet.NOME_PET %>
+        </h3>
+        <p>
+          <%=pet.IDADE_PET %>
+        </p>
+        <p>
+          <%=pet.SEXO_PET %>
+        </p>
+        <p>
+          <%=pet.PORTE_PET%>
+        </p>
+        <p>
+          <%=pet.RACA_PET%>
+        </p>
+      </div>
     </div>
 
+    <div class="modal" id="verCarteira<%=pet.ID_PET %>" class="modal">
+      <div class="modal-content">
+        <button class="closeBtn">
+          <span class="close">&times;</span>
+        </button>
+        <h2>Excluir Carteirinha Pet de <%= pet.NOME_PET%>?</h2>
+        <p>Essa ação é irreversivel! Deseja prosseguir?</p>
+        <form action="/excluirPet?idPet=<%=pet.ID_PET %>" method="post" style="display: flex; align-items: center; gap: 1rem; justify-content: center;margin-top: 10px;">
+          <button>Excluir carteirinha</button>
+          <div class="cancelarBtn">Cancelar</div>
+        </form>
+      </div>
+    </div>
+    <% }) } %> <!-- As carteirinhas serão adicionadas aqui -->
+</div>
+
+
+<!-- Modal -->
+ <% if(modalAberto){%>
+<div class="modal show" id="criarCarteirinha">
+
+  <button class="closeBtn">
+    <span class="close">&times;</span>
+  </button>
+  <div class="modal-content">
+    <h2>Preencha os dados da Carteirinha</h2>
+    <form id="cardForm" action="/criarCarterinhaPet" method="post" enctype="multipart/form-data">
+      <%- include("./form-servico") %>
+        <button type="submit">Criar</button>
+
+    </form>
+  </div>
+</div>
+<%}%>
+<% if(pet) {%>
+  <div class="modal show">
+    <div class="modal-content">
+      <button class="closeBtn">
+        <span class="close">&times;</span>
+      </button>
+      <h2>Editar carteirinha de <%= pet.NOME_PET%></h2>
+      <form id="cardForm" action="/editarCarterinhaPet?idPet=<%= pet.ID_PET %>" method="post" enctype="multipart/form-data">
+        <%- include("./form-servico") %>
+          <button type="submit">Salvar</button>
+      </form>
+
+    </div>
+  </div>
+  <% } %>
     <script src="./js/carterinha-pet.js"></script>
     <script src="./js/addPerfil.js"></script>
     <script src="./js/abrirModal.js"></script>
     <script src="./js/notificacao.js"></script>
-

@@ -17,7 +17,7 @@ const clienteModel = {
             throw error
         }
     },
- 
+
     findClienteByCelular: async (celular) => {
         try {
             const [resultados] = await pool.query('SELECT * FROM CLIENTE WHERE CELULAR_CLIENTE = ?', [celular])
@@ -34,7 +34,7 @@ const clienteModel = {
             return error
         }
     },
-  
+
     findClienteById: async (id) => {
         try {
             const [resultados] = await pool.query('SELECT * FROM CLIENTE WHERE ID_CLIENTE = ?', [id])
@@ -90,9 +90,27 @@ const clienteModel = {
             return error
         }
     },
-        updateUser: async (dadosForm, id) => {
+    findPetByIdPet: async (id) => {
+        try {
+            const [resultados] = await pool.query('SELECT * FROM CARTERINHA_PET WHERE ID_PET = ?', [id])
+            return resultados
+        } catch (error) {
+            return error
+        }
+    },
+    updateUser: async (dadosForm, id) => {
         try {
             const [resultados] = await pool.query("UPDATE CLIENTE SET ? WHERE ID_CLIENTE = ?", [dadosForm, id])
+            return resultados
+
+        } catch (error) {
+            console.error("Erro ao atualizar usuário", error);
+            throw error;
+        }
+    },
+    updatePet: async (dadosForm, id) => {
+        try {
+            const [resultados] = await pool.query("UPDATE CARTERINHA_PET SET ? WHERE ID_PET = ?", [dadosForm, id])
             return resultados
 
         } catch (error) {
@@ -118,7 +136,16 @@ const clienteModel = {
             return error
         }
     },
-
+    deletePet: async (id) => {
+        try {
+            const [resultados] = await pool.query('DELETE FROM CARTERINHA_PET WHERE ID_PET = ?', [id])
+            console.log("Horário agendado!")
+            return resultados
+        } catch (error) {
+            console.log("erro ao excluir pet")
+            throw error
+        }
+    },
     excluirComentario: async (id) => {
         try {
             await pool.query("DELETE FROM MENSAGEM WHERE ID_MENSAGEM = ?", [id]);
@@ -135,6 +162,7 @@ const clienteModel = {
     //         return error
     //     }
     // },
+
 }
 
 

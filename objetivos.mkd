@@ -29,3 +29,11 @@ obs: 'Teria que ter uma verificação nessa pagina para ver se o servico no qual
 recomendaçao: 'Adicionar uma parte pra na pagina pra saber de qual serviço é aquela agenda'
 
 
+
+
+
+- Validação da carteirinha pet
+- arrumar front dos cards da carteirinha pet
+- alerts para editar,excluir e criar carteirinha
+- pagina de pesquisa
+- excluir carteirinha
