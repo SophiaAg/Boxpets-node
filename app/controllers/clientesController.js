@@ -7,7 +7,7 @@ const { removeImg } = require("../util/removeImg")
 const moment = require("moment")
 const { invalid } = require("moment/moment")
 const jwt = require("jsonwebtoken")
-const { enviarEmail, enviarEmailAtivacao, enviarEmailRecuperarSenha, enviarEmailAtivacaoCli } = require("../util/sendEmail")
+const { enviarEmail, enviarEmailAtivacao, enviarEmailRecuperarSenha, enviarEmailAtivacaoCli, enviarEmailRecuperarSenhaCli } = require("../util/sendEmail")
 
 const clienteController = {
 
