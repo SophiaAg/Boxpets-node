@@ -16,7 +16,7 @@ const crypto = require('crypto');
 const dotenv = require("dotenv");
 dotenv.config();
 const jwt = require("jsonwebtoken");
-const { enviarEmail, enviarEmailAtivacao, enviarEmailRecuperarSenha } = require("../util/sendEmail");
+const { enviarEmail, enviarEmailAtivacao, enviarEmailRecuperarSenha, enviarEmailRecuperarSenhaCli } = require("../util/sendEmail");
 var pool = require("../../config/pool-conexao");
 
 

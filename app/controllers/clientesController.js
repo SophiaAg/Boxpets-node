@@ -7,7 +7,7 @@ const { removeImg } = require("../util/removeImg")
 const moment = require("moment")
 const { invalid } = require("moment/moment")
 const jwt = require("jsonwebtoken")
-const { enviarEmail, enviarEmailAtivacao, enviarEmailRecuperarSenha, enviarEmailAtivacaoCli } = require("../util/sendEmail")
+const { enviarEmail, enviarEmailAtivacao, enviarEmailRecuperarSenha, enviarEmailAtivacaoCli, enviarEmailRecuperarSenhaCli } = require("../util/sendEmail")
 const agendaModel = require("../models/agendaModel")
 
 const clienteController = {
@@ -869,7 +869,7 @@ const clienteController = {
           process.env.SECRET_KEY
         )
 
-        enviarEmailRecuperarSenha(
+        enviarEmailRecuperarSenhaCli(
           user[0].EMAIL_CLIENTE,
           "Recuperar de senha",
           process.env.URL_BASE,
