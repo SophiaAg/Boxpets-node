@@ -80,6 +80,7 @@ router.get("/historico",
         const agenda = await agendaModel.findAgendaByIdEmpresa(req.session.autenticado.id)
         const idsClientes = []
         const idsServicos = []
+        const idsPets = []
         for (const a of [...agenda]) {
             if (!idsClientes.includes(a.ID_CLIENTE)) {
                 idsClientes.push(a.ID_CLIENTE)
@@ -87,17 +88,23 @@ router.get("/historico",
             if (!idsServicos.includes(a.ID_SERVICO)) {
                 idsServicos.push(a.ID_SERVICO)
             }
+            if (!idsPets.includes(a.ID_CARTEIRINHA_PET)) {
+                idsPets.push(a.ID_CARTEIRINHA_PET)
+            }
         }
 
         const clientes = idsClientes.length > 0 ? await clienteModel.findClientesByIds(idsClientes) : []
         const servicos = idsServicos.length > 0 ? await usuariosModel.findServicosInIds(idsServicos) : []
+        const pets = idsPets.length > 0 ? await clienteModel.findPetsInIds(idsPets) : []
         const mapClientes = Object.fromEntries(clientes.map(cliente => [cliente.ID_CLIENTE, cliente]));
+        const mapPets = Object.fromEntries(pets.map(pet => [pet.ID_PET, pet]));
         const mapServicos = Object.fromEntries(servicos.map(servico => [servico.ID_SERVICO, servico]));
 
         const agendamentos = agenda.map(a => ({
             ...a,
             cliente: mapClientes[a.ID_CLIENTE],
-            servico: mapServicos[a.ID_SERVICO]
+            servico: mapServicos[a.ID_SERVICO],
+            pet: mapPets[a.ID_CARTEIRINHA_PET],
         }))
         res.render("pages/template-dashboard",
             {
@@ -240,7 +247,13 @@ router.get("/planos",
         res.render("pages/template-dashboard", { page: "../partial/dashboard/planos", classePagina: 'planos', alert: null, isAssinante: isAssinante });
     });
 
-
+    // router.get("/criaPg",
+    //     middleWares.verifyAutenticado,
+    //     middleWares.verifyAutorizado("pages/template-loginEmpresa", { page: "../partial/cadastroEmpresa/login", errors: null, valores: "", incorreto: null }, true),
+    //     function (req, res) {
+    //         res.render("pages/template-dashboard", { page: "../partial/dashboard/criaPg", classePagina: 'teste', nomeempresa: 'nomeempresa' });
+    //     });
+    
 // Pagina comercial
 router.get('/paginacomercial',
     middleWares.verifyAutenticado,

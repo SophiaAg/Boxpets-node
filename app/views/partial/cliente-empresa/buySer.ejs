@@ -34,12 +34,12 @@
                   <%} %>
 
       </div>
-      <h5>Number</h5>
+      <!-- <h5>Number</h5>
       <div class="add flex1">
 
         <span>+</span>
         <p>Adicionar Carterinha</p>
-      </div>
+      </div> -->
 
       <button class="btn-cadbuy" data-openModal="#scheduleModal">Agendar</button>
     </div>
@@ -65,6 +65,15 @@
       <% if(horarios){%>
         <form action="/agendarHorario?idServico=<%= servico.ID_SERVICO %>" method="post">
           <input type="hidden" name="dataAgenda" value="<%= dataSelecionada %>">
+          <% if(myPets && myPets.length > 0){ %>
+            <select name="myPet" id="myPet">
+                <option disabled selected>Selecione o seu pet</option>
+                <% myPets.forEach(pet=>{ 
+                  if(servico.PORTES_PERMITIDOS.includes(pet.PORTE_PET)){ %>
+                    <option value="<%= pet.ID_PET %>"><%= pet.NOME_PET %></option>
+                  <% } })%>
+            </select>
+        <% } %>
           <% if(horarios.length> 0 ){ 
             horarios.forEach(horario=>{ %>
             <div class="item">
