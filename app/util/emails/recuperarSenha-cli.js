@@ -174,7 +174,7 @@ module.exports = (url, token) => {
                         <h2 class="title">Recuperar Senha</h2>
                     </header>
                     <article>
-                        <p class="text">Solicitação de recuperação de senha. Clique abaixo para recupera-lá!</p>
+                        <p class="text">(cliente) solicitação de recuperação de senha. Clique abaixo para recupera-lá!</p>
                         <a href="${url}/redefinir-senha-cli?token=${token}" class="btn" style="display: inline-block; padding: 10px 20px; background-color: #E6781E; color: #ffffff; text-decoration: none; border-radius: 5px;">Redefinir senha</a>
                     </article>
                     <footer>
