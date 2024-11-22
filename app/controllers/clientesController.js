@@ -806,7 +806,7 @@ const clienteController = {
           process.env.SECRET_KEY
         )
 
-        enviarEmailRecuperarSenha(
+        enviarEmailRecuperarSenhaCli(
           user[0].EMAIL_CLIENTE,
           "Recuperar de senha",
           process.env.URL_BASE,
