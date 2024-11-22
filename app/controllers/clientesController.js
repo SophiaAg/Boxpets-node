@@ -839,7 +839,7 @@ const clienteController = {
         token: null,
         errors: error,
         idUser: idUser,
-        modalAberto: true
+        modalAberto: true,
       }
       res.render("./pages/template-login", jsonResult)
     } else {
@@ -849,8 +849,8 @@ const clienteController = {
         var resultado = await clienteModel.updateUser({ SENHA_CLIENTE: hashSenha }, idUser)
         console.log("-------- senha redefinida -----------")
         console.log(resultado)
-        req.session.aviso = { msg: "Senha redefinida com sucesso!", type: "success", contagem: 0 }
-        res.redirect("/entrar")
+        req.session.alert = { msg: "Senha redefinida com sucesso!", type: "success", contagem: 0 }
+        res.redirect("/logarCliente")
       } catch (error) {
         console.log(error)
         res.render("./partial/pg-erro")
