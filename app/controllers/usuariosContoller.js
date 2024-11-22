@@ -7,6 +7,7 @@ const { invalid } = require("moment/moment")
 const jwt = require("jsonwebtoken")
 const { enviarEmail, enviarEmailAtivacao, enviarEmailRecuperarSenha } = require("../util/sendEmail")
 const { removeImg } = require("../util/removeImg")
+const { block } = require("sharp")
 
 
 const usuariosController = {
@@ -342,7 +343,8 @@ const usuariosController = {
             page: "../partial/cadastroEmpresa/login",
             errors: null,
             valores: req.body,
-            incorreto: true
+            incorreto: true, 
+            alert: null
           }
           res.render("pages/template-loginEmpresa", jsonResult);
         }
@@ -744,20 +746,27 @@ const usuariosController = {
     }
   },
   alterarInfoGeral: async (req, res) => {
+
     let error = validationResult(req)
 
     if (!error.isEmpty()) {
       console.log(error)
 
+
       const usuario = await usuariosModel.findUsuariosById(req.session.autenticado.id)
       const user = usuario[0].INFO_GERAIS
         ? { ...usuario[0], INFO_GERAIS: JSON.parse(usuario[0].INFO_GERAIS) }
         : { ...usuario[0], INFO_GERAIS: { horarioInicio: '', horarioFim: '', localizacao: '', whatsapp: '', descricao: '' } }
+       
+
       const jsonResult = {
         page: "../partial/dashboard/criaPg",
         erros: error,
         classePagina: 'paginaComercial',
-        empresa: user
+        empresa: user,
+        alert: null
+       
+        
       }
       res.render("./pages/template-dashboard", jsonResult)
 
