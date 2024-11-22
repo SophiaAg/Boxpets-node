@@ -334,12 +334,13 @@ const clienteController = {
 
       } catch (erros) {
         console.log(erros)
-        res.render("pages/error-500")
+        res.render("pg-erro")
       }
 
     }
   },
   mostrarPerfil: async (req, res) => {
+
     try {
       let results = await clienteModel.findClienteById(req.session.autenticado.id);
 
@@ -354,11 +355,17 @@ const clienteController = {
         cpf_cli: results[0].CPF_CLIENTE,
         senha_cli: ""
       }
+      let alert = undefined
+      if (req.session.alert && req.session.alert.count == 0) {
+        alert = req.session.alert
+        req.session.alert.count++
+    }
+  
 
-      res.render("./pages/template-hm", { page: "../partial/landing-home/page-user", avisoErro: null, valores: campos, foto: results[0].img_perfil_pasta })
+      res.render("./pages/template-hm", { page: "../partial/landing-home/page-user", dadosNotificacao: alert, valores: campos, foto: results[0].img_perfil_pasta })
     } catch (e) {
       console.log(e);
-      res.redirect("/")
+      res.redirect("pg-erro")
     }
   },
   gravarPerfil: async (req, res) => {
@@ -367,6 +374,12 @@ const clienteController = {
 
     if (!erros.isEmpty()) {
       console.log(erros)
+      let alert = undefined
+      if (req.session.alert && req.session.alert.count == 0) {
+        alert = req.session.alert
+        req.session.alert.count++
+    }
+
 
       let result = await clienteModel.findClienteById(req.session.autenticado.id);
 
@@ -381,7 +394,8 @@ const clienteController = {
         nasc_cli: dataFormatada,
         senha_cli: ""
       }
-      res.render("./pages/template-hm", { page: "../partial/landing-home/page-user", listaErros: erros, dadosNotificacao: null, valores: campos, foto: result[0].img_perfil_pasta });
+
+      res.render("./pages/template-hm", { page: "../partial/landing-home/page-user", alert: alert, listaErros: erros, valores: campos, foto: result[0].img_perfil_pasta });
 
     } else {
       try {
@@ -425,16 +439,21 @@ const clienteController = {
               foto: result[0].img_perfil_pasta
 
             };
+            let alert = undefined
+            if (req.session.alert && req.session.alert.count == 0) {
+              alert = req.session.alert
+              req.session.alert.count++
+          }
             req.session.autenticado = autenticado;
-            res.render("./pages/template-hm", { page: "../partial/landing-home/page-user", avisoErro: null, valores: campos, foto: req.session.autenticado.foto })
+            res.render("./pages/template-hm", { page: "../partial/landing-home/page-user",  alert: alert, avisoErro: null, valores: campos, foto: req.session.autenticado.foto })
           } else {
             console.log("Sem alterações")
-            res.render("./pages/template-hm", { page: "../partial/landing-home/page-user", avisoErro: null, valores: campos, foto: result[0].img_perfil_pasta })
+            res.render("./pages/template-hm", { page: "../partial/landing-home/page-user",   avisoErro: null, valores: campos, foto: result[0].img_perfil_pasta })
           }
         }
       } catch (erros) {
         console.log(erros)
-        res.redirect("/")
+        res.redirect("pg-erro")
       }
     }
   },

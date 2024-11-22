@@ -42,27 +42,37 @@ router.get("/soucliente", function (req, res) {
 
 // essa
 router.get("/cadastrar", function (req, res) {
+    let alert = undefined
+    if (req.session.alert && req.session.alert.count == 0) {
+        alert = req.session.alert
+        req.session.alert.count++
+    }
+
     const jsonResult = {
         form: "../partial/login/cadastrar",
         errors: null,
         valores: null,
+        dadosNotificacao: alert
     }
     res.render("pages/template-login", jsonResult);
 });
 
 
 router.get("/entrar", function (req, res) {
+
     let alert = undefined
     if (req.session.alert && req.session.alert.count == 0) {
         alert = req.session.alert
         req.session.alert.count++
     }
+    
     const jsonResult = {
         form: "../partial/login/entrar",
         errors: null,
         valores: null,
         incorreto: false,
         dadosNotificacao: alert
+      
     }
     res.render("pages/template-login", jsonResult);
 });
@@ -88,10 +98,24 @@ router.get("/home",
 // Cadastro de CLIENTES
 router.post("/cadastrarCliente", clienteController.regrasValidacaoCriarConta, function (req, res) {
     clienteController.cadastrar(req, res)
+
+    req.session.alert = {
+        type: "success",
+        title: "Cadatro concluido!",
+        msg: "O cadastro foi concluido.",
+        count: 0
+    }
 })
 // login de CLIENTES
 router.post("/logarCliente", clienteController.regrasValidacaoLogarConta, middleWares.gravarAutenticacaoCliente, function (req, res) {
     clienteController.entrar(req, res)
+    
+    req.session.alert = {
+        type: "success",
+        title: "Login concluido!",
+        msg: "O login foi concluido.",
+        count: 0
+    }
 })
 
 router.get("/servicos-gerais",
@@ -209,10 +233,12 @@ router.post("/criarCarterinhaPet",
 
 router.get("/page-user",
     middleWares.verifyAutenticado,
-    middleWares.verifyAutorizado("pages/template-login", { form: "../partial/login/entrar", errors: null, valores: null, incorreto: false }, false),
+    middleWares.verifyAutorizado("pages/template-login", { form: "../partial/login/entrar", errors: null, valores: null, incorreto: false,  }, false),
     function (req, res) {
-
+      
         clienteController.mostrarPerfil(req, res);
+          
+   
     });
 
 router.post("/info-atualizar",
@@ -221,6 +247,16 @@ router.post("/info-atualizar",
     clienteController.regrasValidacaoPerfil,
     function (req, res) {
         clienteController.gravarPerfil(req, res);
+          
+    req.session.alert = {
+        type: "success",
+        title: "Mudança concluido!",
+        msg: "A mudança de dados foi concluida",
+        count: 0
+    }
+ 
+
+
     });
 
 
@@ -270,16 +306,15 @@ router.get("/cadastroEmpresa", async function (req, res) {
 // btnloginEmpresa
 router.get("/loginEmpresa", async function (req, res) {
     try {
-        let alert = req.session.aviso ? req.session.aviso : null;
-        if (alert && alert.contagem < 1) {
-            req.session.aviso.contagem++;
-        } else {
-            req.session.aviso = null;
+        let alert = undefined
+        if (req.session.alert && req.session.alert.count == 0) {
+            alert = req.session.alert
+            req.session.alert.count++
         }
 
-        res.render("pages/template-loginEmpresa", { page: "../partial/cadastroEmpresa/login", errors: null, valores: "", incorreto: alert });
+        res.render("pages/template-loginEmpresa", { page: "../partial/cadastroEmpresa/login", errors: null, valores: "", incorreto:"", alert:alert });
     } catch (error) {
-        res.redirect("/")
+        res.redirect("pg-erro")
         // colocar pagina de erro
     }
 });
@@ -292,14 +327,21 @@ router.post("/cadastrarEmpresa", usuariosController.regrasValidacaoCriarConta, f
 // Login de EMPRESAS
 router.post("/logarEmpresa", usuariosController.regrasValidacaoLogarConta, function (req, res) {
     usuariosController.entrarEmpresa(req, res)
+      
+    req.session.alert = {
+        type: "success",
+        title: "Login concluido!",
+        msg: "O login foi concluido.",
+        count: 0
+    }
 })
 
 
-// Postar pagina empresa
-router.post('/share', uploadEmpresa.any(), MainController.sharePost)
-router.get('/share/:id', MainController.viewPost)
-router.get('/share/edit/:id', MainController.edit)
-router.post('/share/edit', uploadEmpresa.any(), MainController.makeEdit)
+// // Postar pagina empresa
+// router.post('/share', uploadEmpresa.any(), MainController.sharePost)
+// router.get('/share/:id', MainController.viewPost)
+// router.get('/share/edit/:id', MainController.edit)
+// router.post('/share/edit', uploadEmpresa.any(), MainController.makeEdit)
 
 // rota para comentário da empresa?
 
@@ -347,19 +389,19 @@ router.get("/bsEmpresa", async function (req, res) {
 
 // post para comentar
 
-router.post("/fazerComentario", function (req, res) {
-    clienteController.FazerComentario(req, res);
-})
+// router.post("/fazerComentario", function (req, res) {
+//     clienteController.FazerComentario(req, res);
+// })
 
-router.post("/deletePublication/:id", async function (req, res) {
+// router.post("/deletePublication/:id", async function (req, res) {
 
-    const idComentario = req.params.id;
+//     const idComentario = req.params.id;
 
-    await clienteModel.excluirComentario(idComentario);
+//     await clienteModel.excluirComentario(idComentario);
 
-    res.redirect("/bsEmpresa");
+//     res.redirect("/bsEmpresa");
 
-});
+// });
 
 // deslogar, tira a sessão
 

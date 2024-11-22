@@ -9,9 +9,19 @@
       <title>Cadastro das empresas </title>
       <link rel="stylesheet" href="./css/login-empresa/infopessoal.css">
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+
+      <!-- alertas -->
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/simple-notify@1.0.4/dist/simple-notify.css" />
+      <script src="https://cdn.jsdelivr.net/npm/simple-notify@1.0.4/dist/simple-notify.min.js"></script>
+      <script src="./js/notificacao.js"></script>
    </head>
 
    <body>
+      <% if(typeof alert !=="undefined" && alert !== null) {%>
+         <script>
+             newNotify("<%= alert.title %>", "<%= alert.msg %>", "<%= alert.type %>");
+         </script>
+         <%}%>
       <main>
 
     <%- include(page) %>
