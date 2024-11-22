@@ -1,0 +1,105 @@
+<% 
+
+let msgErro = "";
+let avisoErro = {  nome_pet: "", idade_pet: "", sexo_pet: "", porte_pet: "", raca_pet: "", imagem: "" };
+
+if (avisoErro && avisoErro.errors) {
+  avisoErro.errors.forEach(function(itemErro) {
+
+    if (itemErro.path == "nome_pet") {
+      avisoErro.nome_pet = "erro";
+      msgErro += `* ${itemErro.msg} <br>`;
+    }
+    if (itemErro.path == "idade_pet") {
+      avisoErro.idade_pet = "erro";
+      msgErro += `* ${itemErro.msg} <br>`;
+    }
+
+    if (itemErro.path == "sexo_pet") {
+      avisoErro.sexo_pet = "erro";
+      msgErro += `* ${itemErro.msg} <br>`;
+    }
+
+    if (itemErro.path == "porte_pet") {
+      avisoErro.porte_pet = "erro";
+      msgErro += `* ${itemErro.msg} <br>`;
+    }
+
+    if (itemErro.path == "raca_pet") {
+      avisoErro.raca_pet = "erro";
+      msgErro += `* ${itemErro.msg} <br>`;
+    }
+  });
+}
+
+if (msgErro != "") { %>
+  <script>
+    let msgErro = "<%= msgErro %>";
+    notify("Erro no preenchimento", "Verifique o(s) campo(s): <br>" + msgErro.replace(/&lt;/g, "<").replace(/&gt;/g, ">"), "error", "center", 5000);
+  </script>
+<% }  %>
+
+
+<section class="input-field ">
+    <i class="fas fa-user"></i>
+    <input id="nome" name="nome_pet" required type="text" placeholder="Nome do Pet" value="<%= pet ? pet.NOME_PET : '' %>" />
+</section>
+
+<section class="input-field ">
+    <i class="fas fa-user"></i>
+    <input id="idade" name="idade_pet" required type="text" placeholder="Idade" value="<%= pet ? pet.IDADE_PET : '' %>"/>
+</section>
+
+<section class="input-field ">
+    <i class="fas fa-user"></i>
+    <select id="sexo" name="sexo_pet" required type="text" placeholder="Sexo">
+        <option 
+        <% if(pet && pet.SEXO_PET == 'Macho'){%>
+            selected
+        <%}%>
+        value="Macho">Macho</option>
+        <option 
+        <% if(pet && pet.SEXO_PET == 'Femea'){%>
+            selected
+        <%}%>
+        value="Femea">Femêa</option>
+    </select>
+</section>
+
+<section class="input-field ">
+    <i class="fas fa-user"></i>
+    <select id="porte" name="porte_pet" required type="text" placeholder="Porte">
+        <option 
+        <% if(pet && pet.PORTE_PET == 'Pequeno'){%>
+            selected
+        <%}%>
+        value="Pequeno">Pequeno</option>
+        <option 
+        <% if(pet && pet.PORTE_PET == 'Médio'){%>
+            selected
+        <%}%>
+        value="Médio">Médio</option>
+        <option 
+        <% if(pet && pet.PORTE_PET == 'Grande'){%>
+            selected
+        <%}%>
+        value="Grande">Grande </option>
+    </select>
+</section>
+
+<section class="input-field ">
+    <i class="fas fa-user"></i>
+    <input id="raca" name="raca_pet" required type="text" placeholder="Raça" value="<%= pet ? pet.RACA_PET : '' %>"/>
+</section>
+
+<article data-fotoContainer>
+    <% if(pet){ %>
+        <img src="./src/fotos-pet/<%= pet.img_pet%>" alt="" class="foto__img">
+   <% } %>
+</article>
+
+<input type="file" name="imgPet" id="imgPet" class="input__control imgPet <%= avisoErro.imgPet %>"
+    placeholder="Selecione a foto do seu Pet" data-inputFoto 
+    <% if(!pet){%>
+        required
+   <% }%>>

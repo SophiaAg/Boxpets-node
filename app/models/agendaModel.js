@@ -95,6 +95,15 @@ const agendaModel = {
             throw error
         }
     },
+    cancelAllAgendaByIdPet: async(id)=>{
+        try {
+            const [resultados] = await pool.query("DELETE FROM AGENDAMENTOS WHERE ID_CARTEIRINHA_PET = ?", [id])
+            return resultados
+        } catch (error) {
+            console.log("erros ao agendar")
+            throw error
+        }
+    }
 }
 
 
