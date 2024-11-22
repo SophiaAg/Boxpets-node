@@ -65,14 +65,14 @@ router.get("/entrar", function (req, res) {
         alert = req.session.alert
         req.session.alert.count++
     }
-    
+
     const jsonResult = {
         form: "../partial/login/entrar",
         errors: null,
         valores: null,
         incorreto: false,
         dadosNotificacao: alert
-      
+
     }
     res.render("pages/template-login", jsonResult);
 });
@@ -109,7 +109,7 @@ router.post("/cadastrarCliente", clienteController.regrasValidacaoCriarConta, fu
 // login de CLIENTES
 router.post("/logarCliente", clienteController.regrasValidacaoLogarConta, middleWares.gravarAutenticacaoCliente, function (req, res) {
     clienteController.entrar(req, res)
-    
+
     req.session.alert = {
         type: "success",
         title: "Login concluido!",
@@ -190,7 +190,10 @@ router.get("/veterinarios",
         res.render("pages/template-hm", { pagina: "LandingPage", page: "../partial/servicosgerais/veterinarios", empresas: user });
     });
 
-router.get("/historico-cli", function (req, res) {
+router.get("/historico-cli",  
+    middleWares.verifyAutenticado,
+    middleWares.verifyAutorizado("pages/template-login", { form: "../partial/login/entrar", errors: null, valores: null, incorreto: false }, false),
+    function (req, res) {
     res.render("pages/template-hm", { page: "../partial/landing-home/historico-cli.ejs" });
 });
 
@@ -211,15 +214,18 @@ router.get("/VizucriaPg", async function (req, res) {
         pagina: "LandingPage",
         page: "../partial/cliente-empresa/VizucriaPg",
         empresa: user,
-        servicos:servicos
+        servicos: servicos
 
     });
 });
 
 
-router.get("/carterinha-pet", function (req, res) {
-    clienteController.mostrarPet(req, res);
-});
+router.get("/carterinha-pet", 
+    middleWares.verifyAutenticado,
+    middleWares.verifyAutorizado("pages/template-login", { form: "../partial/login/entrar", errors: null, valores: null, incorreto: false }, false), 
+    function (req, res) {
+        clienteController.mostrarPet(req, res);
+    });
 
 router.post("/criarCarterinhaPet",
     middleWares.verifyAutenticado,
@@ -233,12 +239,12 @@ router.post("/criarCarterinhaPet",
 
 router.get("/page-user",
     middleWares.verifyAutenticado,
-    middleWares.verifyAutorizado("pages/template-login", { form: "../partial/login/entrar", errors: null, valores: null, incorreto: false,  }, false),
+    middleWares.verifyAutorizado("pages/template-login", { form: "../partial/login/entrar", errors: null, valores: null, incorreto: false, }, false),
     function (req, res) {
-      
+
         clienteController.mostrarPerfil(req, res);
-          
-   
+
+
     });
 
 router.post("/info-atualizar",
@@ -247,14 +253,14 @@ router.post("/info-atualizar",
     clienteController.regrasValidacaoPerfil,
     function (req, res) {
         clienteController.gravarPerfil(req, res);
-          
-    req.session.alert = {
-        type: "success",
-        title: "Mudança concluido!",
-        msg: "A mudança de dados foi concluida",
-        count: 0
-    }
- 
+
+        req.session.alert = {
+            type: "success",
+            title: "Mudança concluido!",
+            msg: "A mudança de dados foi concluida",
+            count: 0
+        }
+
 
 
     });
@@ -284,12 +290,6 @@ router.post("/excluirFoto",
 
 
 
-router.get("/criaPg",
-    middleWares.verifyAutenticado,
-    middleWares.verifyAutorizado("pages/template-loginEmpresa", { page: "../partial/cadastroEmpresa/login", errors: null, valores: "", incorreto: null }, true),
-    function (req, res) {
-        res.render("pages/template-dashboard", { page: "../partial/dashboard/criaPg", classePagina: 'teste', nomeempresa: 'nomeempresa' });
-    });
 
 
 // btncadastroEmpresa
@@ -312,7 +312,7 @@ router.get("/loginEmpresa", async function (req, res) {
             req.session.alert.count++
         }
 
-        res.render("pages/template-loginEmpresa", { page: "../partial/cadastroEmpresa/login", errors: null, valores: "", incorreto:"", alert:alert });
+        res.render("pages/template-loginEmpresa", { page: "../partial/cadastroEmpresa/login", errors: null, valores: "", incorreto: "", alert: alert });
     } catch (error) {
         res.redirect("pg-erro")
         // colocar pagina de erro
@@ -327,7 +327,7 @@ router.post("/cadastrarEmpresa", usuariosController.regrasValidacaoCriarConta, f
 // Login de EMPRESAS
 router.post("/logarEmpresa", usuariosController.regrasValidacaoLogarConta, function (req, res) {
     usuariosController.entrarEmpresa(req, res)
-      
+
     req.session.alert = {
         type: "success",
         title: "Login concluido!",
@@ -353,29 +353,34 @@ router.get("/buySer",
         false
     ),
     async function (req, res) {
-    // Deve chamar um servico a partir do id passado na query
-    // ex: <a href="/buySer?idServico=<%= variavelResRender.ColunaDoBanco %>">
-    // Você irá verificar primeiramente se esse idServico existe, senao vc ira redirecionar para uma pagina de erro ou apenas a home, porque n tem como renderizar a pagina de servico, sem saber qual servico
-    const idServico = req.query.idServico
-    if (!idServico) {
-        console.log("Servico nao encontrado")
-        return res.redirect("/home")
-    }
-    const servico = await usuariosModel.findServicoById(idServico)
-    if (servico.length == 0) {
-        console.log("Servico não encontrado")
-        return res.redirect("/home")
-    }
-    servico[0].PORTES_PERMITIDOS = servico[0].PORTES_PERMITIDOS.split(",")
-    res.render("pages/template-hm", {
-        page: "../partial/cliente-empresa/buySer",
-        servico: servico[0],
-        openModal: false,
-        dataSelecionada: null,
-        erroData: null,
-        horarios: null
+        // Deve chamar um servico a partir do id passado na query
+        // ex: <a href="/buySer?idServico=<%= variavelResRender.ColunaDoBanco %>">
+        // Você irá verificar primeiramente se esse idServico existe, senao vc ira redirecionar para uma pagina de erro ou apenas a home, porque n tem como renderizar a pagina de servico, sem saber qual servico
+        const idServico = req.query.idServico
+        if (!idServico) {
+            console.log("Servico nao encontrado")
+            return res.redirect("/home")
+        }
+        const servico = await usuariosModel.findServicoById(idServico)
+        if (servico.length == 0) {
+            console.log("Servico não encontrado")
+            return res.redirect("/home")
+        }
+
+        servico[0].PORTES_PERMITIDOS = servico[0].PORTES_PERMITIDOS.split(",")
+
+        // pegar todas as carteirinhas pets do cliente
+        const carteirinhas = await clienteModel.findPetById(req.session.autenticado.id)
+        res.render("pages/template-hm", {
+            page: "../partial/cliente-empresa/buySer",
+            servico: servico[0],
+            openModal: false,
+            dataSelecionada: null,
+            erroData: null,
+            horarios: null,
+            myPets: carteirinhas
+        })
     })
-})
 
 router.get("/bsEmpresa", async function (req, res) {
 
@@ -575,84 +580,93 @@ router.post("/PagarAssinatura", async function (req, res) {
 
 // ROTA DE AGENDAR HORARIO
 
-router.post("/findHorariosByData", async (req, res) => {
-    const { data } = req.body
-    const idServico = req.query.idServico
-    try {
-        console.log(data)
-        if (!idServico) {
-            console.log("Servico nao encontrado")
-            return res.redirect("/home")
-        }
-        const servico = await usuariosModel.findServicoById(idServico)
-        if (servico.length == 0) {
-            console.log("Servico não encontrado")
-            return res.redirect("/home")
-        }
-        servico[0].PORTES_PERMITIDOS = servico[0].PORTES_PERMITIDOS.split(",")
-        const dataSelect = new Date(data);
-        dataSelect.setUTCHours(0, 0, 0, 0);
-        const today = new Date();
-        today.setUTCHours(0, 0, 0, 0);
+router.post("/findHorariosByData",
+    middleWares.verifyAutenticado,
+    middleWares.verifyAutorizado(
+        "pages/template-login",
+        { form: "../partial/login/entrar", errors: null, valores: null, incorreto: false },
+        false
+    ), async (req, res) => {
+        const { data } = req.body
+        const idServico = req.query.idServico
+        try {
+            console.log(data)
+            if (!idServico) {
+                console.log("Servico nao encontrado")
+                return res.redirect("/home")
+            }
+            const servico = await usuariosModel.findServicoById(idServico)
+            if (servico.length == 0) {
+                console.log("Servico não encontrado")
+                return res.redirect("/home")
+            }
+            servico[0].PORTES_PERMITIDOS = servico[0].PORTES_PERMITIDOS.split(",")
+            const dataSelect = new Date(data);
+            dataSelect.setUTCHours(0, 0, 0, 0);
+            const today = new Date();
+            today.setUTCHours(0, 0, 0, 0);
 
-        if (dataSelect < today) {
-            return res.render("pages/template-hm", {
-                page: "../partial/cliente-empresa/buySer",
-                servico: servico[0],
-                openModal: true,
-                dataSelecionada: data,
-                erroData: { msg: "Data anterior ao dia de hoje!" },
-                horarios: null
-            });
-        }
+            const carteirinhas = await clienteModel.findPetById(req.session.autenticado.id)
 
-        const dayOfWeek = dataSelect.getUTCDay();
-        const horarios = await agendaModel.findHrByDay(idServico, dayOfWeek)
-        if (!horarios || horarios.length == 0) {
-            return res.render("pages/template-hm", {
-                page: "../partial/cliente-empresa/buySer",
-                servico: servico[0],
-                openModal: true,
-                erroData: { msg: "Nenhuma agenda nesse dia!" },
-                horarios: null,
-                dataSelecionada: data
+            if (dataSelect < today) {
+                return res.render("pages/template-hm", {
+                    page: "../partial/cliente-empresa/buySer",
+                    servico: servico[0],
+                    openModal: true,
+                    dataSelecionada: data,
+                    erroData: { msg: "Data anterior ao dia de hoje!" },
+                    horarios: null,
+                    myPets: carteirinhas
+                });
+            }
 
+            const dayOfWeek = dataSelect.getUTCDay();
+            const horarios = await agendaModel.findHrByDay(idServico, dayOfWeek)
+            if (!horarios || horarios.length == 0) {
+                return res.render("pages/template-hm", {
+                    page: "../partial/cliente-empresa/buySer",
+                    servico: servico[0],
+                    openModal: true,
+                    erroData: { msg: "Nenhuma agenda nesse dia!" },
+                    horarios: null,
+                    dataSelecionada: data,
+                    myPets: carteirinhas
+                })
+            }
+            const agendamentos = await agendaModel.findAgendaServicoByData(idServico, data)
+            const horariosAgendados = agendamentos.map(agendamento => agendamento.HORARIO_AGENDAMENTO)
+            console.log(agendamentos)
+            console.log(horariosAgendados)
+            // const currentTime = new Date().getHours() + ":" + new Date().getMinutes()
 
+            const horariosDisponiveis = horarios.filter(horario => {
+                const [hora, minuto] = horario.HORARIO_SERVICO.slice(0, 5).split(":").map(Number)
+                console.log(horario)
+                const isAgendado = horariosAgendados.includes(horario.HORARIO_SERVICO)
+                const isPast = dataSelect.getTime() === today.getTime() && (hora < new Date().getHours() || (hora === new Date().getHours() && minuto <= new Date().getMinutes()));
+                return !isAgendado && !isPast
             })
+
+            res.render("pages/template-hm", {
+                page: "../partial/cliente-empresa/buySer",
+                servico: servico[0],
+                openModal: true,
+                erroData: null,
+                horarios: horariosDisponiveis,
+                dataSelecionada: data,
+                myPets: carteirinhas
+            })
+
+        } catch (error) {
+            console.log(error)
+            res.redirect(`/buySer?idServico=${idServico}`)
         }
-        const agendamentos = await agendaModel.findAgendaServicoByData(idServico, data)
-        const horariosAgendados = agendamentos.map(agendamento => agendamento.HORARIO_AGENDAMENTO)
-        console.log(agendamentos)
-        console.log(horariosAgendados)
-        // const currentTime = new Date().getHours() + ":" + new Date().getMinutes()
-
-        const horariosDisponiveis = horarios.filter(horario => {
-            const [hora, minuto] = horario.HORARIO_SERVICO.slice(0, 5).split(":").map(Number)
-            console.log(horario)
-            const isAgendado = horariosAgendados.includes(horario.HORARIO_SERVICO)
-            const isPast = dataSelect.getTime() === today.getTime() && (hora < new Date().getHours() || (hora === new Date().getHours() && minuto <= new Date().getMinutes()));
-            return !isAgendado && !isPast
-        })
-
-        res.render("pages/template-hm", {
-            page: "../partial/cliente-empresa/buySer",
-            servico: servico[0],
-            openModal: true,
-            erroData: null,
-            horarios: horariosDisponiveis,
-            dataSelecionada: data
-        })
-
-    } catch (error) {
-        console.log(error)
-        res.redirect(`/buySer?idServico=${idServico}`)
-    }
-})
+    })
 router.post("/agendarHorario",
     middleWares.verifyAutenticado,
     middleWares.verifyAutorizado("pages/template-login", { form: "../partial/login/entrar", errors: null, valores: null, incorreto: false }, false),
     async (req, res) => {
-        const { dataAgenda, horarioAgenda } = req.body
+        const { dataAgenda, horarioAgenda, myPet } = req.body
         const idServico = req.query.idServico
         try {
             if (!idServico) {
@@ -680,6 +694,10 @@ router.post("/agendarHorario",
                 HORARIO_AGENDAMENTO: horario[0].HORARIO_SERVICO,
                 ID_USUARIO: servico[0].ID_USUARIO,
             }
+            if (typeof myPet != undefined && typeof myPet != null) {
+                dadosAgendamento.ID_CARTEIRINHA_PET = myPet
+            }
+
             const resultInsert = await agendaModel.agendarHorario(dadosAgendamento)
             console.log(resultInsert)
             res.redirect(`/buySer?idServico=${idServico}`)
@@ -690,26 +708,26 @@ router.post("/agendarHorario",
 
     })
 
-   // favoritar
-    router.get("/",  middleWares.verifyAutenticado,
-         function(req, res){
+// favoritar
+router.get("/", middleWares.verifyAutenticado,
+    function (req, res) {
         clienteController.listar(req, res);
     });
 
-     router.get ("/favoritar", middleWares.verifyAutenticado,
-        middleWares.verifyAutorizado , async function (req, res) {
-        
-    try {
-        let favoritos = await favoritoModel.favoritar({ 
-          idServico: req.query.id,
-          situacao: req.query.sit
-         });
+router.get("/favoritar", middleWares.verifyAutenticado,
+    middleWares.verifyAutorizado, async function (req, res) {
+
+        try {
+            let favoritos = await favoritoModel.favoritar({
+                idServico: req.query.id,
+                situacao: req.query.sit
+            });
             res.render("./pages/template-hm", { page: "../partial/cliente-empresa/favoritos", avisoErro: null, valores: campos, favoritos: favoritos })
-          } catch (e) {
+        } catch (e) {
             console.log(e);
             res.redirect("/pg-erro")
-          }
-     });
+        }
+    });
 
 
 

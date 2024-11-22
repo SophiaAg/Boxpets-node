@@ -52,6 +52,15 @@ const clienteModel = {
             throw error;
         }
     },
+    findPetsInIds: async (ids) => {
+        try {
+            const [resultados] = await pool.query("SELECT * FROM CARTERINHA_PET WHERE ID_PET IN (?) ", [ids]);
+            return resultados;
+        } catch (error) {
+            console.error("Erro ao buscar pets", error);
+            throw error;
+        }
+    },
     findClienteByEmailAtivo: async (email) => {
         try {
             const [resultados] = await pool.query("SELECT * FROM CLIENTE WHERE EMAIL_USUARIOS = ? AND STATUS_CLIENTE = 'ativo' LIMIT 1", [email])

@@ -47,7 +47,7 @@ if (msgErro != "") { %>
  <% if (pets) {
   pets.forEach(pet => {%>
     <div class="card">
-      <button class="delete-btn" onclick="openPetModal()">!</button>
+      <button class="delete-btn" >!</button>
      
       <img src="./src/fotos-pet/<%= pet.img_pet %>" alt="foto do pet">
       <div class="info-pets">
@@ -105,7 +105,7 @@ if (msgErro != "") { %>
                 <i class="fas fa-user"></i>
                 <select for="" id="porte" name="porte_pet" required type="text" placeholder="Porte" >
                   <option value="Pequeno">Pequeno</option>
-                  <option value="Medio">Médio</option>
+                  <option value="Médio">Médio</option>
                   <option value="Grande">Grande </option>
                 </select>
               </section>
@@ -128,5 +128,6 @@ if (msgErro != "") { %>
 
     <script src="./js/carterinha-pet.js"></script>
     <script src="./js/addPerfil.js"></script>
+    <script src="./js/abrirModal.js"></script>
     <script src="./js/notificacao.js"></script>
 

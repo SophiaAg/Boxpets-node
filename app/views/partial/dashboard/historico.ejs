@@ -49,20 +49,23 @@
                                     <td>
                                         <% if(agenda.ID_STATUS==1) {%>
                                             <span class="paid-aguarde">Marcado</span>
-                                            <%}else if(agenda.ID_STATUS==2){%>
-                                                <span class="paid-concluido">Concluido</span>
-                                                <%}else if(agenda.ID_STATUS==3){%>
-                                                    <span class="paid-cancelado">Cancelado</span>
-                                                    <%}%>
+                                        <%}else if(agenda.ID_STATUS==2){%>
+                                            <span class="paid-concluido">Concluido</span>
+                                        <%}else if(agenda.ID_STATUS==3){%>
+                                            <span class="paid-cancelado">Cancelado</span>
+                                        <%}%>
                                     </td>
                                     <td>
-
                                         <% if(agenda.ID_STATUS==1) {%>
                                             <button data-openModal="#cancelarAgenda<%=agenda.ID_AGENDAMENTOS %>"
                                                 title="Cancelar agendamento">Cancelar</button>
                                             <form action="/concluirAgenda?idAgendamento=<%= agenda.ID_AGENDAMENTOS %>" method="post">
                                                 <button class="btn-servico">Concluir atendimento</button>
                                             </form>
+                                            <% if(agenda.pet != null && agenda.pet != undefined){%>
+                                                <button data-openModal="#verCarteira<%=agenda.ID_AGENDAMENTOS %>"
+                                                    title="Cancelar agendamento">Ver carteirinha pet</button>
+                                            <% } %>
                                         <% } %>
                                     </td>
                                 </tr>
@@ -81,7 +84,24 @@
                                         </form>
                                     </div>
                                 </div>
-                                <%}) }%>
+                            <% if(agenda.pet != null && agenda.pet != undefined){%>
+                                <div class="modal" id="verCarteira<%=agenda.ID_AGENDAMENTOS %>">
+                                    <button class="closeBtn"><span
+                                            class="material-symbols-outlined">close</span></button>
+                                    <div class="modal-content">
+                                        <h1>Carteirinha Pet</h1>
+                                        <div class="infos-carteirinha" >
+                                            <img src="src/fotos-pet/<%= agenda.pet.img_pet %>" alt="imagem do pet">
+                                            <p style="color: black;">Nome:<%= agenda.pet.NOME_PET %></p>
+                                            <p style="color: black;">Idade:<%= agenda.pet.IDADE_PET %></p>
+                                            <p style="color: black;">Sexo:<%= agenda.pet.SEXO_PET %></p>
+                                            <p style="color: black;">Porte:<%= agenda.pet.PORTE_PET %></p>
+                                            <p style="color: black;">Raça:<%= agenda.pet.RACA_PET %></p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <% } %>
+                            <%}) }%>
 
                         </tbody>
                     </table>
