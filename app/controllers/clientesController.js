@@ -850,7 +850,7 @@ const clienteController = {
         console.log("-------- senha redefinida -----------")
         console.log(resultado)
         req.session.alert = { msg: "Senha redefinida com sucesso!", type: "success", contagem: 0 }
-        res.redirect("/entrar")
+        res.redirect("/logarCliente")
       } catch (error) {
         console.log(error)
         res.render("./partial/pg-erro")
