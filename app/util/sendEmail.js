@@ -4,6 +4,7 @@ const ativarContaTemplate = require('./emails/ativar-conta');
 const ativarContaCliTemplate = require('./emails/ativar-conta-cli');
 const emailCancelAgenda = require('./emails/cancel-agenda');
 const recuperarSenhaTemplate = require('./emails/recuperarSenha');
+const recuperarSenhaTemplateCli = require('./emails/recuperarSenha-cli');
 
 const transporter = nodemailer.createTransport({
     service: 'gmail',
@@ -126,7 +127,29 @@ const enviarEmailRecuperarSenha = async (emailDestino, assunto, urlBase, token, 
 
 };
 
+const enviarEmailRecuperarSenhaCli = async (emailDestino, assunto, urlBase, token, callback) => {
+
+    const mailOptions = {
+        from: process.env.EMAIL_USER,
+        to: emailDestino,
+        subject: assunto,
+        html: recuperarSenhaTemplateCli(urlBase, token)
+    };
+
+    transporter.sendMail(mailOptions, (error, info) => {
+        if (error) {
+            console.log(error)
+        } else {
+            console.log('E-mail enviado');
+            if (callback && typeof callback === 'function') {
+                callback();
+            }
+        }
+    });
+
+};
 
 
 
-module.exports = { enviarEmail, enviarEmailAtivacao, enviarEmailAtivacaoCli, enviarEmailRecuperarSenha, enviarEmailCancelAgenda }
+
+module.exports = { enviarEmail, enviarEmailAtivacao, enviarEmailAtivacaoCli, enviarEmailRecuperarSenha, enviarEmailRecuperarSenhaCli, enviarEmailCancelAgenda }
