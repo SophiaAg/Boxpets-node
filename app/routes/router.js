@@ -267,7 +267,7 @@ router.post("/cliCancelarAgenda",
 
             const resultUpdate = await agendaModel.updateAgenda(idAgendamento, { ID_STATUS: 3 })
             console.log(resultUpdate)
-            
+
             req.session.alert = {
                 type: "success",
                 title: "Agendamento cancelado com sucesso!",
@@ -570,12 +570,12 @@ router.get("/ativar-conta",
 )
 
 router.get("/esqueceuSenha", function (req, res) {
- 
+
     const jsonResult = {
         page: "../partial/cadastroEmpresa/esqueceuSenha",
         modal: "fechado",
         erros: null,
-        token: alert,
+        alert: null,
         modalAberto: false
     }
     res.render("pages/template-loginEmpresa", jsonResult);
@@ -624,7 +624,7 @@ router.get("/esqueceuSenha-cli", function (req, res) {
         erros: null,
         alert: alert,
         modalAberto: false,
-       
+
     }
     res.render("pages/template-login", jsonResult);
 });

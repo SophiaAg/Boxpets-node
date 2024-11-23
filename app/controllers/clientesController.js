@@ -836,8 +836,8 @@ const clienteController = {
         console.log(resultado)
         req.session.alert = {
           type: "success",
-          title: "Login concluido!",
-          msg: "O login foi concluido.",
+          title: "Senha redefinada com sucesso",
+          msg: "Você pode utilizar sua nova senha agora.",
           count: 0
         }
         res.redirect("/entrar")
