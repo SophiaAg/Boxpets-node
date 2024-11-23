@@ -91,6 +91,12 @@ router.get("/home",
         const clienteBd = await clienteModel.findClienteById(req.session.autenticado.id)
         res.render('pages/template-hm', { page: '../partial/landing-home/home-page', dadosNotificacao: alert, nome: clienteBd[0].NOME_CLIENTE });
     });
+
+    //pesquisa
+    router.get("/pesquisa", function (req, res) {
+        res.render("pages/template-hm", {  page: "../partial/landing-home/pesquisa" });
+    });
+
 // Cadastro de CLIENTES
 router.post("/cadastrarCliente", clienteController.regrasValidacaoCriarConta, function (req, res) {
     clienteController.cadastrar(req, res)
