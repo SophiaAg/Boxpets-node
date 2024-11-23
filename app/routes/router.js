@@ -681,11 +681,11 @@ router.post("/PagarAssinatura", async function (req, res) {
                     description: "Plano anual para empresa da BoxPets",
                     quantity: 1,
                     currency_id: 'BRL',
-                    unit_price: 345.6
+                    unit_price: 205.0
                 },
             ],
             back_urls: {
-                success: `${baseUrl}/dashboard?success&mensal`,
+                success: `${baseUrl}/dashboard?success&anual`,
                 failure: `${baseUrl} /dashboard?failure`,
                 pending: `${baseUrl} /dashboard?failure`,
             },
@@ -700,11 +700,11 @@ router.post("/PagarAssinatura", async function (req, res) {
                     description: "Plano mensal para empresa da BoxPets",
                     quantity: 1,
                     currency_id: 'BRL',
-                    unit_price: 32
+                    unit_price: 18.99
                 },
             ],
             back_urls: {
-                success: `${baseUrl}/dashboard?success&anual`,
+                success: `${baseUrl}/dashboard?success&mensal`,
                 failure: `${baseUrl} /dashboard?failure`,
                 pending: `${baseUrl} /dashboard?failure`,
             },

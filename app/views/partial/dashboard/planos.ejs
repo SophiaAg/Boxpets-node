@@ -12,19 +12,19 @@
         <section class="box-planos">
             <section class="icon-plan"> <i class="fa-solid fa-icons"></i> </section>
              <h3>Plano Mensal</h3>
-             <section class="price"><span>R$</span>32<span>/mês</span></section>
+             <section class="price"><span>R$</span>18,99<span>/mês</span></section>
              <section class="list-plan">
-                 <p>Anúncio de Vendas<i class="fa-solid fa-check"></i></p>
-                 <p>Aumento de Clientes<i class="fa-solid fa-check"></i></p>
-                 <p>Aumento da Visibilidade<i class="fa-solid fa-check"></i></p>
-                 <p>Agenda Exclusiva<i class="fa-solid fa-check"></i></p>
-                 <p>Acesso as Carteiras Pets<i class="fa-solid fa-check"></i></p>
+                <p>Anúncio de Serviços<i class="fa-solid fa-check"></i></p>
+                <p>Aumento de Clientes<i class="fa-solid fa-check"></i></p>
+                <p>Aumento da Visibilidade<i class="fa-solid fa-check"></i></p>
+                <p>Agenda Online<i class="fa-solid fa-check"></i></p>
+                <p>Acesso as Carteiras Pets<i class="fa-solid fa-check"></i></p>
     
              </section>
            <% if(!isAssinante){ %>
                 <form action="/PagarAssinatura" method="post">
                     <input type="hidden" value="2" name="id" >
-                    <button type="submit">Selecionar</button>
+                    <button class="btnplanos" type="submit">Selecionar</button>
                 </form>
             <% }else{%>
                 <h2>Você já é assinante</h2>
@@ -34,18 +34,19 @@
          <section class="box-planos">
             <section class="icon-plan"> <i class="fa-solid fa-icons"></i> </section>
             <h3>Plano Anual</h3>
-            <section class="price"><span>R$</span>345,6<span>/ano</span></section>
+            <section class="price"><span>R$</span>205,00<span>/ano</span></section>
+            <p style="color: var(--preto); font-weight: 300; margin-top: -10%;">10% off</p>
             <section class="list-plan">
-                <p>Anúncio de Vendas<i class="fa-solid fa-check"></i></p>
+                <p>Anúncio de Serviços<i class="fa-solid fa-check"></i></p>
                 <p>Aumento de Clientes<i class="fa-solid fa-check"></i></p>
                 <p>Aumento da Visibilidade<i class="fa-solid fa-check"></i></p>
-                <p>Agenda Exclusiva<i class="fa-solid fa-check"></i></p>
+                <p>Agenda Online<i class="fa-solid fa-check"></i></p>
                 <p>Acesso as Carteiras Pets<i class="fa-solid fa-check"></i></p>
             </section>
             <% if(!isAssinante){ %>
                 <form action="/PagarAssinatura" method="post">
                     <input type="hidden" value="1" name="id" >
-                    <button type="submit" >Selecionar</button>
+                    <button class="btnplanos" type="submit" >Selecionar</button>
                 </form>
             <% }else{%>
                 <h2>Você já é assinante</h2>
