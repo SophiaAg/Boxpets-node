@@ -743,8 +743,10 @@ const clienteController = {
           res.redirect("/esqueceuSenha-cli")
         } else {
           const jsonResult = {
-            page: "../partial/login/esqueceuSenha",
+            form: "../partial/login/esqueceuSenha",
+            modal: "fechado",
             erros: null,
+            alert: null,
             idUser: decoded.userId,
             modalAberto: true
           }
@@ -806,97 +808,13 @@ const clienteController = {
       }
     }
   },
-  verificarTokenRedefinirSenha: async (req, res) => {
-    try {
-      const token = req.query.token
-      if (!token) {
-        let alert = req.session.token ? req.session.token : null;
-        if (alert && alert.contagem < 1) {
-          req.session.token.contagem++;
-        } else {
-          req.session.token = null;
-        }
-        return res.render("./partial/pg-erro");
-      }
-
-      jwt.verify(token, process.env.SECRET_KEY, async (err, decoded) => {
-        if (err) {
-          req.session.token = { msg: "Link expirado!", type: "danger", contagem: 0 }
-          res.redirect("/esqueceuSenha-cli")
-        } else {
-          const jsonResult = {
-            page: "../partial/login/esqueceuSenha",
-            erros: null,
-            idUser: decoded.userId,
-            modalAberto: true
-          }
-          res.render("./pages/template-login", jsonResult);
-        }
-      })
-    } catch (error) {
-      console.log(error)
-      res.render("./partial/pg-erro")
-
-    }
-  },
-  solicitarResetSenha: async (req, res) => {
-
-    let alert = undefined
-    if (req.session.alert && req.session.alert.count == 0) {
-      alert = req.session.alert
-      req.session.alert.count++
-    }
-
-    let error = validationResult(req)
-
-    if (!error.isEmpty) {
-      req.session.alert = { msg: "Usuário não encontrado", type: "danger", contagem: 0 }
-      const jsonResult = {
-        page: "../partial/login/esqueceuSenha",
-        modal: "fechado",
-        errors: error,
-        modalAberto: false,
-        alert: alert
-      }
-      res.render("pages/template-login", jsonResult);
-    } else {
-      try {
-        const { email } = req.body
-        const user = await clienteModel.findClienteByEmail(email)
-        req.session.alert = { msg: "Usuário não encontrado", type: "sucess", contagem: 0 }
-        const token = jwt.sign(
-          {
-            userId: user[0].ID_CLIENTE,
-            expiresIn: "40m"
-          },
-          process.env.SECRET_KEY
-        )
-
-        enviarEmailRecuperarSenhaCli(
-          user[0].EMAIL_CLIENTE,
-          "Recuperar de senha",
-          process.env.URL_BASE,
-          token,
-          async () => {
-            req.session.alert = { msg: "E-mail enviado com sucesso", type: "success", contagem: 0 }
-            res.redirect("/esqueceuSenha-cli")
-          })
-
-
-      } catch (error) {
-        console.log(error)
-        res.render("./partial/pg-erro")
-
-      }
-    }
-  },
 
   redefinirSenha: async (req, res) => {
     let idUser = req.query.idUser
     if (!idUser) {
       console.log("usuario não achado")
       req.session.alert = { msg: "Usuário não encontrado", type: "danger", contagem: 0 }
-      return res.render("./partial/pg-erro")
+      return res.redirect("./pg-erro")
     }
     let error = validationResult(req)
 
@@ -914,10 +832,15 @@ const clienteController = {
         const { senha } = req.body
         let hashSenha = bcrypt.hashSync(senha, salt);
         var resultado = await clienteModel.updateUser({ SENHA_CLIENTE: hashSenha }, idUser)
-        console.log("-------- senha redefinida -----------")
+        console.log("-------- Senha redefinida -----------")
         console.log(resultado)
-        req.session.alert = { msg: "Senha redefinida com sucesso!", type: "success", contagem: 0 }
-        res.redirect("/logarCliente")
+        req.session.alert = {
+          type: "success",
+          title: "Senha redefinada com sucesso",
+          msg: "Você pode utilizar sua nova senha agora.",
+          count: 0
+        }
+        res.redirect("/entrar")
       } catch (error) {
         console.log(error)
         res.render("./partial/pg-erro")
