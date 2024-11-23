@@ -67,6 +67,14 @@ const agendaModel = {
             throw error
         }
     },
+    findAgendaByIdCliente: async (id) => {
+        try {
+            const [resultados] = await pool.query('SELECT * FROM AGENDAMENTOS WHERE ID_CLIENTE = ?', [id])
+            return resultados
+        } catch (error) {
+            throw error
+        }
+    },
     findAgendaById: async (id) => {
         try {
             const [resultados] = await pool.query('SELECT * FROM AGENDAMENTOS WHERE ID_AGENDAMENTOS = ?', [id])

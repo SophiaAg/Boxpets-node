@@ -314,6 +314,7 @@ const clienteController = {
       const { email, password } = req.body
       try {
         const clienteBd = await clienteModel.findClienteByEmail(email)
+        console.log(clienteBd)
         if (clienteBd[0] && bcrypt.compareSync(password, clienteBd[0].SENHA_CLIENTE)) {
 
           req.session.autenticado = {
@@ -697,6 +698,12 @@ const clienteController = {
       try {
         const petCriado = await clienteModel.createPet(dadosPet);
         console.log(petCriado)
+        req.session.alert = {
+          type: "success",
+          title: "Carteirinha criada!",
+          msg: "Agora você pode agendar com ela!",
+          count: 0
+        }
         res.redirect("/carterinha-pet")
       } catch (erros) {
         console.log(erros)

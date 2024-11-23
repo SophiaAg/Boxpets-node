@@ -31,7 +31,7 @@ const clienteModel = {
             const [resultados] = await pool.query("SELECT * FROM CLIENTE WHERE EMAIL_CLIENTE = ? AND STATUS_CLIENTE = 'ativo' ", [email])
             return resultados
         } catch (error) {
-            return error
+            throw error
         }
     },
 

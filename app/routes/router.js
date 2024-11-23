@@ -183,11 +183,106 @@ router.get("/veterinarios",
         });
         res.render("pages/template-hm", { pagina: "LandingPage", page: "../partial/servicosgerais/veterinarios", empresas: user });
     });
+
 router.get("/historico-cli",
     middleWares.verifyAutenticado,
     middleWares.verifyAutorizado("pages/template-login", { form: "../partial/login/entrar", errors: null, valores: null, incorreto: false }, false),
-    function (req, res) {
-        res.render("pages/template-hm", { page: "../partial/landing-home/historico-cli.ejs" });
+    async function (req, res) {
+        // const horariosServico = await usuariosModel.findHorariosIdservico()
+        let alert = undefined
+        if (req.session.alert && req.session.alert.count == 0) {
+            alert = req.session.alert
+            req.session.alert.count++
+        }
+        const agenda = await agendaModel.findAgendaByIdCliente(req.session.autenticado.id)
+        const idsEmpresa = []
+        const idsServicos = []
+        const idsPets = []
+        for (const a of [...agenda]) {
+            if (!idsEmpresa.includes(a.ID_USUARIO)) {
+                idsEmpresa.push(a.ID_USUARIO)
+            }
+            if (!idsServicos.includes(a.ID_SERVICO)) {
+                idsServicos.push(a.ID_SERVICO)
+            }
+            if (!idsPets.includes(a.ID_CARTEIRINHA_PET)) {
+                idsPets.push(a.ID_CARTEIRINHA_PET)
+            }
+        }
+
+        const empresas = idsEmpresa.length > 0 ? await usuariosModel.findUsuariosInIds(idsEmpresa) : []
+        const servicos = idsServicos.length > 0 ? await usuariosModel.findServicosInIds(idsServicos) : []
+        const pets = idsPets.length > 0 ? await clienteModel.findPetsInIds(idsPets) : []
+        const mapEmpresas = Object.fromEntries(empresas.map(empresa => [empresa.ID_USUARIOS, empresa]));
+        const mapPets = Object.fromEntries(pets.map(pet => [pet.ID_PET, pet]));
+        const mapServicos = Object.fromEntries(servicos.map(servico => [servico.ID_SERVICO, servico]));
+        console.log(mapEmpresas)
+        const agendamentos = agenda.map(a => ({
+            ...a,
+            empresa: mapEmpresas[a.ID_USUARIO],
+            servico: mapServicos[a.ID_SERVICO],
+            pet: mapPets[a.ID_CARTEIRINHA_PET],
+        }))
+        res.render("pages/template-hm",
+            {
+                alert: alert,
+                page: "../partial/landing-home/historico-cli.ejs",
+                classePagina: 'historico',
+                agendamentos: agenda.length > 0 ? agendamentos : null
+
+            }
+        );
+
+    });
+
+
+router.post("/cliCancelarAgenda",
+    middleWares.verifyAutenticado,
+    middleWares.verifyAutorizado(
+        "pages/template-login",
+        { form: "../partial/login/entrar", errors: null, valores: null, incorreto: false },
+        false
+    ),
+    async function (req, res) {
+        const idAgendamento = req.query.idAgendamento
+        if (!idAgendamento) {
+            req.session.alert = {
+                type: "danger",
+                title: "Agendamento não encontrado!",
+                msg: "Ocorreu um erro ao tentar encontrar o agendamento!.",
+                count: 0
+            }
+            return res.redirect("/historico-cli")
+        }
+        try {
+            const agendamento = await agendaModel.findAgendaById(idAgendamento)
+            if (!agendamento[0]) {
+                req.session.alert = {
+                    type: "danger",
+                    title: "Agendamento não encontrado!",
+                    msg: "Ocorreu um erro ao tentar encontrar o agendamento!.",
+                    count: 0
+                }
+                return res.redirect("/historico-cli")
+            }
+
+            const resultUpdate = await agendaModel.updateAgenda(idAgendamento, { ID_STATUS: 3 })
+            console.log(resultUpdate)
+            
+            req.session.alert = {
+                type: "success",
+                title: "Agendamento cancelado com sucesso!",
+                msg: "O horário foi disponibilizado novamente.",
+                count: 0
+            }
+            req.session.save(() => {
+                res.redirect("/historico-cli")
+            })
+
+        } catch (error) {
+            console.log(error)
+            res.redirect("/pg-erro")
+        }
     });
 router.get("/VizucriaPg", async function (req, res) {
     const idEmpresa = req.query.id;
@@ -220,7 +315,7 @@ router.get("/carterinha-pet",
                 req.session.alert.count++
             }
             let pets = await clienteModel.findPetById(req.session.autenticado.id);
-            res.render("./pages/template-hm", { page: "../partial/landing-home/carterinha-pet", avisoErro: null, pets: pets, modalAberto: false, pet: null, alert:alert })
+            res.render("./pages/template-hm", { page: "../partial/landing-home/carterinha-pet", avisoErro: null, pets: pets, modalAberto: false, pet: null, alert: alert })
         } catch (e) {
             console.log(e);
             res.redirect("/")
@@ -281,12 +376,12 @@ router.post("/editarCarterinhaPet",
     function (req, res) {
         clienteController.editarPet(req, res);
     });
-router.post("/excluirPet", 
+router.post("/excluirPet",
     middleWares.verifyAutenticado,
     middleWares.verifyAutorizado("pages/template-login", { form: "../partial/login/entrar", errors: null, valores: null, incorreto: false }, false),
     function (req, res) {
-    clienteController.excluirPet(req, res)
-})
+        clienteController.excluirPet(req, res)
+    })
 router.get("/page-user",
     middleWares.verifyAutenticado,
     middleWares.verifyAutorizado("pages/template-login", { form: "../partial/login/entrar", errors: null, valores: null, incorreto: false, }, false),
