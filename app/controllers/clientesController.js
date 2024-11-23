@@ -743,8 +743,10 @@ const clienteController = {
           res.redirect("/esqueceuSenha-cli")
         } else {
           const jsonResult = {
-            page: "../partial/login/esqueceuSenha",
+            form: "../partial/login/esqueceuSenha",
+            modal: "fechado",
             erros: null,
+            alert: null,
             idUser: decoded.userId,
             modalAberto: true
           }
