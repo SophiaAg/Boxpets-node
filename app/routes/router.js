@@ -649,12 +649,6 @@ router.get("/redefinir-senha-cli",
 
 router.post("/redefinirSenha-cli", clienteController.regrasValidacaoRedefinirSenha, async function (req, res) {
     clienteController.redefinirSenha(req, res)
-    req.session.alert = {
-        type: "success",
-        title: "Login concluido!",
-        msg: "O login foi concluido.",
-        count: 0
-    }
 })
 
 
