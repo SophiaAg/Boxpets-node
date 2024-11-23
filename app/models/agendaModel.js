@@ -67,6 +67,14 @@ const agendaModel = {
             throw error
         }
     },
+    findAgendaByIdHorario: async (id) => {
+        try {
+            const [resultados] = await pool.query('SELECT * FROM AGENDAMENTOS WHERE ID_HORARIO_SERVICO = ?', [id])
+            return resultados
+        } catch (error) {
+            throw error
+        }
+    },
     findAgendaByIdCliente: async (id) => {
         try {
             const [resultados] = await pool.query('SELECT * FROM AGENDAMENTOS WHERE ID_CLIENTE = ?', [id])
@@ -115,6 +123,15 @@ const agendaModel = {
     cancelAllAgendaByIdServico: async(id)=>{
         try {
             const [resultados] = await pool.query("DELETE FROM AGENDAMENTOS WHERE ID_SERVICO = ?", [id])
+            return resultados
+        } catch (error) {
+            console.log("erros ao agendar")
+            throw error
+        }
+    },
+    cancelAllAgendaByIdHorario: async(id)=>{
+        try {
+            const [resultados] = await pool.query("DELETE FROM AGENDAMENTOS WHERE ID_HORARIO_SERVICO = ?", [id])
             return resultados
         } catch (error) {
             console.log("erros ao agendar")
