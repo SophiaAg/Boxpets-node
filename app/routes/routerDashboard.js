@@ -385,7 +385,7 @@ router.post("/deletarServico",
                 return res.redirect("/paginacomercial")
             }
 
-            
+
             const resultDelete = await agendaModel.cancelAllAgendaByIdServico(idServico)
             console.log(resultDelete)
             const resultDel = await agendaModel.cancelAllHorariosByIdServico(idServico)
@@ -548,6 +548,38 @@ router.post("/apagarHorario",
                 console.log("Esse servico não pertence a você")
                 return res.redirect("/agendamento")
             }
+            const agendamentos = await agendaModel.findAgendaByIdHorario(idHorario)
+            
+            const idsClientes = []
+            for (const a of [...agenda]) {
+                if (!idsClientes.includes(a.ID_CLIENTE)) {
+                    idsClientes.push(a.ID_CLIENTE)
+                }
+            }
+            const clientes = idsClientes.length > 0 ? await clienteModel.findClientesByIds(idsClientes) : []
+
+            agendamentos.forEach(async agendamento => {
+                const userBd = await usuariosModel.findUsuariosById(agendamento.ID_USUARIO)
+                const servico = await usuariosModel.findServicoById(agendamento.ID_SERVICO)
+                clientes.forEach(cliente => {
+                    let infosAgenda = {
+                        ...agendamento,
+                        servico: servico[0],
+                        empresa: userBd[0]
+                    }
+
+                    enviarEmailCancelAgenda(
+                        cliente.EMAIL_CLIENTE,
+                        "Cancelamento do serviço.",
+                        process.env.URL_BASE,
+                        infosAgenda,
+                        async () => {
+                            return console.log(`------ Email enviado para ${cliente.EMAIL_CLIENTE} ------`)
+                        })
+                })
+            })
+            const cancelAgendamentos = await agendaModel.cancelAllAgendaByIdHorario(idHorario)
+            console.log(cancelAgendamentos)
             const result = await agendaModel.apagarHorario(idHorario)
             console.log("Horario excluido da agenda")
             console.log(result)
