@@ -12,3 +12,5 @@
 
 ## erros
 - redefinir senhas
+- não aparecer as paginas das empresas não assinantes
+- mudar senha
