@@ -31,7 +31,7 @@ router.get("/dashboard",
             alert = req.session.alert
             req.session.alert.count++
         }
-    
+
         let alerta;
         const params = new URLSearchParams(req.query);
 
@@ -253,13 +253,13 @@ router.get("/planos",
         res.render("pages/template-dashboard", { page: "../partial/dashboard/planos", classePagina: 'planos', alert: null, isAssinante: isAssinante });
     });
 
-    // router.get("/criaPg",
-    //     middleWares.verifyAutenticado,
-    //     middleWares.verifyAutorizado("pages/template-loginEmpresa", { page: "../partial/cadastroEmpresa/login", errors: null, valores: "", incorreto: null }, true),
-    //     function (req, res) {
-    //         res.render("pages/template-dashboard", { page: "../partial/dashboard/criaPg", classePagina: 'teste', nomeempresa: 'nomeempresa' });
-    //     });
-    
+// router.get("/criaPg",
+//     middleWares.verifyAutenticado,
+//     middleWares.verifyAutorizado("pages/template-loginEmpresa", { page: "../partial/cadastroEmpresa/login", errors: null, valores: "", incorreto: null }, true),
+//     function (req, res) {
+//         res.render("pages/template-dashboard", { page: "../partial/dashboard/criaPg", classePagina: 'teste', nomeempresa: 'nomeempresa' });
+//     });
+
 // Pagina comercial
 router.get('/paginacomercial',
     middleWares.verifyAutenticado,
@@ -268,10 +268,10 @@ router.get('/paginacomercial',
     async (req, res) => {
 
         let alert = undefined
-    if (req.session.alert && req.session.alert.count == 0) {
-        alert = req.session.alert
-        req.session.alert.count++
-    }
+        if (req.session.alert && req.session.alert.count == 0) {
+            alert = req.session.alert
+            req.session.alert.count++
+        }
 
         try {
             const usuario = await usuariosModel.findUsuariosById(req.session.autenticado.id)
@@ -384,16 +384,21 @@ router.post("/deletarServico",
                 console.log("Esse servico não pertence a sua empresa!")
                 return res.redirect("/paginacomercial")
             }
+
             
-        req.session.alert = {
-            type: "success",
-            title: "Delete concluido!",
-            msg: "O serviço foi com sucesso.",
-            count: 0
-        }
+            const resultDelete = await agendaModel.cancelAllAgendaByIdServico(idServico)
+            console.log(resultDelete)
+            const resultDel = await agendaModel.cancelAllHorariosByIdServico(idServico)
+            console.log(resultDel)
             const result = await usuariosModel.deleteServico(idServico)
             console.log(result)
             console.log('Servico deletado com sucesso!')
+            req.session.alert = {
+                type: "success",
+                title: "Delete concluido!",
+                msg: "O serviço foi com sucesso.",
+                count: 0
+            }
             res.redirect('/paginacomercial')
         } catch (error) {
             console.log(error)
@@ -417,7 +422,7 @@ router.post("/alterarInfosGerais",
     middleWares.verifyAutenticado,
     middleWares.verifyAutorizado("pages/template-loginEmpresa", { page: "../partial/cadastroEmpresa/login", errors: null, valores: "", incorreto: null }, true),
     (req, res) => {
-   
+
         usuariosController.alterarInfoGeral(req, res)
 
         req.session.alert = {

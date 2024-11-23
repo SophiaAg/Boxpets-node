@@ -111,7 +111,25 @@ const agendaModel = {
             console.log("erros ao agendar")
             throw error
         }
-    }
+    },
+    cancelAllAgendaByIdServico: async(id)=>{
+        try {
+            const [resultados] = await pool.query("DELETE FROM AGENDAMENTOS WHERE ID_SERVICO = ?", [id])
+            return resultados
+        } catch (error) {
+            console.log("erros ao agendar")
+            throw error
+        }
+    },
+    cancelAllHorariosByIdServico: async(id)=>{
+        try {
+            const [resultados] = await pool.query("DELETE FROM HORARIOS_SERVICO WHERE ID_SERVICO = ?", [id])
+            return resultados
+        } catch (error) {
+            console.log("erros ao agendar")
+            throw error
+        }
+    },
 }
 
 
