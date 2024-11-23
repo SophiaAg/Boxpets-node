@@ -486,7 +486,6 @@ router.get('/agendamento',
 
     }
 );
-
 router.post("/criarHorario",
     middleWares.verifyAutenticado,
     middleWares.verifyAutorizado("pages/template-loginEmpresa", { page: "../partial/cadastroEmpresa/login", errors: null, valores: "", incorreto: null }, true),

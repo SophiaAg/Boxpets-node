@@ -1,4 +1,4 @@
-<div class="container">
+<!-- <div class="container">
     <div class="status">
         <button class="active">Aguardando</button>
         <button class="concluido">Concluido</button>
@@ -10,7 +10,7 @@
       <div class="active">
           <h1>aguarde</h1>
   <div class="product-grid">
-      <!--aqui seria adiconado automaticamnete o card do serviço solicitado-->
+      
       <div class="showcase">
 
           <div class="showcase-banner">
@@ -27,7 +27,7 @@
 
             <div class="price-box">
               <p class="price">$48.00</p>
-             <!-- <del>$75.00</del>-->
+             
             </div>
 
           </div>
@@ -47,4 +47,118 @@
 </div>
 
 <script src="/js/carroselEmpresas.js"></script>
-<script src="/js/historico-cli.js"></script>
+<script src="/js/historico-cli.js"></script> -->
+
+
+
+
+  <div class="page-content">
+    <div class="records table-responsive">
+      <div>
+        <table width="100%">
+          <thead>
+            <tr>
+              <th>ID EMPRESA</th>
+              <th><span class="las la-sort"></span> EMPRESA</th>
+              <th><span class="las la-sort"></span> SERVIÇO</th>
+              <th><span class="las la-sort"></span> DATA</th>
+              <th><span class="las la-sort"></span> HORÁRIO</th>
+              <th><span class="las la-sort"></span> STATUS</th>
+              <th><span class="las la-sort"></span> Ações</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% if(agendamentos){ agendamentos.forEach(agenda=>{ %>
+              <tr>
+                <td>
+                  <%= agenda.empresa.ID_USUARIOS %>
+                </td>
+                <td>
+                  <div class="client">
+                    <div class="client-img bg-img"
+                      style="background-image: url('./src/imagens-empresa/logo-empresa/<%= agenda.empresa.LOGO_IMG%>')">
+                    </div>
+                    <div class="client-info">
+                      <h4>
+                        <%= agenda.empresa.NOMEEMPRESA_USUARIO %>
+                      </h4>
+                    </div>
+                  </div>
+                </td>
+                <td>
+                  <%= agenda.servico.NOME_SERVICO %>
+                </td>
+                <td>
+                  <% const date=new Date(agenda.DATA_AGENDAMENTO); const dia=String(date.getDate()).padStart(2, '0' );
+                    const mes=String(date.getMonth() + 1).padStart(2, '0' ); const ano=date.getFullYear(); %>
+                    <%= `${dia}/${mes}/${ano}` %>
+                </td>
+                <td>
+                  <%= agenda.HORARIO_AGENDAMENTO %>
+                </td>
+                <td>
+                  <% if(agenda.ID_STATUS==1) {%>
+                    <span class="paid-aguarde">Marcado</span>
+                    <%}else if(agenda.ID_STATUS==2){%>
+                      <span class="paid-concluido">Concluido</span>
+                      <%}else if(agenda.ID_STATUS==3){%>
+                        <span class="paid-cancelado">Cancelado</span>
+                        <%}%>
+                </td>
+                <td>
+                  <% if(agenda.ID_STATUS==1) {%>
+                    <button data-openModal="#cancelarAgenda<%=agenda.ID_AGENDAMENTOS %>"
+                      title="Cancelar agendamento">Cancelar</button>
+                    <% if(agenda.pet !=null && agenda.pet !=undefined){%>
+                      <button data-openModal="#verCarteira<%=agenda.ID_AGENDAMENTOS %>" title="Cancelar agendamento">Ver
+                        carteirinha pet</button>
+                      <% } %>
+                        <% } %>
+                </td>
+              </tr>
+
+              <div class="modal" id="cancelarAgenda<%=agenda.ID_AGENDAMENTOS %>">
+                <button class="closeBtn"><span class="material-symbols-outlined">close</span></button>
+                <div class="modal-content">
+                  <h1>Cancelar agendamento?</h1>
+                  <p style="color: black;">Essa ação é irreversível e será notificada ao cliente.
+                  </p>
+                  <form action="/cliCancelarAgenda?idAgendamento=<%= agenda.ID_AGENDAMENTOS %>" method="post"
+                    enctype="multipart/form-data">
+                    <button class="btn-servico">Confirmar</button>
+                    <button class="btn-servico cancelarBtn">Voltar</button>
+                  </form>
+                </div>
+              </div>
+              <% if(agenda.pet !=null && agenda.pet !=undefined){%>
+                <div class="modal" id="verCarteira<%=agenda.ID_AGENDAMENTOS %>">
+                  <button class="closeBtn"><span class="material-symbols-outlined">close</span></button>
+                  <div class="modal-content">
+                    <h1>Carteirinha Pet</h1>
+                    <div class="infos-carteirinha">
+                      <img src="src/fotos-pet/<%= agenda.pet.img_pet %>" alt="imagem do pet" width="200">
+                      <p style="color: black;">Nome:<%= agenda.pet.NOME_PET %>
+                      </p>
+                      <p style="color: black;">Idade:<%= agenda.pet.IDADE_PET %>
+                      </p>
+                      <p style="color: black;">Sexo:<%= agenda.pet.SEXO_PET %>
+                      </p>
+                      <p style="color: black;">Porte:<%= agenda.pet.PORTE_PET %>
+                      </p>
+                      <p style="color: black;">Raça:<%= agenda.pet.RACA_PET %>
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <% } %>
+                  <%}) }%>
+
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+  </div>
+
+
+<script src="js/abrirModal.js"></script>
