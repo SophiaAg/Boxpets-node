@@ -809,8 +809,8 @@ const clienteController = {
   verificarTokenRedefinirSenha: async (req, res) => {
     let alert = undefined
     if (req.session.alert && req.session.alert.count == 0) {
-        alert = req.session.alert
-        req.session.alert.count++
+      alert = req.session.alert
+      req.session.alert.count++
     }
     try {
       const token = req.query.token
@@ -829,14 +829,16 @@ const clienteController = {
           req.session.alert = { msg: "Link expirado!", type: "danger", contagem: 0 }
           res.redirect("/esqueceuSenha-cli")
         } else {
+
           const jsonResult = {
-            page: "../partial/login/esqueceuSenha",
+            form: "../partial/login/esqueceuSenha",
+            modal: "fechado",
             erros: null,
-            idUser: decoded.userId,
+            alert: null,
             modalAberto: true,
-            alert: alert
+
           }
-          res.render("./pages/template-login", jsonResult);
+          res.render("pages/template-login", jsonResult);
         }
       })
     } catch (error) {

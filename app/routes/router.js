@@ -645,8 +645,6 @@ router.post("/solicitarResetSenha-cli", clienteController.regrasValidacaoRecuper
 router.get("/redefinir-senha-cli",
     function (req, res) {
         clienteController.verificarTokenRedefinirSenha(req, res)
-  
-
     });
 
 router.post("/redefinirSenha-cli", clienteController.regrasValidacaoRedefinirSenha, async function (req, res) {
