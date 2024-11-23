@@ -814,7 +814,7 @@ const clienteController = {
     if (!idUser) {
       console.log("usuario não achado")
       req.session.alert = { msg: "Usuário não encontrado", type: "danger", contagem: 0 }
-      return res.render("./partial/pg-erro")
+      return res.redirect("./pg-erro")
     }
     let error = validationResult(req)
 
@@ -832,7 +832,7 @@ const clienteController = {
         const { senha } = req.body
         let hashSenha = bcrypt.hashSync(senha, salt);
         var resultado = await clienteModel.updateUser({ SENHA_CLIENTE: hashSenha }, idUser)
-        console.log("-------- senha redefinida -----------")
+        console.log("-------- Senha redefinida -----------")
         console.log(resultado)
         req.session.alert = {
           type: "success",
@@ -840,7 +840,7 @@ const clienteController = {
           msg: "O login foi concluido.",
           count: 0
         }
-        res.redirect("/logarCliente")
+        res.redirect("/entrar")
       } catch (error) {
         console.log(error)
         res.render("./partial/pg-erro")
