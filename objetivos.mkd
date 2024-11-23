@@ -1,37 +1,14 @@
 # PENDENTES
-
-## Etapa final 
-
-add img/informação no Buyser
-mercado pago
-agendamento
-historico
-
-
-
-# Agendamento
-
-## Pagina Comercial
-obs: pra cada um vc cria um form com action diferente(ex:'/alterarCapaFundo') e todos tem que ser POST, além dos que tiver input file tem que ter o enctype:multidata
-- ajeitar o front colocando:
-  - form com Input file para Capa de fundo
-  - form com Input file para logo da empresa
-  - textarea para biografia
-  - botao addServico (abre o modal do form de criar servico)
-  - modal addServico
-  
-
-## Criar os horarios disponiveis 
-- Criar uma pagina pra selecionar a agenda de qual serviço a empresa quer gerenciar (Exemplo: 'A empresa tem servico 1 e 2. Apareceria o servico 1 e 2 na tela, ela selecionaria e iria pra agenda desse servico.')
-obs: 'Teria que ter uma verificação nessa pagina para ver se o servico no qual o usuario ta acessando é dele mesmo, verificando a partir do id da empresa'
-
-- Ajeitar o css da pagina de editar agenda.
-recomendaçao: 'Adicionar uma parte pra na pagina pra saber de qual serviço é aquela agenda'
-
-
-
-
-
-- Validação da carteirinha pet
-- arrumar front dos cards da carteirinha pet
+## front
+- historico
 - pagina de pesquisa
+- pagina de admin
+- modal de localização
+- favoritos
+- arrumar front dos cards da carteirinha pet
+## back
+- pagina de admin
+- pagina de pesquisa
+
+## erros
+- redefinir senhas

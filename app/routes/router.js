@@ -105,7 +105,6 @@ router.post("/cadastrarCliente", clienteController.regrasValidacaoCriarConta, fu
 // login de CLIENTES
 router.post("/logarCliente", clienteController.regrasValidacaoLogarConta, middleWares.gravarAutenticacaoCliente, function (req, res) {
     clienteController.entrar(req, res)
-
     req.session.alert = {
         type: "success",
         title: "Login concluido!",
@@ -386,10 +385,7 @@ router.get("/page-user",
     middleWares.verifyAutenticado,
     middleWares.verifyAutorizado("pages/template-login", { form: "../partial/login/entrar", errors: null, valores: null, incorreto: false, }, false),
     function (req, res) {
-
-        clienteController.mostrarPerfil(req, res);
-
-
+        clienteController.mostrarPerfil(req, res)
     });
 router.post("/info-atualizar",
     middleWares.verifyAutenticado,

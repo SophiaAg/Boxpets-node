@@ -376,12 +376,6 @@ const clienteController = {
 
     if (!erros.isEmpty()) {
       console.log(erros)
-      let alert = undefined
-      if (req.session.alert && req.session.alert.count == 0) {
-        alert = req.session.alert
-        req.session.alert.count++
-      }
-
 
       let result = await clienteModel.findClienteById(req.session.autenticado.id);
 
@@ -397,7 +391,7 @@ const clienteController = {
         senha_cli: ""
       }
 
-      res.render("./pages/template-hm", { page: "../partial/landing-home/page-user", alert: alert, listaErros: erros, valores: campos, foto: result[0].img_perfil_pasta });
+      res.render("./pages/template-hm", { page: "../partial/landing-home/page-user", alert: null, listaErros: erros, valores: campos, foto: result[0].img_perfil_pasta });
 
     } else {
       try {
@@ -408,7 +402,6 @@ const clienteController = {
           CELULAR_CLIENTE: req.body.celular_cli,
           CPF_CLIENTE: req.body.cpf_cli,
           DATA_NASC_CLIENTE: req.body.nasc_cli,
-          SENHA_CLIENTE: req.body.senha_cli,
         };
 
         if (req.body.senha_cli != "") {
@@ -513,21 +506,15 @@ const clienteController = {
           caminhoFoto = req.file.filename
           let resultado = await clienteModel.updateUser({ img_perfil_pasta: caminhoFoto }, req.session.autenticado.id)
           let results = await clienteModel.findClienteById(req.session.autenticado.id);
-          const data = new Date(results[0].DATA_NASC_CLIENTE);
-          const dataFormatada = data.toISOString().split('T')[0];
 
           req.session.autenticado.foto = caminhoFoto
-          console.log(resultado)
-          let campos = {
-            nome: results[0].NOME_CLIENTE,
-            email: results[0].EMAIL_CLIENTE,
-            nasc: dataFormatada,
-            celular: results[0].CELULAR_CLIENTE,
-            cpf: results[0].CPF_CLIENTE,
-            senha: ""
+          req.session.alert = {
+            type: "success",
+            title: "Foto atualizada!",
+            msg: "Sua foto de perfil foi atualizada com sucesso!",
+            count: 0
           }
-
-          res.render("./pages/template-hm", { page: "../partial/landing-home/page-user", avisoErro: null, valores: campos, foto: results[0].img_perfil_pasta })
+          res.redirect("/page-user")
 
         } catch (errors) {
           console.log(errors)
@@ -547,21 +534,14 @@ const clienteController = {
       caminhoFoto = "imgUser.png"
       let resultado = await clienteModel.updateUser({ img_perfil_pasta: caminhoFoto }, req.session.autenticado.id)
       let results = await clienteModel.findClienteById(req.session.autenticado.id);
-      const data = new Date(results[0].DATA_NASC_CLIENTE);
-      const dataFormatada = data.toISOString().split('T')[0];
       req.session.autenticado.foto = caminhoFoto
-      console.log(resultado)
-
-      let campos = {
-        nome: results[0].NOME_CLIENTE,
-        email: results[0].EMAIL_CLIENTE,
-        nasc: dataFormatada,
-        celular: results[0].CELULAR_CLIENTE,
-        cpf: results[0].CPF_CLIENTE,
-        senha: ""
+      req.session.alert = {
+        type: "success",
+        title: "Foto atualizada!",
+        msg: "Sua foto de perfil foi atualizada com sucesso!",
+        count: 0
       }
-
-      res.render("./pages/template-hm", { page: "../partial/landing-home/page-user", avisoErro: null, valores: campos, foto: results[0].img_perfil_pasta })
+      res.redirect("/page-user")
 
     } catch (errors) {
       console.log(errors)
@@ -780,8 +760,8 @@ const clienteController = {
   solicitarResetSenha: async (req, res) => {
     let alert = undefined
     if (req.session.alert && req.session.alert.count == 0) {
-        alert = req.session.alert
-        req.session.alert.count++
+      alert = req.session.alert
+      req.session.alert.count++
     }
 
     let error = validationResult(req)
@@ -792,7 +772,7 @@ const clienteController = {
         erros: null,
         idUser: decoded.userId,
         modalAberto: true,
-        alert:alert
+        alert: alert
       }
       res.render("./pages/template-login", jsonResult);
     } else {
@@ -863,8 +843,8 @@ const clienteController = {
 
     let alert = undefined
     if (req.session.alert && req.session.alert.count == 0) {
-        alert = req.session.alert
-        req.session.alert.count++
+      alert = req.session.alert
+      req.session.alert.count++
     }
 
     let error = validationResult(req)
@@ -876,7 +856,7 @@ const clienteController = {
         modal: "fechado",
         errors: error,
         modalAberto: false,
-        alert:alert
+        alert: alert
       }
       res.render("pages/template-login", jsonResult);
     } else {
