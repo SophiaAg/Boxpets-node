@@ -366,6 +366,8 @@ router.get("/loginEmpresa", async function (req, res) {
 // Cadastro de EMPRESAS
 router.post("/cadastrarEmpresa", usuariosController.regrasValidacaoCriarConta, function (req, res) {
     usuariosController.cadastrarUsuario(req, res)
+
+
 })
 
 // Login de EMPRESAS
@@ -378,6 +380,7 @@ router.post("/logarEmpresa", usuariosController.regrasValidacaoLogarConta, funct
         msg: "O login foi concluido.",
         count: 0
     }
+
 })
 
 
@@ -476,12 +479,7 @@ router.get("/ativar-conta",
 )
 
 router.get("/esqueceuSenha", function (req, res) {
-    let alert = req.session.aviso ? req.session.aviso : null;
-    if (alert && alert.contagem < 1) {
-        req.session.aviso.contagem++;
-    } else {
-        req.session.aviso = null;
-    }
+ 
     const jsonResult = {
         page: "../partial/cadastroEmpresa/esqueceuSenha",
         modal: "fechado",
@@ -495,6 +493,13 @@ router.get("/esqueceuSenha", function (req, res) {
 
 router.post("/solicitarResetSenha", usuariosController.regrasValidacaoRecuperarSenha, async function (req, res) {
     usuariosController.solicitarResetSenha(req, res)
+
+    req.session.alert = {
+        type: "success",
+        title: "Login concluido!",
+        msg: "O login foi concluido.",
+        count: 0
+    }
 });
 
 router.get("/redefinir-senha",
@@ -515,18 +520,20 @@ router.get("/ativar-conta-cli",
     });
 
 router.get("/esqueceuSenha-cli", function (req, res) {
-    let alert = req.session.aviso ? req.session.aviso : null;
-    if (alert && alert.contagem < 1) {
-        req.session.aviso.contagem++;
-    } else {
-        req.session.aviso = null;
+
+    let alert = undefined
+    if (req.session.alert && req.session.alert.count == 0) {
+        alert = req.session.alert
+        req.session.alert.count++
     }
+
     const jsonResult = {
         form: "../partial/login/esqueceuSenha",
         modal: "fechado",
         erros: null,
-        token: alert,
-        modalAberto: false
+        alert: alert,
+        modalAberto: false,
+       
     }
     res.render("pages/template-login", jsonResult);
 });
@@ -534,21 +541,35 @@ router.get("/esqueceuSenha-cli", function (req, res) {
 
 router.post("/solicitarResetSenha-cli", clienteController.regrasValidacaoRecuperarSenha, async function (req, res) {
     clienteController.solicitarResetSenha(req, res)
+
+    req.session.alert = {
+        type: "success",
+        title: "Login concluido!",
+        msg: "O login foi concluido.",
+        count: 0
+    }
+
 });
 
 router.get("/redefinir-senha-cli",
     function (req, res) {
         clienteController.verificarTokenRedefinirSenha(req, res)
-        let alert = req.session.aviso ? req.session.aviso : null;
-        if (alert && alert.contagem < 1) {
-            req.session.aviso.contagem++;
-        } else {
-            req.session.aviso = null;
+        let alert = undefined
+        if (req.session.alert && req.session.alert.count == 0) {
+            alert = req.session.alert
+            req.session.alert.count++
         }
+
     });
 
 router.post("/redefinirSenha-cli", clienteController.regrasValidacaoRedefinirSenha, async function (req, res) {
     clienteController.redefinirSenha(req, res)
+    req.session.alert = {
+        type: "success",
+        title: "Login concluido!",
+        msg: "O login foi concluido.",
+        count: 0
+    }
 })
 
 

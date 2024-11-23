@@ -771,6 +771,12 @@ const clienteController = {
     }
   },
   solicitarResetSenha: async (req, res) => {
+    let alert = undefined
+    if (req.session.alert && req.session.alert.count == 0) {
+        alert = req.session.alert
+        req.session.alert.count++
+    }
+
     let error = validationResult(req)
 
     if (!error.isEmpty) {
@@ -778,7 +784,8 @@ const clienteController = {
         page: "../partial/login/esqueceuSenha",
         erros: null,
         idUser: decoded.userId,
-        modalAberto: true
+        modalAberto: true,
+        alert:alert
       }
       res.render("./pages/template-login", jsonResult);
     } else {
@@ -800,7 +807,7 @@ const clienteController = {
           process.env.URL_BASE,
           token,
           async () => {
-            req.session.aviso = { msg: "E-mail enviado com sucesso", type: "success", contagem: 0 }
+            req.session.alert = { msg: "E-mail enviado com sucesso", type: "success", contagem: 0 }
             res.redirect("/esqueceuSenha-cli")
           })
 
@@ -846,21 +853,30 @@ const clienteController = {
     }
   },
   solicitarResetSenha: async (req, res) => {
+
+    let alert = undefined
+    if (req.session.alert && req.session.alert.count == 0) {
+        alert = req.session.alert
+        req.session.alert.count++
+    }
+
     let error = validationResult(req)
 
     if (!error.isEmpty) {
+      req.session.alert = { msg: "Usuário não encontrado", type: "danger", contagem: 0 }
       const jsonResult = {
         page: "../partial/login/esqueceuSenha",
         modal: "fechado",
         errors: error,
-        modalAberto: false
+        modalAberto: false,
+        alert:alert
       }
       res.render("pages/template-login", jsonResult);
     } else {
       try {
         const { email } = req.body
         const user = await clienteModel.findClienteByEmail(email)
-
+        req.session.alert = { msg: "Usuário não encontrado", type: "sucess", contagem: 0 }
         const token = jwt.sign(
           {
             userId: user[0].ID_CLIENTE,
@@ -875,7 +891,7 @@ const clienteController = {
           process.env.URL_BASE,
           token,
           async () => {
-            req.session.aviso = { msg: "E-mail enviado com sucesso", type: "success", contagem: 0 }
+            req.session.alert = { msg: "E-mail enviado com sucesso", type: "success", contagem: 0 }
             res.redirect("/esqueceuSenha-cli")
           })
 
@@ -887,11 +903,12 @@ const clienteController = {
       }
     }
   },
+
   redefinirSenha: async (req, res) => {
     let idUser = req.query.idUser
     if (!idUser) {
       console.log("usuario não achado")
-      req.session.token = { msg: "Usuário não encontrado", type: "danger", contagem: 0 }
+      req.session.alert = { msg: "Usuário não encontrado", type: "danger", contagem: 0 }
       return res.render("./partial/pg-erro")
     }
     let error = validationResult(req)
