@@ -710,12 +710,12 @@ router.post("/PagarAssinatura", async function (req, res) {
 
     preference.create({ body })
         .then(response => {
+            console.log("preferencia criada!")
             const initPoint = response.init_point;
             res.status(200).redirect(initPoint)
         })
         .catch(error => {
-            console.log(error)
-            req.flash("error", errorMessages.INTERNAL_ERROR);
+            console.log("Erro ao processar o pagamento:", error.response?.data || error);
             return res.status(500).redirect(`/store/points`)
         });
 

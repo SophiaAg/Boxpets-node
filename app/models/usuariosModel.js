@@ -1,6 +1,6 @@
 var pool = require("../../config/pool-conexao");
 
-const usuariosModel = {
+        const usuariosModel = {
     createUsuario: async (dadosUsuario) => {
         try {
             const [resultados] = await pool.query("insert into USUARIOS set ?", [dadosUsuario])
