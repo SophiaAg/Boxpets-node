@@ -1,6 +1,6 @@
 var pool = require("../../config/pool-conexao");
 
-        const usuariosModel = {
+const usuariosModel = {
     createUsuario: async (dadosUsuario) => {
         try {
             const [resultados] = await pool.query("insert into USUARIOS set ?", [dadosUsuario])
@@ -68,16 +68,32 @@ var pool = require("../../config/pool-conexao");
     },
     findAllUsuarios: async (id) => {
         try {
-            if(id != undefined) {
+            if (id != undefined) {
                 const [resultados] = await pool.query("SELECT * FROM USUARIOS WHERE USUARIOS_STATUS = 'ativo' AND ESPECIALIDADES_ID_ESPECIALIDADES = ?", [id])
                 return resultados
-            }else{
+            } else {
                 const [resultados] = await pool.query("SELECT * FROM USUARIOS WHERE USUARIOS_STATUS = 'ativo'")
                 return resultados
             }
-            
+
         } catch (error) {
             return error
+        }
+    },
+    findAllUsuariosAssi: async (id) => {
+        try {
+                const [resultados] = await pool.query("SELECT * FROM USUARIOS WHERE USUARIOS_STATUS = 'ativo' AND PLANOS = 1")
+                return resultados
+        } catch (error) {
+            return error
+        }
+    },
+    findAllService: async () => {
+        try {
+            const [resultados] = await pool.query("SELECT * FROM SERVICO WHERE STATUS_SERVICO = 'ativo'")
+            return resultados
+        } catch (error) {
+            throw error
         }
     },
     findServicosByIdEmpresa: async (id) => {

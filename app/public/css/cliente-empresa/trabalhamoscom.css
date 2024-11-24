@@ -80,6 +80,9 @@
     color: var(--textos);
     font-size: 14px;
     font-weight: 400;
+    &:hover{
+        color: orange;
+    }
 }
 
 @media (min-width: 600px) {
