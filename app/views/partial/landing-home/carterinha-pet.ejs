@@ -8,6 +8,9 @@
     & .btn-criar{
       margin-top: 10px;
     }
+    .mds{
+
+    }
   }
 </style>
 
@@ -19,9 +22,9 @@
 <div id="cardContainer" class="card-container" >
 
   <% if (pets) { pets.forEach(pet=> {%>
+  
     <div class="card">
-      <a href="/edit-carteirinha?idPet=<%=pet.ID_PET %>" class="">Editar</a>
-      <button data-openModal="#verCarteira<%=pet.ID_PET %>" class="">Excluir</button>
+     
 
       <img src="./src/fotos-pet/<%= pet.img_pet %>" alt="foto do pet">
       <div class="info-pets">
@@ -40,6 +43,10 @@
         <p>
           <%=pet.RACA_PET%>
         </p>
+      </div>
+      <div class="mds">
+        <a href="/edit-carteirinha?idPet=<%=pet.ID_PET %>" class="" style="color: var(--preto);" ><span class="material-symbols-outlined">edit   </span></a>
+        <button data-openModal="#verCarteira<%=pet.ID_PET %>" class="" style="color: var(--preto); background: none;"><span class="material-symbols-outlined">delete </span></button>
       </div>
     </div>
 

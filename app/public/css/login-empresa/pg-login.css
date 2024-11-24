@@ -136,10 +136,10 @@ form.sign-up-form {
 }
 
 .toggle {
-  color: #151111;
+  color: var(--cor-segundaria);
   text-decoration: none;
-  font-size: 0.75rem;
-  font-weight: 500;
+  font-size: 18px;
+  font-weight: 800;
   transition: 0.3s;
 }
 
@@ -224,8 +224,10 @@ form.sign-up-form {
 }
 
 .text a {
-  color: #bbb;
+  color: var(--cor-primaria);
   transition: 0.3s;
+  font-size: 14px;
+  font-weight: 700;
 }
 
 .text a:hover {

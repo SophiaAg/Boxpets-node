@@ -1,0 +1,126 @@
+<style>
+    .card-empresa{
+    display: flex;
+    gap: 10%;
+    padding: 40px;
+    border-radius: 20px;
+    margin: 5%;
+    box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .1);
+    cursor: pointer;
+    width: 50%;
+
+}
+    
+  .notification .content{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin: 0;
+        width: 100%;
+    }
+    
+        .notification .icon {
+        width: 100px;
+        height: 100px;
+        background: aqua;
+        border-radius: 50%;
+        position: relative;
+    
+        & img {
+          border-radius: 50%;
+          width: inherit;
+          height: inherit;
+          object-fit: cover;
+        }
+    }
+
+    .titulopg {
+margin: 5%;
+    }
+
+    .showcase {
+    width: 40%;
+    border: 1px solid var(--branco);
+    border-radius: 20px;
+    overflow: hidden;
+    transition: 0.4s;
+    display: grid;
+    align-items: center;
+    justify-content: center;
+    }
+    .empresaspesquisadas {
+        flex-wrap: wrap;
+        display: flex;
+    }
+
+    @media (max-width: 570px){
+        .card-empresa{
+            width: 90%;
+        }
+        .showcase{
+            width: 90%;  
+        }
+    }
+
+</style>
+
+
+<!-- com base na sua cidade -->
+
+<!-- serviços -->
+ <h1 class="titulopg" >Serviço</h1>
+ <div class="empresaspesquisadas">
+<div class="showcase">
+
+    <div class="showcase-banner">
+
+      <img src=" /src/img-homepage/washing-pet-dog-home.jpg" alt="Mens Winter Leathers Jackets" width="300"
+        class="product-img default">
+
+      <p class="showcase-badge">15%</p>
+
+    </div>
+
+    <div class="showcase-content">
+      <a href="/buySer" class="showcase-category">Banho basico</a>
+      <a href="/buySer">
+        <h3 class="showcase-title">Um banho comum</h3>
+      </a>
+
+      <div class="price-box">
+        <p class="price">R$48.00</p>
+        <del>R$75.00</del>
+      </div>
+
+    </div>
+
+  </div>
+  
+</div>
+ 
+
+<!-- empresas -->
+
+<h1  class="titulopg" >Empresa</h1>
+<div class="notification">
+    <div class="card-empresa">
+    <div class="icon">
+              <img src="./src/imagens-empresa/logo-empresa/" alt="Logo da empresa">
+    </div>
+    <div class="content">
+        <div class="info">
+            <h3>teste </h3>
+            <small class="text_muted">
+              blablbala balabla blablalab
+            </small>
+        </div>
+        <span class="material-symbols-outlined">
+            chevron_right
+            </span>
+    </div>
+</div>
+</div>
+
+
+
+
