@@ -90,7 +90,7 @@ const usuariosModel = {
     },
     findServicoById: async (id) => {
         try {
-            const [resultados] = await pool.query("SELECT * FROM SERVICO WHERE ID_SERVICO = ?", [id])
+            const [resultados] = await pool.query("SELECT * FROM SERVICO WHERE ID_SERVICO = ? AND STATUS_SERVICO = 'ativo'", [id])
             return resultados
         } catch (error) {
             return error
