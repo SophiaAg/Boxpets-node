@@ -36,6 +36,15 @@ const adminModel = {
             
         }
     },
+    findAllServicos: async () => {
+        try {
+            const [resultados] = await pool.query("SELECT * FROM SERVICO LIMIT 1000")
+            return resultados
+        } catch (error) {
+            throw error
+            
+        }
+    },
 }
 
 module.exports = adminModel

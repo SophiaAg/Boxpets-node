@@ -75,6 +75,109 @@ router.post("/loginAdmin",
 
         }
     })
+// SERVICOS
+router.get("/adm-servicos",
+    middleWares.verifyAutenticado,
+    middleWares.verifyAutorizado("pages/loginAdmin",
+        {
+            alert: null,
+            errors: null,
+            valores: "",
+            incorreto: false
+        },
+        "admin"
+    ),
+    async function (req, res) {
+
+        let alert = undefined
+        if (req.session.alert && req.session.alert.count == 0) {
+            alert = req.session.alert
+            req.session.alert.count++
+        }
+        const servicos = await adminModel.findAllServicos()
+        const idsEmpresa = []
+        for (const s of [...servicos]) {
+            if (!idsEmpresa.includes(s.ID_USUARIO)) {
+                idsEmpresa.push(s.ID_USUARIO)
+            }
+        }
+
+        const empresas = await usuariosModel.findUsuariosInIds(idsEmpresa)
+        const mapEmpresas = Object.fromEntries(empresas.map(empresa => [empresa.ID_USUARIOS, empresa]));
+        const jsonResult = {
+            alert: alert,
+            page: "../partial/adm/adm-servicos",
+            classePagina: "servicos",
+            servicos: servicos.map(servico => ({
+                ...servico,
+                empresa: mapEmpresas[servico.ID_USUARIO]
+            }))
+        }
+        res.render("pages/template-admin", jsonResult)
+
+    });
+router.post("/ativarServico",
+    middleWares.verifyAutenticado,
+    middleWares.verifyAutorizado("pages/loginAdmin",
+        {
+            alert: null,
+            errors: null,
+            valores: "",
+            incorreto: false
+        },
+        "admin"
+    ),
+    async function (req, res) {
+        const idServico = req.query.idServico
+        if (!idServico) {
+            req.session.alert = {
+                type: "danger",
+                title: "Erro ao encontrar servico",
+                msg: "Não foi possivel encontrar o servico",
+                count: 0
+            }
+            return res.redirect("/adm-servicos")
+        }
+        await usuariosModel.updateServico({ STATUS_SERVICO: "ativo" }, idServico)
+        req.session.alert = {
+            type: "success",
+            title: "Servico ativado!",
+            msg: "O servico foi ativado e poderá acessar o site.",
+            count: 0
+        }
+        res.redirect("/adm-servicos")
+    })
+router.post("/inativarServico",
+    middleWares.verifyAutenticado,
+    middleWares.verifyAutorizado("pages/loginAdmin",
+        {
+            alert: null,
+            errors: null,
+            valores: "",
+            incorreto: false
+        },
+        "admin"
+    ),
+    async function (req, res) {
+        const idServico = req.query.idServico
+        if (!idServico) {
+            req.session.alert = {
+                type: "danger",
+                title: "Erro ao encontrar servico",
+                msg: "Não foi possivel encontrar o servico",
+                count: 0
+            }
+            return res.redirect("/adm-servicos")
+        }
+        await usuariosModel.updateServico({ STATUS_SERVICO: "inativo" }, idServico)
+        req.session.alert = {
+            type: "success",
+            title: "Servico inativado!",
+            msg: "O servico foi inativado e não poderá acessar o site.",
+            count: 0
+        }
+        res.redirect("/adm-servicos")
+    })
 // EMPRESAS
 router.get("/adm-empresas",
     middleWares.verifyAutenticado,
@@ -166,7 +269,6 @@ router.post("/inativarUsuario",
         }
         res.redirect("/adm-empresas")
     })
-
 // CLIENTES
 router.get("/adm-clientes",
     middleWares.verifyAutenticado,

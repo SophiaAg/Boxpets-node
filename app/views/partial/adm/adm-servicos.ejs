@@ -1,0 +1,60 @@
+<section class="admTable__container">
+    <table id="dataTable" class="display">
+        <thead>
+            <tr>
+                <th></th>
+                <th>ID</th>
+                <th>Nome do serviço</th>
+                <th>Nome da empresa</th>
+                <th>Status</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <% if(servicos) { 
+                servicos.forEach(servico=>{
+                %>
+                <tr>
+                    <td><img src="./src/imagens-servico/<%= servico.CAMINHO_IMAGEM_SERVICO %>" alt="foto do serviço"
+                            class="foto-table"></td>
+                    <td>
+                        <%= servico.ID_SERVICO %>
+                    </td>
+                    <td>
+                        <%= servico.NOME_SERVICO %>
+                    </td>
+                    <td>
+                        <%= servico.empresa.NOMEEMPRESA_USUARIO %>
+                    </td>
+                    <td>
+                        <span class="span-status <%= servico.STATUS_SERVICO == 'ativo' ? 'ativo' : 'inativo' %>">
+                            <%= servico.STATUS_SERVICO %>
+                        </span>
+                    </td>
+                    <td>
+                        <article class="btns-table">
+                            <% if(servico.STATUS_SERVICO =='ativo' ){ %>
+                                <form action="/inativarServico?idServico=<%= servico.ID_SERVICO %>" method="post">
+                                    <button class="btn-icon inativar" title="Inativar serviço"><i
+                                            class="bi bi-ban"></i></button>
+                                </form>
+                            <% } else { %>
+                                <form action="/ativarServico?idServico=<%= servico.ID_SERVICO %>" method="post">
+                                    <button class="btn-icon ativar" title="Ativar serviço"><i
+                                            class="bi bi-check-circle"></i></button>
+                                </form>
+                                <% } %>
+                            <% if(servico.STATUS_SERVICO=='ativo'){ %>
+                                <a href="/buySer?idServico=<%=servico.ID_SERVICO %>" class="visu-icon">
+                                    <span class="material-symbols-outlined">visibility</span>
+                                </a>
+                            <% } %>
+                        </article>
+                    </td>
+                </tr>
+                <% }) } %>
+
+        </tbody>
+    </table>
+</section>

@@ -91,20 +91,12 @@ router.get("/home",
         const clienteBd = await clienteModel.findClienteById(req.session.autenticado.id)
         res.render('pages/template-hm', { page: '../partial/landing-home/home-page', dadosNotificacao: alert, nome: clienteBd[0].NOME_CLIENTE });
     });
-    
-
-    //pesquisa
-     router.get("/pesquisa", middleWares.verifyAutenticado,
-        middleWares.verifyAutorizado("pages/template-login", { form: "../partial/login/entrar", errors: null, valores: null, incorreto: false }, false),
-          async function (req, res){
-            res.render("pages/template-hm", {  page: "../partial/landing-home/pesquisa"})
-            });
-          
-
-          
-           
-
-
+//pesquisa
+router.get("/pesquisa", middleWares.verifyAutenticado,
+    middleWares.verifyAutorizado("pages/template-login", { form: "../partial/login/entrar", errors: null, valores: null, incorreto: false }, false),
+    async function (req, res) {
+        res.render("pages/template-hm", { page: "../partial/landing-home/pesquisa" })
+    });
 // Cadastro de CLIENTES
 router.post("/cadastrarCliente", clienteController.regrasValidacaoCriarConta, function (req, res) {
     clienteController.cadastrar(req, res)
@@ -196,7 +188,6 @@ router.get("/veterinarios",
         });
         res.render("pages/template-hm", { pagina: "LandingPage", page: "../partial/servicosgerais/veterinarios", empresas: user });
     });
-
 router.get("/historico-cli",
     middleWares.verifyAutenticado,
     middleWares.verifyAutorizado("pages/template-login", { form: "../partial/login/entrar", errors: null, valores: null, incorreto: false }, false),
@@ -247,8 +238,6 @@ router.get("/historico-cli",
         );
 
     });
-
-
 router.post("/cliCancelarAgenda",
     middleWares.verifyAutenticado,
     middleWares.verifyAutorizado(
@@ -297,39 +286,44 @@ router.post("/cliCancelarAgenda",
             res.redirect("/pg-erro")
         }
     });
-router.get("/VizucriaPg", async function (req, res) {
-    const idEmpresa = req.query.id;
-    console.log(idEmpresa)
-    if (!idEmpresa) {
-        req.session.alert = {
-            type: "danger",
-            title: "Erro ao encontrar empresa",
-            msg: "Não foi possivel encontrar o empresa",
-            count: 0
+router.get("/VizucriaPg",
+    async function (req, res) {
+        try {
+            const idEmpresa = req.query.id;
+            if (!idEmpresa) {
+                req.session.alert = {
+                    type: "danger",
+                    title: "Erro ao encontrar empresa",
+                    msg: "Não foi possivel encontrar o empresa",
+                    count: 0
+                }
+                return res.redirect("/home")
+            }
+            const usuario = await usuariosModel.findUsuariosById(idEmpresa)
+
+            if (usuario[0] && usuario[0].PLANOS && usuario[0].PLANOS == 0) {
+                return res.redirect("/home")
+            }
+            const user = usuario[0].INFO_GERAIS
+                ? { ...usuario[0], INFO_GERAIS: JSON.parse(usuario[0].INFO_GERAIS) }
+                : { ...usuario[0], INFO_GERAIS: { horarioInicio: '', horarioFim: '', localizacao: '', whatsapp: '', descricao: '' } }
+
+            const servicosResult = await usuariosModel.findServicosByIdEmpresa(idEmpresa)
+            const servicos = servicosResult.length > 0 ? servicosResult : []
+
+            res.render("pages/template-hm", {
+                pagina: "LandingPage",
+                page: "../partial/cliente-empresa/VizucriaPg",
+                empresa: user,
+                servicos: servicos
+
+            });
+        } catch (error) {
+            console.log(error)
+            res.redirect("/pg-erro")
         }
-        return res.redirect("/home")
-    }
-
-    const usuario = await usuariosModel.findUsuariosById(idEmpresa)
-
-    if (usuario[0] && usuario[0].PLANOS && usuario[0].PLANOS == 0) {
-        res.redirect("/home")
-    }
-    const user = usuario[0].INFO_GERAIS
-        ? { ...usuario[0], INFO_GERAIS: JSON.parse(usuario[0].INFO_GERAIS) }
-        : { ...usuario[0], INFO_GERAIS: { horarioInicio: '', horarioFim: '', localizacao: '', whatsapp: '', descricao: '' } }
-
-    const servicosResult = await usuariosModel.findServicosByIdEmpresa(idEmpresa)
-    const servicos = servicosResult.length > 0 ? servicosResult : []
-
-    res.render("pages/template-hm", {
-        pagina: "LandingPage",
-        page: "../partial/cliente-empresa/VizucriaPg",
-        empresa: user,
-        servicos: servicos
 
     });
-});
 router.get("/carterinha-pet",
     middleWares.verifyAutenticado,
     middleWares.verifyAutorizado("pages/template-login", { form: "../partial/login/entrar", errors: null, valores: null, incorreto: false }, false),
@@ -446,13 +440,7 @@ router.post("/excluirFoto",
     function (req, res) {
         clienteController.excluirFoto(req, res)
     });
-
-//EMPRESA ------------------------------
-
-
-
-
-
+//EMPRESA ------------------
 
 // btncadastroEmpresa
 router.get("/cadastroEmpresa", async function (req, res) {
@@ -464,7 +452,6 @@ router.get("/cadastroEmpresa", async function (req, res) {
         // colocar pagina de erro
     }
 });
-
 // btnloginEmpresa
 router.get("/loginEmpresa", async function (req, res) {
     try {
@@ -480,14 +467,10 @@ router.get("/loginEmpresa", async function (req, res) {
         // colocar pagina de erro
     }
 });
-
 // Cadastro de EMPRESAS
 router.post("/cadastrarEmpresa", usuariosController.regrasValidacaoCriarConta, function (req, res) {
     usuariosController.cadastrarUsuario(req, res)
-
-
 })
-
 // Login de EMPRESAS
 router.post("/logarEmpresa", usuariosController.regrasValidacaoLogarConta, function (req, res) {
     usuariosController.entrarEmpresa(req, res)
@@ -500,16 +483,13 @@ router.post("/logarEmpresa", usuariosController.regrasValidacaoLogarConta, funct
     }
 
 })
-
-
 // // Postar pagina empresa
 // router.post('/share', uploadEmpresa.any(), MainController.sharePost)
 // router.get('/share/:id', MainController.viewPost)
 // router.get('/share/edit/:id', MainController.edit)
 // router.post('/share/edit', uploadEmpresa.any(), MainController.makeEdit)
 
-// rota para comentário da empresa?
-
+// rota para comentário da empresa
 router.get("/buySer",
     middleWares.verifyAutenticado,
     middleWares.verifyAutorizado(
@@ -521,6 +501,8 @@ router.get("/buySer",
         // Deve chamar um servico a partir do id passado na query
         // ex: <a href="/buySer?idServico=<%= variavelResRender.ColunaDoBanco %>">
         // Você irá verificar primeiramente se esse idServico existe, senao vc ira redirecionar para uma pagina de erro ou apenas a home, porque n tem como renderizar a pagina de servico, sem saber qual servico
+
+
         const idServico = req.query.idServico
         if (!idServico) {
             console.log("Servico nao encontrado")
@@ -536,6 +518,13 @@ router.get("/buySer",
 
         // pegar todas as carteirinhas pets do cliente
         const carteirinhas = await clienteModel.findPetById(req.session.autenticado.id)
+
+        let alert = undefined
+        if (req.session.alert && req.session.alert.count == 0) {
+            alert = req.session.alert
+            req.session.alert.count++
+        }
+
         res.render("pages/template-hm", {
             page: "../partial/cliente-empresa/buySer",
             servico: servico[0],
@@ -543,20 +532,16 @@ router.get("/buySer",
             dataSelecionada: null,
             erroData: null,
             horarios: null,
-            myPets: carteirinhas
+            myPets: carteirinhas,
+            alert: alert
         })
     })
-
 router.get("/bsEmpresa", async function (req, res) {
 
     const mensagens = await clienteModel.verComentarios(req, res);
 
     res.render("pages/template-hm", { pagina: "Comentários", page: "../partial/cliente-empresa/bsEmpresa", comentarios: mensagens })
 })
-
-
-
-
 // post para comentar
 
 // router.post("/fazerComentario", function (req, res) {
@@ -574,7 +559,6 @@ router.get("/bsEmpresa", async function (req, res) {
 // });
 
 // deslogar, tira a sessão
-
 router.get("/sair", function (req, res) {
     try {
         req.session.destroy(() => {
@@ -595,7 +579,6 @@ router.get("/ativar-conta",
         usuariosController.ativarConta(req, res);
     }
 )
-
 router.get("/esqueceuSenha", function (req, res) {
 
     const jsonResult = {
@@ -607,8 +590,6 @@ router.get("/esqueceuSenha", function (req, res) {
     }
     res.render("pages/template-loginEmpresa", jsonResult);
 });
-
-
 router.post("/solicitarResetSenha", usuariosController.regrasValidacaoRecuperarSenha, async function (req, res) {
     usuariosController.solicitarResetSenha(req, res)
 
@@ -619,24 +600,18 @@ router.post("/solicitarResetSenha", usuariosController.regrasValidacaoRecuperarS
         count: 0
     }
 });
-
 router.get("/redefinir-senha",
     function (req, res) {
         usuariosController.verificarTokenRedefinirSenha(req, res)
     });
-
 router.post("/redefinirSenha", usuariosController.regrasValidacaoRedefinirSenha, async function (req, res) {
     usuariosController.redefinirSenha(req, res)
 });
-
-
 //cliente
-
 router.get("/ativar-conta-cli",
     async function (req, res) {
         clienteController.ativarConta(req, res);
     });
-
 router.get("/esqueceuSenha-cli", function (req, res) {
 
     let alert = undefined
@@ -655,8 +630,6 @@ router.get("/esqueceuSenha-cli", function (req, res) {
     }
     res.render("pages/template-login", jsonResult);
 });
-
-
 router.post("/solicitarResetSenha-cli", clienteController.regrasValidacaoRecuperarSenha, async function (req, res) {
     clienteController.solicitarResetSenha(req, res)
 
@@ -668,17 +641,13 @@ router.post("/solicitarResetSenha-cli", clienteController.regrasValidacaoRecuper
     }
 
 });
-
 router.get("/redefinir-senha-cli",
     function (req, res) {
         clienteController.verificarTokenRedefinirSenha(req, res)
     });
-
 router.post("/redefinirSenha-cli", clienteController.regrasValidacaoRedefinirSenha, async function (req, res) {
     clienteController.redefinirSenha(req, res)
 })
-
-
 //mercadoPago
 router.get("/nao-permitido", function (req, res) {
     res.render("pages/template-dashboard", { page: "../partial/nao-permitido", classePagina: '', alert: '' });
@@ -877,6 +846,13 @@ router.post("/agendarHorario",
 
             const resultInsert = await agendaModel.agendarHorario(dadosAgendamento)
             console.log(resultInsert)
+            req.session.alert = {
+                type: "success",
+                title: "Horário agendado com sucesso!",
+                msg: "Você pode verificar os dados no seu histórico.",
+                count: 0
+            }
+
             res.redirect(`/buySer?idServico=${idServico}`)
         } catch (error) {
             console.log(error)
@@ -885,26 +861,26 @@ router.post("/agendarHorario",
 
     })
 
-// favoritar
-router.get("/", middleWares.verifyAutenticado,
-    function (req, res) {
-        clienteController.listar(req, res);
-    });
+// // favoritar
+// router.get("/", middleWares.verifyAutenticado,
+//     function (req, res) {
+//         clienteController.listar(req, res);
+//     });
 
-router.get("/favoritar", middleWares.verifyAutenticado,
-    middleWares.verifyAutorizado, async function (req, res) {
+// router.get("/favoritar", middleWares.verifyAutenticado,
+//     middleWares.verifyAutorizado, async function (req, res) {
 
-        try {
-            let favoritos = await favoritoModel.favoritar({
-                idServico: req.query.id,
-                situacao: req.query.sit
-            });
-            res.render("./pages/template-hm", { page: "../partial/cliente-empresa/favoritos", avisoErro: null, valores: campos, favoritos: favoritos })
-        } catch (e) {
-            console.log(e);
-            res.redirect("/pg-erro")
-        }
-    });
+//         try {
+//             let favoritos = await favoritoModel.favoritar({
+//                 idServico: req.query.id,
+//                 situacao: req.query.sit
+//             });
+//             res.render("./pages/template-hm", { page: "../partial/cliente-empresa/favoritos", avisoErro: null, valores: campos, favoritos: favoritos })
+//         } catch (e) {
+//             console.log(e);
+//             res.redirect("/pg-erro")
+//         }
+//     });
 
 
 
