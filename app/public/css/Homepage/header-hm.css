@@ -142,7 +142,7 @@ header .header-main .search-form input {
     font-size: 16px;
     padding: 0 12px;
     height: 100%;
-    width: 100%;
+    width: 90%;
     text-transform: none;
     color: var(--preto);
     border: none;

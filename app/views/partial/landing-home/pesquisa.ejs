@@ -39,7 +39,7 @@ margin: 5%;
     }
 
     .showcase {
-    width: 30%;
+    width: 40%;
     border: 1px solid var(--branco);
     border-radius: 20px;
     overflow: hidden;
@@ -51,6 +51,15 @@ margin: 5%;
     .empresaspesquisadas {
         flex-wrap: wrap;
         display: flex;
+    }
+
+    @media (max-width: 570px){
+        .card-empresa{
+            width: 90%;
+        }
+        .showcase{
+            width: 90%;  
+        }
     }
 
 </style>
