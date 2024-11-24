@@ -2,7 +2,7 @@ footer{
     position: relative;
     width: 100%;
     bottom: 0;
-    background: rgb(32, 92, 255);
+    background:var(--cor-primaria);
     color: var(--branco);
     padding: 100px 0 30px;
     border-top-left-radius: 125px;
@@ -14,7 +14,7 @@ footer{
     position: relative;
       width: 100%;
       bottom: 0;
-      background:  rgb(32, 92, 255);
+      background: var(--cor-primaria);
       color: var(--branco-fixo);
       padding: 100px 0 30px;
       border-top-left-radius: 125px;

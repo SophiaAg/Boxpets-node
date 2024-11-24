@@ -14,10 +14,13 @@
 main {
     margin-top: 60px;
 }
+.page-content {
+    margin: 5%;
+}
 
 .table-responsive {
-    width: 90%;
-    overflow-x: hidden;
+    width: 100%;
+    overflow-x: auto;
     overflow-y: auto;
     max-height: 80vh;
 }
