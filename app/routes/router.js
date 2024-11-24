@@ -286,8 +286,21 @@ router.post("/cliCancelarAgenda",
 router.get("/VizucriaPg", async function (req, res) {
     const idEmpresa = req.query.id;
     console.log(idEmpresa)
+    if (!idEmpresa) {
+        req.session.alert = {
+            type: "danger",
+            title: "Erro ao encontrar empresa",
+            msg: "Não foi possivel encontrar o empresa",
+            count: 0
+        }
+        return res.redirect("/home")
+    }
+
     const usuario = await usuariosModel.findUsuariosById(idEmpresa)
 
+    if (usuario[0] && usuario[0].PLANOS && usuario[0].PLANOS == 0) {
+        res.redirect("/home")
+    }
     const user = usuario[0].INFO_GERAIS
         ? { ...usuario[0], INFO_GERAIS: JSON.parse(usuario[0].INFO_GERAIS) }
         : { ...usuario[0], INFO_GERAIS: { horarioInicio: '', horarioFim: '', localizacao: '', whatsapp: '', descricao: '' } }

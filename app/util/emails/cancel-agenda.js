@@ -1,5 +1,4 @@
 module.exports = (url, infos) => {
-    console.log(infos)
     return `<!DOCTYPE html>
             <html lang="pt-br">
 
@@ -176,7 +175,7 @@ module.exports = (url, infos) => {
                     </header>
                     <article>
                         <p class="text">Seu agendamento do serviço <strong> ${infos.servico.NOME_SERVICO} </strong> da empresa ${infos.empresa.NOMEEMPRESA_USUARIO} no horário ${infos.HORARIO_AGENDAMENTO} do dia ${infos.DATA_AGENDAMENTO} foi cancelado! <br>
-                        Acesse o link abaixo para mais informações.</p>
+                        Acesse o link abaixo para mais informações.</p>'
                         <a href="${url}/historico-cli" class="btn" style="display: inline-block; padding: 10px 20px; background-color: #E6781E; color: #ffffff; text-decoration: none; border-radius: 5px;">Saber mais</a>
                     </article>
                     <footer>

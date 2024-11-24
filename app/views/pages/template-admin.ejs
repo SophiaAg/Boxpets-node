@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="/src/img-landing/logo.png">
+
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+    <link rel="stylesheet" href="./css/dashboard/dashboard.css">
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="//cdn.datatables.net/2.1.8/css/dataTables.dataTables.min.css">
+    <!-- alertas -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/simple-notify@1.0.4/dist/simple-notify.css" />
+    <script src="https://cdn.jsdelivr.net/npm/simple-notify@1.0.4/dist/simple-notify.min.js"></script>
+    <script src="./js/notificacao.js"></script>
+
+</head>
+
+<style>
+    .container-dashboard main{
+        margin-top: 8rem;
+    }
+
+    .foto-table{
+        width: 65px;
+        height: 65px;
+        object-fit: cover;
+        border-radius: 50%;
+    }
+
+    .span-status{
+        border-radius: 5px;
+        color: #fff;
+        background: grey;
+        padding: .2rem .5rem;
+        &.ativo{
+            background: #a5ff9a;
+        }
+        &.inativo{
+            background: #ff3527;
+        }
+    }
+</style>
+<body>
+
+    <% if(typeof alert !=="undefined" && alert !==null) {%>
+        <script>
+            newNotify("<%= alert.title %>", "<%= alert.msg %>", "<%= alert.type %>");
+        </script>
+        <%}%>
+            <div class="container-dashboard">
+                <div class="top">
+                    <button id="menu-btn">
+                        <span class="material-symbols-outlined"> menu </span>
+                    </button>
+                    <article class="fa-regular fa-moon" id="darkmode"> </article>
+
+                </div>
+                <aside>
+                    <!--Menu lateral-->
+                    <div class="menulateral">
+                        <div class="top-left">
+                            <div class="logo">
+                                <img src="/src/img-homepage/logo.png" alt="">
+                                <h2>Box Pets ADMIN</h2>
+                            </div>
+                            <div class="close" id="close-btn">
+                                <span class="material-symbols-outlined"> close </span>
+                            </div>
+                        </div>
+
+
+                        <div class="slidebar">
+                            <a class="item <%= classePagina == 'clientes' ? 'active' : '' %> " href="/adm-clientes">
+                                <span class="material-symbols-outlined">
+                                    group
+                                </span>
+                                <h3>Clientes</h3>
+                            </a>
+
+                            <a class="item <%= classePagina == 'empresas' ? 'active' : '' %> " href="/adm-empresas">
+                                <span class="material-symbols-outlined">
+                                    factory
+                                    </span>
+                                <h3>Empresas</h3>
+                            </a>
+
+                            <a class="item <%= classePagina == 'servicos' ? 'active' : '' %> " href="/adm-servicos">
+                                <span class="material-symbols-outlined"> store </span>
+                                <h3>Serviços</h3>
+                            </a>
+
+                            <a class="item <%= classePagina == '' ? 'active' : '' %> " href="/sair">
+                                <span class="material-symbols-outlined"> logout </span>
+                                <h3>Sair</h3>
+                            </a>
+
+                        </div>
+                    </div>
+                </aside>
+
+                <main>
+                    <%- include(page) %>
+                </main>
+            </div>
+
+            <script src="js/dashboard-menu.js"></script>
+            <script src="js/modoescuro.js"></script>
+            <script src="js/app.js"></script>
+            <script src="https://code.jquery.com/jquery-3.7.1.js"
+                integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+            <script src="//cdn.datatables.net/2.1.8/js/dataTables.min.js"></script>
+
+            <script defer>
+                let table1 = new DataTable('#dataTable', {
+                    "language": {
+                        "url": "https://cdn.datatables.net/plug-ins/1.11.5/i18n/pt-BR.json"
+                    }
+                });
+            </script>
+</body>
+
+</html>

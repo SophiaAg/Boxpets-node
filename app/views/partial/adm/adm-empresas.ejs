@@ -1,0 +1,69 @@
+<section class="admTable__container">
+    <table id="dataTable" class="display">
+        <thead>
+            <tr>
+                <th></th>
+                <th>ID</th>
+                <th>Nome</th>
+                <th>Celular</th>
+                <th>CNPJ</th>
+                <th>CPF</th>
+                <th>E-mail</th>
+                <th>Status</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <% if(usuarios) { usuarios.forEach(usuario=>{
+                %>
+                <tr>
+                    <td><img src="./src/imagens-empresa/logo-empresa/<%= usuario.LOGO_IMG %>" alt="foto do usuário"
+                            class="foto-table"></td>
+                    <td>
+                        <%= usuario.ID_USUARIOS %>
+                    </td>
+                    <td>
+                        <%= usuario.NOME_USUARIOS %>
+                    </td>
+                    <td>
+                        <%= usuario.CELULAR_USUARIOS %>
+                    </td>
+                    <td>
+                        <%= usuario.CNPJ_USUARIO %>
+                    </td>
+                    <td>
+                        <%= usuario.CPF_USUARIO %>
+                    </td>
+                    <td>
+                        <%= usuario.EMAIL_USUARIOS %>
+                    </td>
+                    <td><span class="span-status <%= usuario.USUARIOS_STATUS == 'ativo' ? 'ativo' : 'inativo' %>">
+                            <%= usuario.USUARIOS_STATUS %>
+                        </span></td>
+                    <td>
+                        <article class="btns-table">
+                            <% if(usuario.USUARIOS_STATUS=='ativo' ){ %>
+                                <form action="/inativarUsuario?idUsuario=<%= usuario.ID_USUARIOS %>" method="post">
+                                    <button class="btn-icon inativar" title="Inativar usuário"><i
+                                            class="bi bi-ban"></i></button>
+                                </form>
+                                <% }else { %>
+                                    <form action="/ativarUsuario?idUsuario=<%= usuario.ID_USUARIOS %>" method="post">
+                                        <button class="btn-icon ativar" title="Ativar usuário"><i
+                                                class="bi bi-check-circle"></i></button>
+                                    </form>
+                                    <% } %>
+                                    <% if(usuario.USUARIOS_STATUS=='ativo' && usuario.PLANOS == 1){ %>
+                                        <a href="/Vizucriapg?id=<%=usuario.ID_USUARIOS %>" class="visu-icon">
+                                            <span class="material-symbols-outlined">visibility</span></a>
+                                    <% } %>
+                        </article>
+
+                    </td>
+                </tr>
+                <% }) } %>
+
+        </tbody>
+    </table>
+</section>

@@ -551,7 +551,7 @@ router.post("/apagarHorario",
             const agendamentos = await agendaModel.findAgendaByIdHorario(idHorario)
             
             const idsClientes = []
-            for (const a of [...agenda]) {
+            for (const a of [...agendamentos]) {
                 if (!idsClientes.includes(a.ID_CLIENTE)) {
                     idsClientes.push(a.ID_CLIENTE)
                 }

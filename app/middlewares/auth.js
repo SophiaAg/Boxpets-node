@@ -1,4 +1,5 @@
 const usuariosModel = require("../models/usuariosModel")
+const adminModel = require("../models/adminModel")
 const { body, validationResult } = require("express-validator")
 var bcrypt = require("bcryptjs")
 const clienteModel = require("../models/clienteModel")
@@ -30,11 +31,20 @@ const middleWares = {
         return async (req, res, next) => {
             if (req.session.autenticado.autenticado != null) {
                 if (isForEmpresa) {
-                    const empresaBd = await usuariosModel.findUsuariosById(req.session.autenticado.id)
-                    if (empresaBd[0]) {
-                        return next();
-                    } else {
-                        res.redirect("/")
+                    if(isForEmpresa == "admin"){
+                        const adminBd = await adminModel.findAdminById(req.session.autenticado.id)
+                        if (adminBd[0]) {
+                            return next();
+                        } else {
+                            res.redirect("/")
+                        }
+                    }else{
+                        const empresaBd = await usuariosModel.findUsuariosById(req.session.autenticado.id)
+                        if (empresaBd[0]) {
+                            return next();
+                        } else {
+                            res.redirect("/")
+                        }
                     }
                 }
                 next();
@@ -117,6 +127,38 @@ const middleWares = {
         } else {
             var aut = {
                 autenticado: null, id: null, foto: "imgUser.png"
+            }
+        }
+        req.session.autenticado = aut
+        next();
+    },
+    gravarAutenticacaoAdmin: async (req, res, next) => {
+        let errors = validationResult(req)
+        if (errors.isEmpty()) {
+            var adminBd = await adminModel.findAdminByEmail(req.body.email)
+
+            if (adminBd[0]) {
+                if (Object.keys(adminBd).length == 1) {
+                    if (req.body.password === adminBd[0].SENHA_ADMIN) {
+                        var aut = {
+                            autenticado: adminBd[0].EMAIL_ADMIN, id: adminBd[0].ID_ADMIN}
+                    } else {
+                        var aut = {
+                            autenticado: null, id: null
+                        }
+
+                    }
+                } else {
+                    var aut = {
+                        autenticado: null, id: null
+                    }
+                }
+            }
+
+
+        } else {
+            var aut = {
+                autenticado: null, id: null
             }
         }
         req.session.autenticado = aut

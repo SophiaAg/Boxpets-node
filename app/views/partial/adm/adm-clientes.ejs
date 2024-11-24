@@ -1,0 +1,71 @@
+<section class="admTable__container">
+    <table id="dataTable" class="display">
+        <thead>
+            <tr>
+                <th></th>
+                <th>ID</th>
+                <th>Nome</th>
+                <th>Celular</th>
+                <th>Nascimento</th>
+                <th>CPF</th>
+                <th>E-mail</th>
+                <th>Status</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <% if(clientes) { clientes.forEach(cliente=>{
+
+                const data = new Date(cliente.DATA_NASC_CLIENTE);
+                const dia = String(data.getDate()).padStart(2, '0');
+                const mes = String(data.getMonth() + 1).padStart(2, '0');
+                const ano = data.getFullYear();
+                const dataFormatada = `${dia}/${mes}/${ano}`;
+                %>
+                <tr>
+                    <td><img src="./src/fotos-perfil/<%= cliente.img_perfil_pasta %>" alt="foto do usuário"
+                            class="foto-table"></td>
+                    <td>
+                        <%= cliente.ID_CLIENTE %>
+                    </td>
+                    <td>
+                        <%= cliente.NOME_CLIENTE %>
+                    </td>
+                    <td>
+                        <%= cliente.CELULAR_CLIENTE %>
+                    </td>
+                    <td>
+                        <%= dataFormatada %>
+                    </td>
+                    <td>
+                        <%= cliente.CPF_CLIENTE %>
+                    </td>
+                    <td>
+                        <%= cliente.EMAIL_CLIENTE %>
+                    </td>
+                    <td><span class="span-status <%= cliente.STATUS_CLIENTE == 'ativo' ? 'ativo' : 'inativo' %>">
+                            <%= cliente.STATUS_CLIENTE %>
+                        </span></td>
+                    <td>
+                        <article class="btns-table">
+                            <% if(cliente.STATUS_CLIENTE=='ativo' ){ %>
+                                <form action="/inativarCliente?idCliente=<%= cliente.ID_CLIENTE %>" method="post">
+                                    <button class="btn-icon inativar" title="Inativar usuário"><i
+                                            class="bi bi-ban"></i></button>
+                                </form>
+                                <% }else { %>
+                                    <form action="/ativarCliente?idCliente=<%= cliente.ID_CLIENTE %>" method="post">
+                                        <button class="btn-icon ativar" title="Ativar usuário"><i
+                                                class="bi bi-check-circle"></i></button>
+                                    </form>
+                                    <% } %>
+                        </article>
+
+                    </td>
+                </tr>
+                <% }) } %>
+
+        </tbody>
+    </table>
+</section>

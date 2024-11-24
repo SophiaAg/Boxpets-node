@@ -31,6 +31,8 @@ var rotas = require("./app/routes/router");
 app.use("/", rotas);
 var rotasDashboard = require("./app/routes/routerDashboard");
 app.use("/", rotasDashboard);
+var rotasAdmin = require("./app/routes/routerAdmin");
+app.use("/", rotasAdmin);
 
 app.listen(port, () => {
   console.log(`Servidor ouvindo na porta ${port}\nhttp://localhost:${port}`);
