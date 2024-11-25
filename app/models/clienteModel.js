@@ -63,7 +63,7 @@ const clienteModel = {
     },
     findClienteByEmailAtivo: async (email) => {
         try {
-            const [resultados] = await pool.query("SELECT * FROM CLIENTE WHERE EMAIL_USUARIOS = ? AND STATUS_CLIENTE = 'ativo' LIMIT 1", [email])
+            const [resultados] = await pool.query("SELECT * FROM CLIENTE WHERE EMAIL_CLIENTE = ? AND STATUS_CLIENTE = 'ativo' LIMIT 1", [email])
             console.log(resultados)
             return resultados
         } catch (error) {
