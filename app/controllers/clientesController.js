@@ -760,11 +760,6 @@ const clienteController = {
     }
   },
   solicitarResetSenha: async (req, res) => {
-    let alert = undefined
-    if (req.session.alert && req.session.alert.count == 0) {
-      alert = req.session.alert
-      req.session.alert.count++
-    }
 
     let error = validationResult(req)
 
@@ -781,7 +776,15 @@ const clienteController = {
       try {
         const { email } = req.body
         const user = await clienteModel.findClienteByEmailAtivo(email)
-
+        if(!user[0]){
+          req.session.alert = {
+            type: "error",
+            title: "E-mail náo encontrado!",
+            msg: "Verifique se seus dados estão corretos!",
+            count: 0
+          }
+          return res.redirect("/esqueceuSenha-cli")
+        }
         const token = jwt.sign(
           {
             userId: user[0].ID_CLIENTE,
@@ -790,14 +793,19 @@ const clienteController = {
           process.env.SECRET_KEY
         )
 
-        enviarEmailRecuperarSenha(
+        enviarEmailRecuperarSenhaCli(
           user[0].EMAIL_CLIENTE,
           "Recuperar de senha",
           process.env.URL_BASE,
           token,
           async () => {
-            req.session.alert = { msg: "E-mail enviado com sucesso", type: "success", contagem: 0 }
-            res.redirect("/esqueceuSenha-cli")
+            req.session.alert = {
+              type: "success",
+              title: "E-mail enviado!",
+              msg: "Acesse o link para redefinir a senha!",
+              count: 0
+            }
+            return res.redirect("/esqueceuSenha-cli")
           })
 
 

@@ -1,264 +1,207 @@
-
-<% if (typeof dadosNotificacao !== "undefined") { %>
+<% if (typeof dadosNotificacao !=="undefined" ) { %>
     <script>
         newNotify("<%= dadosNotificacao.title %>", "<%= dadosNotificacao.msg %>", "<%= dadosNotificacao.type %>");
     </script>
-<% } %>
+    <% } %>
 
 
 
-<div class="ola-fulano">
-<h1>Bem-vindo(a), <span><%= nome %></span>!</h1>
-<p>Estamos felizes em tê-lo(a) conosco. Aproveite nossa plataforma!</p>
-</div>
+        <div class="ola-fulano">
+            <h1>Bem-vindo(a), <span>
+                    <%= nome %>
+                </span>!</h1>
+            <p>Estamos felizes em tê-lo(a) conosco. Aproveite nossa plataforma!</p>
+        </div>
 
- <section class="capa">
-    <section class="capa-img">
-        <img src="/src/img-homepage/sharedimage.png" alt="" width="350">
-    </section>
-    
-    <section class="servicos" id="servico">
-
-    <h1 class="heading">Qual <span>serviço</span> te interessa?</h1>
-    <section class="box-container">
-
-
-    
-        <section class="box-ser">  <a href="/veterinarios?id=1">
-            <img src="/src/img-homepage/veterinario.jpg" alt="um dog no veterinario" class="image">
-            <section class="content">
-            <img src=" /src/img-homepage/paw.png" alt="vet" width="80px">
-                <h1>Veterinario</h1>
-            </section> </a>
-        </section>
-
-        <section class="box-ser">  <a href="/veterinarios?id=2">
-            <img src="/src/img-homepage/banhotosa.jpg" alt="banho em um dog" class="image">
-            <section class="content">
-                <img src=" /src/img-homepage/grooming.png" alt="banhotosa" width="80px">
-                <h1>Banho&Tosa</h1>
-            </section> </a>
-        </section>  
-
-
-        <section class="box-ser"><a href="/veterinarios?id=3">
-            <img src="/src/img-homepage/adestramento.jpg" alt="Mulher pedindo a pata para o cachorro" class="image">
-            <section class="content">
-                               <img src=" /src/img-homepage/adestramentoIcon.png" alt="adestramento" width="80px">
-                <h1>Adestramento</h1>
-            </section></a>
-        </section>
-
-
-        <section class="box-ser"> <a href="/veterinarios?id=4">
-            <img src="/src/img-homepage/passeio.jpg" alt="passeio com os pets" class="image">
-            <section class="content">
-                <img src=" /src/img-homepage/walking.png" alt="passeio" width="80px">
-                <h1>Passeio</h1>
-            </section> </a>
-        </section>
-
-        <section class="box-ser"><a href="/veterinarios?id=5">
-            <img src="/src/img-homepage/Creche.jpg" alt="cachorro em um gato na grama juntos" class="image">
-            <section class="content">
-                 <img src=" /src/img-homepage/welfare.png" alt="creche" width="80px">
-                <h1>Creche</h1>
-            </section></a>
-        </section>
-
-        <section class="box-ser"><a href="/veterinarios?id=6">
-            <img src="/src/img-homepage/55864_massagem.jpg" alt="" class="image">
-            <section class="content">
-                               <img src=" /src/img-homepage/animal (1).png" alt="massoterapia" width="80px">
-                <h1>Massoterapia</h1>
-            </section></a>
-        </section>
-        
-    </section>
-    </section>
-    <a href="/servicos-gerais" class="arrow-servicogerais"><i class="fa-solid fa-arrow-right"></i></a>
-</section>
-</section>
-
-<!--carterinha -->
-
-<section class="carterinhapet" >
-
-    <article class="content_carterinhapet">
-        <h3>Crie a <span> Carterinha pet!</span></h3>
-        <p>Após criar a carteirinha do seu pet, o estabelecimento a receberá 
-            junto com o seu agendamento para o serviço escolhido. </p>
-
-        <article class="buttons">
-            <a href="#" class="btn_carterinhapet">Crie Já!</a>
-        </article>
-    </article>
-    <article class="image_carterinhapet">
-        <img src="/src/img-homepage/cardpetBoxpetsHmpg-removebg-preview.png" alt="">
-    </article>
-
-</section>
-<!--bemavaliados -->
-<section class="bemavaliados">
-<section class="bemavaliados-item-heading">
-    <h3>Melhores Serviços Avaliados</h3>
-   </section>
-<section class="container">
-    <section class="bemavaliados-item-container has-scrollbar">
-
-      
-
-       
-
-        <section class="category-item">
-            <a href="/buySer?idServico=11" class="category-img-box">
-                <img src="/src/logo-empresas/petsrio.jpeg" alt="logo petsrio" >
-            </a>
-
-            <section class="category-content-box">
-                <section class="category-content-flex">
-                    <h3 class="category-item-title">Pets Rio</h3>
-                </section>
-                    <section class="category-item-des">
-
-                    <P class="category-item-amount"><i class="fa-solid fa-star" ></i>(12)</P>
-                    <P class="category-item-text" >Passeio</P>
-
-                </section>
-                
-            </section>
-        </section>
-
-        <section class="category-item">
-            <section class="category-img-box">
-                <img src="/src/logo-empresas/unnamed.jpg" alt="logo daunname" >
+        <section class="capa">
+            <section class="capa-img">
+                <img src="/src/img-homepage/sharedimage.png" alt="" width="350">
             </section>
 
-            <section class="category-content-box">
-                <section class="category-content-flex">
-                    <h3 class="category-item-title">VetNil</h3>
-                </section>
-                    <section class="category-item-des">
+            <section class="servicos" id="servico">
 
-                    <P class="category-item-amount"><i class="fa-solid fa-star" ></i>(68)</P>
-                    <P class="category-item-text" >Adestramento</P>
+                <h1 class="heading">Qual <span>serviço</span> te interessa?</h1>
+                <section class="box-container">
+
+
+
+                    <section class="box-ser"> <a href="/veterinarios?id=1">
+                            <img src="/src/img-homepage/veterinario.jpg" alt="um dog no veterinario" class="image">
+                            <section class="content">
+                                <img src=" /src/img-homepage/paw.png" alt="vet" width="80px">
+                                <h1>Veterinario</h1>
+                            </section>
+                        </a>
+                    </section>
+
+                    <section class="box-ser"> <a href="/veterinarios?id=2">
+                            <img src="/src/img-homepage/banhotosa.jpg" alt="banho em um dog" class="image">
+                            <section class="content">
+                                <img src=" /src/img-homepage/grooming.png" alt="banhotosa" width="80px">
+                                <h1>Banho&Tosa</h1>
+                            </section>
+                        </a>
+                    </section>
+
+
+                    <section class="box-ser"><a href="/veterinarios?id=3">
+                            <img src="/src/img-homepage/adestramento.jpg" alt="Mulher pedindo a pata para o cachorro"
+                                class="image">
+                            <section class="content">
+                                <img src=" /src/img-homepage/adestramentoIcon.png" alt="adestramento" width="80px">
+                                <h1>Adestramento</h1>
+                            </section>
+                        </a>
+                    </section>
+
+
+                    <section class="box-ser"> <a href="/veterinarios?id=4">
+                            <img src="/src/img-homepage/passeio.jpg" alt="passeio com os pets" class="image">
+                            <section class="content">
+                                <img src=" /src/img-homepage/walking.png" alt="passeio" width="80px">
+                                <h1>Passeio</h1>
+                            </section>
+                        </a>
+                    </section>
+
+                    <section class="box-ser"><a href="/veterinarios?id=5">
+                            <img src="/src/img-homepage/Creche.jpg" alt="cachorro em um gato na grama juntos"
+                                class="image">
+                            <section class="content">
+                                <img src=" /src/img-homepage/welfare.png" alt="creche" width="80px">
+                                <h1>Creche</h1>
+                            </section>
+                        </a>
+                    </section>
+
+                    <section class="box-ser"><a href="/veterinarios?id=6">
+                            <img src="/src/img-homepage/55864_massagem.jpg" alt="" class="image">
+                            <section class="content">
+                                <img src=" /src/img-homepage/animal (1).png" alt="massoterapia" width="80px">
+                                <h1>Massoterapia</h1>
+                            </section>
+                        </a>
+                    </section>
 
                 </section>
-                
             </section>
+            <a href="/servicos-gerais" class="arrow-servicogerais"><i class="fa-solid fa-arrow-right"></i></a>
+        </section>
         </section>
 
-        <section class="category-item">
-            <section class="category-img-box">
-                <img src="https://marketplace.canva.com/EAFUwxAo1E8/1/0/1600w/canva-logotipo-minimalista-bege-e-azul-para-cl%C3%ADnica-veterin%C3%A1ria-yaRUWfD9DmI.jpg" alt="logo borcelle" >
-            </section>
+        <!--carterinha -->
 
-            <section class="category-content-box">
-                <section class="category-content-flex">
-                    <h3 class="category-item-title">Borcelle</h3>
-                </section>
-                    <section class="category-item-des">
+        <section class="carterinhapet">
 
-                    <P class="category-item-amount"><i class="fa-solid fa-star" ></i>(20)</P>
-                    <P class="category-item-text">Banho&Tosa</P>
+            <article class="content_carterinhapet">
+                <h3>Crie a <span> Carterinha pet!</span></h3>
+                <p>Após criar a carteirinha do seu pet, o estabelecimento a receberá
+                    junto com o seu agendamento para o serviço escolhido. </p>
 
-                </section>
-                
-            </section>
+                <article class="buttons">
+                    <a href="/carterinha-pet" class="btn_carterinhapet">Crie Já!</a>
+                </article>
+            </article>
+            <article class="image_carterinhapet">
+                <img src="/src/img-homepage/cardpetBoxpetsHmpg-removebg-preview.png" alt="">
+            </article>
+
         </section>
 
-        <section class="category-item">
-            <section class="category-img-box">
-                <img src="https://marketplace.canva.com/EAFnOqhnk0w/1/0/1600w/canva-logo-elegante-minimalista-veterin%C3%A1rio-azul-cyp3h908wrc.jpg" alt="logo hanover" >
+        <% if(servicos && servicos.length> 0) { %>
+
+            <section class="bemavaliados">
+                <section class="bemavaliados-item-heading">
+                    <h3>Serviços</h3>
+                </section>
+                <section class="container">
+                    <section class="bemavaliados-item-container has-scrollbar">
+                        <% servicos.forEach(servico=> {%>
+                            <section class="category-item">
+                                <a href="/buySer?idServico=<%= servico.ID_SERVICO %>" class="category-img-box">
+                                    <img src="/src/imagens-servico/<%=servico.CAMINHO_IMAGEM_SERVICO %>"
+                                        alt="logo petsrio">
+                                </a>
+
+                                <section class="category-content-box">
+                                    <section class="category-content-flex">
+                                        <h3 class="category-item-title">
+                                            <%= servico.NOME_SERVICO %>
+                                        </h3>
+                                    </section>
+                                    <section class="category-item-des">
+                                        <% if(servico.empresa.PLANOS==1) {%>
+                                            <a href="/Vizucriapg?id=<%=servico.empresa.ID_USUARIOS %>"
+                                                class="category-item-text">
+                                                <%= servico.empresa.NOMEEMPRESA_USUARIO %>
+                                            </a>
+                                            <% }else{%>
+                                                <p class="category-item-text">
+                                                    <%= servico.empresa.NOMEEMPRESA_USUARIO %>
+                                                </p>
+                                                <% }%>
+                                    </section>
+
+                                </section>
+                            </section>
+                            <%})%>
+                    </section>
+                </section>
             </section>
 
-            <section class="category-content-box">
-                <section class="category-content-flex">
-                    <h3 class="category-item-title">Hanover</h3>
-                </section>
-                    <section class="category-item-des">
-
-                    <P class="category-item-amount"><i class="fa-solid fa-star" ></i>(45)</P>
-                    <P class="category-item-text" >Veterinário</P>
-
-                </section>
-                
-            </section>
-        </section>
+            <% } %>
 
 
-        
 
-    </section>
-</section>
-</section>
+                <!--sugestões-->
+                <% if(empresas && empresas.length> 0) { %>
+                    <section class="sugestao">
+                        <section class="sugestao-item-heading">
+                            <h3>Empresas</h3>
+                        </section>
+                        <section class="sugestao-container">
+                            <section class="sugestao-container has-scrollbar">
+                                <% empresas.forEach(empresa=> {
+                                    
+                                    let categoria;
 
-<!--sugestões-->
+                                    if(empresa.ESPECIALIDADES_ID_ESPECIALIDADES == 1){
+                                        categoria = 'Veterinário'
+                                    }else if(empresa.ESPECIALIDADES_ID_ESPECIALIDADES == 2){
+                                        categoria = 'Petshop'
+                                    }else if(empresa.ESPECIALIDADES_ID_ESPECIALIDADES == 3){
+                                        categoria = 'Adestramento'
+                                    }else if(empresa.ESPECIALIDADES_ID_ESPECIALIDADES == 4){
+                                        categoria = 'Passeio'
+                                    }else if(empresa.ESPECIALIDADES_ID_ESPECIALIDADES == 5){
+                                        categoria = 'Creche'
+                                    }else if(empresa.ESPECIALIDADES_ID_ESPECIALIDADES == 6){
+                                        categoria = 'Massoterapia'
+                                    }
+                                    %>
+                                    <section class="sugestao-card">
+                                        <section class="sugestao-card-img">
+                                            <a href="/Vizucriapg?id=<%=empresa.ID_USUARIOS %>">
+                                                <img src="src/imagens-empresa/banner-empresa/<%= empresa.BANNER_IMG %>" alt="" class="sugestao-banner">
+                                            </a>
+                                        </section>
 
-<section class="sugestao">
-    <section class="sugestao-item-heading">
-        <h3>Sugestões de Empresas em Destaque</h3>
-       </section>
-<section class="sugestao-container">
-   <section class="sugestao-container has-scrollbar">
+                                        <section class="sugestao-content">
+                                            <a href="/veterinarios?id=<%= empresa.ESPECIALIDADES_ID_ESPECIALIDADES %>" class="sugestao-category">
+                                                <%= categoria %>
+                                            </a>
+                                            <a href="/Vizucriapg?id=<%=empresa.ID_USUARIOS %>">
+                                                <p class="sugestao-des"><%= empresa.NOMEEMPRESA_USUARIO %></p>
+                                            </a>
+                                        </section>
+                                    </section>
+                                    <%})%>
+                            </section>
+                        </section>
+                    </section>
+                    <% } %>
 
-     <section class="sugestao-card">
-        <section class="sugestao-card-img">
-       <a href="#">
-        <img src="src/img-homepage/banho(1).png" alt="" class="sugestao-banner" width="100">
-       </a>
-    </section>
-
-       <section class="sugestao-content">
-        <a href="#" class="sugestao-category">Banho&Tosa</a>
-
-        <a href="#">
-            <p class="sugestao-des">Banhos Premium  - Everaldo Pets</p>
-        </a>
-       </section>
-     </section>
-
-     
-
-      <section class="sugestao-card">
-        <section class="sugestao-card-img">
-        <a href="#">
-         <img src="src/img-homepage/veterinario 2.png" alt="" class="sugestao-banner" width="300">
-        </a>
-    </a>
-</section>
-
-        <section class="sugestao-content">
-         <a href="#" class="sugestao-category">Passeios</a>
-
-         <a href="#">
-             <p class="sugestao-des">Tempo de qualidade - Fernanda Lopes</p>
-         </a>
-        </section>
-      </section>
-
-      <section class="sugestao-card">
-        <section class="sugestao-card-img">
-        <a href="#">
-         <img src="src/img-homepage/Banho_Tosa.png" alt="" class="sugestao-banner" width="300">
-        </a>
-    </section>
-
-        <section class="sugestao-content">
-         <a href="#" class="sugestao-category">Fashion</a>
-
-         <a href="#">
-             <p class="sugestao-des">Banho Premium  - Everaldo Pets</p>
-         </a>
-        </section>
-      </section>
-
-   </section>
-</section>
-</section>
-
-
- <!--carrosel de empresas premiun
+                        <!--carrosel de empresas premiun
 
  <section class="carroselEmpresaPremium">
     <div class="container-empresaPremium">
@@ -324,8 +267,8 @@
         
     </section>-->
 
-<!--ABOUT-->
-<!-- <section class="about-section">
+                        <!--ABOUT-->
+                        <!-- <section class="about-section">
 <h2 class="header-section">Transforme a vida do seu pet em uma <span>experiência única!</span></h2>
 <p class="description-section">
     Assine agora e garanta acesso prioritário a dicas de profissionais , 
@@ -335,9 +278,8 @@
 
 </section> -->
 
-          </section>
-    
-       </section>
-    </section>
-    </section>
-    
+                        </section>
+
+                        </section>
+                        </section>
+                        </section>

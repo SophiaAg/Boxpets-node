@@ -88,8 +88,30 @@ router.get("/home",
             alert = req.session.alert
             req.session.alert.count++
         }
+        const servicos = await usuariosModel.findAllService()
+        const idsEmpresa = []
+
+
+        for (const s of [...servicos]) {
+            if (!idsEmpresa.includes(s.ID_USUARIO)) {
+                idsEmpresa.push(s.ID_USUARIO)
+            }
+        }
+        const servicesEmpresas = idsEmpresa.length > 0 ? await usuariosModel.findUsuariosInIds(idsEmpresa) : []
+        const mapEmpresas = Object.fromEntries(servicesEmpresas.map(empresa => [empresa.ID_USUARIOS, empresa]));
+        const empresas = await usuariosModel.findAllUsuariosAssi()
         const clienteBd = await clienteModel.findClienteById(req.session.autenticado.id)
-        res.render('pages/template-hm', { page: '../partial/landing-home/home-page', dadosNotificacao: alert, nome: clienteBd[0].NOME_CLIENTE });
+        res.render('pages/template-hm',
+            {
+                page: '../partial/landing-home/home-page',
+                dadosNotificacao: alert,
+                nome: clienteBd[0].NOME_CLIENTE,
+                empresas: empresas,
+                servicos: servicos.map(servico => ({
+                    ...servico,
+                    empresa: mapEmpresas[servico.ID_USUARIO],
+                }))
+            });
     });
 //pesquisa
 router.get("/pesquisa", middleWares.verifyAutenticado,
@@ -682,8 +704,8 @@ router.post("/PagarAssinatura", async function (req, res) {
             ],
             back_urls: {
                 success: `${baseUrl}/dashboard?success&anual`,
-                failure: `${baseUrl} /dashboard?failure`,
-                pending: `${baseUrl} /dashboard?failure`,
+                failure: `${baseUrl}/dashboard?failure`,
+                pending: `${baseUrl}/dashboard?failure`,
             },
             auto_return: 'all'
         }
@@ -701,8 +723,8 @@ router.post("/PagarAssinatura", async function (req, res) {
             ],
             back_urls: {
                 success: `${baseUrl}/dashboard?success&mensal`,
-                failure: `${baseUrl} /dashboard?failure`,
-                pending: `${baseUrl} /dashboard?failure`,
+                failure: `${baseUrl}/dashboard?failure`,
+                pending: `${baseUrl}/dashboard?failure`,
             },
             auto_return: 'all'
         }
