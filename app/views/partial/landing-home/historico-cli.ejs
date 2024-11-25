@@ -54,12 +54,12 @@
                 </td>
                 <td>
                   <% if(agenda.ID_STATUS==1) {%>
-                    <button data-openModal="#cancelarAgenda<%=agenda.ID_AGENDAMENTOS %>"
+                    <button style="background: none;" data-openModal="#cancelarAgenda<%=agenda.ID_AGENDAMENTOS %>"
                       title="Cancelar agendamento"><span class="material-symbols-outlined">
                         block
                         </span></button>
                     <% if(agenda.pet !=null && agenda.pet !=undefined){%>
-                      <button data-openModal="#verCarteira<%=agenda.ID_AGENDAMENTOS %>" title="Cancelar agendamento">Ver
+                      <button style="background: none;" data-openModal="#verCarteira<%=agenda.ID_AGENDAMENTOS %>" title="Cancelar agendamento">Ver
                         carteirinha pet</button>
                       <% } %>
                         <% } %>
