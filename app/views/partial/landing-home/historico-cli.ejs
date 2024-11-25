@@ -1,56 +1,3 @@
-<!-- <div class="container">
-    <div class="status">
-        <button class="active">Aguardando</button>
-        <button class="concluido">Concluido</button>
-        <button class="canceladas">Cancelados</button>
-    </div>
-    <div class="status-indicador"></div>
-
-    <div class="page-agenda">
-      <div class="active">
-          <h1>aguarde</h1>
-  <div class="product-grid">
-      
-      <div class="showcase">
-
-          <div class="showcase-banner">
-
-            <img src="img_empresas/washing-pet-dog-home.jpg" alt="Mens Winter Leathers Jackets" width="300" class="product-img default">
-            <img src="img_empresas/washing-pet-dog-home (1).jpg" alt="Mens Winter Leathers Jackets" width="300" class="product-img hover">
-          </div>
-
-          <div class="showcase-content">
-            <a href="#" class="showcase-category">banho tosa</a>
-            <a href="#">
-              <h3 class="showcase-title">banho completo</h3>
-            </a>
-
-            <div class="price-box">
-              <p class="price">$48.00</p>
-             
-            </div>
-
-          </div>
-
-        </div>
-  </div>
-
-  <div class="">
-      <h1>concluido</h1>
-  </div>
-
-  <div class="">
-      <h1>cancelados</h1>
-  </div>
-</div>
-</div>
-</div>
-
-<script src="/js/carroselEmpresas.js"></script>
-<script src="/js/historico-cli.js"></script> -->
-
-
-
 
   <div class="page-content">
     <div class="records table-responsive">
@@ -108,7 +55,9 @@
                 <td>
                   <% if(agenda.ID_STATUS==1) {%>
                     <button data-openModal="#cancelarAgenda<%=agenda.ID_AGENDAMENTOS %>"
-                      title="Cancelar agendamento">Cancelar</button>
+                      title="Cancelar agendamento"><span class="material-symbols-outlined">
+                        block
+                        </span></button>
                     <% if(agenda.pet !=null && agenda.pet !=undefined){%>
                       <button data-openModal="#verCarteira<%=agenda.ID_AGENDAMENTOS %>" title="Cancelar agendamento">Ver
                         carteirinha pet</button>

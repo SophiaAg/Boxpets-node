@@ -14,10 +14,10 @@
   border-radius: 20px;
   overflow: hidden;
   transition: 0.4s;
-  display: grid
-  ;
+  display: grid ;
       align-items: center;
       justify-content: center;
+      max-width: 350px;
  
 }
 

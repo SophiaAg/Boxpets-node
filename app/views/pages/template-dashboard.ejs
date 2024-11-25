@@ -52,17 +52,18 @@
                                 <span class="material-symbols-outlined">dashboard </span>
                                 <h3>Dashboard</h3>
                             </a>
+                            
+                            <a class="item <%= classePagina == 'paginaComercial' ? 'active' : '' %> "
+                                href="/paginacomercial">
+                                <span class="material-symbols-outlined"> store </span>
+                                <h3>Pagina Comercial</h3>
+                            </a>
 
                             <a class="item <%= classePagina == 'agenda' ? 'active' : '' %> " href="/agendamento">
                                 <span class="material-symbols-outlined"> calendar_today </span>
                                 <h3>Agendamentos</h3>
                             </a>
 
-                            <a class="item <%= classePagina == 'paginaComercial' ? 'active' : '' %> "
-                                href="/paginacomercial">
-                                <span class="material-symbols-outlined"> store </span>
-                                <h3>Pagina Comercial</h3>
-                            </a>
 
                             <a class="item <%= classePagina == 'historico' ? 'active' : '' %> " href="/historico">
                                 <span class="material-symbols-outlined"> history </span>
@@ -103,10 +104,12 @@
                         <h3>Página Inicial<section class="underline"><span></span></section>
                         </h3>
                         <ul>
-                            <li><a href="LandingPage1.html">Home</a></li>
-                            <li><a href="#servicos">Serviços</a></li>
-                            <li><a href="#sobre-nós">Sobre Nós</a></li>
-                            <li><a href="#sou-empresa">Sou Empresa</a></li>
+                            <li><a href="/">Home</a></li>
+                            <li><a href="/dashboard">dashboard</a></li>
+                            <li><a href="/paginacomercial">pagina comercial</a></li>
+                            <li><a href="/agendamento">agendamentos</a></li>
+                            <li><a href="/historico">historico</a></li>
+                            li><a href="/planos">planos</a></li>
                         </ul>
                     </section>
                     <section class="col">
@@ -115,6 +118,7 @@
                         <ul>
                             <li><a href="/entrar">Sou Cliente</a></li>
                             <li><a href="/cadastroEmpresa">Sou Empresa</a></li>
+                            <li><a href="/login-admin">Sou Admin</a></li>
                         </ul>
                     </section>
                 </section>
