@@ -1,3 +1,21 @@
+<style>
+    .btn-historico{
+        margin-left: 5%;
+    min-width: 70%;
+    display: inline-block;
+    margin-top: 1rem;
+    padding: .6rem 1.5rem;
+    border: none;
+    border-radius: 1.5rem;
+    background: var(--cor-segundaria);
+    font-size: 16px;
+    color: var(--branco);
+    cursor: pointer;
+    box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .1);
+    transition: all .3s linear;
+    }
+</style>
+
 <div class="main-content">
     <main>
         <div class="page-content">
@@ -57,13 +75,13 @@
                                     </td>
                                     <td>
                                         <% if(agenda.ID_STATUS==1) {%>
-                                            <button data-openModal="#cancelarAgenda<%=agenda.ID_AGENDAMENTOS %>"
+                                            <button class="btn-historico" data-openModal="#cancelarAgenda<%=agenda.ID_AGENDAMENTOS %>"
                                                 title="Cancelar agendamento">Cancelar</button>
                                             <form action="/concluirAgenda?idAgendamento=<%= agenda.ID_AGENDAMENTOS %>" method="post">
-                                                <button class="btn-servico">Concluir atendimento</button>
+                                                <button class="btn-historico">Concluir atendimento</button>
                                             </form>
                                             <% if(agenda.pet != null && agenda.pet != undefined){%>
-                                                <button data-openModal="#verCarteira<%=agenda.ID_AGENDAMENTOS %>"
+                                                <button class="btn-historico" data-openModal="#verCarteira<%=agenda.ID_AGENDAMENTOS %>"
                                                     title="Cancelar agendamento">Ver carteirinha pet</button>
                                             <% } %>
                                         <% } %>

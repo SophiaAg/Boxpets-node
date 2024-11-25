@@ -17,7 +17,7 @@ main {
 
 .table-responsive {
     width: 90%;
-    overflow-x: hidden;
+    overflow-x: auto;
     overflow-y: auto;
     max-height: 80vh;
 }
